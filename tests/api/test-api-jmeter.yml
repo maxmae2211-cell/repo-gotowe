@@ -1,0 +1,24 @@
+---
+scenarios:
+  jmeter_test:
+    requests:
+      - url: http://localhost:8080/get
+        label: Get Post 1
+
+      - url: http://localhost:8080/post
+        method: POST
+        label: Create Post
+        body:
+          title: Test Post
+          body: Test Body
+          userId: 1
+
+execution:
+  - concurrency: 25
+    hold-for: 3m
+    ramp-up: 1m
+    scenario: jmeter_test
+
+reporting:
+  - module: jmeter
+  - module: final-stats

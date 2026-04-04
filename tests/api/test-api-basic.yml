@@ -1,0 +1,17 @@
+---
+scenarios:
+  basic_api_test:
+    requests:
+      - url: http://localhost:8080/get
+        label: Get Request
+
+      - url: http://localhost:8080/json
+        label: Get JSON
+
+execution:
+  - concurrency: 1
+    hold-for: 30s
+    scenario: basic_api_test
+
+reporting:
+  - module: final-stats

@@ -1,0 +1,14 @@
+---
+execution:
+- concurrency: 200
+  hold-for: 1m
+  ramp-up: 3m
+  scenario: api_test
+reporting:
+- module: final-stats
+scenarios:
+  api_test:
+    requests:
+    - label: Get Post 1
+      url: https://jsonplaceholder.typicode.com/posts/1
+

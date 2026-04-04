@@ -1,0 +1,25 @@
+{
+ "scenarios": {
+  "api_test": {
+   "requests": [
+    {
+     "url": "https://jsonplaceholder.typicode.com/posts/1",
+     "label": "Get Post 1"
+    }
+   ]
+  }
+ },
+ "execution": [
+  {
+   "concurrency": 200,
+   "ramp-up": "3m",
+   "hold-for": "1m",
+   "scenario": "api_test"
+  }
+ ],
+ "reporting": [
+  {
+   "module": "final-stats"
+  }
+ ]
+}

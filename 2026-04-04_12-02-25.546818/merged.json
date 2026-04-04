@@ -1,0 +1,41 @@
+{
+ "scenarios": {
+  "api_test": {
+   "requests": [
+    {
+     "url": "https://jsonplaceholder.typicode.com/posts/1",
+     "label": "Get Post 1"
+    },
+    {
+     "url": "https://jsonplaceholder.typicode.com/posts",
+     "method": "POST",
+     "label": "Create Post",
+     "body": {
+      "title": "Test Post",
+      "body": "This is a test post",
+      "userId": 1
+     }
+    }
+   ]
+  }
+ },
+ "execution": [
+  {
+   "concurrency": 10,
+   "hold-for": "2m",
+   "ramp-up": "30s",
+   "scenario": "api_test",
+   "throughput": 50
+  }
+ ],
+ "modules": {
+  "console": {
+   "disable": false
+  }
+ },
+ "reporting": [
+  {
+   "module": "console"
+  }
+ ]
+}
