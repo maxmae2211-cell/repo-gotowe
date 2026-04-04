@@ -178,6 +178,88 @@ if ($failed -gt 0) {
 else {
     exit 0
 }
+
+
+# Load Testing Script - Run All Tests
+# This script executes all test scenarios defined in the tests directory
+
+param(
+    [string]$TestPath = "",
+    [string]$ReportPath = "",
+    [switch]$Sequential = $false
+)
+
+# Get the script directory and project root
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$ProjectRoot = Split-Path -Parent $ScriptDir
+
+# Set default paths relative to project root
+if ($TestPath -eq "") {
+    $TestPath = Join-Path $ProjectRoot "tests"
+}
+if ($ReportPath -eq "") {
+    $ReportPath = Join-Path $ProjectRoot "reports"
+}
+
+# Create reports directory if it doesn't exist
+if (!(Test-Path $ReportPath)) {
+    New-Item -ItemType Directory -Path $ReportPath -Force | Out-Null
+    Write-Host "Created reports directory: $ReportPath"
+}
+
+# Get all test YAML files from both api and ui directories
+$apiTestPath = Join-Path $TestPath "api"
+$uiTestPath = Join-Path $TestPath "ui"
+
+if (!(Test-Path $apiTestPath)) {
+    Write-Host "Error: API tests directory not found: $apiTestPath"
+    exit 1
+}
+if (!(Test-Path $uiTestPath)) {
+    Write-Host "Error: UI tests directory not found: $uiTestPath"
+    exit 1
+}
+
+$apiTestFiles = Get-ChildItem -Path $apiTestPath -Filter "*.yml" | Sort-Object Name
+$uiTestFiles = Get-ChildItem -Path $uiTestPath -Filter "*.yml" | Sort-Object Name
+$allTestFiles = $apiTestFiles + $uiTestFiles
+
+Write-Host "Found $($allTestFiles.Count) test files to run"
+Write-Host "Project root: $ProjectRoot"
+Write-Host "Reports will be saved to: $ReportPath"
+
+foreach ($file in $allTestFiles) {
+    $testName = $file.BaseName
+    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+
+    Write-Host ""
+    Write-Host "Running: $testName..."
+
+    try {
+        # Change to project root directory before running Taurus
+        Push-Location $ProjectRoot
+
+        # Run the test with Taurus
+        $process = Start-Process -FilePath "bzt" -ArgumentList $file.FullName -NoNewWindow -Wait -PassThru
+
+        if ($process.ExitCode -eq 0) {
+            Write-Host "✓ Completed: $testName"
+        }
+        else {
+            Write-Host "✗ Failed: $testName (Exit code: $($process.ExitCode))"
+        }
+    }
+    catch {
+        Write-Host "✗ Failed: $testName - $_"
+    }
+    finally {
+        # Always restore the original location
+        Pop-Location
+    }
+}
+
+Write-Host ""
+Write-Host "All tests completed. Reports saved to: $ReportPath"
 # Load Testing Script - Run All Tests
 # This script executes all test scenarios defined in the tests directory
 
