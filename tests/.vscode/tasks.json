@@ -3,9 +3,45 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"command": "jbang -Dcamel.jbang.version=4.14.0 camel@apache/camel plugin add kubernetes",
-			"problemMatcher": [],
-			"label": "camel: Camel JBang add Kubernetes plugin"
+			"command": "python scripts/run-tests.py",
+			"group": "build",
+			"label": "Run All Taurus Tests",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared",
+				"focus": false
+			}
+		},
+		{
+			"type": "shell",
+			"command": "python scripts/mock-api-server.py",
+			"group": "build",
+			"label": "Start Mock API Server",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"type": "shell",
+			"command": "bzt tests/api/test-api-basic.yml",
+			"group": "test",
+			"label": "Run Basic API Test",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"type": "shell",
+			"command": "bzt tests/api/test-api-load.yml",
+			"group": "test",
+			"label": "Run Load Test",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
 		}
 	]
 }
