@@ -1,0 +1,219 @@
+[2026-02-12 02:51:07,344 INFO root] Taurus CLI Tool v1.16.48
+[2026-02-12 02:51:07,345 DEBUG root] Build: 14831 Tue Feb 10 11:48:30 UTC 2026
+[2026-02-12 02:51:07,345 DEBUG root] Extended git info:  25cb2d9a Release 1.16.48
+[2026-02-12 02:51:07,346 DEBUG root] Command-line options: {'log': 'C:\\Users\\maxma\\AppData\\Local\\Temp\\bzt_5bg3b064.log', 'option': None, 'quiet': None, 'verbose': True, 'no_system_configs': None, 'aliases': []}
+[2026-02-12 02:51:07,347 DEBUG root] Python: CPython 3.11.9
+[2026-02-12 02:51:07,347 DEBUG root] OS: uname_result(system='Windows', node='DESKTOP-VGNO04O', release='10', version='10.0.19045', machine='AMD64')
+[2026-02-12 02:51:07,348 DEBUG root] Path to interpreter: C:\Users\maxma\AppData\Local\Programs\Python\Python311\python.exe
+[2026-02-12 02:51:07,349 DEBUG root] Path to packages: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\Scripts\\bzt.exe', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\python311.zip', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\DLLs', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\Lib', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\win32', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\win32\\lib', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\Pythonwin', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\setuptools\\_vendor']
+[2026-02-12 02:51:07,356 DEBUG root] Default python: C:\Users\maxma\AppData\Local\Programs\Python\Python311\python.EXE
+[2026-02-12 02:51:07,363 DEBUG root] Default python3: C:\Users\maxma\AppData\Local\Microsoft\WindowsApps\python3.EXE
+[2026-02-12 02:51:07,364 DEBUG root] Using personal config: C:\Users\maxma\.bzt-rc
+[2026-02-12 02:51:07,365 INFO root] Starting with configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-locust.yml']
+[2026-02-12 02:51:07,365 INFO Engine] Configuring...
+[2026-02-12 02:51:07,437 DEBUG Engine] Base configs list: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\resources/10-base-config.yml']
+[2026-02-12 02:51:07,438 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\resources/10-base-config.yml']
+[2026-02-12 02:51:07,440 DEBUG Engine.Configuration] Reading C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\resources/10-base-config.yml as YAML
+[2026-02-12 02:51:07,458 DEBUG Engine] User configs list: ['C:\\Users\\maxma\\.bzt-rc', 'test-locust.yml']
+[2026-02-12 02:51:07,458 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-locust.yml']
+[2026-02-12 02:51:07,468 DEBUG Engine.Configuration] Reading C:\Users\maxma\.bzt-rc as YAML
+[2026-02-12 02:51:07,474 DEBUG Engine.Configuration] Reading test-locust.yml as YAML
+[2026-02-12 02:51:07,477 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-locust.yml']
+[2026-02-12 02:51:07,478 DEBUG Engine.Configuration] Reading C:\Users\maxma\.bzt-rc as YAML
+[2026-02-12 02:51:07,482 DEBUG Engine.Configuration] Reading test-locust.yml as YAML
+[2026-02-12 02:51:07,486 INFO HTTPClient] Proxy settings not set
+[2026-02-12 02:51:07,487 DEBUG Engine] Requesting updates info: https://gettaurus.org/updates/?version=1.16.48&installID=windows-c8bfd974c6b
+[2026-02-12 02:51:07,487 INFO Engine] Artifacts dir: C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264
+[2026-02-12 02:51:07,488 DEBUG HTTPClient] Making HTTP request GET https://gettaurus.org/updates/?version=1.16.48&installID=windows-c8bfd974c6b
+[2026-02-12 02:51:07,490 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\effective
+[2026-02-12 02:51:07,493 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\effective.yml
+[2026-02-12 02:51:07,493 DEBUG urllib3.connectionpool] Starting new HTTPS connection (1): gettaurus.org:443
+[2026-02-12 02:51:07,507 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\effective.json
+[2026-02-12 02:51:07,513 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\merged.yml
+[2026-02-12 02:51:07,515 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\merged.yml
+[2026-02-12 02:51:07,518 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\merged.json
+[2026-02-12 02:51:07,519 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\merged.json
+[2026-02-12 02:51:07,521 DEBUG Engine] Add existing artifact (move=False): C:\Users\maxma\.bzt-rc
+[2026-02-12 02:51:07,521 DEBUG Engine] Copying C:\Users\maxma\.bzt-rc to C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\.bzt-rc
+[2026-02-12 02:51:07,523 DEBUG Engine] Add existing artifact (move=False): test-locust.yml
+[2026-02-12 02:51:07,524 DEBUG Engine] Copying test-locust.yml to C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\test-locust.yml
+[2026-02-12 02:51:07,527 DEBUG Engine] Set PYTHONPATH to :
+	CURRENT: '' +
+	TEMP: 'C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\python-packages\3.11.9' +
+	USER: 'C:\Users\maxma\.bzt\python-packages\3.11.9'
+[2026-02-12 02:51:07,528 DEBUG Engine] Content of user packages dir: []
+[2026-02-12 02:51:07,529 DEBUG Engine] OS env: OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+[2026-02-12 02:51:07,529 DEBUG Engine] OS env: TAURUS_ARTIFACTS_DIR=C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264
+[2026-02-12 02:51:07,530 DEBUG root] Closing log handler: C:\Users\maxma\AppData\Local\Temp\bzt_5bg3b064.log
+[2026-02-12 02:51:07,534 DEBUG root] Switched writing logs to C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\bzt.log
+[2026-02-12 02:51:07,535 DEBUG root] Linting config
+[2026-02-12 02:51:07,538 INFO Engine] Preparing...
+[2026-02-12 02:51:07,539 DEBUG Engine] Module config: consolidator {'class': 'bzt.modules.aggregator.ConsolidatingAggregator'}
+[2026-02-12 02:51:07,539 DEBUG root] Importing module: bzt.modules.aggregator
+[2026-02-12 02:51:07,940 DEBUG root] Loading class: 'ConsolidatingAggregator' from <module 'bzt.modules.aggregator' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\aggregator.py'>
+[2026-02-12 02:51:07,942 DEBUG Engine.consolidator] Buffer scaling setup: percentile 95.0 from [0.0, 50.0, 90.0, 95.0, 99.0, 99.9, 100.0] selected
+[2026-02-12 02:51:07,942 DEBUG Engine] Module config: monitoring {'class': 'bzt.modules.monitoring.Monitoring'}
+[2026-02-12 02:51:07,943 DEBUG root] Importing module: bzt.modules.monitoring
+[2026-02-12 02:51:07,948 DEBUG root] Loading class: 'Monitoring' from <module 'bzt.modules.monitoring' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\monitoring.py'>
+[2026-02-12 02:51:07,949 INFO Engine.monitoring.LocalClient] Using StandardLocalMonitor for engine health monitoring
+[2026-02-12 02:51:07,950 DEBUG Engine] Module config: local {'class': 'bzt.modules.provisioning.Local'}
+[2026-02-12 02:51:07,950 DEBUG root] Importing module: bzt.modules.provisioning
+[2026-02-12 02:51:07,951 DEBUG root] Loading class: 'Local' from <module 'bzt.modules.provisioning' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\provisioning.py'>
+[2026-02-12 02:51:07,952 DEBUG Engine] Module config: jmeter {'class': 'bzt.modules.jmeter.JMeterExecutor', 'protocol-handlers': {'http': 'bzt.jmx.http.HTTPProtocolHandler', 'mqtt': 'bzt.jmx.mqtt.MQTTProtocolHandler', 'grpc': 'bzt.jmx.grpc.GRPCProtocolHandler'}, 'plugins': ['jpgc-casutg', 'jpgc-dummy', 'jpgc-ffw', 'jpgc-fifo', 'jpgc-functions', 'jpgc-json', 'jpgc-perfmon', 'jpgc-prmctl', 'jpgc-tst'], 'properties': {'jmeter.save.saveservice.autoflush': 'true', 'jmeter.save.saveservice.connect_time': 'true', 'jmeterengine.force.system.exit': 'true', 'summariser.name': ''}}
+[2026-02-12 02:51:07,954 DEBUG root] Importing module: bzt.modules.jmeter
+[2026-02-12 02:51:07,981 DEBUG root] Loading class: 'JMeterExecutor' from <module 'bzt.modules.jmeter' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\jmeter.py'>
+[2026-02-12 02:51:07,982 DEBUG Engine.local] Preparing executor: jmeter/1684462186640
+[2026-02-12 02:51:07,983 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\jmeter.log
+[2026-02-12 02:51:07,984 DEBUG Engine.jmeter] Checking if port 4445 is free
+[2026-02-12 02:51:07,986 DEBUG Engine.jmeter] Port 4445 is free
+[2026-02-12 02:51:07,986 DEBUG Engine.jmeter] Using port 4445 for management
+[2026-02-12 02:51:07,987 DEBUG Engine.jmeter] Getting Jmeter version.
+[2026-02-12 02:51:07,988 DEBUG Engine.jmeter] Autodetect version is enabled
+[2026-02-12 02:51:07,988 DEBUG Engine.jmeter] JMeter version: 5.5
+[2026-02-12 02:51:07,989 DEBUG Engine.jmeter] Additional properties: {'jmeter.save.saveservice.autoflush': 'true', 'jmeter.save.saveservice.connect_time': 'true', 'jmeterengine.force.system.exit': 'true', 'summariser.name': '', 'jmeterengine.nongui.port': 4445, 'jmeterengine.nongui.maxport': 4445, 'jmeter.save.saveservice.timestamp_format': 'ms', 'sampleresult.default.encoding': 'UTF-8', 'user.classpath': 'C:/Users/maxma/Desktop/1/2026-02-12_02-51-07.487264;C:/Users/maxma/Desktop/1'}
+[2026-02-12 02:51:07,990 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\jmeter-bzt.properties
+[2026-02-12 02:51:07,992 DEBUG Engine.jmeter.JavaVM] Trying JavaVM: ['java', '-version']
+[2026-02-12 02:51:07,994 DEBUG root] Executing shell: ['java', '-version'] at .
+[2026-02-12 02:51:08,226 DEBUG Engine.jmeter.JavaVM] JavaVM output: openjdk version "21.0.2" 2024-01-16 LTS
+OpenJDK Runtime Environment Temurin-21.0.2+13 (build 21.0.2+13-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.2+13 (build 21.0.2+13-LTS, mixed mode, sharing)
+
+[2026-02-12 02:51:08,227 DEBUG Engine.jmeter.TclLibrary] Checking if TCL_LIBRARY variable is present in environment
+[2026-02-12 02:51:08,228 DEBUG Engine.jmeter.TclLibrary] TCL_LIBRARY environment variable is not present
+[2026-02-12 02:51:08,231 DEBUG Engine.jmeter.TclLibrary] Tcl directory was found: C:\Users\maxma\AppData\Local\Programs\Python\Python311\tcl\tcl8.6
+[2026-02-12 02:51:08,234 DEBUG Engine.jmeter.TclLibrary] Setting environment TCL_LIBRARY=C:\Users\maxma\AppData\Local\Programs\Python\Python311\tcl\tcl8.6
+[2026-02-12 02:51:08,235 DEBUG Engine.jmeter.TclLibrary] Checking if TCL_LIBRARY variable is present in environment
+[2026-02-12 02:51:08,236 DEBUG Engine.jmeter.TclLibrary] TCL_LIBRARY environment variable is present
+[2026-02-12 02:51:08,237 DEBUG Engine.jmeter.JMeter] Trying JMeter..
+[2026-02-12 02:51:08,239 DEBUG root] Executing shell: ['C:\\Users\\maxma\\.bzt\\jmeter-taurus\\5.5\\bin\\jmeter.bat', '-j', 'C:\\Users\\maxma\\AppData\\Local\\Temp\\jmeterwljdvw4elog', '--version'] at .
+[2026-02-12 02:51:12,054 DEBUG Engine.jmeter.JMeter] JMeter check:     _    ____   _    ____ _   _ _____       _ __  __ _____ _____ _____ ____
+   / \  |  _ \ / \  / ___| | | | ____|     | |  \/  | ____|_   _| ____|  _ \
+  / _ \ | |_) / _ \| |   | |_| |  _|    _  | | |\/| |  _|   | | |  _| | |_) |
+ / ___ \|  __/ ___ \ |___|  _  | |___  | |_| | |  | | |___  | | | |___|  _ <
+/_/   \_\_| /_/   \_\____|_| |_|_____|  \___/|_|  |_|_____| |_| |_____|_| \_\ 5.5
+
+Copyright (c) 1999-2022 The Apache Software Foundation
+
+ / 
+[2026-02-12 02:51:12,056 ERROR root] Internal Error: XML parsing failed for file C:\Users\maxma\Desktop\1\test-locust.py: Start tag expected, '<' not found, line 1, column 1 (file:/C:/Users/maxma/Desktop/1/test-locust.py, line 1)
+[2026-02-12 02:51:12,070 DEBUG root] TaurusInternalException: XML parsing failed for file C:\Users\maxma\Desktop\1\test-locust.py: Start tag expected, '<' not found, line 1, column 1 (file:/C:/Users/maxma/Desktop/1/test-locust.py, line 1)
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\cli.py", line 275, in perform
+    self.engine.prepare()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\engine\engine.py", line 220, in prepare
+    self.__prepare_provisioning()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\engine\engine.py", line 635, in __prepare_provisioning
+    self.provisioning.prepare()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\modules\provisioning.py", line 72, in prepare
+    executor.prepare()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\modules\jmeter.py", line 281, in prepare
+    modified = self.__get_modified_jmx(self.original_jmx, is_jmx_generated)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\modules\jmeter.py", line 574, in __get_modified_jmx
+    jmx = JMX(original)
+          ^^^^^^^^^^^^^
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\jmx\base.py", line 88, in __init__
+    self.load(original)
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\jmx\base.py", line 126, in load
+    raise TaurusInternalException(msg % (original, exc))
+[2026-02-12 02:51:12,070 INFO Engine] Post-processing...
+[2026-02-12 02:51:12,070 DEBUG Engine.local] Post-process jmeter/locust_test
+[2026-02-12 02:51:12,070 DEBUG Engine] Add existing artifact (move=True): 
+[2026-02-12 02:51:12,070 WARNING Engine] Artifact file not exists: 
+[2026-02-12 02:51:12,070 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:51:12,078 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\effective.yml
+[2026-02-12 02:51:12,101 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-51-07.487264\effective.json
+[2026-02-12 02:51:12,103 DEBUG root] 	re-2.2.1	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\re\__init__.py
+[2026-02-12 02:51:12,104 DEBUG root] 	platform-1.0.8	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\platform.py
+[2026-02-12 02:51:12,105 DEBUG root] 	logging-0.5.1.2	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py
+[2026-02-12 02:51:12,106 DEBUG root] 	zlib-1.0	
+[2026-02-12 02:51:12,107 DEBUG root] 	optparse-1.5.3	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\optparse.py
+[2026-02-12 02:51:12,109 DEBUG root] 	yaml-6.0.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\yaml\__init__.py
+[2026-02-12 02:51:12,109 DEBUG root] 	_ctypes-1.1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\DLLs\_ctypes.pyd
+[2026-02-12 02:51:12,110 DEBUG root] 	ctypes-1.1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\ctypes\__init__.py
+[2026-02-12 02:51:12,111 DEBUG root] 	colorama-0.4.6	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\colorama\__init__.py
+[2026-02-12 02:51:12,112 DEBUG root] 	json-2.0.9	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\json\__init__.py
+[2026-02-12 02:51:12,112 DEBUG root] 	ipaddress-1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\ipaddress.py
+[2026-02-12 02:51:12,113 DEBUG root] 	setuptools._distutils-3.11.9	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\_distutils\__init__.py
+[2026-02-12 02:51:12,113 DEBUG root] 	more_itertools-10.3.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\_vendor\more_itertools\__init__.py
+[2026-02-12 02:51:12,114 DEBUG root] 	packaging-26.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\packaging\__init__.py
+[2026-02-12 02:51:12,116 DEBUG root] 	urllib.request-3.11	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py
+[2026-02-12 02:51:12,117 DEBUG root] 	_csv-1.0	
+[2026-02-12 02:51:12,118 DEBUG root] 	csv-1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\csv.py
+[2026-02-12 02:51:12,119 DEBUG root] 	setuptools.version-79.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\version.py
+[2026-02-12 02:51:12,119 DEBUG root] 	setuptools-79.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\__init__.py
+[2026-02-12 02:51:12,120 DEBUG root] 	distutils-3.11.9	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\_distutils\__init__.py
+[2026-02-12 02:51:12,120 DEBUG root] 	psutil-7.1.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\psutil\__init__.py
+[2026-02-12 02:51:12,121 DEBUG root] 	_brotli-1.2.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\_brotli.cp311-win_amd64.pyd
+[2026-02-12 02:51:12,122 DEBUG root] 	brotli-1.2.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\brotli.py
+[2026-02-12 02:51:12,123 DEBUG root] 	urllib3._version-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\_version.py
+[2026-02-12 02:51:12,124 DEBUG root] 	urllib3.util.ssl_match_hostname-3.5.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\util\ssl_match_hostname.py
+[2026-02-12 02:51:12,124 DEBUG root] 	urllib3.connection-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\connection.py
+[2026-02-12 02:51:12,125 DEBUG root] 	urllib3-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\__init__.py
+[2026-02-12 02:51:12,125 DEBUG root] 	charset_normalizer.version-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\version.py
+[2026-02-12 02:51:12,127 DEBUG root] 	charset_normalizer-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\__init__.py
+[2026-02-12 02:51:12,128 DEBUG root] 	requests.packages.urllib3._version-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\_version.py
+[2026-02-12 02:51:12,129 DEBUG root] 	requests.packages.urllib3.util.ssl_match_hostname-3.5.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\util\ssl_match_hostname.py
+[2026-02-12 02:51:12,129 DEBUG root] 	requests.packages.urllib3.connection-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\connection.py
+[2026-02-12 02:51:12,130 DEBUG root] 	requests.packages.urllib3-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\__init__.py
+[2026-02-12 02:51:12,131 DEBUG root] 	idna.idnadata-16.0.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\idnadata.py
+[2026-02-12 02:51:12,132 DEBUG root] 	idna.package_data-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\package_data.py
+[2026-02-12 02:51:12,133 DEBUG root] 	idna-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\__init__.py
+[2026-02-12 02:51:12,134 DEBUG root] 	requests.packages.idna.idnadata-16.0.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\idnadata.py
+[2026-02-12 02:51:12,135 DEBUG root] 	requests.packages.idna.package_data-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\package_data.py
+[2026-02-12 02:51:12,136 DEBUG root] 	requests.packages.idna-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\__init__.py
+[2026-02-12 02:51:12,137 DEBUG root] 	requests.packages.charset_normalizer.version-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\version.py
+[2026-02-12 02:51:12,138 DEBUG root] 	requests.packages.chardet.version-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\version.py
+[2026-02-12 02:51:12,139 DEBUG root] 	requests.packages.charset_normalizer-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\__init__.py
+[2026-02-12 02:51:12,140 DEBUG root] 	requests.packages.chardet-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\__init__.py
+[2026-02-12 02:51:12,141 DEBUG root] 	certifi-2026.01.04	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\certifi\__init__.py
+[2026-02-12 02:51:12,141 DEBUG root] 	requests.__version__-2.32.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\requests\__version__.py
+[2026-02-12 02:51:12,142 DEBUG root] 	requests.utils-2.32.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\requests\utils.py
+[2026-02-12 02:51:12,144 DEBUG root] 	socks-1.7.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\socks.py
+[2026-02-12 02:51:12,145 DEBUG root] 	requests-2.32.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\requests\__init__.py
+[2026-02-12 02:51:12,146 DEBUG root] 	websocket-1.9.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\websocket\__init__.py
+[2026-02-12 02:51:12,147 DEBUG root] 	multidict-6.7.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\multidict\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	attr-25.4.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\attr\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	propcache-0.4.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\propcache\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	yarl-1.22.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\yarl\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	aiohttp.http-3.13.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiohttp\http.py
+[2026-02-12 02:51:12,149 DEBUG root] 	aiohappyeyeballs-2.6.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiohappyeyeballs\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	frozenlist-1.8.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\frozenlist\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	aiosignal-1.4.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiosignal\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	aiohttp-3.13.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiohttp\__init__.py
+[2026-02-12 02:51:12,149 DEBUG root] 	bidict.metadata-0.23.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bidict\metadata.py
+[2026-02-12 02:51:12,149 DEBUG root] 	bidict-0.23.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bidict\__init__.py
+[2026-02-12 02:51:12,158 DEBUG root] 	lxml-6.0.2	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\lxml\__init__.py
+[2026-02-12 02:51:12,158 DEBUG root] 	lxml.etree-6.0.2	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\lxml\etree.cp311-win_amd64.pyd
+[2026-02-12 02:51:12,159 DEBUG root] 	progressbar-2.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\progressbar\__init__.py
+[2026-02-12 02:51:12,160 DEBUG root] 	wcwidth-0.6.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\wcwidth\__init__.py
+[2026-02-12 02:51:12,184 DEBUG root] 	urwid.version-3.0.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urwid\version.py
+[2026-02-12 02:51:12,187 DEBUG root] 	attrs-25.4.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\attrs\__init__.py
+[2026-02-12 02:51:12,187 DEBUG root] 	sniffio._version-1.3.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\sniffio\_version.py
+[2026-02-12 02:51:12,188 DEBUG root] 	sniffio-1.3.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\sniffio\__init__.py
+[2026-02-12 02:51:12,189 DEBUG root] 	outcome._version-1.3.0.post0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\outcome\_version.py
+[2026-02-12 02:51:12,190 DEBUG root] 	outcome-1.3.0.post0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\outcome\__init__.py
+[2026-02-12 02:51:12,190 DEBUG root] 	sortedcontainers-2.4.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\sortedcontainers\__init__.py
+[2026-02-12 02:51:12,191 DEBUG root] 	_cffi_backend-2.0.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\_cffi_backend.cp311-win_amd64.pyd
+[2026-02-12 02:51:12,191 DEBUG root] 	trio._version-0.32.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\trio\_version.py
+[2026-02-12 02:51:12,192 DEBUG root] 	trio-0.32.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\trio\__init__.py
+[2026-02-12 02:51:12,196 ERROR root] ModuleNotFoundError: No module named '_curses'
+[2026-02-12 02:51:12,200 DEBUG root] Exception: Traceback (most recent call last):
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\cli.py", line 680, in main
+    code = executor.perform(parsed_configs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\cli.py", line 290, in perform
+    version = str(getattr(modules[module_name], '__version__', ""))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib.util>", line 262, in __getattribute__
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urwid\display\curses.py", line 27, in <module>
+    import curses
+  File "C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\curses\__init__.py", line 13, in <module>
+    from _curses import *
+ModuleNotFoundError: No module named '_curses'
+
+[2026-02-12 02:51:13,698 DEBUG urllib3.connectionpool] https://gettaurus.org:443 "GET /updates/?version=1.16.48&installID=windows-c8bfd974c6b HTTP/1.1" 500 1096
+[2026-02-12 02:51:13,699 DEBUG Engine] Failed to check for updates, server returned 5xx NoneType: None
+
+[2026-02-12 02:51:13,700 WARNING Engine] Failed to check for updates, server returned 5xx.

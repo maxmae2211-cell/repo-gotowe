@@ -1,0 +1,113 @@
+[2026-02-12 02:20:01,723 INFO root] Taurus CLI Tool v1.16.48
+[2026-02-12 02:20:01,723 DEBUG root] Build: 14831 Tue Feb 10 11:48:30 UTC 2026
+[2026-02-12 02:20:01,723 DEBUG root] Extended git info:  25cb2d9a Release 1.16.48
+[2026-02-12 02:20:01,723 DEBUG root] Command-line options: {'log': 'C:\\Users\\maxma\\AppData\\Local\\Temp\\bzt_3mu9gcub.log', 'option': None, 'quiet': None, 'verbose': None, 'no_system_configs': None, 'aliases': []}
+[2026-02-12 02:20:01,723 DEBUG root] Python: CPython 3.11.9
+[2026-02-12 02:20:01,723 DEBUG root] OS: uname_result(system='Windows', node='DESKTOP-VGNO04O', release='10', version='10.0.19045', machine='AMD64')
+[2026-02-12 02:20:01,723 DEBUG root] Path to interpreter: C:\Users\maxma\AppData\Local\Programs\Python\Python311\python.exe
+[2026-02-12 02:20:01,723 DEBUG root] Path to packages: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\Scripts\\bzt.exe', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\python311.zip', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\DLLs', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\Lib', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\setuptools\\_vendor']
+[2026-02-12 02:20:01,723 DEBUG root] Default python: C:\Users\maxma\AppData\Local\Programs\Python\Python311\python.EXE
+[2026-02-12 02:20:01,743 DEBUG root] Default python3: C:\Users\maxma\AppData\Local\Microsoft\WindowsApps\python3.EXE
+[2026-02-12 02:20:01,743 DEBUG root] Using personal config: C:\Users\maxma\.bzt-rc
+[2026-02-12 02:20:01,743 INFO root] Starting with configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:20:01,744 INFO Engine] Configuring...
+[2026-02-12 02:20:01,789 DEBUG Engine] Base configs list: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\resources/10-base-config.yml']
+[2026-02-12 02:20:01,789 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\resources/10-base-config.yml']
+[2026-02-12 02:20:01,789 DEBUG Engine.Configuration] Reading C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\resources/10-base-config.yml as YAML
+[2026-02-12 02:20:01,823 DEBUG Engine] User configs list: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:20:01,823 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:20:01,823 DEBUG Engine.Configuration] Reading C:\Users\maxma\.bzt-rc as YAML
+[2026-02-12 02:20:01,823 DEBUG Engine.Configuration] Reading test-api.yml as YAML
+[2026-02-12 02:20:01,823 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:20:01,838 DEBUG Engine.Configuration] Reading C:\Users\maxma\.bzt-rc as YAML
+[2026-02-12 02:20:01,839 DEBUG Engine.Configuration] Reading test-api.yml as YAML
+[2026-02-12 02:20:01,839 INFO HTTPClient] Proxy settings not set
+[2026-02-12 02:20:01,839 DEBUG Engine] Requesting updates info: https://gettaurus.org/updates/?version=1.16.48&installID=windows-c8bfd974c6b
+[2026-02-12 02:20:01,839 INFO Engine] Artifacts dir: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976
+[2026-02-12 02:20:01,839 DEBUG HTTPClient] Making HTTP request GET https://gettaurus.org/updates/?version=1.16.48&installID=windows-c8bfd974c6b
+[2026-02-12 02:20:01,839 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\effective
+[2026-02-12 02:20:01,859 DEBUG urllib3.connectionpool] Starting new HTTPS connection (1): gettaurus.org:443
+[2026-02-12 02:20:01,859 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\effective.yml
+[2026-02-12 02:20:01,873 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\effective.json
+[2026-02-12 02:20:01,873 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\merged.yml
+[2026-02-12 02:20:01,873 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\merged.yml
+[2026-02-12 02:20:01,892 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\merged.json
+[2026-02-12 02:20:01,894 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\merged.json
+[2026-02-12 02:20:01,895 DEBUG Engine] Add existing artifact (move=False): C:\Users\maxma\.bzt-rc
+[2026-02-12 02:20:01,895 DEBUG Engine] Copying C:\Users\maxma\.bzt-rc to C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\.bzt-rc
+[2026-02-12 02:20:01,897 DEBUG Engine] Add existing artifact (move=False): test-api.yml
+[2026-02-12 02:20:01,897 DEBUG Engine] Copying test-api.yml to C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\test-api.yml
+[2026-02-12 02:20:01,898 DEBUG Engine] Set PYTHONPATH to :
+	CURRENT: '' +
+	TEMP: 'C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\python-packages\3.11.9' +
+	USER: 'C:\Users\maxma\.bzt\python-packages\3.11.9'
+[2026-02-12 02:20:01,898 DEBUG Engine] Content of user packages dir: []
+[2026-02-12 02:20:01,898 DEBUG Engine] OS env: OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+[2026-02-12 02:20:01,898 DEBUG Engine] OS env: TAURUS_ARTIFACTS_DIR=C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976
+[2026-02-12 02:20:01,898 DEBUG root] Closing log handler: C:\Users\maxma\AppData\Local\Temp\bzt_3mu9gcub.log
+[2026-02-12 02:20:01,898 DEBUG root] Switched writing logs to C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\bzt.log
+[2026-02-12 02:20:01,898 DEBUG root] Linting config
+[2026-02-12 02:20:01,898 INFO Engine] Preparing...
+[2026-02-12 02:20:01,906 DEBUG Engine] Module config: consolidator {'class': 'bzt.modules.aggregator.ConsolidatingAggregator'}
+[2026-02-12 02:20:01,906 DEBUG root] Importing module: bzt.modules.aggregator
+[2026-02-12 02:20:02,173 DEBUG root] Loading class: 'ConsolidatingAggregator' from <module 'bzt.modules.aggregator' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\aggregator.py'>
+[2026-02-12 02:20:02,173 DEBUG Engine.consolidator] Buffer scaling setup: percentile 95.0 from [0.0, 50.0, 90.0, 95.0, 99.0, 99.9, 100.0] selected
+[2026-02-12 02:20:02,173 DEBUG Engine] Module config: monitoring {'class': 'bzt.modules.monitoring.Monitoring'}
+[2026-02-12 02:20:02,173 DEBUG root] Importing module: bzt.modules.monitoring
+[2026-02-12 02:20:02,173 DEBUG root] Loading class: 'Monitoring' from <module 'bzt.modules.monitoring' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\monitoring.py'>
+[2026-02-12 02:20:02,173 INFO Engine.monitoring.LocalClient] Using StandardLocalMonitor for engine health monitoring
+[2026-02-12 02:20:02,190 DEBUG Engine] Module config: local {'class': 'bzt.modules.provisioning.Local'}
+[2026-02-12 02:20:02,190 DEBUG root] Importing module: bzt.modules.provisioning
+[2026-02-12 02:20:02,190 DEBUG root] Loading class: 'Local' from <module 'bzt.modules.provisioning' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\provisioning.py'>
+[2026-02-12 02:20:02,190 DEBUG Engine] Module config: jmeter {'class': 'bzt.modules.jmeter.JMeterExecutor', 'protocol-handlers': {'http': 'bzt.jmx.http.HTTPProtocolHandler', 'mqtt': 'bzt.jmx.mqtt.MQTTProtocolHandler', 'grpc': 'bzt.jmx.grpc.GRPCProtocolHandler'}, 'plugins': ['jpgc-casutg', 'jpgc-dummy', 'jpgc-ffw', 'jpgc-fifo', 'jpgc-functions', 'jpgc-json', 'jpgc-perfmon', 'jpgc-prmctl', 'jpgc-tst'], 'properties': {'jmeter.save.saveservice.autoflush': 'true', 'jmeter.save.saveservice.connect_time': 'true', 'jmeterengine.force.system.exit': 'true', 'summariser.name': ''}}
+[2026-02-12 02:20:02,190 DEBUG root] Importing module: bzt.modules.jmeter
+[2026-02-12 02:20:02,215 DEBUG root] Loading class: 'JMeterExecutor' from <module 'bzt.modules.jmeter' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\jmeter.py'>
+[2026-02-12 02:20:02,215 DEBUG Engine.local] Preparing executor: jmeter/1489825536400
+[2026-02-12 02:20:02,215 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\jmeter.log
+[2026-02-12 02:20:02,215 DEBUG Engine.jmeter] Checking if port 4445 is free
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] Port 4445 is free
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] Using port 4445 for management
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] Getting Jmeter version.
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] Autodetect version is enabled
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] JMeter version: 5.5
+[2026-02-12 02:20:02,223 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\requests.jmx
+[2026-02-12 02:20:02,223 DEBUG root] Importing module: bzt.jmx.http
+[2026-02-12 02:20:02,223 DEBUG root] Loading class: 'HTTPProtocolHandler' from <module 'bzt.jmx.http' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\jmx\\http.py'>
+[2026-02-12 02:20:02,223 DEBUG root] Importing module: bzt.jmx.mqtt
+[2026-02-12 02:20:02,223 DEBUG root] Loading class: 'MQTTProtocolHandler' from <module 'bzt.jmx.mqtt' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\jmx\\mqtt.py'>
+[2026-02-12 02:20:02,223 DEBUG root] Importing module: bzt.jmx.grpc
+[2026-02-12 02:20:02,223 DEBUG root] Loading class: 'GRPCProtocolHandler' from <module 'bzt.jmx.grpc' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\jmx\\grpc.py'>
+[2026-02-12 02:20:02,223 DEBUG JMeterScenarioBuilder] Saving JMX to: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\requests.jmx
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] Additional system properties {'sun.net.inetaddr.ttl': 0}
+[2026-02-12 02:20:02,223 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\system.properties
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter] Additional properties: {'jmeter.save.saveservice.autoflush': 'true', 'jmeter.save.saveservice.connect_time': 'true', 'jmeterengine.force.system.exit': 'true', 'summariser.name': '', 'jmeterengine.nongui.port': 4445, 'jmeterengine.nongui.maxport': 4445, 'jmeter.save.saveservice.timestamp_format': 'ms', 'sampleresult.default.encoding': 'UTF-8', 'user.classpath': 'C:/Users/maxma/Desktop/1/2026-02-12_02-20-01.839976;C:/Users/maxma/Desktop/1/2026-02-12_02-20-01.839976'}
+[2026-02-12 02:20:02,223 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\jmeter-bzt.properties
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter.JavaVM] Trying JavaVM: ['java', '-version']
+[2026-02-12 02:20:02,223 DEBUG root] Executing shell: ['java', '-version'] at .
+[2026-02-12 02:20:02,223 DEBUG Engine.jmeter.JavaVM] Failed to check JavaVM: [WinError 2] Nie można odnaleźć określonego pliku
+[2026-02-12 02:20:02,239 ERROR root] Child Process Error: JavaVM isn't found, automatic installation isn't implemented
+[2026-02-12 02:20:02,239 DEBUG root] ToolError: JavaVM isn't found, automatic installation isn't implemented
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\cli.py", line 275, in perform
+    self.engine.prepare()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\engine\engine.py", line 220, in prepare
+    self.__prepare_provisioning()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\engine\engine.py", line 635, in __prepare_provisioning
+    self.provisioning.prepare()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\modules\provisioning.py", line 72, in prepare
+    executor.prepare()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\modules\jmeter.py", line 269, in prepare
+    self.install_required_tools()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\modules\jmeter.py", line 826, in install_required_tools
+    tool.install()
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\utils.py", line 1508, in install
+    raise ToolError(msg)
+[2026-02-12 02:20:02,239 INFO Engine] Post-processing...
+[2026-02-12 02:20:02,239 DEBUG Engine.local] Post-process jmeter/api_test
+[2026-02-12 02:20:02,239 DEBUG Engine] Add existing artifact (move=True): 
+[2026-02-12 02:20:02,239 WARNING Engine] Artifact file not exists: 
+[2026-02-12 02:20:02,249 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:20:02,251 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\effective.yml
+[2026-02-12 02:20:02,273 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\effective.json
+[2026-02-12 02:20:02,273 INFO root] Artifacts dir: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976
+[2026-02-12 02:20:02,273 WARNING root] Done performing with code: 1
+[2026-02-12 02:20:02,273 DEBUG root] Closing log handler: C:\Users\maxma\Desktop\1\2026-02-12_02-20-01.839976\bzt.log

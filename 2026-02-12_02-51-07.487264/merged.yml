@@ -1,0 +1,17 @@
+---
+execution:
+- concurrency: 5
+  hold-for: 2m
+  ramp-up: 30s
+  scenario: locust_test
+  throughput: 50
+modules:
+  locust:
+    distributed: false
+reporting:
+- module: console
+scenarios:
+  locust_test:
+    base-url: https://jsonplaceholder.typicode.com
+    script: test-locust.py
+

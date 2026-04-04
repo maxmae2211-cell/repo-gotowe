@@ -1,0 +1,506 @@
+[2026-02-12 02:26:53,327 INFO root] Taurus CLI Tool v1.16.48
+[2026-02-12 02:26:53,327 DEBUG root] Build: 14831 Tue Feb 10 11:48:30 UTC 2026
+[2026-02-12 02:26:53,328 DEBUG root] Extended git info:  25cb2d9a Release 1.16.48
+[2026-02-12 02:26:53,329 DEBUG root] Command-line options: {'log': 'C:\\Users\\maxma\\AppData\\Local\\Temp\\bzt_1me9lew_.log', 'option': None, 'quiet': None, 'verbose': True, 'no_system_configs': None, 'aliases': []}
+[2026-02-12 02:26:53,330 DEBUG root] Python: CPython 3.11.9
+[2026-02-12 02:26:53,330 DEBUG root] OS: uname_result(system='Windows', node='DESKTOP-VGNO04O', release='10', version='10.0.19045', machine='AMD64')
+[2026-02-12 02:26:53,331 DEBUG root] Path to interpreter: C:\Users\maxma\AppData\Local\Programs\Python\Python311\python.exe
+[2026-02-12 02:26:53,332 DEBUG root] Path to packages: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\Scripts\\bzt.exe', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\python311.zip', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\DLLs', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\Lib', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\win32', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\win32\\lib', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\Pythonwin', 'C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages', 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\setuptools\\_vendor']
+[2026-02-12 02:26:53,340 DEBUG root] Default python: C:\Users\maxma\AppData\Local\Programs\Python\Python311\python.EXE
+[2026-02-12 02:26:53,346 DEBUG root] Default python3: C:\Users\maxma\AppData\Local\Microsoft\WindowsApps\python3.EXE
+[2026-02-12 02:26:53,347 DEBUG root] Using personal config: C:\Users\maxma\.bzt-rc
+[2026-02-12 02:26:53,348 INFO root] Starting with configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:26:53,349 INFO Engine] Configuring...
+[2026-02-12 02:26:53,407 DEBUG Engine] Base configs list: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\resources/10-base-config.yml']
+[2026-02-12 02:26:53,408 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\resources/10-base-config.yml']
+[2026-02-12 02:26:53,409 DEBUG Engine.Configuration] Reading C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\resources/10-base-config.yml as YAML
+[2026-02-12 02:26:53,440 DEBUG Engine] User configs list: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:26:53,441 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:26:53,443 DEBUG Engine.Configuration] Reading C:\Users\maxma\.bzt-rc as YAML
+[2026-02-12 02:26:53,445 DEBUG Engine.Configuration] Reading test-api.yml as YAML
+[2026-02-12 02:26:53,454 DEBUG Engine.Configuration] Configs: ['C:\\Users\\maxma\\.bzt-rc', 'test-api.yml']
+[2026-02-12 02:26:53,456 DEBUG Engine.Configuration] Reading C:\Users\maxma\.bzt-rc as YAML
+[2026-02-12 02:26:53,460 DEBUG Engine.Configuration] Reading test-api.yml as YAML
+[2026-02-12 02:26:53,464 INFO HTTPClient] Proxy settings not set
+[2026-02-12 02:26:53,465 DEBUG Engine] Requesting updates info: https://gettaurus.org/updates/?version=1.16.48&installID=windows-c8bfd974c6b
+[2026-02-12 02:26:53,466 INFO Engine] Artifacts dir: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024
+[2026-02-12 02:26:53,466 DEBUG HTTPClient] Making HTTP request GET https://gettaurus.org/updates/?version=1.16.48&installID=windows-c8bfd974c6b
+[2026-02-12 02:26:53,469 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective
+[2026-02-12 02:26:53,470 DEBUG urllib3.connectionpool] Starting new HTTPS connection (1): gettaurus.org:443
+[2026-02-12 02:26:53,472 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.yml
+[2026-02-12 02:26:53,489 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.json
+[2026-02-12 02:26:53,495 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\merged.yml
+[2026-02-12 02:26:53,497 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\merged.yml
+[2026-02-12 02:26:53,500 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\merged.json
+[2026-02-12 02:26:53,502 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\merged.json
+[2026-02-12 02:26:53,503 DEBUG Engine] Add existing artifact (move=False): C:\Users\maxma\.bzt-rc
+[2026-02-12 02:26:53,504 DEBUG Engine] Copying C:\Users\maxma\.bzt-rc to C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\.bzt-rc
+[2026-02-12 02:26:53,506 DEBUG Engine] Add existing artifact (move=False): test-api.yml
+[2026-02-12 02:26:53,506 DEBUG Engine] Copying test-api.yml to C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\test-api.yml
+[2026-02-12 02:26:53,509 DEBUG Engine] Set PYTHONPATH to :
+	CURRENT: '' +
+	TEMP: 'C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\python-packages\3.11.9' +
+	USER: 'C:\Users\maxma\.bzt\python-packages\3.11.9'
+[2026-02-12 02:26:53,510 DEBUG Engine] Content of user packages dir: []
+[2026-02-12 02:26:53,511 DEBUG Engine] OS env: OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+[2026-02-12 02:26:53,511 DEBUG Engine] OS env: TAURUS_ARTIFACTS_DIR=C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024
+[2026-02-12 02:26:53,512 DEBUG root] Closing log handler: C:\Users\maxma\AppData\Local\Temp\bzt_1me9lew_.log
+[2026-02-12 02:26:53,515 DEBUG root] Switched writing logs to C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\bzt.log
+[2026-02-12 02:26:53,516 DEBUG root] Linting config
+[2026-02-12 02:26:53,520 INFO Engine] Preparing...
+[2026-02-12 02:26:53,521 DEBUG Engine] Module config: consolidator {'class': 'bzt.modules.aggregator.ConsolidatingAggregator'}
+[2026-02-12 02:26:53,522 DEBUG root] Importing module: bzt.modules.aggregator
+[2026-02-12 02:26:53,754 DEBUG root] Loading class: 'ConsolidatingAggregator' from <module 'bzt.modules.aggregator' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\aggregator.py'>
+[2026-02-12 02:26:53,755 DEBUG Engine.consolidator] Buffer scaling setup: percentile 95.0 from [0.0, 50.0, 90.0, 95.0, 99.0, 99.9, 100.0] selected
+[2026-02-12 02:26:53,756 DEBUG Engine] Module config: monitoring {'class': 'bzt.modules.monitoring.Monitoring'}
+[2026-02-12 02:26:53,756 DEBUG root] Importing module: bzt.modules.monitoring
+[2026-02-12 02:26:53,760 DEBUG root] Loading class: 'Monitoring' from <module 'bzt.modules.monitoring' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\monitoring.py'>
+[2026-02-12 02:26:53,761 INFO Engine.monitoring.LocalClient] Using StandardLocalMonitor for engine health monitoring
+[2026-02-12 02:26:53,761 DEBUG Engine] Module config: local {'class': 'bzt.modules.provisioning.Local'}
+[2026-02-12 02:26:53,762 DEBUG root] Importing module: bzt.modules.provisioning
+[2026-02-12 02:26:53,762 DEBUG root] Loading class: 'Local' from <module 'bzt.modules.provisioning' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\provisioning.py'>
+[2026-02-12 02:26:53,763 DEBUG Engine] Module config: jmeter {'class': 'bzt.modules.jmeter.JMeterExecutor', 'protocol-handlers': {'http': 'bzt.jmx.http.HTTPProtocolHandler', 'mqtt': 'bzt.jmx.mqtt.MQTTProtocolHandler', 'grpc': 'bzt.jmx.grpc.GRPCProtocolHandler'}, 'plugins': ['jpgc-casutg', 'jpgc-dummy', 'jpgc-ffw', 'jpgc-fifo', 'jpgc-functions', 'jpgc-json', 'jpgc-perfmon', 'jpgc-prmctl', 'jpgc-tst'], 'properties': {'jmeter.save.saveservice.autoflush': 'true', 'jmeter.save.saveservice.connect_time': 'true', 'jmeterengine.force.system.exit': 'true', 'summariser.name': ''}}
+[2026-02-12 02:26:53,764 DEBUG root] Importing module: bzt.modules.jmeter
+[2026-02-12 02:26:53,788 DEBUG root] Loading class: 'JMeterExecutor' from <module 'bzt.modules.jmeter' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\jmeter.py'>
+[2026-02-12 02:26:53,789 DEBUG Engine.local] Preparing executor: jmeter/2523103901968
+[2026-02-12 02:26:53,790 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\jmeter.log
+[2026-02-12 02:26:53,790 DEBUG Engine.jmeter] Checking if port 4445 is free
+[2026-02-12 02:26:53,792 DEBUG Engine.jmeter] Port 4445 is free
+[2026-02-12 02:26:53,792 DEBUG Engine.jmeter] Using port 4445 for management
+[2026-02-12 02:26:53,793 DEBUG Engine.jmeter] Getting Jmeter version.
+[2026-02-12 02:26:53,793 DEBUG Engine.jmeter] Autodetect version is enabled
+[2026-02-12 02:26:53,793 DEBUG Engine.jmeter] JMeter version: 5.5
+[2026-02-12 02:26:53,795 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\requests.jmx
+[2026-02-12 02:26:53,796 DEBUG root] Importing module: bzt.jmx.http
+[2026-02-12 02:26:53,797 DEBUG root] Loading class: 'HTTPProtocolHandler' from <module 'bzt.jmx.http' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\jmx\\http.py'>
+[2026-02-12 02:26:53,798 DEBUG root] Importing module: bzt.jmx.mqtt
+[2026-02-12 02:26:53,799 DEBUG root] Loading class: 'MQTTProtocolHandler' from <module 'bzt.jmx.mqtt' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\jmx\\mqtt.py'>
+[2026-02-12 02:26:53,800 DEBUG root] Importing module: bzt.jmx.grpc
+[2026-02-12 02:26:53,803 DEBUG root] Loading class: 'GRPCProtocolHandler' from <module 'bzt.jmx.grpc' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\jmx\\grpc.py'>
+[2026-02-12 02:26:53,806 DEBUG JMeterScenarioBuilder] Saving JMX to: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\requests.jmx
+[2026-02-12 02:26:53,809 DEBUG Engine.jmeter] Additional system properties {'sun.net.inetaddr.ttl': 0}
+[2026-02-12 02:26:53,809 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\system.properties
+[2026-02-12 02:26:53,811 DEBUG Engine.jmeter] Additional properties: {'jmeter.save.saveservice.autoflush': 'true', 'jmeter.save.saveservice.connect_time': 'true', 'jmeterengine.force.system.exit': 'true', 'summariser.name': '', 'jmeterengine.nongui.port': 4445, 'jmeterengine.nongui.maxport': 4445, 'jmeter.save.saveservice.timestamp_format': 'ms', 'sampleresult.default.encoding': 'UTF-8', 'user.classpath': 'C:/Users/maxma/Desktop/1/2026-02-12_02-26-53.466024;C:/Users/maxma/Desktop/1/2026-02-12_02-26-53.466024'}
+[2026-02-12 02:26:53,813 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\jmeter-bzt.properties
+[2026-02-12 02:26:53,815 DEBUG Engine.jmeter.JavaVM] Trying JavaVM: ['java', '-version']
+[2026-02-12 02:26:53,816 DEBUG root] Executing shell: ['java', '-version'] at .
+[2026-02-12 02:26:53,927 DEBUG Engine.jmeter.JavaVM] JavaVM output: openjdk version "21.0.2" 2024-01-16 LTS
+OpenJDK Runtime Environment Temurin-21.0.2+13 (build 21.0.2+13-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.2+13 (build 21.0.2+13-LTS, mixed mode, sharing)
+
+[2026-02-12 02:26:53,928 DEBUG Engine.jmeter.TclLibrary] Checking if TCL_LIBRARY variable is present in environment
+[2026-02-12 02:26:53,928 DEBUG Engine.jmeter.TclLibrary] TCL_LIBRARY environment variable is not present
+[2026-02-12 02:26:53,931 DEBUG Engine.jmeter.TclLibrary] Tcl directory was found: C:\Users\maxma\AppData\Local\Programs\Python\Python311\tcl\tcl8.6
+[2026-02-12 02:26:53,931 DEBUG Engine.jmeter.TclLibrary] Setting environment TCL_LIBRARY=C:\Users\maxma\AppData\Local\Programs\Python\Python311\tcl\tcl8.6
+[2026-02-12 02:26:53,932 DEBUG Engine.jmeter.TclLibrary] Checking if TCL_LIBRARY variable is present in environment
+[2026-02-12 02:26:53,932 DEBUG Engine.jmeter.TclLibrary] TCL_LIBRARY environment variable is present
+[2026-02-12 02:26:53,933 DEBUG Engine.jmeter.JMeter] Trying JMeter..
+[2026-02-12 02:26:53,935 DEBUG root] Executing shell: ['C:\\Users\\maxma\\.bzt\\jmeter-taurus\\5.5\\bin\\jmeter.bat', '-j', 'C:\\Users\\maxma\\AppData\\Local\\Temp\\jmeterkt__hpuclog', '--version'] at .
+[2026-02-12 02:26:56,783 DEBUG Engine.jmeter.JMeter] JMeter check:     _    ____   _    ____ _   _ _____       _ __  __ _____ _____ _____ ____
+   / \  |  _ \ / \  / ___| | | | ____|     | |  \/  | ____|_   _| ____|  _ \
+  / _ \ | |_) / _ \| |   | |_| |  _|    _  | | |\/| |  _|   | | |  _| | |_) |
+ / ___ \|  __/ ___ \ |___|  _  | |___  | |_| | |  | | |___  | | | |___|  _ <
+/_/   \_\_| /_/   \_\____|_| |_|_____|  \___/|_|  |_|_____| |_| |_____|_| \_\ 5.5
+
+Copyright (c) 1999-2022 The Apache Software Foundation
+
+ / 
+[2026-02-12 02:26:56,801 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\kpi.jtl
+[2026-02-12 02:26:56,802 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:26:56,804 DEBUG Engine.jmeter.LoadSettingsProcessor] Load: LoadSpec(concurrency=1, throughput=10.0, ramp_up=None, hold=10.0, iterations=0, duration=10.0, steps=None)
+[2026-02-12 02:26:56,806 DEBUG Engine.jmeter.LoadSettingsProcessor.ThreadGroupHandler] Converting ThreadGroup (api_test) to ConcurrencyThreadGroup and apply load parameters
+[2026-02-12 02:26:56,807 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\modified_requests.jmx
+[2026-02-12 02:26:56,808 DEBUG JMX] Saving JMX to: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\modified_requests.jmx
+[2026-02-12 02:26:56,810 DEBUG root] Executing shell: ['C:\\Users\\maxma\\.bzt\\jmeter-taurus\\5.5\\bin\\PluginsManagerCMD.bat', 'install-for-jmx', 'C:\\Users\\maxma\\Desktop\\1\\2026-02-12_02-26-53.466024\\modified_requests.jmx'] at .
+[2026-02-12 02:27:00,032 DEBUG urllib3.connectionpool] https://gettaurus.org:443 "GET /updates/?version=1.16.48&installID=windows-c8bfd974c6b HTTP/1.1" 500 1096
+[2026-02-12 02:27:00,032 DEBUG Engine] Failed to check for updates, server returned 5xx NoneType: None
+
+[2026-02-12 02:27:00,032 WARNING Engine] Failed to check for updates, server returned 5xx.
+[2026-02-12 02:27:00,854 DEBUG Engine.jmeter.JMeter] Try to detect plugins for C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\modified_requests.jmx
+2026-02-12 02:26:58,283 INFO o.j.r.PluginManagerCMD: Command is: install-for-jmx
+2026-02-12 02:26:58,433 INFO o.j.r.JARSourceHTTP: Found cached repo
+2026-02-12 02:26:58,909 INFO o.j.r.PluginManager: Plugins Status: [jpgc-functions=2.2, jpgc-casutg=3.1.1, jpgc-dummy=0.4, jpgc-ffw=2.0, jpgc-fifo=0.2, jpgc-json=2.7, jpgc-prmctl=0.4, jpgc-perfmon=2.1, jpgc-plugins-manager=1.11, jpgc-tst=2.6, jmeter-core=5.5, jmeter-ftp=5.5, jmeter-http=5.5, jmeter-jdbc=5.5, jmeter-jms=5.5, jmeter-junit=5.5, jmeter-java=5.5, jmeter-ldap=5.5, jmeter-mail=5.5, jmeter-mongodb=5.5, jmeter-native=5.5, jmeter-tcp=5.5, jmeter-components=5.5]
+2026-02-12 02:26:58,913 INFO o.j.r.PluginManagerCMD: Params line is: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\modified_requests.jmx
+2026-02-12 02:26:59,430 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2026-02-12 02:26:59,457 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2026-02-12 02:26:59,464 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2026-02-12 02:26:59,530 INFO o.a.j.p.h.c.CacheManager: Will only cache the following methods: [GET]
+2026-02-12 02:26:59,532 INFO o.a.j.p.h.c.CookieManager: Settings: Delete null: true Check: true Allow variable: true Save: false Prefix: COOKIE_
+2026-02-12 02:26:59,566 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 02:26:59,567 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 02:26:59,567 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 02:26:59,567 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 02:26:59,567 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2026-02-12 02:26:59,567 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2026-02-12 02:26:59,682 INFO o.j.r.PluginManager: Finishing without changes
+
+
+[2026-02-12 02:27:00,858 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\jmeter.out
+[2026-02-12 02:27:00,859 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\jmeter.err
+[2026-02-12 02:27:00,861 DEBUG Engine] Module config: final-stats {'class': 'bzt.modules.reporting.FinalStatus'}
+[2026-02-12 02:27:00,862 DEBUG root] Importing module: bzt.modules.reporting
+[2026-02-12 02:27:00,881 DEBUG root] Loading class: 'FinalStatus' from <module 'bzt.modules.reporting' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\reporting.py'>
+[2026-02-12 02:27:00,881 DEBUG Engine] Module config: console {'class': 'bzt.modules.console.ConsoleStatusReporter'}
+[2026-02-12 02:27:00,894 DEBUG root] Importing module: bzt.modules.console
+[2026-02-12 02:27:00,894 DEBUG root] Loading class: 'ConsoleStatusReporter' from <module 'bzt.modules.console' from 'C:\\Users\\maxma\\AppData\\Roaming\\Python\\Python311\\site-packages\\bzt\\modules\\console.py'>
+[2026-02-12 02:27:00,895 WARNING Engine] Module 'console' can be only used once, will merge all new instances into single
+[2026-02-12 02:27:00,896 DEBUG Engine.console] Can't use 'console' screen, trying 'gui'
+[2026-02-12 02:27:00,906 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.yml
+[2026-02-12 02:27:00,926 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.json
+[2026-02-12 02:27:00,928 INFO Engine] Starting...
+[2026-02-12 02:27:00,928 DEBUG Engine] Startup <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:00,929 DEBUG Engine] Startup <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:00,929 DEBUG Engine] Startup <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:00,930 DEBUG Engine] Startup <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:00,931 INFO Engine.console] Waiting for results...
+[2026-02-12 02:27:00,931 DEBUG Engine] Startup <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:00,933 DEBUG Engine.local] Delay setup for jmeter/api_test: 0(start-at) + 0(delay) = 0
+[2026-02-12 02:27:00,936 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.yml
+[2026-02-12 02:27:00,955 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.json
+[2026-02-12 02:27:00,957 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:00,958 DEBUG Engine] New artifact filename: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\GRACEFUL
+[2026-02-12 02:27:00,959 DEBUG root] Executing shell: ['C:\\Users\\maxma\\.bzt\\jmeter-taurus\\5.5\\bin\\jmeter.bat', '-t', 'C:\\Users\\maxma\\Desktop\\1\\2026-02-12_02-26-53.466024\\modified_requests.jmx', '-j', 'C:\\Users\\maxma\\Desktop\\1\\2026-02-12_02-26-53.466024\\jmeter.log', '-q', 'C:\\Users\\maxma\\Desktop\\1\\2026-02-12_02-26-53.466024\\jmeter-bzt.properties', '-n', '-S', 'C:\\Users\\maxma\\Desktop\\1\\2026-02-12_02-26-53.466024\\system.properties'] at C:\Users\maxma\Desktop\1
+[2026-02-12 02:27:00,970 DEBUG Engine.local] Starting execution: jmeter/api_test, rest of available slots: 9223372036854775806
+[2026-02-12 02:27:00,971 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:00,973 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:00,973 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:00,974 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\kpi.jtl
+[2026-02-12 02:27:00,975 DEBUG Engine.jmeter.JTLReader] Buffer len: 0; Known errors count: 0
+[2026-02-12 02:27:00,976 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:27:00,977 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:01,230 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:01,233 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:01,238 INFO Engine.console] Did not mute console logging
+[2026-02-12 02:27:01,422 INFO Engine.console] Waiting for finish...
+[2026-02-12 02:27:01,654 DEBUG Engine] Iteration took 0.697 sec, sleeping for 0.303 sec...
+[2026-02-12 02:27:01,972 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:01,972 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:01,972 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:01,972 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:01,979 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\kpi.jtl
+[2026-02-12 02:27:01,981 DEBUG Engine.jmeter.JTLReader] Buffer len: 0; Known errors count: 0
+[2026-02-12 02:27:01,983 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:27:01,984 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:02,015 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:02,015 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:02,087 DEBUG Engine] Iteration took 0.114 sec, sleeping for 0.886 sec...
+[2026-02-12 02:27:02,981 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:02,982 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:02,982 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:02,982 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:02,992 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader.FileReader] File not appeared yet: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\kpi.jtl
+[2026-02-12 02:27:02,994 DEBUG Engine.jmeter.JTLReader] Buffer len: 0; Known errors count: 0
+[2026-02-12 02:27:02,996 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:27:03,003 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:03,057 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:03,057 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:03,108 DEBUG Engine] Iteration took 0.126 sec, sleeping for 0.874 sec...
+[2026-02-12 02:27:03,983 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:03,983 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:04,007 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File is empty: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:04,008 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] File is empty: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:04,009 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader.FileReader] Opening file: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\kpi.jtl
+[2026-02-12 02:27:04,014 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Analyzed header line: ['timeStamp', 'elapsed', 'label', 'responseCode', 'responseMessage', 'threadName', 'success', 'bytes', 'grpThreads', 'allThreads', 'Latency', 'Hostname', 'Connect']
+[2026-02-12 02:27:04,016 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 1 lines / 126 bytes (at speed 1048576)
+[2026-02-12 02:27:04,017 DEBUG Engine.jmeter.JTLReader] Buffer len: 0; Known errors count: 0
+[2026-02-12 02:27:04,019 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:27:04,020 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:04,062 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:04,063 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:04,128 DEBUG Engine] Iteration took 0.145 sec, sleeping for 0.855 sec...
+[2026-02-12 02:27:04,985 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:04,985 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:04,985 DEBUG Engine.jmeter.JTLErrorsReader.FileReader] Opening file: C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\trace.jtl
+[2026-02-12 02:27:05,006 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 1924
+[2026-02-12 02:27:05,007 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 1 lines / 102 bytes (at speed 1048576)
+[2026-02-12 02:27:05,008 DEBUG Engine.jmeter.JTLReader] Buffer len: 1; Known errors count: 0
+[2026-02-12 02:27:05,008 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:27:05,009 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:05,009 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:05,010 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:05,061 DEBUG Engine] Iteration took 0.076 sec, sleeping for 0.924 sec...
+[2026-02-12 02:27:05,986 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:05,986 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:05,986 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 15588
+[2026-02-12 02:27:05,986 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 8 lines / 816 bytes (at speed 1048576)
+[2026-02-12 02:27:05,997 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:05,998 DEBUG Engine.consolidator] Consolidator buffer[0]: dict_keys([])
+[2026-02-12 02:27:06,001 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:06,057 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:06,058 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:06,117 DEBUG Engine] Iteration took 0.131 sec, sleeping for 0.869 sec...
+[2026-02-12 02:27:06,988 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:06,989 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:06,991 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 19493
+[2026-02-12 02:27:06,998 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 10 lines / 1020 bytes (at speed 1048576)
+[2026-02-12 02:27:07,001 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:07,002 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859624, 3 in buffer
+[2026-02-12 02:27:07,011 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:07,026 DEBUG Engine.consolidator] Consolidator buffer[1]: dict_keys([1770859624])
+[2026-02-12 02:27:07,026 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:07,063 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:07,064 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:07,114 DEBUG Engine] Iteration took 0.126 sec, sleeping for 0.874 sec...
+[2026-02-12 02:27:07,990 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:07,990 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:07,996 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 19521
+[2026-02-12 02:27:07,999 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 10 lines / 1020 bytes (at speed 1048576)
+[2026-02-12 02:27:08,001 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:08,003 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859625, 3 in buffer
+[2026-02-12 02:27:08,012 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:08,030 DEBUG Engine.consolidator] Consolidator buffer[2]: dict_keys([1770859624, 1770859625])
+[2026-02-12 02:27:08,032 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:08,078 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:08,078 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:08,129 DEBUG Engine] Iteration took 0.138 sec, sleeping for 0.862 sec...
+[2026-02-12 02:27:08,993 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:08,994 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:08,996 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 17681
+[2026-02-12 02:27:08,998 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 9 lines / 922 bytes (at speed 1048576)
+[2026-02-12 02:27:08,998 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:09,000 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859626, 3 in buffer
+[2026-02-12 02:27:09,005 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:09,013 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859624, 1770859625, 1770859626])
+[2026-02-12 02:27:09,014 DEBUG Engine.consolidator] Merging into 1770859624
+[2026-02-12 02:27:09,015 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:09,034 DEBUG Engine.consolidator] Processed datapoint: 1770859624/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:09,034 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:09,077 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:09,077 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:09,077 DEBUG Engine.console] Current: 1 vu	2 succ	0 fail	0.547 avg rt	/	Cumulative: 0.547 avg rt, 0% failures
+[2026-02-12 02:27:09,150 DEBUG Engine] Iteration took 0.157 sec, sleeping for 0.843 sec...
+[2026-02-12 02:27:09,994 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:09,994 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:09,996 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 17454
+[2026-02-12 02:27:09,997 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 9 lines / 916 bytes (at speed 1048576)
+[2026-02-12 02:27:09,997 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:09,998 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859627, 3 in buffer
+[2026-02-12 02:27:10,001 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:10,007 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859625, 1770859626, 1770859627])
+[2026-02-12 02:27:10,008 DEBUG Engine.consolidator] Merging into 1770859625
+[2026-02-12 02:27:10,009 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:10,019 DEBUG Engine.consolidator] Processed datapoint: 1770859625/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:10,020 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:10,021 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:10,021 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:10,022 DEBUG Engine.console] Current: 1 vu	8 succ	0 fail	0.087 avg rt	/	Cumulative: 0.179 avg rt, 0% failures
+[2026-02-12 02:27:10,106 DEBUG Engine] Iteration took 0.112 sec, sleeping for 0.888 sec...
+[2026-02-12 02:27:10,996 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:10,997 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:10,998 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 17625
+[2026-02-12 02:27:11,000 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 9 lines / 922 bytes (at speed 1048576)
+[2026-02-12 02:27:11,000 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:11,001 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859628, 3 in buffer
+[2026-02-12 02:27:11,005 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:11,017 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859626, 1770859627, 1770859628])
+[2026-02-12 02:27:11,018 DEBUG Engine.consolidator] Merging into 1770859626
+[2026-02-12 02:27:11,019 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:11,031 DEBUG Engine.consolidator] Processed datapoint: 1770859626/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:11,031 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:11,071 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:11,071 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:11,072 DEBUG Engine.console] Current: 1 vu	10 succ	0 fail	0.090 avg rt	/	Cumulative: 0.134 avg rt, 0% failures
+[2026-02-12 02:27:11,204 DEBUG Engine] Iteration took 0.208 sec, sleeping for 0.792 sec...
+[2026-02-12 02:27:12,035 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:12,035 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:12,035 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 19493
+[2026-02-12 02:27:12,035 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 10 lines / 1020 bytes (at speed 1048576)
+[2026-02-12 02:27:12,035 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:12,042 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859629, 3 in buffer
+[2026-02-12 02:27:12,046 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:12,056 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859627, 1770859628, 1770859629])
+[2026-02-12 02:27:12,057 DEBUG Engine.consolidator] Merging into 1770859627
+[2026-02-12 02:27:12,057 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:12,069 DEBUG Engine.consolidator] Processed datapoint: 1770859627/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:12,069 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:12,099 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:12,099 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:12,100 DEBUG Engine.console] Current: 1 vu	10 succ	0 fail	0.088 avg rt	/	Cumulative: 0.119 avg rt, 0% failures
+[2026-02-12 02:27:12,174 DEBUG Engine] Iteration took 0.139 sec, sleeping for 0.861 sec...
+[2026-02-12 02:27:13,036 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:13,036 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:13,036 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 17460
+[2026-02-12 02:27:13,036 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 9 lines / 914 bytes (at speed 1048576)
+[2026-02-12 02:27:13,042 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:13,046 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859630, 3 in buffer
+[2026-02-12 02:27:13,050 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 2049
+[2026-02-12 02:27:13,052 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 1 lines / 106 bytes (at speed 1048576)
+[2026-02-12 02:27:13,053 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:13,062 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859628, 1770859629, 1770859630])
+[2026-02-12 02:27:13,063 DEBUG Engine.consolidator] Merging into 1770859628
+[2026-02-12 02:27:13,064 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:13,087 DEBUG Engine.consolidator] Processed datapoint: 1770859628/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:13,087 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:13,117 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:13,118 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:13,118 DEBUG Engine.console] Current: 1 vu	9 succ	0 fail	0.102 avg rt	/	Cumulative: 0.115 avg rt, 0% failures
+[2026-02-12 02:27:13,188 DEBUG Engine] Iteration took 0.152 sec, sleeping for 0.848 sec...
+[2026-02-12 02:27:14,040 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:14,040 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:14,042 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 17468
+[2026-02-12 02:27:14,043 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 9 lines / 914 bytes (at speed 1048576)
+[2026-02-12 02:27:14,044 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:14,045 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859631, 3 in buffer
+[2026-02-12 02:27:14,049 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:14,061 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859629, 1770859630, 1770859631])
+[2026-02-12 02:27:14,061 DEBUG Engine.consolidator] Merging into 1770859629
+[2026-02-12 02:27:14,062 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:14,075 DEBUG Engine.consolidator] Processed datapoint: 1770859629/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:14,076 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:14,077 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:14,077 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:14,078 DEBUG Engine.console] Current: 1 vu	9 succ	0 fail	0.103 avg rt	/	Cumulative: 0.113 avg rt, 0% failures
+[2026-02-12 02:27:14,156 DEBUG Engine] Iteration took 0.116 sec, sleeping for 0.884 sec...
+[2026-02-12 02:27:15,041 DEBUG Engine] Checking <bzt.modules.provisioning.Local object at 0x0000024B74B634D0>
+[2026-02-12 02:27:15,043 DEBUG Engine.local] jmeter/api_test finished
+[2026-02-12 02:27:15,044 DEBUG Engine] <bzt.modules.provisioning.Local object at 0x0000024B74B634D0> finished
+[2026-02-12 02:27:15,045 DEBUG Engine] Checking <bzt.modules.aggregator.ConsolidatingAggregator object at 0x0000024B71901110>
+[2026-02-12 02:27:15,049 DEBUG Engine.jmeter.JTLErrorsReader] Read bytes from error file: 5963
+[2026-02-12 02:27:15,051 DEBUG Engine.jmeter.JTLReader.IncrementalCSVReader] Read: 3 lines / 310 bytes (at speed 1048576)
+[2026-02-12 02:27:15,053 DEBUG Engine.jmeter.JTLReader] Buffer len: 3; Known errors count: 0
+[2026-02-12 02:27:15,054 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859632, 3 in buffer
+[2026-02-12 02:27:15,060 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:15,073 DEBUG Engine.consolidator] Consolidator buffer[3]: dict_keys([1770859630, 1770859631, 1770859632])
+[2026-02-12 02:27:15,074 DEBUG Engine.consolidator] Merging into 1770859630
+[2026-02-12 02:27:15,075 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:15,094 DEBUG Engine.consolidator] Processed datapoint: 1770859630/ConsolidatingAggregator@2523051069712 with 3 labels
+[2026-02-12 02:27:15,095 DEBUG Engine] Checking <bzt.modules.monitoring.Monitoring object at 0x0000024B6B6D0650>
+[2026-02-12 02:27:15,123 DEBUG Engine] Checking <bzt.modules.reporting.FinalStatus object at 0x0000024B71898AD0>
+[2026-02-12 02:27:15,124 DEBUG Engine] Checking <bzt.modules.console.ConsoleStatusReporter object at 0x0000024B74C46A50>
+[2026-02-12 02:27:15,125 DEBUG Engine.console] Current: 1 vu	9 succ	0 fail	0.095 avg rt	/	Cumulative: 0.110 avg rt, 0% failures
+[2026-02-12 02:27:15,222 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.yml
+[2026-02-12 02:27:15,224 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.json
+[2026-02-12 02:27:15,241 WARNING Engine] Please wait for graceful shutdown...
+[2026-02-12 02:27:15,241 INFO Engine] Shutting down...
+[2026-02-12 02:27:15,242 DEBUG Engine] Current stop reason: None
+[2026-02-12 02:27:15,243 DEBUG Engine.local] Shutdown jmeter/api_test
+[2026-02-12 02:27:15,254 DEBUG Engine.console] No logger_handler or orig_stream was detected
+[2026-02-12 02:27:15,371 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.yml
+[2026-02-12 02:27:15,420 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.json
+[2026-02-12 02:27:15,422 INFO Engine] Post-processing...
+[2026-02-12 02:27:15,423 DEBUG Engine.local] Post-process jmeter/api_test
+[2026-02-12 02:27:15,423 DEBUG Engine] Add existing artifact (move=True): C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\modified_requests.jmx
+[2026-02-12 02:27:15,424 DEBUG Engine] No need to copy C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\modified_requests.jmx
+[2026-02-12 02:27:15,428 DEBUG Engine.jmeter.JTLReader] Buffer len: 2; Known errors count: 0
+[2026-02-12 02:27:15,431 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859633, 2 in buffer
+[2026-02-12 02:27:15,433 DEBUG Engine.jmeter.JTLReader] Aggregating: 1770859634, 1 in buffer
+[2026-02-12 02:27:15,435 DEBUG Engine.jmeter.JTLReader] Buffer len: 0; Known errors count: 0
+[2026-02-12 02:27:15,435 DEBUG Engine.consolidator] Consolidator buffer[4]: dict_keys([1770859631, 1770859632, 1770859633, 1770859634])
+[2026-02-12 02:27:15,438 DEBUG Engine.consolidator] Merging into 1770859631
+[2026-02-12 02:27:15,438 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:15,449 DEBUG Engine.consolidator] Processed datapoint: 1770859631/ConsolidatingAggregator@2523051069712
+[2026-02-12 02:27:15,450 DEBUG Engine.consolidator] Merging into 1770859632
+[2026-02-12 02:27:15,450 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:15,461 DEBUG Engine.consolidator] Processed datapoint: 1770859632/ConsolidatingAggregator@2523051069712
+[2026-02-12 02:27:15,462 DEBUG Engine.consolidator] Merging into 1770859633
+[2026-02-12 02:27:15,462 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:15,471 DEBUG Engine.consolidator] Processed datapoint: 1770859633/ConsolidatingAggregator@2523051069712
+[2026-02-12 02:27:15,471 DEBUG Engine.consolidator] Merging into 1770859634
+[2026-02-12 02:27:15,472 DEBUG Engine.consolidator] Bypassing consolidation because of single result
+[2026-02-12 02:27:15,485 DEBUG Engine.consolidator] Processed datapoint: 1770859634/ConsolidatingAggregator@2523051069712
+[2026-02-12 02:27:15,485 INFO Engine.final-stats] Test duration: 0:00:15
+[2026-02-12 02:27:15,485 INFO Engine.final-stats] Samples count: 88, 0.00% failures
+[2026-02-12 02:27:15,485 INFO Engine.final-stats] Average times: total 0.104, latency 0.103, connect 0.007
+[2026-02-12 02:27:15,485 INFO Engine.final-stats] Percentiles:
++---------------+---------------+
+| Percentile, % | Resp. Time, s |
++---------------+---------------+
+|           0.0 |         0.024 |
+|          50.0 |         0.135 |
+|          90.0 |         0.151 |
+|          95.0 |         0.167 |
+|          99.0 |         0.697 |
+|          99.9 |         0.697 |
+|         100.0 |         0.697 |
++---------------+---------------+
+[2026-02-12 02:27:15,494 INFO Engine.final-stats] Request label stats:
++-------------+--------+---------+--------+-------+
+| label       | status |    succ | avg_rt | error |
++-------------+--------+---------+--------+-------+
+| Create Post |   OK   | 100.00% |  0.150 |       |
+| Get Post 1  |   OK   | 100.00% |  0.058 |       |
++-------------+--------+---------+--------+-------+
+[2026-02-12 02:27:15,495 DEBUG Engine.console] No logger_handler or orig_stream was detected
+[2026-02-12 02:27:15,498 DEBUG Engine.Configuration] Dumping YAML config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.yml
+[2026-02-12 02:27:15,519 DEBUG Engine.Configuration] Dumping JSON config into C:\Users\maxma\Desktop\1\2026-02-12_02-26-53.466024\effective.json
+[2026-02-12 02:27:15,522 DEBUG root] 	re-2.2.1	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\re\__init__.py
+[2026-02-12 02:27:15,522 DEBUG root] 	platform-1.0.8	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\platform.py
+[2026-02-12 02:27:15,523 DEBUG root] 	logging-0.5.1.2	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py
+[2026-02-12 02:27:15,525 DEBUG root] 	zlib-1.0	
+[2026-02-12 02:27:15,526 DEBUG root] 	optparse-1.5.3	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\optparse.py
+[2026-02-12 02:27:15,527 DEBUG root] 	yaml-6.0.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\yaml\__init__.py
+[2026-02-12 02:27:15,527 DEBUG root] 	_ctypes-1.1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\DLLs\_ctypes.pyd
+[2026-02-12 02:27:15,528 DEBUG root] 	ctypes-1.1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\ctypes\__init__.py
+[2026-02-12 02:27:15,529 DEBUG root] 	colorama-0.4.6	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\colorama\__init__.py
+[2026-02-12 02:27:15,529 DEBUG root] 	json-2.0.9	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\json\__init__.py
+[2026-02-12 02:27:15,530 DEBUG root] 	ipaddress-1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\ipaddress.py
+[2026-02-12 02:27:15,531 DEBUG root] 	setuptools._distutils-3.11.9	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\_distutils\__init__.py
+[2026-02-12 02:27:15,532 DEBUG root] 	more_itertools-10.3.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\_vendor\more_itertools\__init__.py
+[2026-02-12 02:27:15,534 DEBUG root] 	packaging-26.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\packaging\__init__.py
+[2026-02-12 02:27:15,534 DEBUG root] 	urllib.request-3.11	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\urllib\request.py
+[2026-02-12 02:27:15,535 DEBUG root] 	_csv-1.0	
+[2026-02-12 02:27:15,535 DEBUG root] 	csv-1.0	C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\csv.py
+[2026-02-12 02:27:15,536 DEBUG root] 	setuptools.version-79.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\version.py
+[2026-02-12 02:27:15,537 DEBUG root] 	setuptools-79.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\__init__.py
+[2026-02-12 02:27:15,537 DEBUG root] 	distutils-3.11.9	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\setuptools\_distutils\__init__.py
+[2026-02-12 02:27:15,538 DEBUG root] 	psutil-7.1.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\psutil\__init__.py
+[2026-02-12 02:27:15,538 DEBUG root] 	_brotli-1.2.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\_brotli.cp311-win_amd64.pyd
+[2026-02-12 02:27:15,539 DEBUG root] 	brotli-1.2.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\brotli.py
+[2026-02-12 02:27:15,539 DEBUG root] 	urllib3._version-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\_version.py
+[2026-02-12 02:27:15,540 DEBUG root] 	urllib3.util.ssl_match_hostname-3.5.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\util\ssl_match_hostname.py
+[2026-02-12 02:27:15,540 DEBUG root] 	urllib3.connection-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\connection.py
+[2026-02-12 02:27:15,541 DEBUG root] 	urllib3-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\__init__.py
+[2026-02-12 02:27:15,543 DEBUG root] 	charset_normalizer.version-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\version.py
+[2026-02-12 02:27:15,544 DEBUG root] 	charset_normalizer-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\__init__.py
+[2026-02-12 02:27:15,545 DEBUG root] 	requests.packages.urllib3._version-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\_version.py
+[2026-02-12 02:27:15,545 DEBUG root] 	requests.packages.urllib3.util.ssl_match_hostname-3.5.0.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\util\ssl_match_hostname.py
+[2026-02-12 02:27:15,546 DEBUG root] 	requests.packages.urllib3.connection-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\connection.py
+[2026-02-12 02:27:15,547 DEBUG root] 	requests.packages.urllib3-2.6.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urllib3\__init__.py
+[2026-02-12 02:27:15,547 DEBUG root] 	idna.idnadata-16.0.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\idnadata.py
+[2026-02-12 02:27:15,548 DEBUG root] 	idna.package_data-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\package_data.py
+[2026-02-12 02:27:15,548 DEBUG root] 	idna-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\__init__.py
+[2026-02-12 02:27:15,549 DEBUG root] 	requests.packages.idna.idnadata-16.0.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\idnadata.py
+[2026-02-12 02:27:15,549 DEBUG root] 	requests.packages.idna.package_data-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\package_data.py
+[2026-02-12 02:27:15,550 DEBUG root] 	requests.packages.idna-3.11	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\idna\__init__.py
+[2026-02-12 02:27:15,551 DEBUG root] 	requests.packages.charset_normalizer.version-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\version.py
+[2026-02-12 02:27:15,551 DEBUG root] 	requests.packages.chardet.version-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\version.py
+[2026-02-12 02:27:15,552 DEBUG root] 	requests.packages.charset_normalizer-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\__init__.py
+[2026-02-12 02:27:15,553 DEBUG root] 	requests.packages.chardet-3.4.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\charset_normalizer\__init__.py
+[2026-02-12 02:27:15,553 DEBUG root] 	certifi-2026.01.04	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\certifi\__init__.py
+[2026-02-12 02:27:15,554 DEBUG root] 	requests.__version__-2.32.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\requests\__version__.py
+[2026-02-12 02:27:15,554 DEBUG root] 	requests.utils-2.32.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\requests\utils.py
+[2026-02-12 02:27:15,555 DEBUG root] 	requests-2.32.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\requests\__init__.py
+[2026-02-12 02:27:15,555 DEBUG root] 	websocket-1.9.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\websocket\__init__.py
+[2026-02-12 02:27:15,556 DEBUG root] 	multidict-6.7.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\multidict\__init__.py
+[2026-02-12 02:27:15,558 DEBUG root] 	attr-25.4.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\attr\__init__.py
+[2026-02-12 02:27:15,559 DEBUG root] 	propcache-0.4.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\propcache\__init__.py
+[2026-02-12 02:27:15,559 DEBUG root] 	yarl-1.22.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\yarl\__init__.py
+[2026-02-12 02:27:15,560 DEBUG root] 	aiohttp.http-3.13.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiohttp\http.py
+[2026-02-12 02:27:15,560 DEBUG root] 	aiohappyeyeballs-2.6.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiohappyeyeballs\__init__.py
+[2026-02-12 02:27:15,561 DEBUG root] 	frozenlist-1.8.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\frozenlist\__init__.py
+[2026-02-12 02:27:15,562 DEBUG root] 	aiosignal-1.4.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiosignal\__init__.py
+[2026-02-12 02:27:15,562 DEBUG root] 	aiohttp-3.13.3	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\aiohttp\__init__.py
+[2026-02-12 02:27:15,564 DEBUG root] 	bidict.metadata-0.23.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bidict\metadata.py
+[2026-02-12 02:27:15,565 DEBUG root] 	bidict-0.23.1	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bidict\__init__.py
+[2026-02-12 02:27:15,567 DEBUG root] 	lxml-6.0.2	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\lxml\__init__.py
+[2026-02-12 02:27:15,568 DEBUG root] 	lxml.etree-6.0.2	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\lxml\etree.cp311-win_amd64.pyd
+[2026-02-12 02:27:15,568 DEBUG root] 	progressbar-2.4	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\progressbar\__init__.py
+[2026-02-12 02:27:15,569 DEBUG root] 	wcwidth-0.6.0	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\wcwidth\__init__.py
+[2026-02-12 02:27:15,583 DEBUG root] 	urwid.version-3.0.5	C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urwid\version.py
+[2026-02-12 02:27:15,583 ERROR root] ModuleNotFoundError: No module named '_curses'
+[2026-02-12 02:27:15,596 DEBUG root] Exception: Traceback (most recent call last):
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\cli.py", line 680, in main
+    code = executor.perform(parsed_configs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\bzt\cli.py", line 290, in perform
+    version = str(getattr(modules[module_name], '__version__', ""))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib.util>", line 262, in __getattribute__
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\maxma\AppData\Roaming\Python\Python311\site-packages\urwid\display\curses.py", line 27, in <module>
+    import curses
+  File "C:\Users\maxma\AppData\Local\Programs\Python\Python311\Lib\curses\__init__.py", line 13, in <module>
+    from _curses import *
+ModuleNotFoundError: No module named '_curses'
+

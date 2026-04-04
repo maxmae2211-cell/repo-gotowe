@@ -1,0 +1,16 @@
+2026-02-12 03:50:25,437 INFO o.j.r.PluginManagerCMD: Command is: install-for-jmx
+2026-02-12 03:50:25,619 INFO o.j.r.JARSourceHTTP: Found cached repo
+2026-02-12 03:50:26,845 INFO o.j.r.PluginManager: Plugins Status: [jpgc-functions=2.2, jpgc-casutg=3.1.1, jpgc-dummy=0.4, jpgc-ffw=2.0, jpgc-fifo=0.2, jpgc-json=2.7, jpgc-prmctl=0.4, jpgc-perfmon=2.1, jpgc-plugins-manager=1.11, jpgc-tst=2.6, jmeter-core=5.5, jmeter-ftp=5.5, jmeter-http=5.5, jmeter-jdbc=5.5, jmeter-jms=5.5, jmeter-junit=5.5, jmeter-java=5.5, jmeter-ldap=5.5, jmeter-mail=5.5, jmeter-mongodb=5.5, jmeter-native=5.5, jmeter-tcp=5.5, jmeter-components=5.5]
+2026-02-12 03:50:26,860 INFO o.j.r.PluginManagerCMD: Params line is: C:\Users\maxma\Desktop\1\2026-02-12_03-50-11.386922\modified_requests-1.jmx
+2026-02-12 03:50:27,578 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2026-02-12 03:50:27,612 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2026-02-12 03:50:27,632 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2026-02-12 03:50:27,690 INFO o.a.j.p.h.c.CacheManager: Will only cache the following methods: [GET]
+2026-02-12 03:50:27,695 INFO o.a.j.p.h.c.CookieManager: Settings: Delete null: true Check: true Allow variable: true Save: false Prefix: COOKIE_
+2026-02-12 03:50:27,727 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 03:50:27,728 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 03:50:27,728 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 03:50:27,728 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2026-02-12 03:50:27,728 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2026-02-12 03:50:27,728 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2026-02-12 03:50:27,836 INFO o.j.r.PluginManager: Finishing without changes

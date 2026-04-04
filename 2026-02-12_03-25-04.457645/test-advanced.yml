@@ -1,0 +1,50 @@
+---
+# Zaawansowana konfiguracja Taurus z wieloma scenariuszami
+
+scenarios:
+  # Scenariusz 1: Test wydajności API
+  api_performance:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/users
+        label: Get Users
+        
+      - url: https://jsonplaceholder.typicode.com/posts
+        label: Get Posts
+        
+      - url: https://jsonplaceholder.typicode.com/comments
+        label: Get Comments
+
+  # Scenariusz 2: Test Load Testing
+  load_test:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/users/1
+        label: Fetch User
+        
+      - url: https://jsonplaceholder.typicode.com/users/2
+        label: Fetch User 2
+
+execution:
+  # Warmup phase
+  - concurrency: 5
+    hold-for: 30s
+    ramp-up: 10s
+    scenario: api_performance
+    label: Warmup
+
+  # Main load test
+  - concurrency: 10
+    hold-for: 2m
+    ramp-up: 30s
+    scenario: load_test
+    label: Main Load Test
+    throughput: 100
+
+# Ustawienia logowania
+modules:
+  console:
+    disable: false
+
+# Raportowanie
+reporting:
+  - module: console
+  - module: final-stats
