@@ -19,4 +19,6 @@ execution:
     scenario: api_test
 
 reporting:
+  - module: console
   - module: final-stats
+  - module: junit-xml
