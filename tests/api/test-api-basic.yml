@@ -2,10 +2,10 @@
 scenarios:
   basic_api_test:
     requests:
-      - url: http://localhost:8080/get
+      - url: http://localhost:8000/get
         label: Get Request
 
-      - url: http://localhost:8080/json
+      - url: http://localhost:8000/json
         label: Get JSON
 
 execution:

@@ -21,7 +21,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Uruchom przeglądarkę Chrome względem hosta lokalnego",
-            "url": "http://localhost:8080",
+            "url": "http://localhost:8000",
             "webRoot": "${workspaceFolder}"
         }
     ]

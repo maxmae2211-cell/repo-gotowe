@@ -1,0 +1,12 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - "8080:8080"
+
+  taurus:
+    image: blazemeter/taurus:1.16.0
+    volumes:
+      - ./bzt-configs:/bzt-configs
+      - /dev/null:/root/.bzt-rc
+    entrypoint: [ "bzt" ]

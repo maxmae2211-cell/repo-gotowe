@@ -12,5 +12,5 @@
 #  check-updates: true  # check for newer version of Taurus on startup
 #  check-interval: 1s  # interval for Taurus engine to check test status and do other actions
 #  proxy:  # custom proxy settings
-#    address: http://127.0.0.1:8080
+#    address: http://127.0.0.1:8000
 ```

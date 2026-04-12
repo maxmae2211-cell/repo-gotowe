@@ -7,11 +7,19 @@ import os
 import sys
 import time
 from pathlib import Path
+import threading
 
 def main():
     # Setup paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
+    
+    # Use virtualenv Python
+    venv_python = project_root / ".venv-1" / "Scripts" / "python.exe"
+    if venv_python.exists():
+        sys.executable = str(venv_python)
+    print(f"Using Python: {sys.executable}")
+    
     test_dir = project_root / "tests" / "api"
     
     print("=" * 50)
@@ -20,30 +28,35 @@ def main():
     print(f"Project: {project_root}")
     print()
     
+    # Kill any existing processes on port 8000
+    import subprocess
+    try:
+        result = subprocess.run(["netstat", "-ano"], capture_output=True, text=True)
+        for line in result.stdout.split('\n'):
+            if ':8000' in line and 'LISTENING' in line:
+                pid = line.split()[-1]
+                subprocess.run(["taskkill", "/PID", pid, "/F"], capture_output=True)
+    except:
+        pass
+    
     # Start mock server
     print("Starting mock API server...")
-    server_process = subprocess.Popen(
-        [sys.executable, str(script_dir / "mock-api-server.py")],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-    time.sleep(2)
+    server_process = subprocess.Popen([sys.executable, str(script_dir / "mock-api-server.py")])
+    time.sleep(15)
     
     # Verify server
     try:
         import urllib.request
-        urllib.request.urlopen("http://localhost:8080/get", timeout=2)
-        print("[OK] Mock API server running on http://localhost:8080\n")
+        urllib.request.urlopen("http://localhost:8000/get", timeout=10)
+        print("[OK] Mock API server running on http://localhost:8000\n")
     except Exception as e:
         print(f"[ERROR] Failed to start server: {e}")
-        server_process.terminate()
         return 1
     
     # Find tests
     test_files = sorted(test_dir.glob("*.yml"))
     if not test_files:
         print(f"No test files found in {test_dir}")
-        server_process.terminate()
         return 1
     
     print(f"Found {len(test_files)} tests\n")
@@ -58,7 +71,7 @@ def main():
         print("-" * 50)
         
         result = subprocess.run(
-            ["bzt", str(test_file)],
+            [sys.executable, "-m", "bzt", str(test_file)],
             capture_output=False
         )
         

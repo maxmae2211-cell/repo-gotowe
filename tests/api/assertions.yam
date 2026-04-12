@@ -1,0 +1,33 @@
+scenarios:
+    api_test:
+        requests:
+            - url: http://localhost:8080/get
+                method: GET
+                label: Validate GET
+                assert:
+                    - subject: http-code
+                        condition: equals
+                        value: 200
+
+            - url: http://localhost:8080/post
+                method: POST
+                label: Validate POST
+                headers:
+                    Content-Type: application/json
+                body:
+                    title: "Test"
+                    body: "Hello"
+                    userId: 1
+                assert:
+                    - subject: http-code
+                        condition: equals
+                        value: 200
+
+execution:
+    - concurrency: 5
+        hold-for: 20s
+        scenario: api_test
+
+reporting:
+    - module: console
+    - module: final-stats

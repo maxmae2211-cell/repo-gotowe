@@ -2,10 +2,10 @@
 scenarios:
   stress_test:
     requests:
-      - url: http://localhost:8080/get
+      - url: http://localhost:8000/get
         label: Get All Posts
 
-      - url: http://localhost:8080/json
+      - url: http://localhost:8000/json
         label: Get All Comments
 
 execution:

@@ -1,0 +1,11 @@
+execution:
+  - ramp-up: 30s
+    concurrency: 50
+    hold-for: 20s
+    scenario: ramp
+
+scenarios:
+  ramp:
+    requests:
+      - url: https://httpbin.org/get
+        method: GET

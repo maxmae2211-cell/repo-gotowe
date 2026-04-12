@@ -2,10 +2,10 @@
 scenarios:
   api_test:
     requests:
-      - url: http://localhost:8080/get
+      - url: http://api:8080/get
         label: Get Request
 
-      - url: http://localhost:8080/post
+      - url: http://api:8080/post
         method: POST
         label: Create Post
         body:

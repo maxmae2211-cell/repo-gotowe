@@ -1,4 +1,4 @@
-﻿param(
+param(
     [switch]$Verbose = $false,
     [int]$Timeout = 60
 )
@@ -66,9 +66,9 @@ function Invoke-FullSuite {
     # Verify server
     Write-Info "Verifying mock API server..."
     try {
-        $response = Invoke-WebRequest -Uri "http://localhost:8080/get" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
+        $response = Invoke-WebRequest -Uri "http://localhost:8000/get" -TimeoutSec 2 -UseBasicParsing -ErrorAction SilentlyContinue
         if ($response.StatusCode -eq 200) {
-            Write-Success "Mock API server running on http://localhost:8080"
+            Write-Success "Mock API server running on http://localhost:8000"
         }
     }
     catch {

@@ -1,0 +1,10 @@
+execution:
+  - concurrency: 1
+    hold-for: 5s
+    scenario: smoke
+
+scenarios:
+  smoke:
+    requests:
+      - url: https://httpbin.org/status/200
+        method: GET
