@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<testsuites>
-  <testsuite name="sample_labels" package_name="bzt">
-    <testcase classname="bzt-8784396294929" name="Create Post"/>
-    <testcase classname="bzt-8784396294929" name="Get Post 1"/>
-  </testsuite>
-</testsuites>
