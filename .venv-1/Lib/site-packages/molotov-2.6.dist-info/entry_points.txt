@@ -1,0 +1,4 @@
+[console_scripts]
+moloslave = molotov.slave:main
+molostart = molotov.quickstart:main
+molotov = molotov.run:main
