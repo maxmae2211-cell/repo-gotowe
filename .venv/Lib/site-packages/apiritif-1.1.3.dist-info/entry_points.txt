@@ -1,0 +1,3 @@
+[pytest11]
+pytest_apiritif = apiritif.pytest_plugin
+

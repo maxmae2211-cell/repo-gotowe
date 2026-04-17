@@ -1,0 +1,5 @@
+aiohttp
+aiodogstatsd
+multiprocess
+humanize
+prompt_toolkit

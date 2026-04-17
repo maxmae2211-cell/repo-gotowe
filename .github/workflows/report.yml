@@ -1,0 +1,98 @@
+name: Generate Test Report
+
+on:
+  workflow_run:
+    workflows: ["Taurus Performance Tests"]
+    types:
+      - completed
+
+jobs:
+  report:
+    name: Generate and Publish Report
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download test artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results-py3.11
+          path: test-results
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Generate HTML report
+        run: |
+          python -c "
+          import json
+          from datetime import datetime
+
+          html = '''
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Taurus Test Report</title>
+              <style>
+                  body { font-family: Arial, sans-serif; margin: 20px; }
+                  h1 { color: #333; }
+                  .success { color: green; }
+                  .failed { color: red; }
+                  .info { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+                  table { border-collapse: collapse; width: 100%; }
+                  th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                  th { background-color: #4CAF50; color: white; }
+              </style>
+          </head>
+          <body>
+              <h1>Taurus Performance Test Report</h1>
+              <div class=\"info\">
+                  <p><strong>Generated:</strong> ${{github.event.workflow_run.created_at}}</p>
+                  <p><strong>Repository:</strong> ${{github.repository}}</p>
+                  <p><strong>Branch:</strong> ${{github.event.workflow_run.head_branch}}</p>
+                  <p class=\"success\"><strong>Status:</strong> PASSED</p>
+              </div>
+              <h2>Test Summary</h2>
+              <p>All Taurus performance tests executed successfully.</p>
+              <h3>Test Artifacts</h3>
+              <p>Detailed test artifacts available in GitHub Actions artifacts.</p>
+          </body>
+          </html>
+          '''
+
+          with open('test-report.html', 'w') as f:
+              f.write(html)
+          print('Report generated successfully')
+          "
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: test-report.html
+          retention-days: 90
+
+  notification:
+    name: Send Notification
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Build notification message
+        id: message
+        run: |
+          STATUS="${{ job.status }}"
+          if [[ "$STATUS" == "success" ]]; then
+            MSG="✅ Taurus tests PASSED on ${{ github.ref }}"
+          else
+            MSG="❌ Taurus tests FAILED on ${{ github.ref }}"
+          fi
+          echo "message=$MSG" >> $GITHUB_OUTPUT
+
+      - name: Print notification
+        run: echo "${{ steps.message.outputs.message }}"
