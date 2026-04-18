@@ -1,8 +1,38 @@
 *.zip
 *.msi
+
+# Logs and Taurus outputs
+*.log
 *.jtl
+*.csv
+*.ldjson
+effective.json
+effective.yml
+merged.json
+merged.yml
+jmeter-bzt.properties
+jmeter.err
+modified_requests.jmx
+requests.jmx
+system.properties
+
+# Timestamped Taurus artifact folders (e.g. 2026-04-17_22-58-29.794595)
+[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*
+
+# Python virtual environments
+.venv/
+.venv-wsl/
+venv/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Node artifacts
+node_modules/
+
+# Java/JDK folders
 jdk-21.0.2+13/
 openjdk-21/
-*.log
-New-Item .gitignore
-git add .gitignore

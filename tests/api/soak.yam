@@ -1,0 +1,15 @@
+scenarios:
+    api_test:
+        requests:
+            - url: http://localhost:8080/get
+                method: GET
+                label: Soak Test
+
+execution:
+    - concurrency: 10
+        hold-for: 10m
+        scenario: api_test
+
+reporting:
+    - module: console
+    - module: final-stats

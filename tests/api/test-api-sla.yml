@@ -1,0 +1,18 @@
+---
+scenarios:
+  api_sla_test:
+    requests:
+      - url: http://localhost:8000/get
+        label: Get All Posts
+
+      - url: http://localhost:8000/json
+        label: Get Post 1
+
+execution:
+  - concurrency: 5
+    hold-for: 2m
+    scenario: api_sla_test
+
+reporting:
+  - module: jmeter
+  - module: final-stats

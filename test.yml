@@ -1,0 +1,15 @@
+﻿settings:
+  console:
+    disable: true
+
+execution:
+  - executor: apiritif
+    concurrency: 1
+    hold-for: 5s
+    scenario: smoke
+
+scenarios:
+  smoke:
+    requests:
+      - url: https://example.com
+        method: GET

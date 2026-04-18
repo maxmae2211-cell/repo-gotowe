@@ -1,0 +1,17 @@
+---
+scenarios:
+  selenium_test:
+    script: test-selenium.py
+
+execution:
+  - concurrency: 1
+    hold-for: 5m
+    scenario: selenium_test
+    iterations: 1
+
+modules:
+  selenium:
+    chromedriver: chromedriver
+    
+reporting:
+  - module: console

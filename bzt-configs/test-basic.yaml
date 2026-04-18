@@ -1,0 +1,10 @@
+execution:
+  - concurrency: 1
+    hold-for: 10s
+    scenario: simple
+
+scenarios:
+  simple:
+    requests:
+      - url: https://httpbin.org/get
+        method: GET

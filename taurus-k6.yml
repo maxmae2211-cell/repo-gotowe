@@ -1,0 +1,17 @@
+scenarios:
+  simple:
+    script: test.js
+
+execution:
+  - scenario: simple
+    executor: k6
+    iterations: 1
+    vus: 1
+
+modules:
+  k6:
+    path: "C:\\Program Files\\k6\\k6.exe"
+    output-format: text
+
+reporting:
+  - module: console

@@ -1,0 +1,8 @@
+#! 0-1-namespace.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: 1
+    labels:
+        com.docker.compose.project: 1

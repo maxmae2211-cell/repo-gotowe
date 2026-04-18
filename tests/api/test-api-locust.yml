@@ -1,0 +1,21 @@
+---
+scenarios:
+  locust_test:
+    requests:
+      - url: https://httpbin.org/get
+        label: Get All Posts
+
+      - url: https://httpbin.org/json
+        label: Get Post 1
+
+      - url: https://httpbin.org/uuid
+        label: Get All Users
+
+execution:
+  - concurrency: 50
+    hold-for: 4m
+    ramp-up: 2m
+    scenario: locust_test
+
+reporting:
+  - module: final-stats

@@ -1,0 +1,31 @@
+scenarios:
+  api_test:
+    requests:
+      - url: http://localhost:8000/get
+        method: GET
+        label: Get Post 1
+
+execution:
+  - concurrency: 1
+    ramp-up: 10s
+    hold-for: 10s
+    scenario: api_test
+
+  - concurrency: 10
+    ramp-up: 10s
+    hold-for: 20s
+    scenario: api_test
+
+  - concurrency: 50
+    ramp-up: 10s
+    hold-for: 30s
+    scenario: api_test
+
+  - concurrency: 100
+    ramp-up: 10s
+    hold-for: 30s
+    scenario: api_test
+
+reporting:
+  - module: console
+  - module: final-stats

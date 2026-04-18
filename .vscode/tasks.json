@@ -1,0 +1,116 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Auto-Execute Tests on Startup",
+            "type": "shell",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": [
+                "scripts/run-tests.py"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": [
+                "scripts/run-tests.py"
+            ],
+            "group": "build",
+            "label": "Run All Taurus Tests",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "type": "shell",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": [
+                "scripts/mock-api-server.py"
+            ],
+            "group": "build",
+            "label": "Start Mock API Server",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File scripts/run-all-tests.ps1",
+            "group": "build",
+            "label": "PowerShell: Run All Tests",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File scripts/auto-execute.ps1 -Silent",
+            "group": "build",
+            "label": "Auto-Execute (Silent)",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+        {
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File run-auto.ps1 -UseWslBootstrap",
+            "group": "build",
+            "label": "One Click: Full Taurus Automation",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "type": "shell",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": [
+                "-m",
+                "bzt",
+                "tests/api/test-api-basic.yml"
+            ],
+            "group": "test",
+            "label": "Run Basic API Test"
+        },
+        {
+            "type": "shell",
+            "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+            "args": [
+                "-m",
+                "bzt",
+                "tests/api/test-api-load.yml"
+            ],
+            "group": "test",
+            "label": "Run Load Test"
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                "/property:GenerateFullPaths=true",
+                "/t:build",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
