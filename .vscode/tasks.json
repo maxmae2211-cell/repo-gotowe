@@ -64,6 +64,42 @@
             ],
             "group": "test",
             "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Standard Advanced Config",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-advanced.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Full Pipeline Advanced Config",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "pipeline",
+                "-Config",
+                "test-advanced.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
         }
     ]
 }
