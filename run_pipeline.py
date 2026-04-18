@@ -40,6 +40,18 @@ def parse_args() -> argparse.Namespace:
         default="taurus-locust-report.html",
         help="Nazwa pliku wyjściowego raportu HTML.",
     )
+    parser.add_argument(
+        "--max-failures",
+        type=int,
+        default=0,
+        help="Maksymalna dozwolona liczba błędów dla bramki jakości.",
+    )
+    parser.add_argument(
+        "--max-avg-ms",
+        type=float,
+        default=None,
+        help="Maksymalny dozwolony średni czas odpowiedzi w ms dla bramki jakości.",
+    )
     return parser.parse_args()
 
 
@@ -58,6 +70,10 @@ def main() -> int:
         analyze_kpi_cmd += ["--artifacts-pattern", args.artifacts_pattern]
         analyze_results_cmd += ["--artifacts-pattern", args.artifacts_pattern]
         generate_report_cmd += ["--artifacts-pattern", args.artifacts_pattern]
+
+    analyze_kpi_cmd += ["--max-failures", str(args.max_failures)]
+    if args.max_avg_ms is not None:
+        analyze_kpi_cmd += ["--max-avg-ms", str(args.max_avg_ms)]
 
     for step_name, command in [
         ("Analiza KPI", analyze_kpi_cmd),

@@ -27,6 +27,18 @@ def parse_args() -> argparse.Namespace:
         default="2026-*",
         help="Wzorzec katalogów artefaktów Taurus do auto-wykrywania (domyślnie: 2026-*).",
     )
+    parser.add_argument(
+        "--max-failures",
+        type=int,
+        default=0,
+        help="Maksymalna dozwolona liczba błędów (domyślnie: 0).",
+    )
+    parser.add_argument(
+        "--max-avg-ms",
+        type=float,
+        default=None,
+        help="Maksymalny dozwolony średni czas odpowiedzi w ms.",
+    )
     return parser.parse_args()
 
 
@@ -59,6 +71,24 @@ def main() -> int:
     print(f"  P95:                {metrics['p95']} ms")
     print(f"  P99:                {metrics['p99']} ms")
     print("=" * 70)
+
+    gate_failed = False
+    if metrics["failures"] > args.max_failures:
+        print(
+            f"❌ Bramka jakości: liczba błędów {metrics['failures']} > {args.max_failures}"
+        )
+        gate_failed = True
+
+    if args.max_avg_ms is not None and metrics["avg_time"] > args.max_avg_ms:
+        print(
+            f"❌ Bramka jakości: średni czas {metrics['avg_time']:.2f} ms > {args.max_avg_ms:.2f} ms"
+        )
+        gate_failed = True
+
+    if gate_failed:
+        return 2
+
+    print("✅ Bramka jakości: OK")
     return 0
 
 
