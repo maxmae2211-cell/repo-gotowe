@@ -20,16 +20,19 @@ $env:Path += ";C:\Users\maxma\AppData\Roaming\Python\Python311\Scripts"
 ## Uruchomienie testów
 
 ### Test 1: Prosty test API
+
 ```powershell
 bzt test-api.yml
 ```
 
 ### Test 2: Test wśród wiele scenariuszy
+
 ```powershell
 bzt test-advanced.yml
 ```
 
 ### Test 3: Test Selenium (wymaga ChromeDriver)
+
 ```powershell
 # Najpierw zainstaluj Selenium
 pip install selenium --user
