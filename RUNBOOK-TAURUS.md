@@ -1,4 +1,4 @@
-﻿# Taurus Runbook (verified on 2026-04-18)
+# Taurus Runbook (verified on 2026-04-18)
 
 This file captures the currently verified way to run this workspace on Windows.
 
@@ -55,3 +55,15 @@ Note: use `execution.0.executor=jmeter` (indexed path), not `execution.executor=
 - Taurus update-check 5xx warnings are non-blocking.
 - If dependency issues appear, verify `pip check` first.
 - If Taurus starts failing around YAML loading, re-check Taurus/PyYAML compatibility.
+
+## One-command runner
+
+For convenience, use `scripts/run-taurus.ps1` with one of the modes below.
+
+```powershell
+Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
+
+./scripts/run-taurus.ps1 -Mode health
+./scripts/run-taurus.ps1 -Mode standard
+./scripts/run-taurus.ps1 -Mode jmeter-java8
+```
