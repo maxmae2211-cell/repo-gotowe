@@ -1,10 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
-Generuje podsumowanie wszystkich uruchomionych testów:
-- Taurus API (test-api.yml)
-- Taurus Advanced (test-advanced.yml)  
-- Locust (headless w conda env)
-Zbiera KPI z każdego i tworzy raport HTML.
+Generuje podsumowanie wszystkich uruchomionych testów Taurus.
+Zbiera KPI z katalogów artefaktów i tworzy raport HTML.
 """
 import argparse
 import os
@@ -14,14 +11,68 @@ from pathlib import Path
 
 from jtl_metrics import extract_jtl_kpi
 
-def generate_html_report(taurus_dirs):
-    """Generate HTML report with all test results"""
-    html = """<!DOCTYPE html>
+
+def _kpi_table(title: str, kpi: dict) -> str:
+    """Zwraca fragment HTML z tabelą KPI dla jednego zestawu wyników."""
+    return f"""
+    <h3>{title}</h3>
+    <table>
+        <tr>
+            <th>Metryka</th>
+            <th>Wartość</th>
+        </tr>
+        <tr>
+            <td>Liczba żądań</td>
+            <td class="metric">{kpi['count']}</td>
+        </tr>
+        <tr>
+            <td>Sukcesy</td>
+            <td class="success">{kpi['successes']}</td>
+        </tr>
+        <tr>
+            <td>Błędy</td>
+            <td class="failure">{kpi['failures']}</td>
+        </tr>
+        <tr>
+            <td>Średni czas (ms)</td>
+            <td class="metric">{kpi['avg_time']:.2f}</td>
+        </tr>
+        <tr>
+            <td>Min (ms)</td>
+            <td>{kpi['min_time']}</td>
+        </tr>
+        <tr>
+            <td>Max (ms)</td>
+            <td>{kpi['max_time']}</td>
+        </tr>
+        <tr>
+            <td>P50 (ms)</td>
+            <td>{kpi.get('p50', 'N/A')}</td>
+        </tr>
+        <tr>
+            <td>P90 (ms)</td>
+            <td>{kpi.get('p90', 'N/A')}</td>
+        </tr>
+        <tr>
+            <td>P95 (ms)</td>
+            <td>{kpi.get('p95', 'N/A')}</td>
+        </tr>
+        <tr>
+            <td>P99 (ms)</td>
+            <td>{kpi.get('p99', 'N/A')}</td>
+        </tr>
+    </table>
+"""
+
+
+def generate_html_report(taurus_dirs: list) -> str:
+    """Generate HTML report with all test results."""
+    html_template = """<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raport Testów - Taurus & Locust</title>
+    <title>Raport Testów - Taurus</title>
     <style>
         body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }}
         h1, h2 {{ color: #333; }}
@@ -33,26 +84,26 @@ def generate_html_report(taurus_dirs):
         .success {{ color: green; font-weight: bold; }}
         .failure {{ color: red; font-weight: bold; }}
         .metric {{ color: #056eff; font-weight: bold; }}
+        .no-data {{ color: #888; font-style: italic; }}
     </style>
 </head>
 <body>
-    <h1>📊 Raport Testów - Taurus & Locust</h1>
+    <h1>📊 Raport Testów - Taurus</h1>
     <p>Wygenerowany: <strong>{timestamp}</strong></p>
-    
+
     <div class="summary">
         <h2>📈 Podsumowanie</h2>
-        <p>Sesja testowa zawiera wyniki z trzech narzędzi do testowania wydajności:</p>
+        <p>Sesja testowa zawiera wyniki z Taurus (JMeter):</p>
         <ul>
             <li><strong>Taurus (JMeter):</strong> test-api.yml i test-advanced.yml</li>
-            <li><strong>Locust:</strong> test load na https://jsonplaceholder.typicode.com</li>
-            <li><strong>Selenium:</strong> próba uruchomienia (brak dostępu do sieci)</li>
         </ul>
+        <p>Liczba katalogów artefaktów: <strong>{artifact_count}</strong></p>
     </div>
-    
+
     <h2>🧪 Wyniki Testów</h2>
-    
+
     {test_tables}
-    
+
     <h2>📁 Artefakty</h2>
     <table>
         <tr>
@@ -62,7 +113,7 @@ def generate_html_report(taurus_dirs):
         </tr>
         {artifact_rows}
     </table>
-    
+
     <h2>📋 Eksporty Metryki</h2>
     <p>Pliki CSV dostępne w katalogu <code>exports/</code>:</p>
     <ul>
@@ -74,192 +125,38 @@ def generate_html_report(taurus_dirs):
     </ul>
 </body>
 </html>"""
-    
-    # Collect test results
+
     test_tables = ""
-    
-    # Test API
-    kpi_path = Path(taurus_dirs[0]) / "kpi.jtl" if taurus_dirs else None
-    if kpi_path and kpi_path.exists():
-        kpi = extract_jtl_kpi(kpi_path)
-        if kpi:
-            test_tables += f"""
-    <h3>Test API (test-api.yml)</h3>
-    <table>
-        <tr>
-            <th>Metryka</th>
-            <th>Wartość</th>
-        </tr>
-        <tr>
-            <td>Liczba żądań</td>
-            <td class="metric">{kpi['count']}</td>
-        </tr>
-        <tr>
-            <td>Sukcesy</td>
-            <td class="success">{kpi['successes']}</td>
-        </tr>
-        <tr>
-            <td>Błędy</td>
-            <td class="failure">{kpi['failures']}</td>
-        </tr>
-        <tr>
-            <td>Średni czas (ms)</td>
-            <td class="metric">{kpi['avg_time']:.2f}</td>
-        </tr>
-        <tr>
-            <td>Min (ms)</td>
-            <td>{kpi['min_time']:.2f}</td>
-        </tr>
-        <tr>
-            <td>Max (ms)</td>
-            <td>{kpi['max_time']:.2f}</td>
-        </tr>
-        <tr>
-            <td>P50 (ms)</td>
-            <td>{kpi.get('p50', 'N/A')}</td>
-        </tr>
-        <tr>
-            <td>P90 (ms)</td>
-            <td>{kpi.get('p90', 'N/A')}</td>
-        </tr>
-        <tr>
-            <td>P95 (ms)</td>
-            <td>{kpi.get('p95', 'N/A')}</td>
-        </tr>
-        <tr>
-            <td>P99 (ms)</td>
-            <td>{kpi.get('p99', 'N/A')}</td>
-        </tr>
-    </table>
-"""
-    
-    # Test Advanced
-    if len(taurus_dirs) > 1:
-        kpi_path = Path(taurus_dirs[-1]) / "kpi.jtl"
+
+    for i, tdir in enumerate(taurus_dirs):
+        kpi_path = Path(tdir) / "kpi.jtl"
         if kpi_path.exists():
             kpi = extract_jtl_kpi(kpi_path)
-            if kpi:
-                test_tables += f"""
-    <h3>Test Advanced (test-advanced.yml)</h3>
-    <table>
-        <tr>
-            <th>Metryka</th>
-            <th>Wartość</th>
-        </tr>
-        <tr>
-            <td>Liczba żądań</td>
-            <td class="metric">{kpi['count']}</td>
-        </tr>
-        <tr>
-            <td>Sukcesy</td>
-            <td class="success">{kpi['successes']}</td>
-        </tr>
-        <tr>
-            <td>Błędy</td>
-            <td class="failure">{kpi['failures']}</td>
-        </tr>
-        <tr>
-            <td>Średni czas (ms)</td>
-            <td class="metric">{kpi['avg_time']:.2f}</td>
-        </tr>
-        <tr>
-            <td>Min (ms)</td>
-            <td>{kpi['min_time']:.2f}</td>
-        </tr>
-        <tr>
-            <td>Max (ms)</td>
-            <td>{kpi['max_time']:.2f}</td>
-        </tr>
-        <tr>
-            <td>P50 (ms)</td>
-            <td>{kpi.get('p50', 'N/A')}</td>
-        </tr>
-        <tr>
-            <td>P90 (ms)</td>
-            <td>{kpi.get('p90', 'N/A')}</td>
-        </tr>
-        <tr>
-            <td>P95 (ms)</td>
-            <td>{kpi.get('p95', 'N/A')}</td>
-        </tr>
-        <tr>
-            <td>P99 (ms)</td>
-            <td>{kpi.get('p99', 'N/A')}</td>
-        </tr>
-    </table>
-"""
-    
-    # Locust results
-    test_tables += """
-    <h3>Test Locust (Headless)</h3>
-    <table>
-        <tr>
-            <th>Metryka</th>
-            <th>Wartość</th>
-        </tr>
-        <tr>
-            <td>Liczba żądań</td>
-            <td class="metric">100</td>
-        </tr>
-        <tr>
-            <td>Sukcesy</td>
-            <td class="success">100 (100%)</td>
-        </tr>
-        <tr>
-            <td>Błędy</td>
-            <td class="failure">0</td>
-        </tr>
-        <tr>
-            <td>Średni czas (ms)</td>
-            <td class="metric">56</td>
-        </tr>
-        <tr>
-            <td>Min (ms)</td>
-            <td>25</td>
-        </tr>
-        <tr>
-            <td>Max (ms)</td>
-            <td>249</td>
-        </tr>
-        <tr>
-            <td>P50 (ms)</td>
-            <td>53</td>
-        </tr>
-        <tr>
-            <td>P90 (ms)</td>
-            <td>70</td>
-        </tr>
-        <tr>
-            <td>P95 (ms)</td>
-            <td>100</td>
-        </tr>
-        <tr>
-            <td>P99 (ms)</td>
-            <td>250</td>
-        </tr>
-    </table>
-"""
-    
-    # Artifacts
+            if kpi and kpi["count"]:
+                label = f"Test #{i + 1} — {os.path.basename(tdir)}"
+                test_tables += _kpi_table(label, kpi)
+
+    if not test_tables:
+        test_tables = '<p class="no-data">Brak danych testowych — nie znaleziono plików kpi.jtl w katalogach artefaktów.</p>'
+
     artifact_rows = ""
-    for i, tdir in enumerate(taurus_dirs, 1):
+    for tdir in taurus_dirs:
         if os.path.isdir(tdir):
             files = os.listdir(tdir)
             artifact_rows += f"""
         <tr>
             <td>{os.path.basename(tdir)}</td>
             <td>Taurus Artifact (JMeter)</td>
-            <td>{", ".join(files[:5])}...</td>
+            <td>{", ".join(files[:5])}{"..." if len(files) > 5 else ""}</td>
         </tr>
 """
-    
-    html = html.format(
+
+    return html_template.format(
         timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        artifact_count=len(taurus_dirs),
         test_tables=test_tables,
-        artifact_rows=artifact_rows
+        artifact_rows=artifact_rows,
     )
-    
-    return html
 
 
 def parse_args() -> argparse.Namespace:
@@ -281,20 +178,19 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main() -> int:
     args = parse_args()
-    taurus_dirs = sorted([d for d in glob.glob(args.artifacts_pattern)])
+    taurus_dirs = sorted(glob.glob(args.artifacts_pattern))
     report = generate_html_report(taurus_dirs)
 
-    with open(args.output, 'w', encoding='utf-8') as f:
+    with open(args.output, "w", encoding="utf-8") as f:
         f.write(report)
 
     print(f"✅ Raport HTML wygenerowany: {args.output}")
-    print(f"✅ Artefakty zawierają:")
     print(f"   - Katalogi testów Taurus: {len(taurus_dirs)} zarejestrowanych")
-    print(f"   - Eksporty CSV w katalogu 'exports/'")
-    print("   - Kompresja artefaktów: taurus-report-<data>.zip (jeśli wygenerowano)")
-    print(f"\n📊 Podsumowanie sesji testowej:")
-    print(f"   - Taurus (JMeter): 2 scenariusze (API + Advanced) = ~3.3k żądań")
-    print(f"   - Locust: 100 żądań, czas testu 1m, 0 błędów")
-    print(f"   - Selenium: Próba (brak dostępu do sieci dla webdriver-manager)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

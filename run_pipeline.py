@@ -64,7 +64,7 @@ def main() -> int:
     args = parse_args()
     python = sys.executable
 
-    analyze_kpi_cmd = [python, "analyze-kpi.py"]
+    analyze_kpi_cmd = [python, "analyze_kpi.py"]
     analyze_results_cmd = [python, "analyze_results.py"]
     generate_report_cmd = [python, "generate_report.py", "--output", args.output]
 

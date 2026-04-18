@@ -3,17 +3,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
-from jtl_metrics import extract_jtl_kpi
-
-
-def find_latest_kpi(pattern: str) -> Path | None:
-    candidates = sorted(Path(".").glob(pattern), reverse=True)
-    for directory in candidates:
-        if directory.is_dir():
-            jtl_file = directory / "kpi.jtl"
-            if jtl_file.exists():
-                return jtl_file
-    return None
+from jtl_metrics import extract_jtl_kpi, find_latest_kpi
 
 
 def parse_args() -> argparse.Namespace:

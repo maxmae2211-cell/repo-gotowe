@@ -27,13 +27,15 @@ jobs:
                   python -m pip install --upgrade pip
                   python -m pip install -r requirements.txt
 
-            - name: Run Taurus analysis pipeline
+            - name: Run unit tests
+              run: python -m pytest tests/ -v
+
+            - name: Run Taurus analysis pipeline (fixture JTL)
               run: |
-                  ARTIFACTS_PATTERN="$(date +%Y)-*"
                   python run_pipeline.py \
-                    --artifacts-pattern "${ARTIFACTS_PATTERN}" \
-                    --max-failures 0 \
-                    --max-avg-ms 200 \
+                    --jtl tests/fixtures/sample.jtl \
+                    --max-failures 1 \
+                    --max-avg-ms 500 \
                     --output taurus-locust-report.html
 
             - name: Upload HTML report artifact

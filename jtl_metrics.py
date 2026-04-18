@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -86,3 +87,15 @@ def extract_jtl_kpi(jtl_path: Path) -> Optional[Dict[str, object]]:
         "times": times,
         "rows": rows,
     }
+
+
+def find_latest_kpi(pattern: str) -> Optional[Path]:
+    """Zwraca ścieżkę do najnowszego pliku kpi.jtl pasującego do wzorca katalogów."""
+    default_pattern = f"{datetime.now().year}-*"
+    candidates = sorted(Path(".").glob(pattern or default_pattern), reverse=True)
+    for directory in candidates:
+        if directory.is_dir():
+            jtl_file = directory / "kpi.jtl"
+            if jtl_file.exists():
+                return jtl_file
+    return None

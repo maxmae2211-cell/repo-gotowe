@@ -91,6 +91,37 @@ Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/run-taurus.ps1 -Mode pipeline -Config test-advanced.yml
 ```
 
+## Analysis pipeline
+
+After a Taurus run, use `run_pipeline.py` to analyze artifacts and produce a report:
+
+```powershell
+# Auto-detect latest artifact directory
+python run_pipeline.py
+
+# Point at a specific JTL file
+python run_pipeline.py --jtl 2026-04-18_12-00-00.000000/kpi.jtl
+
+# With quality gates
+python run_pipeline.py --max-failures 0 --max-avg-ms 200
+```
+
+The pipeline runs three steps in sequence:
+1. `analyze_kpi.py` — prints KPI summary and enforces quality gates (exit 2 on gate failure)
+2. `analyze_results.py` — per-endpoint breakdown with thread statistics
+3. `generate_report.py` — writes `taurus-locust-report.html`
+
+## CI/CD pipeline (GitHub Actions)
+
+The workflow `.github/workflows/taurus-ci.yml` runs on every push/PR to `main`:
+
+1. **Install dependencies** — `pip install -r requirements.txt` (includes `pytest`)
+2. **Unit tests** — `pytest tests/ -v` exercises `jtl_metrics.py` with a committed fixture JTL (`tests/fixtures/sample.jtl`)
+3. **Analysis pipeline** — `run_pipeline.py --jtl tests/fixtures/sample.jtl` validates the full analysis chain without requiring a live Taurus run
+4. **Upload artifact** — the HTML report is uploaded as a GitHub Actions artifact
+
+> **Note:** The fixture JTL (`tests/fixtures/sample.jtl`) is a small synthetic dataset used exclusively for CI validation. It does not represent a real production load test. To analyze results from a real run, use `--jtl <path>` or rely on auto-detection (`--artifacts-pattern`).
+
 ## Java kernel timeout fix (Runme/JShell)
 
 If Java kernel initialization fails with JShell/JDI timeout, run the helper script below and then reload the VS Code window.
@@ -110,3 +141,4 @@ If the integrated terminal opens an alternate buffer and does not show full Taur
 3. Validate run progress from the latest Taurus artifacts directory (`2026-*`) using `bzt.log`, `jmeter.log`, `kpi.jtl`, and `error.jtl`.
 4. Treat `Failed to check for updates, server returned 5xx` as non-blocking.
 5. Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
+
