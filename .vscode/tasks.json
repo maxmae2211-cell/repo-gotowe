@@ -48,6 +48,22 @@
             ],
             "group": "test",
             "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Full Pipeline",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "pipeline"
+            ],
+            "group": "test",
+            "problemMatcher": []
         }
     ]
 }
