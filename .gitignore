@@ -41,3 +41,6 @@ node_modules/
 # Java/JDK folders
 jdk-21.0.2+13/
 openjdk-21/
+
+# Local tool distributions
+tools/
