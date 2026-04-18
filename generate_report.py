@@ -6,69 +6,15 @@ Generuje podsumowanie wszystkich uruchomionych testów:
 - Locust (headless w conda env)
 Zbiera KPI z każdego i tworzy raport HTML.
 """
-import json
-import csv
+import argparse
 import os
 import glob
 from datetime import datetime
 from pathlib import Path
 
-# Define artifact directories
-taurus_dirs = sorted([d for d in glob.glob("2026-02-12_*")])
-exports_dir = Path("exports")
+from jtl_metrics import extract_jtl_kpi
 
-def extract_jtl_kpi(jtl_path):
-    """Parse JTL file and extract key metrics"""
-    if not os.path.exists(jtl_path):
-        return None
-    
-    metrics = {
-        "count": 0,
-        "failures": 0,
-        "successes": 0,
-        "avg_time": 0,
-        "min_time": float('inf'),
-        "max_time": 0,
-        "times": []
-    }
-    
-    try:
-        with open(jtl_path, 'r', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                if row.get('success', '').lower() == 'true':
-                    metrics["successes"] += 1
-                else:
-                    metrics["failures"] += 1
-                metrics["count"] += 1
-                
-                try:
-                    elapsed = int(row.get('elapsed', 0))
-                    metrics["times"].append(elapsed)
-                    metrics["min_time"] = min(metrics["min_time"], elapsed)
-                    metrics["max_time"] = max(metrics["max_time"], elapsed)
-                except ValueError:
-                    pass
-        
-        if metrics["times"]:
-            metrics["avg_time"] = sum(metrics["times"]) / len(metrics["times"])
-            metrics["times"].sort()
-            n = len(metrics["times"])
-            metrics["p50"] = metrics["times"][n // 2]
-            metrics["p90"] = metrics["times"][int(n * 0.9)]
-            metrics["p95"] = metrics["times"][int(n * 0.95)]
-            metrics["p99"] = metrics["times"][int(n * 0.99)] if n > 100 else metrics["times"][-1]
-        
-        if metrics["min_time"] == float('inf'):
-            metrics["min_time"] = 0
-            
-        return metrics
-    except Exception as e:
-        print(f"Error parsing {jtl_path}: {e}")
-        return None
-
-
-def generate_html_report():
+def generate_html_report(taurus_dirs):
     """Generate HTML report with all test results"""
     html = """<!DOCTYPE html>
 <html lang="pl">
@@ -133,8 +79,8 @@ def generate_html_report():
     test_tables = ""
     
     # Test API
-    kpi_path = os.path.join(taurus_dirs[0] if taurus_dirs else "", "kpi.jtl")
-    if os.path.exists(kpi_path):
+    kpi_path = Path(taurus_dirs[0]) / "kpi.jtl" if taurus_dirs else None
+    if kpi_path and kpi_path.exists():
         kpi = extract_jtl_kpi(kpi_path)
         if kpi:
             test_tables += f"""
@@ -189,8 +135,8 @@ def generate_html_report():
     
     # Test Advanced
     if len(taurus_dirs) > 1:
-        kpi_path = os.path.join(taurus_dirs[-1], "kpi.jtl")
-        if os.path.exists(kpi_path):
+        kpi_path = Path(taurus_dirs[-1]) / "kpi.jtl"
+        if kpi_path.exists():
             kpi = extract_jtl_kpi(kpi_path)
             if kpi:
                 test_tables += f"""
@@ -316,17 +262,32 @@ def generate_html_report():
     return html
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Generowanie zbiorczego raportu HTML")
+    parser.add_argument(
+        "--artifacts-pattern",
+        default="2026-*",
+        help="Wzorzec katalogów artefaktów Taurus (domyślnie: 2026-*).",
+    )
+    parser.add_argument(
+        "--output",
+        default="taurus-locust-report.html",
+        help="Ścieżka pliku wyjściowego HTML.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    report = generate_html_report()
-    
-    # Save HTML report
-    report_path = "taurus-locust-report.html"
-    with open(report_path, 'w', encoding='utf-8') as f:
+    args = parse_args()
+    taurus_dirs = sorted([d for d in glob.glob(args.artifacts_pattern)])
+    report = generate_html_report(taurus_dirs)
+
+    with open(args.output, 'w', encoding='utf-8') as f:
         f.write(report)
-    
-    print(f"✅ Raport HTML wygenerowany: {report_path}")
+
+    print(f"✅ Raport HTML wygenerowany: {args.output}")
     print(f"✅ Artefakty zawierają:")
-    print(f"   - Katalogi testów Taurus: {len([d for d in glob.glob('2026-02-12_*')])} zarejestrowanych")
+    print(f"   - Katalogi testów Taurus: {len(taurus_dirs)} zarejestrowanych")
     print(f"   - Eksporty CSV w katalogu 'exports/'")
     print(f"   - Kompresja artefaktów: taurus-report-2026-02-12.zip")
     print(f"\n📊 Podsumowanie sesji testowej:")
