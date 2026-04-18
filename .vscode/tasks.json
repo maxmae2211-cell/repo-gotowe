@@ -84,6 +84,42 @@
             "problemMatcher": []
         },
         {
+            "label": "Taurus: Health Advanced Config",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "health",
+                "-Config",
+                "test-advanced.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: JMeter + Java8 Advanced Config",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "jmeter-java8",
+                "-Config",
+                "test-advanced.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
             "label": "Taurus: Full Pipeline Advanced Config",
             "type": "shell",
             "command": "powershell",

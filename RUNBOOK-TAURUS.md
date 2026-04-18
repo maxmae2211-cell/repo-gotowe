@@ -77,11 +77,15 @@ Use `-Config` to run a different Taurus scenario without editing the script.
 ## VS Code tasks (advanced config)
 
 Use these tasks when you want to run `test-advanced.yml` from VS Code:
+- `Taurus: Health Advanced Config`
 - `Taurus: Standard Advanced Config`
+- `Taurus: JMeter + Java8 Advanced Config`
 - `Taurus: Full Pipeline Advanced Config`
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
+./scripts/run-taurus.ps1 -Mode health -Config test-advanced.yml
 ./scripts/run-taurus.ps1 -Mode standard -Config test-advanced.yml
+./scripts/run-taurus.ps1 -Mode jmeter-java8 -Config test-advanced.yml
 ./scripts/run-taurus.ps1 -Mode pipeline -Config test-advanced.yml
 ```
