@@ -69,3 +69,12 @@ Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/run-taurus.ps1 -Mode pipeline
 ```
 
+
+## Custom config file
+
+Use -Config to run a different Taurus scenario without editing the script.
+
+```powershell
+Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
+./scripts/run-taurus.ps1 -Mode standard -Config test-advanced.yml
+```
