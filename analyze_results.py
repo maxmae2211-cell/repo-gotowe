@@ -4,6 +4,7 @@ Analiza wyników Taurus Obciążeniowych
 """
 import argparse
 from collections import defaultdict
+from datetime import datetime
 import statistics
 from pathlib import Path
 
@@ -21,6 +22,7 @@ def find_latest_kpi(pattern: str) -> Path | None:
 
 
 def parse_args() -> argparse.Namespace:
+    default_pattern = f"{datetime.now().year}-*"
     parser = argparse.ArgumentParser(description="Szczegółowa analiza wyników z pliku kpi.jtl")
     parser.add_argument(
         "--jtl",
@@ -29,8 +31,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--artifacts-pattern",
-        default="2026-*",
-        help="Wzorzec katalogów artefaktów Taurus do auto-wykrywania (domyślnie: 2026-*).",
+        default=default_pattern,
+        help=(
+            "Wzorzec katalogów artefaktów Taurus do auto-wykrywania "
+            f"(domyślnie: {default_pattern})."
+        ),
     )
     return parser.parse_args()
 

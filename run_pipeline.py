@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import List
 
@@ -22,6 +23,7 @@ def run_step(step_name: str, command: List[str]) -> int:
 
 
 def parse_args() -> argparse.Namespace:
+    default_pattern = f"{datetime.now().year}-*"
     parser = argparse.ArgumentParser(
         description="Pełny pipeline: analyze-kpi -> analyze_results -> generate_report"
     )
@@ -32,8 +34,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--artifacts-pattern",
-        default="2026-*",
-        help="Wzorzec katalogów artefaktów do auto-wykrywania (domyślnie: 2026-*).",
+        default=default_pattern,
+        help=(
+            "Wzorzec katalogów artefaktów do auto-wykrywania "
+            f"(domyślnie: {default_pattern})."
+        ),
     )
     parser.add_argument(
         "--output",

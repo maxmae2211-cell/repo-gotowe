@@ -263,11 +263,15 @@ def generate_html_report(taurus_dirs):
 
 
 def parse_args() -> argparse.Namespace:
+    default_pattern = f"{datetime.now().year}-*"
     parser = argparse.ArgumentParser(description="Generowanie zbiorczego raportu HTML")
     parser.add_argument(
         "--artifacts-pattern",
-        default="2026-*",
-        help="Wzorzec katalogów artefaktów Taurus (domyślnie: 2026-*).",
+        default=default_pattern,
+        help=(
+            "Wzorzec katalogów artefaktów Taurus "
+            f"(domyślnie: {default_pattern})."
+        ),
     )
     parser.add_argument(
         "--output",
@@ -289,7 +293,7 @@ if __name__ == "__main__":
     print(f"✅ Artefakty zawierają:")
     print(f"   - Katalogi testów Taurus: {len(taurus_dirs)} zarejestrowanych")
     print(f"   - Eksporty CSV w katalogu 'exports/'")
-    print(f"   - Kompresja artefaktów: taurus-report-2026-02-12.zip")
+    print("   - Kompresja artefaktów: taurus-report-<data>.zip (jeśli wygenerowano)")
     print(f"\n📊 Podsumowanie sesji testowej:")
     print(f"   - Taurus (JMeter): 2 scenariusze (API + Advanced) = ~3.3k żądań")
     print(f"   - Locust: 100 żądań, czas testu 1m, 0 błędów")

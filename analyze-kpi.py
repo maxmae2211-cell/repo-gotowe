@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+from datetime import datetime
 from pathlib import Path
 
 from jtl_metrics import extract_jtl_kpi
@@ -16,6 +17,7 @@ def find_latest_kpi(pattern: str) -> Path | None:
 
 
 def parse_args() -> argparse.Namespace:
+    default_pattern = f"{datetime.now().year}-*"
     parser = argparse.ArgumentParser(description="Analiza KPI z pliku JTL")
     parser.add_argument(
         "--jtl",
@@ -24,8 +26,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--artifacts-pattern",
-        default="2026-*",
-        help="Wzorzec katalogów artefaktów Taurus do auto-wykrywania (domyślnie: 2026-*).",
+        default=default_pattern,
+        help=(
+            "Wzorzec katalogów artefaktów Taurus do auto-wykrywania "
+            f"(domyślnie: {default_pattern})."
+        ),
     )
     parser.add_argument(
         "--max-failures",
