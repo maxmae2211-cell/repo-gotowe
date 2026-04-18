@@ -30,6 +30,11 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 
+# Local crypto trader runtime files
+trader_config.json
+trader_state.json
+.env
+
 # Node artifacts
 node_modules/
 
