@@ -1,4 +1,4 @@
-﻿# Taurus Runbook (verified on 2026-04-18)
+# Taurus Runbook (verified on 2026-04-18)
 
 This file captures the currently verified way to run this workspace on Windows.
 
@@ -55,7 +55,7 @@ Note: use `execution.0.executor=jmeter` (indexed path), not `execution.executor=
 - Taurus update-check 5xx warnings are non-blocking.
 - If dependency issues appear, verify `pip check` first.
 - If Taurus starts failing around YAML loading, re-check Taurus/PyYAML compatibility.
-- For test-advanced.yml, sporadic TLS handshake/network errors from public endpoints may appear at low rate; treat as external instability and evaluate threshold, not as local environment breakage.
+- For `test-advanced.yml`, sporadic TLS handshake/network errors from public endpoints may appear at low rate; treat as external instability and evaluate threshold, not as local environment breakage.
 
 ## One-command runner
 
@@ -70,13 +70,18 @@ Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/run-taurus.ps1 -Mode pipeline
 ```
 
-
 ## Custom config file
 
-Use -Config to run a different Taurus scenario without editing the script.
+Use `-Config` to run a different Taurus scenario without editing the script.
+
+## VS Code tasks (advanced config)
+
+Use these tasks when you want to run `test-advanced.yml` from VS Code:
+- `Taurus: Standard Advanced Config`
+- `Taurus: Full Pipeline Advanced Config`
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/run-taurus.ps1 -Mode standard -Config test-advanced.yml
+./scripts/run-taurus.ps1 -Mode pipeline -Config test-advanced.yml
 ```
-
