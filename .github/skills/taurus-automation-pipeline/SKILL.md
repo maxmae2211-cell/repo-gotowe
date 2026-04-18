@@ -1,4 +1,4 @@
-﻿---
+---
 name: taurus-automation-pipeline
 description: "Automatyzuje kolejne etapy Taurus na Windows: health check, standard run, JMeter+Java8 run, aktualizacja dokumentacji, walidacja, commit i push. Use when: dalej, next step, wykonuj nastepny etap automatycznie, zapisuj sam pliki, taurus pipeline, bzt workflow, runbook sync."
 argument-hint: "Podaj cel etapu, np. validate and publish, oraz opcjonalnie config: test-api.yml"
