@@ -55,6 +55,7 @@ Note: use `execution.0.executor=jmeter` (indexed path), not `execution.executor=
 - Taurus update-check 5xx warnings are non-blocking.
 - If dependency issues appear, verify `pip check` first.
 - If Taurus starts failing around YAML loading, re-check Taurus/PyYAML compatibility.
+- For test-advanced.yml, sporadic TLS handshake/network errors from public endpoints may appear at low rate; treat as external instability and evaluate threshold, not as local environment breakage.
 
 ## One-command runner
 
@@ -78,3 +79,4 @@ Use -Config to run a different Taurus scenario without editing the script.
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/run-taurus.ps1 -Mode standard -Config test-advanced.yml
 ```
+
