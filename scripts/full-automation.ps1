@@ -1,7 +1,7 @@
 param(
-    [switch]$UseWslBootstrap = $false,
-    [switch]$SkipTests = $false,
-    [switch]$SkipReports = $false,
+    [switch]$UseWslBootstrap,
+    [switch]$SkipTests,
+    [switch]$SkipReports,
     [bool]$ContinueOnReportError = $true,
     [int]$Timeout = 120
 )
@@ -27,7 +27,7 @@ function Invoke-Checked {
     param(
         [string]$FilePath,
         [string[]]$Arguments,
-        [switch]$AllowFailure = $false
+        [switch]$AllowFailure
     )
 
     & $FilePath @Arguments

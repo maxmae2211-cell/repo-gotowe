@@ -1,5 +1,5 @@
 param(
-    [switch]$Verbose = $false,
+    [switch]$Verbose,
     [int]$Timeout = 60
 )
 

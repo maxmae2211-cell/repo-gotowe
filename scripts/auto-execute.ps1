@@ -2,9 +2,18 @@
 # Runs without any user interaction
 
 param(
-    [switch]$Scheduled = $false,
-    [switch]$Silent = $true
+    [switch]$Scheduled,
+    [switch]$Silent,
+    [switch]$NoSilent
 )
+
+$IsSilentMode = $true
+if ($PSBoundParameters.ContainsKey('Silent')) {
+    $IsSilentMode = $Silent.IsPresent
+}
+if ($NoSilent) {
+    $IsSilentMode = $false
+}
 
 $ProjectRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $LogsDir = Join-Path $ProjectRoot "logs"
@@ -21,7 +30,7 @@ function Log {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $logMessage = "[$timestamp] $Message"
     Add-Content -Path $LogFile -Value $logMessage
-    if (-not $Silent) {
+    if (-not $IsSilentMode) {
         Write-Host $logMessage
     }
 }
@@ -31,7 +40,7 @@ Log "Automatic Test Execution Started"
 Log "=========================================="
 Log "Project: $ProjectRoot"
 Log "Scheduled: $Scheduled"
-Log "Silent Mode: $Silent"
+Log "Silent Mode: $IsSilentMode"
 
 # Start mock server
 Log "Starting mock API server..."
