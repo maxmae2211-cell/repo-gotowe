@@ -1,0 +1,53 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Taurus: Health Check",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "health"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Standard API Run",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: JMeter + Java8",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "jmeter-java8"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        }
+    ]
+}
