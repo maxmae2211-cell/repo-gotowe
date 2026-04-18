@@ -1,4 +1,4 @@
-# Taurus Runbook (verified on 2026-04-18)
+﻿# Taurus Runbook (verified on 2026-04-18)
 
 This file captures the currently verified way to run this workspace on Windows.
 
@@ -66,4 +66,6 @@ Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/run-taurus.ps1 -Mode health
 ./scripts/run-taurus.ps1 -Mode standard
 ./scripts/run-taurus.ps1 -Mode jmeter-java8
+./scripts/run-taurus.ps1 -Mode pipeline
 ```
+
