@@ -8,6 +8,11 @@
 *.ldjson
 effective.json
 effective.yml
+
+# Allow committed test fixtures even though they use ignored extensions
+!tests/fixtures/
+!tests/fixtures/*.jtl
+!tests/fixtures/*.csv
 merged.json
 merged.yml
 jmeter-bzt.properties

@@ -13,7 +13,7 @@ from jtl_metrics import extract_jtl_kpi
 
 
 def _kpi_table(title: str, kpi: dict) -> str:
-    """Zwraca fragment HTML z tabelą KPI dla jednego zestawu wyników."""
+    """Returns an HTML fragment with a KPI table for one result set."""
     return f"""
     <h3>{title}</h3>
     <table>

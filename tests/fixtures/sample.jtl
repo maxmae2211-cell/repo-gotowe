@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1700000001000,120,Get Post 1,200,OK,Thread Group 1-1,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/posts/1,115,0,10
+1700000002000,85,Get Post 1,200,OK,Thread Group 1-2,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/posts/1,80,0,8
+1700000003000,200,Create Post,201,Created,Thread Group 1-1,text,true,,512,300,1,1,https://jsonplaceholder.typicode.com/posts,195,0,12
+1700000004000,95,Get Post 1,200,OK,Thread Group 1-3,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/posts/1,90,0,9
+1700000005000,310,Create Post,201,Created,Thread Group 1-2,text,true,,512,300,1,1,https://jsonplaceholder.typicode.com/posts,305,0,15
+1700000006000,75,Get Post 1,200,OK,Thread Group 1-1,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/posts/1,70,0,7
+1700000007000,500,Create Post,500,Internal Server Error,Thread Group 1-3,text,false,Server error,256,300,1,1,https://jsonplaceholder.typicode.com/posts,490,0,20
+1700000008000,110,Get Post 1,200,OK,Thread Group 1-2,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/posts/1,105,0,11
+1700000009000,180,Create Post,201,Created,Thread Group 1-1,text,true,,512,300,1,1,https://jsonplaceholder.typicode.com/posts,175,0,13
+1700000010000,90,Get Post 1,200,OK,Thread Group 1-3,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/posts/1,85,0,8

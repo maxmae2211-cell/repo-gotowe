@@ -90,7 +90,7 @@ def extract_jtl_kpi(jtl_path: Path) -> Optional[Dict[str, object]]:
 
 
 def find_latest_kpi(pattern: str) -> Optional[Path]:
-    """Zwraca ścieżkę do najnowszego pliku kpi.jtl pasującego do wzorca katalogów."""
+    """Returns the path to the newest kpi.jtl file matching the directory pattern."""
     default_pattern = f"{datetime.now().year}-*"
     candidates = sorted(Path(".").glob(pattern or default_pattern), reverse=True)
     for directory in candidates:
