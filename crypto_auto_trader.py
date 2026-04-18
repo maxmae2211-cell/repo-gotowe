@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
-"""Simple crypto auto trader with paper mode by default.
+"""Prosty auto trader krypto z domyslnym trybem paper.
 
-Strategy:
-- SMA fast/slow crossover for entries/exits.
-- Stop loss and take profit protections.
+Strategia:
+- Przeciecie SMA szybkiej i wolnej do wejsc/wyjsc.
+- Ochrona pozycji przez stop loss i take profit.
 
-Default mode is paper trading. Live mode requires --live and API env vars.
+Domyslnie dziala paper trading. Tryb live wymaga flagi --live i kluczy API.
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -33,13 +35,14 @@ class TraderConfig:
     take_profit_pct: float
     poll_seconds: int
     state_file: str
+    trade_log_file: str
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Crypto auto trader")
-    parser.add_argument("--config", default="trader_config.json", help="Path to config JSON")
-    parser.add_argument("--live", action="store_true", help="Enable live trading (real orders)")
-    parser.add_argument("--once", action="store_true", help="Run one cycle and exit")
+    parser = argparse.ArgumentParser(description="Auto trader krypto")
+    parser.add_argument("--config", default="trader_config.json", help="Sciezka do pliku konfiguracji JSON")
+    parser.add_argument("--live", action="store_true", help="Wlacz live trading (realne zlecenia)")
+    parser.add_argument("--once", action="store_true", help="Wykonaj jeden cykl i zakoncz")
     return parser.parse_args()
 
 
@@ -67,9 +70,28 @@ def save_state(path: Path, state: dict[str, Any]) -> None:
         json.dump(state, handle, indent=2)
 
 
+def append_trade_log(path: Path, event: dict[str, Any]) -> None:
+    file_exists = path.exists()
+    fieldnames = [
+        "timestamp_utc",
+        "symbol",
+        "mode",
+        "action",
+        "reason",
+        "price",
+        "amount",
+        "quote_value",
+    ]
+    with path.open("a", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(event)
+
+
 def sma(values: list[float], length: int) -> float:
     if len(values) < length:
-        raise ValueError(f"Not enough candles for SMA{length}")
+        raise ValueError(f"Za malo swiec dla SMA{length}")
     return sum(values[-length:]) / length
 
 
@@ -81,14 +103,14 @@ def build_exchange(cfg: TraderConfig, live: bool):
         key = os.getenv("EXCHANGE_API_KEY", "")
         secret = os.getenv("EXCHANGE_API_SECRET", "")
         if not key or not secret:
-            raise RuntimeError("Missing EXCHANGE_API_KEY / EXCHANGE_API_SECRET")
+            raise RuntimeError("Brak EXCHANGE_API_KEY / EXCHANGE_API_SECRET")
         params["apiKey"] = key
         params["secret"] = secret
 
     ex = exchange_cls(params)
     ex.load_markets()
     if cfg.symbol not in ex.markets:
-        raise RuntimeError(f"Symbol not available on exchange: {cfg.symbol}")
+        raise RuntimeError(f"Symbol niedostepny na gieldzie: {cfg.symbol}")
     return ex
 
 
@@ -140,13 +162,16 @@ def run_cycle(exchange, cfg: TraderConfig, state: dict[str, Any], live: bool) ->
     candles = exchange.fetch_ohlcv(cfg.symbol, cfg.timeframe, limit=max(cfg.slow_sma + 5, 60))
     closes = [float(c[4]) for c in candles]
     if len(closes) < cfg.slow_sma + 2:
-        raise RuntimeError("Not enough candles to evaluate strategy")
+        raise RuntimeError("Za malo swiec do oceny strategii")
 
     last_price = closes[-1]
     signal = decide_signal(closes, cfg)
     risk_signal = maybe_risk_exit(last_price, state, cfg)
 
-    print(f"price={last_price:.4f} signal={signal} risk={risk_signal} open={state['position_open']}")
+    print(
+        f"cena={last_price:.4f} sygnal={signal} ryzyko={risk_signal} "
+        f"pozycja_otwarta={state['position_open']}"
+    )
 
     if not state["position_open"] and signal == "buy":
         amount = place_buy(exchange, cfg, last_price, live)
@@ -154,13 +179,40 @@ def run_cycle(exchange, cfg: TraderConfig, state: dict[str, Any], live: bool) ->
         state["entry_price"] = last_price
         state["amount"] = amount
         state["last_signal"] = "buy"
-        print(f"BUY amount={amount:.8f} at={last_price:.4f} mode={'live' if live else 'paper'}")
+        print(f"KUPNO ilosc={amount:.8f} po_cenie={last_price:.4f} tryb={'live' if live else 'paper'}")
+        append_trade_log(
+            Path(cfg.trade_log_file),
+            {
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                "symbol": cfg.symbol,
+                "mode": "live" if live else "paper",
+                "action": "buy",
+                "reason": "sma_cross_up",
+                "price": f"{last_price:.8f}",
+                "amount": f"{amount:.8f}",
+                "quote_value": f"{cfg.quote_allocation:.8f}",
+            },
+        )
 
     elif state["position_open"] and (signal == "sell" or risk_signal in {"stop_loss", "take_profit"}):
         place_sell(exchange, cfg, float(state["amount"]), live)
         print(
-            f"SELL amount={float(state['amount']):.8f} at={last_price:.4f} reason="
-            f"{risk_signal if risk_signal != 'none' else signal} mode={'live' if live else 'paper'}"
+            f"SPRZEDAZ ilosc={float(state['amount']):.8f} po_cenie={last_price:.4f} powod="
+            f"{risk_signal if risk_signal != 'none' else signal} tryb={'live' if live else 'paper'}"
+        )
+        reason = risk_signal if risk_signal != "none" else signal
+        append_trade_log(
+            Path(cfg.trade_log_file),
+            {
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                "symbol": cfg.symbol,
+                "mode": "live" if live else "paper",
+                "action": "sell",
+                "reason": reason,
+                "price": f"{last_price:.8f}",
+                "amount": f"{float(state['amount']):.8f}",
+                "quote_value": f"{float(state['amount']) * last_price:.8f}",
+            },
         )
         state["position_open"] = False
         state["entry_price"] = 0.0
@@ -177,7 +229,7 @@ def main() -> int:
     state_path = Path(cfg.state_file)
     state = load_state(state_path)
 
-    print(f"Starting trader mode={'LIVE' if args.live else 'PAPER'} symbol={cfg.symbol}")
+    print(f"Start tradera tryb={'LIVE' if args.live else 'PAPER'} symbol={cfg.symbol}")
     exchange = build_exchange(cfg, args.live)
 
     while True:
@@ -185,7 +237,7 @@ def main() -> int:
             state = run_cycle(exchange, cfg, state, args.live)
             save_state(state_path, state)
         except Exception as exc:
-            print(f"ERROR: {exc}")
+            print(f"BLAD: {exc}")
 
         if args.once:
             break
