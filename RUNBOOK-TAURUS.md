@@ -100,3 +100,13 @@ Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 ./scripts/fix-java-kernel.ps1 -PurgeRunmeJdkCache
 # Then run: Developer: Reload Window
 ```
+
+## Terminal fallback when output buffer is unstable
+
+If the integrated terminal opens an alternate buffer and does not show full Taurus output, do not continue in that session.
+
+1. Stop that terminal and start a fresh sync session.
+2. Validate repository state with `git status --short` (or Git status UI).
+3. Validate run progress from the latest Taurus artifacts directory (`2026-*`) using `bzt.log`, `jmeter.log`, `kpi.jtl`, and `error.jtl`.
+4. Treat `Failed to check for updates, server returned 5xx` as non-blocking.
+5. Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
