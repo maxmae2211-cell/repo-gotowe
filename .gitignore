@@ -47,3 +47,16 @@ openjdk-21/
 
 # Local tool distributions
 tools/
+
+git checkout qq
+git fetch origin
+git pull --rebase origin qq
+git push origin qq
+git status
+
+cd /d C:\Users\maxma\Documents\GitHub\repo-gotowe
+git status
+
+git rebase --abort
+rmdir /s /q .git\rebase-merge
+git status
