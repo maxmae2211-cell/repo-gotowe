@@ -136,6 +136,19 @@
             ],
             "group": "test",
             "problemMatcher": []
+        },
+        {
+            "label": "PR: open compare qq -> main",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "Start-Process 'https://github.com/maxmae2211-cell/repo-gotowe/compare/main...qq'"
+            ],
+            "problemMatcher": []
         }
     ]
 }
