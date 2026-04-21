@@ -2,6 +2,10 @@
 *.zip
 *.msi
 
+# Accidental PowerShell redirection artifacts
+$null
+$nullgit
+
 # Logs and Taurus outputs
 *.log
 *.jtl
