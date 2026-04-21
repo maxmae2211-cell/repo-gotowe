@@ -201,6 +201,19 @@
                 "git add -A; git commit -m 'Automatyczny commit przez task'; git push origin qq"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "git branch",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/git-branch.ps1"
+            ],
+            "problemMatcher": []
         }
     ]
 }
