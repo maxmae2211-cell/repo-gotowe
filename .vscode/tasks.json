@@ -188,6 +188,19 @@
                 "${workspaceFolder}/scripts/git-status.ps1"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "Auto: commit + push wszystko",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "git add -A; git commit -m 'Automatyczny commit przez task'; git push origin qq"
+            ],
+            "problemMatcher": []
         }
     ]
 }
