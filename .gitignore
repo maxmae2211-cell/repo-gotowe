@@ -1,3 +1,4 @@
+# Installer archives
 *.zip
 *.msi
 
@@ -41,6 +42,8 @@ node_modules/
 # Java/JDK folders
 jdk-21.0.2+13/
 openjdk-21/
+.vscode/oracleJdk-26/
+.vscode/*.log
 
 # Local tool distributions
 tools/
