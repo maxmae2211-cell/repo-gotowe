@@ -138,6 +138,23 @@
             "problemMatcher": []
         },
         {
+            "label": "Auto: gitignore commit+push",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\scripts\\auto-gitignore.ps1",
+                "-Branch",
+                "qq",
+                "-Message",
+                "Update .gitignore"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "PR: open compare qq -> main",
             "type": "shell",
             "command": "powershell",
@@ -147,6 +164,28 @@
                 "Bypass",
                 "-Command",
                 "Start-Process 'https://github.com/maxmae2211-cell/repo-gotowe/compare/main...qq'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Auto: gitignore commit+push + open PR",
+            "dependsOn": [
+                "Auto: gitignore commit+push",
+                "PR: open compare qq -> main"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "git status",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/git-status.ps1"
             ],
             "problemMatcher": []
         }
