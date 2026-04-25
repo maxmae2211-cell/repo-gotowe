@@ -1,3 +1,5 @@
+# Testy jednostkowe
+pytest
 # Testy bezpieczeństwa
 bandit
 # Statyczna analiza kodu
