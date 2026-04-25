@@ -1,4 +1,11 @@
+
 # Taurus Test Project
+
+![CI](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml/badge.svg?branch=backup/qq-before-fix)
+![Lint](https://img.shields.io/badge/lint-flake8-blue)
+![Testy](https://img.shields.io/badge/tests-pytest-green)
+![Bezpieczeństwo](https://img.shields.io/badge/security-bandit-yellow)
+![Formatowanie](https://img.shields.io/badge/format-black-black)
 
 Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyzacji testów wydajności i funkcjonalnych.
 
