@@ -2,6 +2,7 @@ import pytest
 from analyze_results import find_latest_kpi
 from pathlib import Path
 
+
 def test_find_latest_kpi(tmp_path):
     # Przygotuj strukturę katalogów i plików
     d1 = tmp_path / "2026-01-01_00-00-00.000000"
@@ -11,7 +12,7 @@ def test_find_latest_kpi(tmp_path):
     d2.mkdir()
     (d2 / "kpi.jtl").write_text("test2")
     # Najnowszy katalog powinien być wybrany
-    result = find_latest_kpi(str(tmp_path / "2026-*") )
+    result = find_latest_kpi(str(tmp_path / "2026-*"))
     assert result is not None
     assert result.parent.name == "2026-01-02_00-00-00.000000"
     assert result.name == "kpi.jtl"

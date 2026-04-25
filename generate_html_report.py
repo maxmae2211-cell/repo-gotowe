@@ -2,6 +2,7 @@
 """
 Generowanie HTML Raportu z Taurus
 """
+
 import csv
 import statistics
 from collections import defaultdict
@@ -15,13 +16,13 @@ response_times = defaultdict(list)
 errors = 0
 total_requests = 0
 
-with open(test_path, 'r') as f:
+with open(test_path, "r") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        label = row['label']
-        elapsed = int(row['elapsed'])
-        success = row['success'].lower() == 'true'
-        
+        label = row["label"]
+        elapsed = int(row["elapsed"])
+        success = row["success"].lower() == "true"
+
         response_times[label].append(elapsed)
         total_requests += 1
         if not success:
@@ -254,9 +255,9 @@ for label in sorted(response_times.keys()):
     max_t = max(times)
     p95 = sorted(times)[int(len(times) * 0.95)]
     p99 = sorted(times)[int(len(times) * 0.99)]
-    
+
     status = "pass" if avg < 200 else "warning"
-    
+
     html += f"""
                 <div class="stat-box">
                     <h3>{label}</h3>
@@ -393,7 +394,7 @@ html += """
 """
 
 # Zapis HTML
-with open(output, 'w', encoding='utf-8') as f:
+with open(output, "w", encoding="utf-8") as f:
     f.write(html)
 
 print(f"✓ Raport HTML wygenerowany: {output}")

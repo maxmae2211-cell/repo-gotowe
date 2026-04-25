@@ -30,28 +30,28 @@ labels = {}
 count = 0
 failures = 0
 
-with open(kpi_file, 'r', encoding='utf-8') as f:
+with open(kpi_file, "r", encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
         count += 1
-        
+
         # Czasy
         try:
-            elapsed = int(row.get('elapsed', 0))
+            elapsed = int(row.get("elapsed", 0))
             elapsed_times.append(elapsed)
         except (ValueError, TypeError):
             pass
-        
+
         # Kody odpowiedzi
-        code = row.get('responseCode', 'UNKNOWN')
+        code = row.get("responseCode", "UNKNOWN")
         response_codes[code] = response_codes.get(code, 0) + 1
-        
+
         # Labele
-        label = row.get('label', 'UNKNOWN')
+        label = row.get("label", "UNKNOWN")
         labels[label] = labels.get(label, 0) + 1
-        
+
         # Błędy
-        if row.get('success', '').lower() != 'true':
+        if row.get("success", "").lower() != "true":
             failures += 1
 
 if elapsed_times:
@@ -60,24 +60,28 @@ if elapsed_times:
     min_t = min(elapsed_times)
     max_t = max(elapsed_times)
     n = len(elapsed_times)
-    
+
     # Percentyle
     p50_idx = int(n * 0.5)
     p90_idx = int(n * 0.9)
     p95_idx = int(n * 0.95)
     p99_idx = int(n * 0.99)
-    
+
     p50 = elapsed_times[p50_idx] if p50_idx < n else elapsed_times[-1]
     p90 = elapsed_times[p90_idx] if p90_idx < n else elapsed_times[-1]
     p95 = elapsed_times[p95_idx] if p95_idx < n else elapsed_times[-1]
     p99 = elapsed_times[p99_idx] if p99_idx < n else elapsed_times[-1]
-    
+
     print("📊 STATYSTYKI GŁÓWNE:")
     print("-" * 80)
     print(f"  Liczba żądań:              {count:,}")
-    print(f"  Błędy:                     {failures} ({100*failures/count if count > 0 else 0:.2f}%)")
-    print(f"  Sukcesy:                   {count - failures} ({100*(count-failures)/count if count > 0 else 0:.2f}%)")
-    
+    print(
+        f"  Błędy:                     {failures} ({100*failures/count if count > 0 else 0:.2f}%)"
+    )
+    print(
+        f"  Sukcesy:                   {count - failures} ({100*(count-failures)/count if count > 0 else 0:.2f}%)"
+    )
+
     print("\n⏱️  CZASY ODPOWIEDZI (ms):")
     print("-" * 80)
     print(f"  Średni (AVG):              {avg:.2f} ms")
@@ -87,15 +91,17 @@ if elapsed_times:
     print(f"  P90:                       {p90} ms")
     print(f"  P95:                       {p95} ms")
     print(f"  P99:                       {p99} ms")
-    
+
     print("\n🔤 KODY ODPOWIEDZI:")
     print("-" * 80)
     for code in sorted(response_codes.keys()):
         count_code = response_codes[code]
         pct = 100 * count_code / count
-        status = "✅" if code.startswith('2') else "⚠️ " if code.startswith('3') else "❌"
+        status = (
+            "✅" if code.startswith("2") else "⚠️ " if code.startswith("3") else "❌"
+        )
         print(f"  {status} {code}: {count_code:,} ({pct:.2f}%)")
-    
+
     print("\n📋 SCENARIUSZE (LABELE):")
     print("-" * 80)
     for label in sorted(labels.keys()):

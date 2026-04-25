@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+
 # Przykładowy test Selenium: wyszukiwanie Google
 def test_google_search():
     driver = webdriver.Chrome()
@@ -13,6 +14,7 @@ def test_google_search():
     time.sleep(2)
     assert "Taurus" in driver.title
     driver.quit()
+
 
 if __name__ == "__main__":
     test_google_search()

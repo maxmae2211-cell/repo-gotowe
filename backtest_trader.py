@@ -46,9 +46,15 @@ def decide_signal(closes: list[float], cfg: TraderConfig) -> str:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Backtest for crypto_auto_trader strategy")
-    parser.add_argument("--config", default="trader_config.json", help="Path to config JSON")
-    parser.add_argument("--limit", type=int, default=1000, help="Number of candles to fetch")
+    parser = argparse.ArgumentParser(
+        description="Backtest for crypto_auto_trader strategy"
+    )
+    parser.add_argument(
+        "--config", default="trader_config.json", help="Path to config JSON"
+    )
+    parser.add_argument(
+        "--limit", type=int, default=1000, help="Number of candles to fetch"
+    )
     return parser.parse_args()
 
 
@@ -65,7 +71,9 @@ def main() -> int:
     ex = exchange_cls({"enableRateLimit": True})
     ex.load_markets()
 
-    candles = ex.fetch_ohlcv(cfg.symbol, cfg.timeframe, limit=max(args.limit, cfg.slow_sma + 10))
+    candles = ex.fetch_ohlcv(
+        cfg.symbol, cfg.timeframe, limit=max(args.limit, cfg.slow_sma + 10)
+    )
     closes = [float(c[4]) for c in candles]
     times = [int(c[0]) for c in candles]
 

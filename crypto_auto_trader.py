@@ -40,9 +40,17 @@ class TraderConfig:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Auto trader krypto")
-    parser.add_argument("--config", default="trader_config.json", help="Sciezka do pliku konfiguracji JSON")
-    parser.add_argument("--live", action="store_true", help="Wlacz live trading (realne zlecenia)")
-    parser.add_argument("--once", action="store_true", help="Wykonaj jeden cykl i zakoncz")
+    parser.add_argument(
+        "--config",
+        default="trader_config.json",
+        help="Sciezka do pliku konfiguracji JSON",
+    )
+    parser.add_argument(
+        "--live", action="store_true", help="Wlacz live trading (realne zlecenia)"
+    )
+    parser.add_argument(
+        "--once", action="store_true", help="Wykonaj jeden cykl i zakoncz"
+    )
     return parser.parse_args()
 
 
@@ -158,8 +166,12 @@ def place_sell(exchange, cfg: TraderConfig, amount: float, live: bool) -> None:
         exchange.create_market_sell_order(cfg.symbol, amount)
 
 
-def run_cycle(exchange, cfg: TraderConfig, state: dict[str, Any], live: bool) -> dict[str, Any]:
-    candles = exchange.fetch_ohlcv(cfg.symbol, cfg.timeframe, limit=max(cfg.slow_sma + 5, 60))
+def run_cycle(
+    exchange, cfg: TraderConfig, state: dict[str, Any], live: bool
+) -> dict[str, Any]:
+    candles = exchange.fetch_ohlcv(
+        cfg.symbol, cfg.timeframe, limit=max(cfg.slow_sma + 5, 60)
+    )
     closes = [float(c[4]) for c in candles]
     if len(closes) < cfg.slow_sma + 2:
         raise RuntimeError("Za malo swiec do oceny strategii")
@@ -179,7 +191,9 @@ def run_cycle(exchange, cfg: TraderConfig, state: dict[str, Any], live: bool) ->
         state["entry_price"] = last_price
         state["amount"] = amount
         state["last_signal"] = "buy"
-        print(f"KUPNO ilosc={amount:.8f} po_cenie={last_price:.4f} tryb={'live' if live else 'paper'}")
+        print(
+            f"KUPNO ilosc={amount:.8f} po_cenie={last_price:.4f} tryb={'live' if live else 'paper'}"
+        )
         append_trade_log(
             Path(cfg.trade_log_file),
             {
@@ -194,7 +208,9 @@ def run_cycle(exchange, cfg: TraderConfig, state: dict[str, Any], live: bool) ->
             },
         )
 
-    elif state["position_open"] and (signal == "sell" or risk_signal in {"stop_loss", "take_profit"}):
+    elif state["position_open"] and (
+        signal == "sell" or risk_signal in {"stop_loss", "take_profit"}
+    ):
         place_sell(exchange, cfg, float(state["amount"]), live)
         print(
             f"SPRZEDAZ ilosc={float(state['amount']):.8f} po_cenie={last_price:.4f} powod="
