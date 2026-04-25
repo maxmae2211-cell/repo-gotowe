@@ -1,6 +1,12 @@
+
+import sys
+import os
 import pytest
-from analyze_results import find_latest_kpi
 from pathlib import Path
+
+# Dodaj katalog główny repo do sys.path, by import działał lokalnie i w CI
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + '/..'))
+from analyze_results import find_latest_kpi
 
 
 def test_find_latest_kpi(tmp_path):

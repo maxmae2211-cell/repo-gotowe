@@ -13,7 +13,17 @@ from jtl_metrics import read_jtl_rows
 
 
 def find_latest_kpi(pattern: str) -> Path | None:
-    candidates = sorted(Path(".").glob(pattern), reverse=True)
+    # Obsługa wzorców bezwzględnych i względnych
+    import os
+    from pathlib import Path
+    p = Path(pattern)
+    if p.is_absolute() or os.sep in pattern:
+        # Rozdziel katalog bazowy i wzorzec
+        base = Path(pattern).parent
+        glob_pat = Path(pattern).name
+        candidates = sorted(base.glob(glob_pat), reverse=True)
+    else:
+        candidates = sorted(Path(".").glob(pattern), reverse=True)
     for directory in candidates:
         if directory.is_dir():
             jtl_file = directory / "kpi.jtl"
