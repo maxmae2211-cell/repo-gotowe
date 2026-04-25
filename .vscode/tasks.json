@@ -136,6 +136,19 @@
             ],
             "group": "test",
             "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "camel: Camel JBang add Kubernetes plugin",
+            "command": "jbang",
+            "args": [
+                "-Dcamel.jbang.version=4.14.0",
+                "camel@apache/camel",
+                "plugin",
+                "add",
+                "kubernetes"
+            ],
+            "problemMatcher": []
         }
     ]
 }
