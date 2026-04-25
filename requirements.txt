@@ -1,3 +1,5 @@
+# Automatyczne formatowanie kodu
+black
 # Testy jednostkowe
 pytest
 # Testy bezpieczeństwa
