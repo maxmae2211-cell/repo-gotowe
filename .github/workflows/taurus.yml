@@ -1,0 +1,48 @@
+name: Taurus Tests
+
+on:
+    push:
+        branches: [ main, backup/qq-before-fix ]
+    pull_request:
+        branches: [ main, backup/qq-before-fix ]
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+            - name: Install dependencies (flake8)
+              run: pip install -r requirements.txt
+            - name: Run flake8
+              run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    taurus:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+            - name: Install Taurus
+              run: pip install bzt
+            - name: Run Taurus test-api.yml
+              run: bzt test-api.yml
+            - name: Run Taurus test-moj.yml
+              run: bzt test-moj.yml
+            - name: Upload Taurus HTML reports
+              uses: actions/upload-artifact@v4
+              with:
+                  name: taurus-reports
+                  path: |
+                      ./taurus-report-final.html
+                      ./taurus-analysis-report.html
+                      ./taurus-locust-report.html
+                      ./taurus-report*.html
+                      ./.taurus/**/*.html

@@ -12,30 +12,42 @@ $env:Path += ";C:\Users\maxma\AppData\Roaming\Python\Python311\Scripts"
 
 ## Struktura projektu
 
-- **test-api.yml** - Prosty test API (JSONPlaceholder)
-- **test-selenium.py** - Test Selenium (wyszukiwanie Google)
-- **test-selenium.yml** - Konfiguracja dla testu Selenium
-- **test-advanced.yml** - Zaawansowana konfiguracja z wieloma scenariuszami
+- **test-api.yml** – Prosty test API (JSONPlaceholder)
+- **test-moj.yml** – Przykładowy test POST/GET na użytkownikach (JSONPlaceholder)
+- **test-advanced.yml** – Zaawansowana konfiguracja z wieloma scenariuszami
+- **test-selenium.yml** – Konfiguracja dla testu Selenium
+- **test-selenium.py** – Test Selenium (przykład: wyszukiwanie Google)
 
 ## Uruchomienie testów
 
 ### Test 1: Prosty test API
+
 ```powershell
 bzt test-api.yml
 ```
 
-### Test 2: Test wśród wiele scenariuszy
+### Test 2: Test własny (POST/GET użytkownicy)
+
+```powershell
+bzt test-moj.yml
+```
+
+### Test 3: Test zaawansowany (wiele scenariuszy)
+
 ```powershell
 bzt test-advanced.yml
 ```
 
-### Test 3: Test Selenium (wymaga ChromeDriver)
+### Test 4: Test Selenium (wymaga ChromeDriver)
+
 ```powershell
 # Najpierw zainstaluj Selenium
 pip install selenium --user
 
 # Pobierz ChromeDriver z https://chromedriver.chromium.org/
 # i umieść w katalogu projektu lub dodaj do PATH
+
+# Przykładowy plik test-selenium.py znajdziesz w repozytorium
 
 # Uruchom test
 bzt test-selenium.yml
@@ -54,14 +66,13 @@ bzt -o execution.0.concurrency=20 test-api.yml
 bzt -q test-api.yml
 ```
 
+## CI/CD – Automatyczne testy Taurus
+
+Testy Taurus uruchamiają się automatycznie na GitHub Actions przy każdym commicie i pull requeście (gałęzie main, backup/qq-before-fix). Wyniki znajdziesz w zakładce **Actions** na GitHubie.
+
 ## Generowanie raportów
 
-Po uruchomieniu testów, Taurus automatycznie generuje raporty. Aby je przeglądać:
-
-```powershell
-# Test wygeneruje raport HTML
-# Lokalizacja: .taurus/ folder
-```
+Po uruchomieniu testów, Taurus automatycznie generuje raporty HTML. Lokalizacja: katalog .taurus/ lub katalog roboczy testu.
 
 ## Zmienne konfiguracyjne
 

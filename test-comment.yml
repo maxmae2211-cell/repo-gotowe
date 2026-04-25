@@ -1,0 +1,25 @@
+---
+scenarios:
+  post_comment:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/comments
+        method: POST
+        label: Create Comment
+        body:
+          name: Test Comment
+          email: test@example.com
+          body: This is a test comment
+
+execution:
+  - concurrency: 3
+    hold-for: 45s
+    ramp-up: 10s
+    scenario: post_comment
+    throughput: 10
+
+modules:
+  request:
+    concurrency: 3
+
+reporting:
+  - module: console

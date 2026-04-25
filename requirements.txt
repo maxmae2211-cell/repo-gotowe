@@ -1,3 +1,5 @@
+# Statyczna analiza kodu
+flake8
 bzt>=1.16.0
 urwid==3.0.3
 selenium>=4.0
