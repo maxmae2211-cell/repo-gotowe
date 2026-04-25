@@ -1,3 +1,5 @@
+# Pokrycie kodu
+coverage
 # Automatyczne formatowanie kodu
 black
 # Testy jednostkowe

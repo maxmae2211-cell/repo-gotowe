@@ -6,6 +6,7 @@
 ![Testy](https://img.shields.io/badge/tests-pytest-green)
 ![Bezpieczeństwo](https://img.shields.io/badge/security-bandit-yellow)
 ![Formatowanie](https://img.shields.io/badge/format-black-black)
+![Coverage](https://img.shields.io/badge/coverage-auto-informational)
 
 Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyzacji testów wydajności i funkcjonalnych.
 
