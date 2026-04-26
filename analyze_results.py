@@ -2,6 +2,7 @@
 """
 Analiza wyników Taurus Obciążeniowych
 """
+
 import argparse
 from collections import defaultdict
 from datetime import datetime
@@ -23,7 +24,9 @@ def find_latest_kpi(pattern: str) -> Path | None:
 
 def parse_args() -> argparse.Namespace:
     default_pattern = f"{datetime.now().year}-*"
-    parser = argparse.ArgumentParser(description="Szczegółowa analiza wyników z pliku kpi.jtl")
+    parser = argparse.ArgumentParser(
+        description="Szczegółowa analiza wyników z pliku kpi.jtl"
+    )
     parser.add_argument(
         "--jtl",
         type=Path,
@@ -79,7 +82,9 @@ def main() -> int:
 
     print(f"Całkowita liczba requestów: {total_requests}")
     print(f"Liczba błędów: {len(errors)}")
-    print(f"Wskaźnik sukcesu: {((total_requests - len(errors)) / total_requests * 100):.2f}%")
+    print(
+        f"Wskaźnik sukcesu: {((total_requests - len(errors)) / total_requests * 100):.2f}%"
+    )
     print()
 
     print("=" * 80)

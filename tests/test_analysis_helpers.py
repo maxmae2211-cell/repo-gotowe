@@ -1,7 +1,11 @@
 import pytest
-from analyze-kpi import find_latest_kpi, parse_args
-from analyze_results import find_latest_kpi as find_latest_kpi_results, parse_args as parse_args_results
+from analyze_kpi import find_latest_kpi, parse_args
+from analyze_results import (
+    find_latest_kpi as find_latest_kpi_results,
+    parse_args as parse_args_results,
+)
 from pathlib import Path
+
 
 def test_find_latest_kpi(tmp_path):
     # Tworzymy dwa katalogi z plikami kpi.jtl
@@ -14,6 +18,7 @@ def test_find_latest_kpi(tmp_path):
     # Sprawdzamy, czy znajduje najnowszy
     assert find_latest_kpi(str(tmp_path / "2026-*")).name == "kpi.jtl"
     assert find_latest_kpi_results(str(tmp_path / "2026-*")).name == "kpi.jtl"
+
 
 def test_parse_args_defaults():
     args = parse_args()

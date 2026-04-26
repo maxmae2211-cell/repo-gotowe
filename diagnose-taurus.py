@@ -2,6 +2,7 @@
 """
 Diagnostyka Taurus (bzt) - sprawdzenie konfiguracji i stanu
 """
+
 import os
 import json
 import yaml
@@ -18,9 +19,10 @@ print(f"\n📅 Data: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 print("[1] WERSJA TAURUS")
 print("-" * 70)
 try:
-    result = subprocess.run(["python", "-m", "bzt", "--help"], 
-                          capture_output=True, text=True, timeout=5)
-    for line in result.stdout.split('\n')[:3]:
+    result = subprocess.run(
+        ["python", "-m", "bzt", "--help"], capture_output=True, text=True, timeout=5
+    )
+    for line in result.stdout.split("\n")[:3]:
         if line.strip():
             print(f"  ✅ {line}")
 except Exception as e:
@@ -29,12 +31,13 @@ except Exception as e:
 # 2. Java
 print("\n[2] JAVA (JDK)")
 print("-" * 70)
-java_home = os.environ.get('JAVA_HOME', 'Nie ustawiona')
+java_home = os.environ.get("JAVA_HOME", "Nie ustawiona")
 print(f"  JAVA_HOME: {java_home}")
 try:
-    result = subprocess.run(["java", "-version"], 
-                          capture_output=True, text=True, timeout=5)
-    for line in result.stderr.split('\n')[:2]:
+    result = subprocess.run(
+        ["java", "-version"], capture_output=True, text=True, timeout=5
+    )
+    for line in result.stderr.split("\n")[:2]:
         if line.strip():
             print(f"  ✅ {line}")
 except Exception as e:
@@ -47,7 +50,7 @@ test_files = {
     "test-api.yml": "Prosty test API",
     "test-advanced.yml": "Zaawansowany test z wieloma scenariuszami",
     "test-locust.py": "Test wydajności Locust",
-    "test-selenium-edge.py": "Test UI z Selenium Edge"
+    "test-selenium-edge.py": "Test UI z Selenium Edge",
 }
 
 for fname, desc in test_files.items():
@@ -65,23 +68,23 @@ artifact_dirs = sorted([d for d in Path(".").glob("2026-02-12_*") if d.is_dir()]
 if artifact_dirs:
     latest = artifact_dirs[-1]
     print(f"  📁 {latest.name}/")
-    
+
     # Sprawdź KPI
     kpi_file = latest / "kpi.jtl"
     if kpi_file.exists():
-        lines = len(kpi_file.read_text().strip().split('\n')) - 1
+        lines = len(kpi_file.read_text().strip().split("\n")) - 1
         print(f"     ✅ kpi.jtl ({lines} żądań)")
-    
+
     # Sprawdź trace
     trace_file = latest / "trace.jtl"
     if trace_file.exists():
         print(f"     ✅ trace.jtl")
-    
+
     # Sprawdź JMeter konfigurację
     jmx_files = list(latest.glob("*.jmx"))
     if jmx_files:
         print(f"     ✅ {len(jmx_files)} plików JMX")
-    
+
     # Sprawdź effective.yml
     eff_file = latest / "effective.yml"
     if eff_file.exists():
@@ -99,7 +102,11 @@ if exports_dir.exists():
         for csv_file in csv_files:
             size = csv_file.stat().st_size
             print(f"  ✅ {csv_file.name} ({size:,} B)")
-    print(f"  📦 taurus-report-2026-02-12.zip" if Path("taurus-report-2026-02-12.zip").exists() else "  ⚠️  ZIP nie znaleziony")
+    print(
+        f"  📦 taurus-report-2026-02-12.zip"
+        if Path("taurus-report-2026-02-12.zip").exists()
+        else "  ⚠️  ZIP nie znaleziony"
+    )
 else:
     print("  ⚠️  Katalog exports/ nie istnieje")
 

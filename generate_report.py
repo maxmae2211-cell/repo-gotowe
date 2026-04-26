@@ -2,10 +2,11 @@
 """
 Generuje podsumowanie wszystkich uruchomionych testów:
 - Taurus API (test-api.yml)
-- Taurus Advanced (test-advanced.yml)  
+- Taurus Advanced (test-advanced.yml)
 - Locust (headless w conda env)
 Zbiera KPI z każdego i tworzy raport HTML.
 """
+
 import argparse
 import os
 import glob
@@ -13,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 from jtl_metrics import extract_jtl_kpi
+
 
 def generate_html_report(taurus_dirs):
     """Generate HTML report with all test results"""
@@ -74,10 +76,10 @@ def generate_html_report(taurus_dirs):
     </ul>
 </body>
 </html>"""
-    
+
     # Collect test results
     test_tables = ""
-    
+
     # Test API
     kpi_path = Path(taurus_dirs[0]) / "kpi.jtl" if taurus_dirs else None
     if kpi_path and kpi_path.exists():
@@ -132,7 +134,7 @@ def generate_html_report(taurus_dirs):
         </tr>
     </table>
 """
-    
+
     # Test Advanced
     if len(taurus_dirs) > 1:
         kpi_path = Path(taurus_dirs[-1]) / "kpi.jtl"
@@ -188,7 +190,7 @@ def generate_html_report(taurus_dirs):
         </tr>
     </table>
 """
-    
+
     # Locust results
     test_tables += """
     <h3>Test Locust (Headless)</h3>
@@ -239,7 +241,7 @@ def generate_html_report(taurus_dirs):
         </tr>
     </table>
 """
-    
+
     # Artifacts
     artifact_rows = ""
     for i, tdir in enumerate(taurus_dirs, 1):
@@ -252,13 +254,13 @@ def generate_html_report(taurus_dirs):
             <td>{", ".join(files[:5])}...</td>
         </tr>
 """
-    
+
     html = html.format(
         timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         test_tables=test_tables,
-        artifact_rows=artifact_rows
+        artifact_rows=artifact_rows,
     )
-    
+
     return html
 
 
@@ -269,8 +271,7 @@ def parse_args() -> argparse.Namespace:
         "--artifacts-pattern",
         default=default_pattern,
         help=(
-            "Wzorzec katalogów artefaktów Taurus "
-            f"(domyślnie: {default_pattern})."
+            "Wzorzec katalogów artefaktów Taurus " f"(domyślnie: {default_pattern})."
         ),
     )
     parser.add_argument(
@@ -286,7 +287,7 @@ if __name__ == "__main__":
     taurus_dirs = sorted([d for d in glob.glob(args.artifacts_pattern)])
     report = generate_html_report(taurus_dirs)
 
-    with open(args.output, 'w', encoding='utf-8') as f:
+    with open(args.output, "w", encoding="utf-8") as f:
         f.write(report)
 
     print(f"✅ Raport HTML wygenerowany: {args.output}")
