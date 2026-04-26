@@ -1,0 +1,65 @@
+{
+ "modules": {
+  "selenium": {
+   "enabled": false
+  },
+  "console": {
+   "disable": false
+  }
+ },
+ "scenarios": {
+  "api_performance": {
+   "requests": [
+    {
+     "url": "https://jsonplaceholder.typicode.com/users",
+     "label": "Get Users"
+    },
+    {
+     "url": "https://jsonplaceholder.typicode.com/posts",
+     "label": "Get Posts"
+    },
+    {
+     "url": "https://jsonplaceholder.typicode.com/comments",
+     "label": "Get Comments"
+    }
+   ]
+  },
+  "load_test": {
+   "requests": [
+    {
+     "url": "https://jsonplaceholder.typicode.com/users/1",
+     "label": "Fetch User"
+    },
+    {
+     "url": "https://jsonplaceholder.typicode.com/users/2",
+     "label": "Fetch User 2"
+    }
+   ]
+  }
+ },
+ "execution": [
+  {
+   "concurrency": 20,
+   "hold-for": "1m",
+   "ramp-up": "15s",
+   "scenario": "api_performance",
+   "label": "Warmup"
+  },
+  {
+   "concurrency": 50,
+   "hold-for": "5m",
+   "ramp-up": "1m",
+   "scenario": "load_test",
+   "label": "Main Load Test",
+   "throughput": 200
+  }
+ ],
+ "reporting": [
+  {
+   "module": "console"
+  },
+  {
+   "module": "final-stats"
+  }
+ ]
+}

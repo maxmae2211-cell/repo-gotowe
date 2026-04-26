@@ -1,0 +1,6 @@
+Created the tree successfully using C:\Users\maxma\Documents\GitHub\repo-gotowe\2026-04-25_20-39-54.557291\modified_requests.jmx
+Starting standalone test @ 2026 Apr 25 20:40:22 CEST (1777142422952)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+Command: Shutdown received from /127.0.0.1
+Tidying up ...    @ 2026 Apr 25 20:40:33 CEST (1777142433145)
+... end of run
