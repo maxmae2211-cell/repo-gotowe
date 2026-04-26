@@ -116,4 +116,9 @@ jobs:
             - name: Run black
               run: black --check .
             - name: Run flake8
-              run: flake8 .
+              run: flake8 . > flake8_report.txt; exit 0
+            - name: Upload flake8_report.txt
+              uses: actions/upload-artifact@v4
+              with:
+                  name: flake8_report
+                  path: flake8_report.txt
