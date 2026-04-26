@@ -16,7 +16,7 @@ jobs:
                   python -m venv .venv
                   .venv\Scripts\activate
                   pip install -r requirements.txt
-            - name: Run Taurus pipeline
-              run: |
-                  .venv\Scripts\activate
-                  python run_and_archive.py
+                        - name: Run Taurus pipeline
+                            run: |
+                                    .venv\Scripts\activate
+                                    python run_pipeline.py
