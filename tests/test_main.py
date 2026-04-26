@@ -1,6 +1,8 @@
+
+# Zapewnia poprawny import main.py niezależnie od środowiska uruchomienia
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
 from main import hello
 
 
