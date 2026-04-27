@@ -1,4 +1,7 @@
-<h1 align="center"><img src="https://jmeter.apache.org/images/logo.svg" alt="Apache JMeter logo" /></h1>
+
+![Apache JMeter logo](https://jmeter.apache.org/images/logo.svg)
+
+# Apache JMeter
 
 An Open Source Java application designed to measure performance and load test applications.
 
@@ -156,8 +159,7 @@ Any optional jars (see above) should be placed in `lib/opt` and/or `lib`.
 Jars in `lib/opt` will be used for building JMeter and running the unit tests,
 but won't be used at run-time.
 
-_This is useful for testing what happens if the optional jars are not
-downloaded by other JMeter users._
+*This is useful for testing what happens if the optional jars are not downloaded by other JMeter users.*
 
 If you are behind a proxy, you can set a few build properties in
 `~/.gradle/gradle.properties` for Gradle to use the proxy:
@@ -231,8 +233,8 @@ building JMeter with Gradle is available in [gradle.md](gradle.md).
 
 The code can be obtained from:
 
-- https://github.com/apache/jmeter
-- https://gitbox.apache.org/repos/asf/jmeter.git
+- <https://github.com/apache/jmeter>
+- <https://gitbox.apache.org/repos/asf/jmeter.git>
 
 ## Licensing and Legal Information
 
@@ -283,8 +285,8 @@ Apache JMeter does not include any implementation of JSSE or JCE.
 
 ### Third party notices
 
-* Notice for mxparser:
+- Notice for mxparser:
 
-  >  This product includes software developed by the Indiana
-  >  University Extreme! Lab.  For further information please visit
-  >  http://www.extreme.indiana.edu/
+    > This product includes software developed by the Indiana
+    > University Extreme! Lab. For further information please visit
+    > <http://www.extreme.indiana.edu/>
