@@ -44,6 +44,22 @@ pip install selenium --user
 bzt test-selenium.yml
 ```
 
+## Uruchamianie w kontenerze deweloperskim (VS Code Dev Containers)
+
+Możesz uruchomić środowisko programistyczne w kontenerze:
+
+1. Zainstaluj rozszerzenie **Dev Containers** w VS Code.
+2. Otwórz ten folder w VS Code i wybierz opcję "Reopen in Container".
+3. Kontener automatycznie zainstaluje zależności z `requirements.txt`.
+
+W kontenerze masz dostępne:
+
+- Pythona 3.11
+- Taurus (po instalacji przez pip)
+- Wszystkie narzędzia zdefiniowane w `requirements.txt`
+
+Pliki konfiguracyjne znajdują się w `.devcontainer/`.
+
 ## Dostępne opcje
 
 ```powershell

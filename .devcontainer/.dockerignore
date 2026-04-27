@@ -1,0 +1,20 @@
+# Ignoruj pliki i foldery, które nie powinny trafiać do obrazu kontenera
+.venv/
+__pycache__/
+node_modules/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+*.db
+.env
+.env.*
+.idea/
+.vscode/
+.git/
+.gitignore
+*.zip
+*.tar
+*.tar.gz
+*.egg-info/
