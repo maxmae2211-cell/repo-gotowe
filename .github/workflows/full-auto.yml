@@ -44,8 +44,6 @@ jobs:
           name: TaurusReport
           path: taurus-locust-report.html
       - name: Send e-mail notification
-        if: ${{ secrets.MAIL_USERNAME != '' && secrets.MAIL_PASSWORD != '' &&
-          secrets.MAIL_TO != '' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -90,8 +88,6 @@ jobs:
           name: TaurusReport
           path: taurus-locust-report.html
       - name: Send e-mail notification
-        if: ${{ secrets.MAIL_USERNAME != '' && secrets.MAIL_PASSWORD != '' &&
-          secrets.MAIL_TO != '' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
