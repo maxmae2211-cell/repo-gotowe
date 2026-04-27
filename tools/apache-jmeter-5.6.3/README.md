@@ -1,7 +1,7 @@
 
-![Apache JMeter logo](https://jmeter.apache.org/images/logo.svg)
-
 # Apache JMeter
+
+![Apache JMeter logo](https://jmeter.apache.org/images/logo.svg)
 
 An Open Source Java application designed to measure performance and load test applications.
 
