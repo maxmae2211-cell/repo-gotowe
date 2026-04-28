@@ -58,6 +58,9 @@ tools/apache-jmeter-5.6.3.zip
 tools/jdk8u482-b08/jre/lib/rt.jar
 2026-04-27_20-52-39.488499/trace-1.jtl
 
+# Ignoruj katalogi z datą (np. 2026-02-12_02-12-45.828918/)
+20??-??-??_??-??-??.*
+
 # Output of 'npm pack'
 *.tgz
 
