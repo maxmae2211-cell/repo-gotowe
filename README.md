@@ -38,6 +38,7 @@ bzt test-advanced.yml
 pip install selenium --user
 
 # Pobierz ChromeDriver z https://chromedriver.chromium.org/
+<!-- TEST: zmiana do sprawdzenia kontroli źródła -->
 # i umieść w katalogu projektu lub dodaj do PATH
 
 # Uruchom test
