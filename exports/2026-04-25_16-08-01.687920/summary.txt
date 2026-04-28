@@ -1,0 +1,3 @@
+Œredni czas odpowiedzi: 88.2 ms
+Liczba ¿¹dañ: 6644, b³êdy: 0
+Najszybsza odpowiedŸ: 32 ms, najwolniejsza: 4679 ms
