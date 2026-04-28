@@ -1,0 +1,44 @@
+{
+ "modules": {
+  "selenium": {
+   "enabled": false
+  },
+  "request": {
+   "concurrency": 5
+  }
+ },
+ "scenarios": {
+  "moj_test": {
+   "requests": [
+    {
+     "url": "https://jsonplaceholder.typicode.com/users/1",
+     "label": "Get User 1"
+    },
+    {
+     "url": "https://jsonplaceholder.typicode.com/users",
+     "method": "POST",
+     "label": "Create User",
+     "body": {
+      "name": "Test User",
+      "username": "testuser",
+      "email": "testuser@example.com"
+     }
+    }
+   ]
+  }
+ },
+ "execution": [
+  {
+   "concurrency": 5,
+   "hold-for": "1m",
+   "ramp-up": "15s",
+   "scenario": "moj_test",
+   "throughput": 20
+  }
+ ],
+ "reporting": [
+  {
+   "module": "console"
+  }
+ ]
+}

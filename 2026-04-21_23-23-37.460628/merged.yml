@@ -1,0 +1,37 @@
+---
+execution:
+- concurrency: 20
+  hold-for: 1m
+  label: Warmup
+  ramp-up: 15s
+  scenario: api_performance
+- concurrency: 50
+  hold-for: 5m
+  label: Main Load Test
+  ramp-up: 1m
+  scenario: load_test
+  throughput: 200
+modules:
+  console:
+    disable: false
+  selenium:
+    enabled: false
+reporting:
+- module: console
+- module: final-stats
+scenarios:
+  api_performance:
+    requests:
+    - label: Get Users
+      url: https://jsonplaceholder.typicode.com/users
+    - label: Get Posts
+      url: https://jsonplaceholder.typicode.com/posts
+    - label: Get Comments
+      url: https://jsonplaceholder.typicode.com/comments
+  load_test:
+    requests:
+    - label: Fetch User
+      url: https://jsonplaceholder.typicode.com/users/1
+    - label: Fetch User 2
+      url: https://jsonplaceholder.typicode.com/users/2
+
