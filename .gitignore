@@ -53,6 +53,11 @@ typings/
 # Optional REPL history
 .node_repl_history
 
+# Duże pliki i archiwa
+tools/apache-jmeter-5.6.3.zip
+tools/jdk8u482-b08/jre/lib/rt.jar
+2026-04-27_20-52-39.488499/trace-1.jtl
+
 # Output of 'npm pack'
 *.tgz
 
