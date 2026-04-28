@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.0.3, pluggy-1.6.0
+rootdir: /workspaces/repo-gotowe
+collected 7 items
+
+test_config_validation.py ..                                             [ 28%]
+test_generate_report.py .                                                [ 42%]
+tests/test_analysis_helpers.py ..                                        [ 71%]
+tests/test_hello.py .                                                    [ 85%]
+tests/test_main.py .                                                     [100%]
+
+======================== 7 passed in 246.73s (0:04:06) =========================

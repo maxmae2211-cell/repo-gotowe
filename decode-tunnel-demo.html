@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decode Tunnel Demo</title>
+  <style>
+    :root {
+      --bg: #05070c;
+      --panel: rgba(10, 14, 24, 0.85);
+      --primary: #00e3ff;
+      --secondary: #7cff4e;
+      --accent: #ff5d8f;
+      --text: #d8ecff;
+      --muted: #7d8ea8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at 20% 20%, #111a2f 0%, var(--bg) 40%, #03050a 100%);
+      color: var(--text);
+      font-family: Consolas, "Courier New", monospace;
+      min-height: 100%;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      margin-bottom: 14px;
+      letter-spacing: 0.08em;
+      font-size: 14px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      line-height: 1.08;
+      font-size: clamp(28px, 5vw, 56px);
+      color: #e8f6ff;
+      text-shadow: 0 0 22px rgba(0, 227, 255, 0.2);
+    }
+
+    .card {
+      border: 1px solid rgba(0, 227, 255, 0.25);
+      background: linear-gradient(180deg, rgba(8, 12, 20, 0.92), var(--panel));
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), inset 0 0 35px rgba(0, 227, 255, 0.05);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      background: #04070f;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border-top: 1px solid rgba(0, 227, 255, 0.2);
+      background: rgba(7, 11, 18, 0.95);
+    }
+
+    button {
+      border: 1px solid rgba(0, 227, 255, 0.3);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #0e1a2d, #091220);
+      color: #d8f9ff;
+      padding: 9px 14px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      transition: transform 0.15s ease, border-color 0.2s ease;
+    }
+
+    button:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .status {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend {
+      margin-top: 14px;
+      color: #9fb3cc;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .legend strong {
+      color: #dcf5ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">Realtime Canvas Animation</div>
+    <h1>Kopiowanie kodu -> tunel -> rozkodowanie -> format</h1>
+
+    <div class="card">
+      <canvas id="scene" width="1280" height="720"></canvas>
+      <div class="controls">
+        <button id="restart">Restart</button>
+        <button id="pause">Pauza</button>
+        <div id="status" class="status">Faza: start</div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <strong>Fazy:</strong> 1) kopiowanie źródła, 2) lot przez tunel kodu,
+      3) pełne rozkodowanie, 4) wchłonięcie i format/reset.
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("scene");
+    const ctx = canvas.getContext("2d");
+    const statusEl = document.getElementById("status");
+    const restartBtn = document.getElementById("restart");
+    const pauseBtn = document.getElementById("pause");
+
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const phaseDur = {
+      copy: 1.0,
+      tunnel: 4.0,
+      decode: 1.8,
+      absorb: 1.4,
+    };
+
+    const totalDuration = phaseDur.copy + phaseDur.tunnel + phaseDur.decode + phaseDur.absorb;
+
+    let startTime = performance.now();
+    let paused = false;
+    let pausedAt = 0;
+    let offset = 0;
+
+    const chars = "01{}[]()<>/=+*-_#@%&ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const sourceLines = [
+      "function decrypt(stream) {",
+      "  const key = deriveKey(stream.seed);",
+      "  return stream.bytes.map((b, i) => b ^ key[i % key.length]);",
+      "}",
+      "if (signal === 'TUNNEL_EXIT') {",
+      "  core.absorb(entity);",
+      "  core.format('full-reset');",
+      "}",
+      "const decoded = restorePlainText(packet);",
+      "render(decoded);",
+    ];
+
+    const points = Array.from({ length: 460 }, () => ({
+      angle: Math.random() * Math.PI * 2,
+      radius: 0.2 + Math.random() * 0.8,
+      depth: Math.random(),
+      speed: 0.22 + Math.random() * 0.9,
+      glyph: chars[Math.floor(Math.random() * chars.length)],
+    }));
+
+    function getTimeline(t) {
+      const copyEnd = phaseDur.copy;
+      const tunnelEnd = copyEnd + phaseDur.tunnel;
+      const decodeEnd = tunnelEnd + phaseDur.decode;
+      const absorbEnd = decodeEnd + phaseDur.absorb;
+
+      if (t < copyEnd) return { name: "kopiowanie", local: t / phaseDur.copy };
+      if (t < tunnelEnd) return { name: "tunel", local: (t - copyEnd) / phaseDur.tunnel };
+      if (t < decodeEnd) return { name: "rozkodowanie", local: (t - tunnelEnd) / phaseDur.decode };
+      if (t < absorbEnd) return { name: "wchłonięcie+format", local: (t - decodeEnd) / phaseDur.absorb };
+      return { name: "restart", local: 1 };
+    }
+
+    function drawBackground(time) {
+      const g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, "#03070f");
+      g.addColorStop(1, "#01040a");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+
+      for (let i = 0; i < 24; i++) {
+        const x = (i * 127 + time * 30) % (W + 200) - 100;
+        const alpha = 0.04 + (i % 5) * 0.01;
+        ctx.strokeStyle = `rgba(0, 227, 255, ${alpha.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x - 220, H);
+        ctx.stroke();
+      }
+    }
+
+    function drawCopyPhase(local, time) {
+      ctx.save();
+      ctx.globalAlpha = 0.88;
+      ctx.fillStyle = "rgba(7, 11, 18, 0.86)";
+      ctx.fillRect(120, 80, W - 240, H - 160);
+
+      ctx.strokeStyle = "rgba(0, 227, 255, 0.3)";
+      ctx.strokeRect(120, 80, W - 240, H - 160);
+
+      ctx.font = "24px Consolas, monospace";
+      ctx.fillStyle = "#00e3ff";
+      ctx.fillText("COPY SOURCE: ACTIVE", 150, 130);
+
+      ctx.font = "20px Consolas, monospace";
+      const maxLines = Math.floor(local * sourceLines.length * 1.6);
+      for (let i = 0; i < Math.min(maxLines, sourceLines.length); i++) {
+        ctx.fillStyle = i % 2 === 0 ? "#7cff4e" : "#bfe7ff";
+        ctx.fillText(sourceLines[i], 150, 190 + i * 42);
+      }
+
+      const cursorBlink = Math.floor(time * 3) % 2 === 0;
+      if (cursorBlink) {
+        ctx.fillStyle = "#ff5d8f";
+        ctx.fillRect(150 + 13 * (maxLines % 12), 190 + Math.min(maxLines, sourceLines.length - 1) * 42 - 18, 12, 24);
+      }
+      ctx.restore();
+    }
+
+    function drawTunnelPhase(local, time, decodeMix = 0) {
+      const cx = W / 2;
+      const cy = H / 2;
+
+      for (const p of points) {
+        p.depth -= p.speed * 0.004;
+        if (p.depth <= 0.02) {
+          p.depth = 1;
+          p.glyph = chars[Math.floor(Math.random() * chars.length)];
+        }
+
+        const z = p.depth;
+        const radius = (60 + p.radius * 380) / z;
+        const warp = Math.sin(time * 0.8 + p.angle * 3.0) * 40;
+        const x = cx + Math.cos(p.angle + time * 0.2) * radius + warp;
+        const y = cy + Math.sin(p.angle + time * 0.2) * radius * 0.62;
+        const size = Math.max(10, 28 / z);
+
+        const fade = Math.max(0, 1 - z);
+        const a = Math.min(1, 0.15 + fade * 0.8);
+        const r = Math.floor(124 + decodeMix * 90);
+        const g = Math.floor(255 - decodeMix * 35);
+        const b = Math.floor(78 + decodeMix * 177);
+
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a.toFixed(3)})`;
+        ctx.font = `${size}px Consolas, monospace`;
+        ctx.fillText(p.glyph, x, y);
+      }
+
+      const tunnelGlow = ctx.createRadialGradient(cx, cy, 20, cx, cy, 390);
+      tunnelGlow.addColorStop(0, `rgba(0, 227, 255, ${0.22 + decodeMix * 0.18})`);
+      tunnelGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = tunnelGlow;
+      ctx.fillRect(0, 0, W, H);
+
+      if (local > 0.85) {
+        const flash = (local - 0.85) / 0.15;
+        ctx.fillStyle = `rgba(255, 255, 255, ${(flash * 0.15).toFixed(3)})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    function drawDecodePhase(local) {
+      drawTunnelPhase(1, local * 2.0, local);
+
+      const panelW = W * 0.76;
+      const panelH = H * 0.56;
+      const px = (W - panelW) / 2;
+      const py = (H - panelH) / 2;
+
+      ctx.fillStyle = `rgba(7, 13, 24, ${(0.3 + local * 0.5).toFixed(3)})`;
+      ctx.fillRect(px, py, panelW, panelH);
+      ctx.strokeStyle = `rgba(124, 255, 78, ${(0.4 + local * 0.5).toFixed(3)})`;
+      ctx.strokeRect(px, py, panelW, panelH);
+
+      ctx.font = "22px Consolas, monospace";
+      ctx.fillStyle = "#dfffe2";
+      ctx.fillText("DECODE STATUS: COMPLETE", px + 28, py + 46);
+
+      const decodedLines = [
+        "packet.id = 0x8f42;",
+        "payload = 'SOURCE_AUTHORIZED';",
+        "integrity = 100%;",
+        "system.core = ONLINE;",
+        "phase.next = FORMAT_SEQUENCE;",
+      ];
+
+      const reveal = Math.floor(local * decodedLines.length + 0.001);
+      ctx.font = "20px Consolas, monospace";
+      for (let i = 0; i < reveal; i++) {
+        ctx.fillStyle = i % 2 ? "#9fd0ff" : "#7cff4e";
+        ctx.fillText(decodedLines[i], px + 28, py + 102 + i * 42);
+      }
+    }
+
+    function drawAbsorbPhase(local) {
+      drawDecodePhase(1);
+      const cx = W / 2;
+      const cy = H / 2;
+
+      const radius = 120 + local * 580;
+      const hole = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+      hole.addColorStop(0, `rgba(0, 0, 0, ${Math.min(1, 0.75 + local * 0.3).toFixed(3)})`);
+      hole.addColorStop(0.65, `rgba(0, 0, 0, ${(0.4 + local * 0.5).toFixed(3)})`);
+      hole.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = hole;
+      ctx.fillRect(0, 0, W, H);
+
+      const whiteFlash = Math.max(0, local - 0.55) / 0.45;
+      if (whiteFlash > 0) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${(whiteFlash * 0.95).toFixed(3)})`;
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.fillStyle = `rgba(0, 10, 20, ${(whiteFlash * 0.85).toFixed(3)})`;
+        ctx.font = "700 48px Consolas, monospace";
+        ctx.fillText("FULL FORMAT EXECUTED", 320, H / 2);
+      }
+    }
+
+    function render(now) {
+      const t = ((now - startTime - offset) / 1000) % totalDuration;
+      const timeline = getTimeline(t);
+
+      statusEl.textContent = `Faza: ${timeline.name}`;
+
+      drawBackground(now / 1000);
+
+      if (timeline.name === "kopiowanie") {
+        drawCopyPhase(timeline.local, now / 1000);
+      } else if (timeline.name === "tunel") {
+        drawTunnelPhase(timeline.local, now / 1000, 0);
+      } else if (timeline.name === "rozkodowanie") {
+        drawDecodePhase(timeline.local);
+      } else if (timeline.name === "wchłonięcie+format") {
+        drawAbsorbPhase(timeline.local);
+      }
+
+      if (!paused) requestAnimationFrame(render);
+    }
+
+    restartBtn.addEventListener("click", () => {
+      startTime = performance.now();
+      offset = 0;
+      paused = false;
+      pauseBtn.textContent = "Pauza";
+      requestAnimationFrame(render);
+    });
+
+    pauseBtn.addEventListener("click", () => {
+      if (!paused) {
+        paused = true;
+        pausedAt = performance.now();
+        pauseBtn.textContent = "Wznów";
+      } else {
+        paused = false;
+        offset += performance.now() - pausedAt;
+        pauseBtn.textContent = "Pauza";
+        requestAnimationFrame(render);
+      }
+    });
+
+    requestAnimationFrame(render);
+  </script>
+</body>
+</html>
