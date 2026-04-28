@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raport Testów - Taurus & Locust</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        h1, h2 { color: #333; }
+        .summary { background: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #4CAF50; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+        .success { color: green; font-weight: bold; }
+        .failure { color: red; font-weight: bold; }
+        .metric { color: #056eff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>📊 Raport Testów - Taurus & Locust</h1>
+    <p>Wygenerowany: <strong>2026-04-27 15:52:47</strong></p>
+    
+    <div class="summary">
+        <h2>📈 Podsumowanie</h2>
+        <p>Sesja testowa zawiera wyniki z trzech narzędzi do testowania wydajności:</p>
+        <ul>
+            <li><strong>Taurus (JMeter):</strong> test-api.yml i test-advanced.yml</li>
+            <li><strong>Locust:</strong> test load na https://jsonplaceholder.typicode.com</li>
+            <li><strong>Selenium:</strong> próba uruchomienia (brak dostępu do sieci)</li>
+        </ul>
+    </div>
+    
+    <h2>🧪 Wyniki Testów</h2>
+    
+    
+    <h3>Test Advanced (test-advanced.yml)</h3>
+    <table>
+        <tr>
+            <th>Metryka</th>
+            <th>Wartość</th>
+        </tr>
+        <tr>
+            <td>Liczba żądań</td>
+            <td class="metric">1309</td>
+        </tr>
+        <tr>
+            <td>Sukcesy</td>
+            <td class="success">1309</td>
+        </tr>
+        <tr>
+            <td>Błędy</td>
+            <td class="failure">0</td>
+        </tr>
+        <tr>
+            <td>Średni czas (ms)</td>
+            <td class="metric">92.23</td>
+        </tr>
+        <tr>
+            <td>Min (ms)</td>
+            <td>33.00</td>
+        </tr>
+        <tr>
+            <td>Max (ms)</td>
+            <td>5881.00</td>
+        </tr>
+        <tr>
+            <td>P50 (ms)</td>
+            <td>128</td>
+        </tr>
+        <tr>
+            <td>P90 (ms)</td>
+            <td>134</td>
+        </tr>
+        <tr>
+            <td>P95 (ms)</td>
+            <td>135</td>
+        </tr>
+        <tr>
+            <td>P99 (ms)</td>
+            <td>143</td>
+        </tr>
+    </table>
+
+    <h3>Test Locust (Headless)</h3>
+    <table>
+        <tr>
+            <th>Metryka</th>
+            <th>Wartość</th>
+        </tr>
+        <tr>
+            <td>Liczba żądań</td>
+            <td class="metric">100</td>
+        </tr>
+        <tr>
+            <td>Sukcesy</td>
+            <td class="success">100 (100%)</td>
+        </tr>
+        <tr>
+            <td>Błędy</td>
+            <td class="failure">0</td>
+        </tr>
+        <tr>
+            <td>Średni czas (ms)</td>
+            <td class="metric">56</td>
+        </tr>
+        <tr>
+            <td>Min (ms)</td>
+            <td>25</td>
+        </tr>
+        <tr>
+            <td>Max (ms)</td>
+            <td>249</td>
+        </tr>
+        <tr>
+            <td>P50 (ms)</td>
+            <td>53</td>
+        </tr>
+        <tr>
+            <td>P90 (ms)</td>
+            <td>70</td>
+        </tr>
+        <tr>
+            <td>P95 (ms)</td>
+            <td>100</td>
+        </tr>
+        <tr>
+            <td>P99 (ms)</td>
+            <td>250</td>
+        </tr>
+    </table>
+
+    
+    <h2>📁 Artefakty</h2>
+    <table>
+        <tr>
+            <th>Katalog</th>
+            <th>Typ</th>
+            <th>Zawartość</th>
+        </tr>
+        
+        <tr>
+            <td>2026-02-12_02-12-45.828918</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter-bzt.properties, system.properties, effective.yml, requests.jmx, merged.json...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-19-53.782541</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter-bzt.properties, system.properties, effective.yml, requests.jmx, merged.json...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-20-01.839976</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter-bzt.properties, system.properties, effective.yml, requests.jmx, merged.json...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-20-45.017899</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter-bzt.properties, system.properties, effective.yml, requests.jmx, merged.json...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-22-43.824403</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-26-53.466024</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-28-00.691882</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_02-51-07.487264</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter-bzt.properties, effective.yml, merged.json, test-locust.yml, effective.json...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_03-19-35.259395</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_03-25-04.457645</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-02-12_03-45-44.209512</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_08-46-54.376906</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_08-59-13.690443</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_09-04-22.820249</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_09-31-28.298989</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_10-39-32.562628</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-05-22.784814</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-13-30.145879</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-17-31.937703</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-24-57.668908</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-39-57.349231</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-51-02.691134</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_11-59-37.651179</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_13-51-33.037709</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_14-09-34.420857</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter-bzt.properties, system.properties, effective.yml, requests.jmx, merged.json...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_14-17-07.667614</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_14-22-03.583993</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-18_14-25-39.913415</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-09-07.340245</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-12-06.938444</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-14-54.895140</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-17-19.091516</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-20-31.417819</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-21-41.299481</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-23-37.460628</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-21_23-36-17.697716</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>modified_requests-1.jmx, jmeter.err, kpi.jtl, test-advanced.yml, jmeter-bzt.properties...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_15-44-12.640807</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_15-47-16.192917</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_16-04-24.520805</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_16-08-01.687920</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_20-39-54.557291</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_20-40-43.583226</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_21-20-07.475017</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_21-23-55.854055</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_22-30-20.183710</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_22-33-19.263950</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_23-34-21.492955</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+        <tr>
+            <td>2026-04-25_23-48-55.387057</td>
+            <td>Taurus Artifact (JMeter)</td>
+            <td>jmeter.err, kpi.jtl, jmeter-bzt.properties, system.properties, effective.yml...</td>
+        </tr>
+
+    </table>
+    
+    <h2>📋 Eksporty Metryki</h2>
+    <p>Pliki CSV dostępne w katalogu <code>exports/</code>:</p>
+    <ul>
+        <li>kpi.csv - KPI z test-api.yml</li>
+        <li>kpi-1.csv - KPI z test-advanced.yml</li>
+        <li>error.csv - Błędy z test-api.yml</li>
+        <li>error-1.csv - Błędy z test-advanced.yml</li>
+        <li>combined.csv - Połączone KPI</li>
+    </ul>
+</body>
+</html>
