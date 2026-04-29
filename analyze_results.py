@@ -22,7 +22,7 @@ def find_latest_kpi(pattern: str) -> Path | None:
     return None
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(args=None) -> argparse.Namespace:
     default_pattern = f"{datetime.now().year}-*"
     parser = argparse.ArgumentParser(
         description="Szczegółowa analiza wyników z pliku kpi.jtl"
@@ -40,7 +40,7 @@ def parse_args() -> argparse.Namespace:
             f"(domyślnie: {default_pattern})."
         ),
     )
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def main() -> int:
@@ -112,7 +112,8 @@ def main() -> int:
         print(f"  Max: {max_t}ms")
 
         successful = sum(1 for r in results[label] if r["success"])
-        print(f"  Sukces: {successful}/{count} ({successful / count * 100:.2f}%)")
+        print(
+            f"  Sukces: {successful}/{count} ({successful / count * 100:.2f}%)")
 
     print()
     print("=" * 80)
@@ -149,7 +150,8 @@ def main() -> int:
     if len(errors) == 0:
         print("✓ Błędy: BRAK")
     else:
-        print(f"✗ Błędy: {len(errors)} ({len(errors) / total_requests * 100:.2f}%)")
+        print(
+            f"✗ Błędy: {len(errors)} ({len(errors) / total_requests * 100:.2f}%)")
 
     print()
     print("=" * 80)
