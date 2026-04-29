@@ -3,12 +3,14 @@ from bs4 import BeautifulSoup
 import subprocess
 import os
 
+
 def download_page(url, filename):
     response = requests.get(url)
     response.raise_for_status()
     with open(filename, 'w', encoding=response.encoding or 'utf-8') as f:
         f.write(response.text)
     print(f"Strona zapisana do: {filename}")
+
 
 def read_and_modify_html(filename, instructions):
     with open(filename, 'r', encoding='utf-8') as f:
@@ -25,12 +27,14 @@ def read_and_modify_html(filename, instructions):
         f.write(str(soup))
     print(f"Poprawki naniesione w: {filename}")
 
+
 def download_video(url, filename=None):
     command = ["yt-dlp", url]
     if filename:
         command += ["-o", filename + ".%(ext)s"]
     subprocess.run(command, check=True)
     print(f"Film pobrany: {filename or url}")
+
 
 # Przykład użycia
 if __name__ == "__main__":

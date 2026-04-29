@@ -36,7 +36,8 @@ for link in soup.find_all("a", href=True):
     if any(href.lower().endswith(ext) for ext in [".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip"]):
         resource_links.append(href)
         try:
-            r = requests.get(href if href.startswith("http") else f"https://code.visualstudio.com{href}")
+            r = requests.get(href if href.startswith("http")
+                             else f"https://code.visualstudio.com{href}")
             filename = os.path.basename(href)
             with open(filename, "wb") as out:
                 out.write(r.content)
@@ -49,10 +50,18 @@ with open("AGENT_LINKED_RESOURCES.txt", "w", encoding="utf-8") as f:
 
 # 4. Aktualizacja README.md
 readme_path = "README.md"
-summary = "\n\n## Agent Tutorial Summary\n" + open("AGENT_TUTORIAL_SUMMARY.md", encoding="utf-8").read()
+summary_header = "## Agent Tutorial Summary"
+summary_content = open("AGENT_TUTORIAL_SUMMARY.md", encoding="utf-8").read()
+summary = f"\n\n{summary_header}\n" + summary_content
 if os.path.exists(readme_path):
-    with open(readme_path, "a", encoding="utf-8") as f:
-        f.write(summary)
+    with open(readme_path, "r", encoding="utf-8") as f:
+        readme = f.read()
+    if summary_header not in readme:
+        with open(readme_path, "a", encoding="utf-8") as f:
+            f.write(summary)
+    else:
+        print(
+            f"Sekcja '{summary_header}' już istnieje w README.md - pomijam duplikat.")
 else:
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(summary)

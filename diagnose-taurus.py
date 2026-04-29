@@ -64,7 +64,8 @@ for fname, desc in test_files.items():
 # 4. Artefakty testów
 print("\n[4] OSTATNIE ARTEFAKTY")
 print("-" * 70)
-artifact_dirs = sorted([d for d in Path(".").glob("2026-02-12_*") if d.is_dir()])
+artifact_dirs = sorted(
+    [d for d in Path(".").glob("20*_*") if d.is_dir()])
 if artifact_dirs:
     latest = artifact_dirs[-1]
     print(f"  📁 {latest.name}/")

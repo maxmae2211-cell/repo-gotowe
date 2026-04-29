@@ -24,12 +24,14 @@ SECTIONS = [
     # Dodaj kolejne sekcje według potrzeb...
 ]
 
+
 def fetch_and_summarize(url, out_dir, images_dir, section_links, section_name=None):
     response = requests.get(url)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
     title = soup.title.string if soup.title else url
-    filename = os.path.join(out_dir, f"{title[:40].replace(' ', '_').replace('/', '_')}.md")
+    filename = os.path.join(
+        out_dir, f"{title[:40].replace(' ', '_').replace('/', '_')}.md")
     anchor = section_name.lower().replace(" ", "-") if section_name else None
     with open(filename, "w", encoding="utf-8") as f:
         # Nagłówek z linkiem do oryginału i kotwicą do spisu treści
@@ -43,7 +45,8 @@ def fetch_and_summarize(url, out_dir, images_dir, section_links, section_name=No
             h_text = h.text.strip()
             for sec_name, sec_url in section_links.items():
                 if sec_name in h_text:
-                    h_text = h_text.replace(sec_name, f"[{sec_name}]({sec_url})")
+                    h_text = h_text.replace(
+                        sec_name, f"[{sec_name}]({sec_url})")
             f.write(f"## {h_text}\n")
         f.write("\n---\nPierwsze 5 akapitów:\n\n")
         for p in soup.find_all("p")[:5]:
@@ -60,7 +63,8 @@ def fetch_and_summarize(url, out_dir, images_dir, section_links, section_name=No
             for img in imgs:
                 src = img.get("src")
                 if src and not src.startswith("data:"):
-                    img_url = src if src.startswith("http") else requests.compat.urljoin(url, src)
+                    img_url = src if src.startswith(
+                        "http") else requests.compat.urljoin(url, src)
                     img_name = os.path.basename(img_url.split("?")[0])
                     try:
                         r = requests.get(img_url)
@@ -70,6 +74,7 @@ def fetch_and_summarize(url, out_dir, images_dir, section_links, section_name=No
                     except Exception as e:
                         f.write(f"- [Błąd pobierania obrazu: {img_url}]\n")
     print(f"Podsumowanie zapisane: {filename}")
+
 
 if __name__ == "__main__":
     out_dir = "docs_summary"
@@ -86,7 +91,8 @@ if __name__ == "__main__":
     for name, url in SECTIONS:
         print(f"Pobieram i analizuję: {name} -> {url}")
         try:
-            fetch_and_summarize(url, out_dir, images_dir, section_links, section_name=name)
+            fetch_and_summarize(url, out_dir, images_dir,
+                                section_links, section_name=name)
             # Dodaj do zbiorczego markdown
             md_files = [f for f in os.listdir(out_dir) if f.endswith('.md')]
             if md_files:

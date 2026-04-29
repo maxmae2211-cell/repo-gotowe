@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 from download_utils import download_video
 
+
 def get_latest_youtube_videos(channel_url, max_videos=3):
     """
     Pobiera listę URL najnowszych filmów z kanału YouTube.
@@ -18,6 +19,7 @@ def get_latest_youtube_videos(channel_url, max_videos=3):
         if len(video_urls) >= max_videos:
             break
     return list(video_urls)
+
 
 if __name__ == "__main__":
     channel = "https://www.youtube.com/@code"

@@ -3,6 +3,8 @@ import requests
 import subprocess
 
 # Pobieranie strony internetowej (HTML)
+
+
 def download_page(url, filename):
     response = requests.get(url)
     response.raise_for_status()
@@ -11,6 +13,8 @@ def download_page(url, filename):
     print(f"Strona zapisana do: {filename}")
 
 # Pobieranie pliku (np. wideo, obraz, pdf)
+
+
 def download_file(url, filename):
     response = requests.get(url, stream=True)
     response.raise_for_status()
@@ -19,6 +23,7 @@ def download_file(url, filename):
             if chunk:
                 f.write(chunk)
     print(f"Plik pobrany do: {filename}")
+
 
 if __name__ == "__main__":
     # Przykład użycia

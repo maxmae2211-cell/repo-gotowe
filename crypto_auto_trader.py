@@ -245,7 +245,8 @@ def main() -> int:
     state_path = Path(cfg.state_file)
     state = load_state(state_path)
 
-    print(f"Start tradera tryb={'LIVE' if args.live else 'PAPER'} symbol={cfg.symbol}")
+    print(
+        f"Start tradera tryb={'LIVE' if args.live else 'PAPER'} symbol={cfg.symbol}")
     exchange = build_exchange(cfg, args.live)
 
     while True:

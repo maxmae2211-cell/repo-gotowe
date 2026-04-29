@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 import generate_report
 
+
 class TestGenerateReport(unittest.TestCase):
     def test_generate_html_report(self):
         # Przygotuj przykładowe katalogi testowe
@@ -12,6 +13,7 @@ class TestGenerateReport(unittest.TestCase):
         html = generate_report.generate_html_report([test_dir])
         self.assertIn("<html", html)
         self.assertIn("Raport Testów", html)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -266,7 +266,8 @@ def generate_html_report(taurus_dirs):
 
 def parse_args() -> argparse.Namespace:
     default_pattern = f"{datetime.now().year}-*"
-    parser = argparse.ArgumentParser(description="Generowanie zbiorczego raportu HTML")
+    parser = argparse.ArgumentParser(
+        description="Generowanie zbiorczego raportu HTML")
     parser.add_argument(
         "--artifacts-pattern",
         default=default_pattern,
