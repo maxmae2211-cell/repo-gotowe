@@ -17,6 +17,16 @@ from jtl_metrics import extract_jtl_kpi
 
 
 def generate_html_report(taurus_dirs):
+    # Generowanie sekcji test_tables na podstawie katalogów z artefaktami
+    test_tables = ""
+    for tdir in taurus_dirs:
+        if os.path.isdir(tdir):
+            test_tables += f"<h3>Wyniki testu: {os.path.basename(tdir)}</h3>"
+            test_tables += "<table><tr><th>Plik</th><th>Typ</th></tr>"
+            for fname in os.listdir(tdir):
+                test_tables += f"<tr><td>{fname}</td><td>{'JTL' if fname.endswith('.jtl') else 'Inny'}</td></tr>"
+            test_tables += "</table>"
+
     html = (
         "<!DOCTYPE html>\n"
         "<html lang=\"pl\">\n"
@@ -68,11 +78,7 @@ def generate_html_report(taurus_dirs):
         </tr >
 """
 
-    html = html.format(
-        timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        test_tables=test_tables,
-        artifact_rows=artifact_rows,
-    )
+    # Nie używamy już .format() na html, bo wszystko jest już wstawione przez f-stringi powyżej
     return html
 
 
