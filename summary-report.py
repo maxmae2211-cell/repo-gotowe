@@ -89,11 +89,11 @@ for test in tests:
     prev = test["previous"]
     curr = test["current"]
 
-    print(f"\n  📋 Konfiguracja:")
+    print("\n  📋 Konfiguracja:")
     print(f"     Poprzednio:  {prev['config']}")
     print(f"     Teraz:       {curr['config']}")
 
-    print(f"\n  📊 Wyniki:")
+    print("\n  📊 Wyniki:")
     # Nagłówek
     print(f"     {'Metryka':<25} {'Poprzednio':<20} {'Teraz':<20} {'Zmiana':<15}")
     print(f"     {'-'*70}")

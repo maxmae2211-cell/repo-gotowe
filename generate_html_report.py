@@ -294,7 +294,6 @@ for label in sorted(response_times.keys()):
 html += """
             </div>
         </div>
-        
         <!-- Summary -->
         <div class="section">
             <h2>Podsumowanie</h2>
@@ -321,12 +320,10 @@ html += """
                 </div>
             </div>
         </div>
-        
         <div class="footer">
             <p>Wygenerowany automatycznie · Taurus Performance Testing Framework</p>
         </div>
     </div>
-    
     <script>
         // Response Time Distribution Chart
         const ctx = document.getElementById('responseTimeChart').getContext('2d');
