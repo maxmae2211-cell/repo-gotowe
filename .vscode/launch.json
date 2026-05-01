@@ -5,6 +5,42 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug: crypto_auto_trader (paper)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/crypto_auto_trader.py",
+            "args": [
+                "--once"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: generate_report",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/generate_report.py",
+            "args": [
+                "--output",
+                "taurus-locust-report.html"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: testy jednostkowe (pytest)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "test_crypto_auto_trader.py",
+                "-v",
+                "--no-header"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Uruchom przeglądarkę Chrome względem hosta lokalnego",
