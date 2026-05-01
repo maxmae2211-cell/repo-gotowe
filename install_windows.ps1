@@ -114,7 +114,10 @@ Write-Host "====================================================" -ForegroundCol
 $ok = $true
 
 try { $v = python --version 2>&1; Write-Host "  Python:  $v" -ForegroundColor Green } catch { Write-Host "  Python:  BLAD" -ForegroundColor Red; $ok = $false }
-try { $v = java -version 2>&1 | Select-Object -First 1; Write-Host "  Java:    $v" -ForegroundColor Green } catch { Write-Host "  Java:    BLAD (Taurus/JMeter nie bedzie dzialac)" -ForegroundColor Yellow }
+$prevEAP2 = $ErrorActionPreference; $ErrorActionPreference = "Continue"
+$javaCheck = java -version 2>&1 | Select-Object -First 1
+$ErrorActionPreference = $prevEAP2
+if ($javaCheck) { Write-Host "  Java:    $javaCheck" -ForegroundColor Green } else { Write-Host "  Java:    BLAD (Taurus/JMeter nie bedzie dzialac)" -ForegroundColor Yellow }
 try { $v = python -c "import bzt; print(bzt.VERSION)" 2>&1; Write-Host "  Taurus:  $v" -ForegroundColor Green } catch { Write-Host "  Taurus:  BLAD" -ForegroundColor Red; $ok = $false }
 try { $v = python -c "import ccxt; print(ccxt.__version__)" 2>&1; Write-Host "  ccxt:    $v" -ForegroundColor Green } catch { Write-Host "  ccxt:    BLAD" -ForegroundColor Red; $ok = $false }
 try { $v = python -c "import fastapi; print(fastapi.__version__)" 2>&1; Write-Host "  FastAPI: $v" -ForegroundColor Green } catch { Write-Host "  FastAPI: BLAD" -ForegroundColor Red; $ok = $false }
