@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install ccxt pytest
+
+      - name: Run unit tests
+        run: pytest --tb=short -q
+
+      - name: Validate trader config
+        run: python3 test_config_validation.py
+
+  taurus:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install Taurus
+        run: pip install bzt
+
+      - name: Run Taurus load test
+        run: bzt test-api.yml -o settings.artifacts-dir=ci-results
+
+      - name: Generate HTML report
+        run: python3 generate_report.py --output taurus-locust-report.html
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: taurus-report
+          path: taurus-locust-report.html
