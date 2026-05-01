@@ -63,6 +63,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--once", action="store_true", help="Wykonaj jeden cykl i zakoncz"
     )
+    parser.add_argument(
+        "--symbols", nargs="+", help="Nadpisz symbole z configu (np. BTC/USDT ETH/USDT)"
+    )
     return parser.parse_args()
 
 
@@ -355,6 +358,17 @@ def run_cycle(
         }
         append_trade_log(Path(cfg.trade_log_file), trade_event)
         append_trade_db(Path(cfg.db_file), trade_event)
+        # Telegram alert dla SL/TP
+        try:
+            from notify_webhook import notify_telegram
+            if risk_signal == "stop_loss":
+                notify_telegram(
+                    f"🛑 *STOP-LOSS* {cfg.symbol}\nCena: `{last_price:.2f}`\nStrata: `{float(state['amount']) * (last_price - float(state['entry_price'])):.4f}`")
+            elif risk_signal == "take_profit":
+                notify_telegram(
+                    f"💰 *TAKE-PROFIT* {cfg.symbol}\nCena: `{last_price:.2f}`\nZysk: `{float(state['amount']) * (last_price - float(state['entry_price'])):.4f}`")
+        except Exception:
+            pass
         state["position_open"] = False
         state["entry_price"] = 0.0
         state["amount"] = 0.0
@@ -370,17 +384,27 @@ def main() -> int:
     state_path = Path(cfg.state_file)
     state = load_state(state_path)
 
+    # Multi-symbol: lista symboli do obsługi
+    symbols = args.symbols if args.symbols else [cfg.symbol]
+
     print(
-        f"Start tradera tryb={'LIVE' if args.live else 'PAPER'} symbol={cfg.symbol}")
+        f"Start tradera tryb={'LIVE' if args.live else 'PAPER'} symbole={symbols}")
     init_db(Path(cfg.db_file))
     exchange = build_exchange(cfg, args.live)
 
     while True:
-        try:
-            state = run_cycle(exchange, cfg, state, args.live)
-            save_state(state_path, state)
-        except Exception as exc:
-            print(f"BLAD: {exc}")
+        for symbol in symbols:
+            cfg.symbol = symbol
+            # Osobny plik stanu dla każdego symbolu
+            sym_safe = symbol.replace("/", "_")
+            state_path = Path(cfg.state_file.replace(
+                ".json", f"_{sym_safe}.json"))
+            state = load_state(state_path)
+            try:
+                state = run_cycle(exchange, cfg, state, args.live)
+                save_state(state_path, state)
+            except Exception as exc:
+                print(f"BLAD [{symbol}]: {exc}")
 
         if args.once:
             break

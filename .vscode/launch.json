@@ -98,6 +98,36 @@
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "platform": "node"
+        },
+        {
+            "name": "FastAPI: trader_api (uvicorn)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "trader_api:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8080",
+                "--reload"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: multi-symbol trader",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/crypto_auto_trader.py",
+            "args": [
+                "--once",
+                "--symbols",
+                "BTC/USDT",
+                "ETH/USDT"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

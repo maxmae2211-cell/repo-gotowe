@@ -8,3 +8,5 @@ yt-dlp
 beautifulsoup4
 python-dotenv>=1.0.0
 ccxt>=4.0.0
+fastapi>=0.110.0
+uvicorn>=0.29.0

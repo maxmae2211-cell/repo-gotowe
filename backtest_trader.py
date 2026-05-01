@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Simple backtest runner for the SMA crossover strategy used by crypto_auto_trader.py."""
+"""Backtest dla strategii SMA+RSI+MACD z crypto_auto_trader.py."""
 
 from __future__ import annotations
 
@@ -9,40 +9,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import ccxt
-
-
-@dataclass
-class TraderConfig:
-    exchange: str
-    symbol: str
-    timeframe: str
-    fast_sma: int
-    slow_sma: int
-    quote_allocation: float
-    stop_loss_pct: float
-    take_profit_pct: float
-    poll_seconds: int
-    state_file: str
-    trade_log_file: str
-
-
-def sma(values: list[float], length: int) -> float:
-    if len(values) < length:
-        raise ValueError(f"Not enough candles for SMA{length}")
-    return sum(values[-length:]) / length
-
-
-def decide_signal(closes: list[float], cfg: TraderConfig) -> str:
-    fast_now = sma(closes, cfg.fast_sma)
-    slow_now = sma(closes, cfg.slow_sma)
-    fast_prev = sma(closes[:-1], cfg.fast_sma)
-    slow_prev = sma(closes[:-1], cfg.slow_sma)
-
-    if fast_prev <= slow_prev and fast_now > slow_now:
-        return "buy"
-    if fast_prev >= slow_prev and fast_now < slow_now:
-        return "sell"
-    return "hold"
+from crypto_auto_trader import (
+    TraderConfig,
+    decide_signal,
+    load_config as _load_config,
+)
 
 
 def parse_args() -> argparse.Namespace:
