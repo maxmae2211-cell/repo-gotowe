@@ -41,6 +41,38 @@
             "cwd": "${workspaceFolder}"
         },
         {
+            "name": "Debug: diagnose-taurus",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/diagnose-taurus.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: run_pipeline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_pipeline.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: test-locust (bezpośrednio)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "locust",
+            "args": [
+                "-f", "test-locust.py",
+                "--headless",
+                "--users", "1",
+                "--spawn-rate", "1",
+                "--run-time", "10s",
+                "--host", "http://localhost"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Uruchom przeglądarkę Chrome względem hosta lokalnego",
