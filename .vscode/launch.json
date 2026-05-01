@@ -128,6 +128,54 @@
             ],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: test-api.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bzt",
+            "args": [
+                "test-api.yml",
+                "-v"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: test-advanced.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bzt",
+            "args": [
+                "test-advanced.yml",
+                "-v"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: test-locust.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bzt",
+            "args": [
+                "test-locust.yml",
+                "-v"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: test-selenium.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bzt",
+            "args": [
+                "test-selenium.yml",
+                "-v"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
