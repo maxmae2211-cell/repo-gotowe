@@ -21,6 +21,23 @@ function Assert-Exists([string]$Path, [string]$Label) {
     }
 }
 
+function Open-LatestReport {
+    # Find the most recent timestamped directory created by Taurus (format: YYYY-MM-DD_HH-MM-SS.xxxxxx)
+    $reportDirs = Get-ChildItem $repoRoot -Directory -ErrorAction SilentlyContinue | 
+        Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.\d+$' } |
+        Sort-Object LastWriteTime -Descending
+
+    if ($reportDirs) {
+        $latestDir = $reportDirs[0]
+        $reportFile = Join-Path $latestDir.FullName 'report.html'
+        
+        if (Test-Path $reportFile) {
+            Write-Host "Opening report: $reportFile"
+            Start-Process $reportFile
+        }
+    }
+}
+
 Assert-Exists $python 'Python interpreter'
 Assert-Exists $bzt 'Taurus executable'
 Assert-Exists $configPath 'Taurus config file'
@@ -36,6 +53,9 @@ switch ($Mode) {
 
     'standard' {
         & $bzt $configPath
+        if ($LASTEXITCODE -eq 0) {
+            Open-LatestReport
+        }
         break
     }
 
@@ -44,6 +64,9 @@ switch ($Mode) {
         $env:JAVA_HOME = $java8
         $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
         & $bzt $configPath -o execution.0.executor=jmeter
+        if ($LASTEXITCODE -eq 0) {
+            Open-LatestReport
+        }
         break
     }
 
@@ -55,12 +78,16 @@ switch ($Mode) {
 
         Write-Host '[2/3] Standard API run...'
         & $bzt $configPath
-
-        Write-Host '[3/3] JMeter + Java8 run...'
-        Assert-Exists $java8 'Java 8 directory'
-        $env:JAVA_HOME = $java8
-        $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
-        & $bzt $configPath -o execution.0.executor=jmeter
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host '[3/3] JMeter + Java8 run...'
+            Assert-Exists $java8 'Java 8 directory'
+            $env:JAVA_HOME = $java8
+            $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
+            & $bzt $configPath -o execution.0.executor=jmeter
+            if ($LASTEXITCODE -eq 0) {
+                Open-LatestReport
+            }
+        }
         break
     }
 }
