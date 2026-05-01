@@ -24,7 +24,7 @@ def archive_taurus_results():
         for f in latest.rglob("*"):
             if f.is_file():
                 zf.write(f, f.relative_to(root))
-    print(f"📦 Zarchiwizowano: {archive_name.name}")
+    print(f"[OK] Zarchiwizowano: {archive_name.name}")
     return str(archive_name)
 
 
@@ -33,15 +33,16 @@ def regenerate_report():
     result = subprocess.run(
         [sys.executable, "generate_report.py",
             "--output", "taurus-locust-report.html"],
-        capture_output=True, text=True, cwd=Path(__file__).parent
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+        cwd=Path(__file__).parent
     )
     if result.returncode == 0:
-        print("📊 Raport HTML zaktualizowany")
+        print("[OK] Raport HTML zaktualizowany")
     else:
-        print(f"⚠️  Raport: {result.stderr.strip()}", file=sys.stderr)
+        print(f"[WARN] Raport: {result.stderr.strip()}", file=sys.stderr)
 
 
 if __name__ == "__main__":
-    print(f"🔄 post-commit: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"[post-commit] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     archive_taurus_results()
     regenerate_report()
