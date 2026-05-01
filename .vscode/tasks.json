@@ -156,6 +156,24 @@
             "problemMatcher": []
         },
         {
+            "label": "Taurus: Support/Production API Run",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-support.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
             "label": "Auto: gitignore commit+push",
             "type": "shell",
             "command": "powershell",

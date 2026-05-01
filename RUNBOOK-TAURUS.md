@@ -41,7 +41,7 @@ C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip check
 C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe -h
 ```
 
-## Standard API run
+## Standard API run (Public/Demo endpoints)
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
@@ -49,6 +49,29 @@ C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe test-api.
 ```
 
 Expected: run finishes with exit code `0`, failures `0.00%`.
+
+## Support/Production environment run
+
+For testing against support or production API endpoints, use `test-support.yml`.
+
+**Before running:** update `test-support.yml` with actual support/production endpoint URLs (currently has placeholders).
+
+```powershell
+Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
+
+# Use custom config flag
+./scripts/run-taurus.ps1 -Mode standard -Config test-support.yml
+
+# Or direct bzt call
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe test-support.yml
+```
+
+**Differences from test-api.yml:**
+- Stricter concurrency (5 vs 10)
+- Longer hold-for (5m vs 2m) to simulate sustained load
+- Longer ramp-up (1m vs 30s)
+- Lower throughput target (30 vs 50 RPS)
+- Stricter pass/fail criteria (fail>5%, avg-rt>3s vs fail>10%, avg-rt>5s)
 
 ## Pass/Fail criteria (wg gettaurus.org/docs/PassFail/)
 
