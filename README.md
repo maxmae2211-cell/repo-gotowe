@@ -1,3 +1,25 @@
+# Dokumentacja projektu repo-gotowe
+
+## Opis
+Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, analizę wyników, powiadomienia i integrację z CI/CD.
+
+## Szybki start
+1. Zainstaluj zależności: `pip install -r requirements.txt`
+2. Uruchom testy: `pytest`
+3. Wygeneruj raport: `python generate_report.py --output taurus-locust-report.html`
+4. Wygeneruj wykresy: `python plot_response_times.py <plik_jtl> <katalog_wyjsciowy>`
+5. Wyślij powiadomienie: `python notify_webhook.py`
+
+## Automatyzacja
+- Workflow GitHub Actions: `.github/workflows/generate-report.yml`
+- Automatyczne powiadomienia: `notify_webhook.py`
+- Analiza wyników: `plot_response_times.py`
+
+## Testy
+- `test_generate_report.py` — testuje generowanie raportu HTML
+
+## Autorzy
+- Zespół repo-gotowe
 # Taurus Test Project
 
 Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyzacji testów wydajności i funkcjonalnych.

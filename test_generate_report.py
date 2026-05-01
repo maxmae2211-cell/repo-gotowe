@@ -14,6 +14,13 @@ class TestGenerateReport(unittest.TestCase):
         self.assertIn("<html", html)
         self.assertIn("Raport Testów", html)
 
+    def test_empty_dir(self):
+        test_dir = Path("empty_test_dir")
+        test_dir.mkdir(exist_ok=True)
+        html = generate_report.generate_html_report([test_dir])
+        self.assertIn("<html", html)
+        test_dir.rmdir()
+
 
 if __name__ == "__main__":
     unittest.main()

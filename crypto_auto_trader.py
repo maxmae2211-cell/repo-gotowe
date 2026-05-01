@@ -9,6 +9,7 @@ Domyslnie dziala paper trading. Tryb live wymaga flagi --live i kluczy API.
 """
 
 from __future__ import annotations
+from typing import List, Any, TypedDict
 
 import argparse
 import csv
@@ -97,13 +98,18 @@ def append_trade_log(path: Path, event: dict[str, Any]) -> None:
         writer.writerow(event)
 
 
-def sma(values: list[float], length: int) -> float:
+class TraderState(TypedDict, total=False):
+    entry_price: float
+    # Dodaj inne pola stanu, jeśli są używane
+
+
+def sma(values: List[float], length: int) -> float:
     if len(values) < length:
         raise ValueError(f"Za malo swiec dla SMA{length}")
     return sum(values[-length:]) / length
 
 
-def build_exchange(cfg: TraderConfig, live: bool):
+def build_exchange(cfg: 'TraderConfig', live: bool) -> Any:
     exchange_cls = getattr(ccxt, cfg.exchange)
     params: dict[str, Any] = {"enableRateLimit": True}
 
@@ -123,11 +129,16 @@ def build_exchange(cfg: TraderConfig, live: bool):
 
 
 def decide_signal(closes: list[float], cfg: TraderConfig) -> str:
-    fast_now = sma(closes, cfg.fast_sma)
-    slow_now = sma(closes, cfg.slow_sma)
+    # Optymalizacja: oblicz SMA tylko raz na oknie
+    fast_sma_values = [sum(closes[i-cfg.fast_sma:i]) /
+                       cfg.fast_sma for i in range(cfg.fast_sma, len(closes)+1)]
+    slow_sma_values = [sum(closes[i-cfg.slow_sma:i]) /
+                       cfg.slow_sma for i in range(cfg.slow_sma, len(closes)+1)]
 
-    fast_prev = sma(closes[:-1], cfg.fast_sma)
-    slow_prev = sma(closes[:-1], cfg.slow_sma)
+    fast_now = fast_sma_values[-1]
+    slow_now = slow_sma_values[-1]
+    fast_prev = fast_sma_values[-2] if len(fast_sma_values) > 1 else fast_now
+    slow_prev = slow_sma_values[-2] if len(slow_sma_values) > 1 else slow_now
 
     crossed_up = fast_prev <= slow_prev and fast_now > slow_now
     crossed_down = fast_prev >= slow_prev and fast_now < slow_now
