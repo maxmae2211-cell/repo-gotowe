@@ -62,12 +62,17 @@
             "request": "launch",
             "module": "locust",
             "args": [
-                "-f", "test-locust.py",
+                "-f",
+                "test-locust.py",
                 "--headless",
-                "--users", "1",
-                "--spawn-rate", "1",
-                "--run-time", "10s",
-                "--host", "http://localhost"
+                "--users",
+                "1",
+                "--spawn-rate",
+                "1",
+                "--run-time",
+                "10s",
+                "--host",
+                "http://localhost"
             ],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}"
