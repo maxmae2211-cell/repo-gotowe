@@ -80,3 +80,7 @@ tools/jdk8u482-b08/jre/lib/rt.jar
 typings/
 yarn-debug.log*
 yarn-error.log*
+
+# Pliki runtime tradera
+trader_state.json
+trader_trades.csv
