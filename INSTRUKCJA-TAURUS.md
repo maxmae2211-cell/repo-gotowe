@@ -43,7 +43,7 @@ Taurus to uruchomi i powie Ci:
 4. Wybierz jedno z zadań Taurusa:
 
 | Nazwa zadania | Co robi |
-|---|---|
+| --- | --- |
 | **Taurus: Kontrola zdrowia** | Sprawdza czy Taurus jest prawidłowo zainstalowany |
 | **Taurus: Standardowy test API** | Uruchamia test na demo API |
 | **Taurus: Test środowiska Support/Produkcja** | Uruchamia test na API support/produkcji |
@@ -75,7 +75,7 @@ cd c:\Users\maxma\Documents\GitHub\repo-gotowe
 
 Gdy uruchomisz test, zobaczysz w konsoli tabelę aktualizowaną co kilka sekund:
 
-```
+```text
 +----+--------+--------+--------+------+---------+--------+
 | Conc |  Avg | Perc 90 | Perc 95 | OK  | Fail    | Err %  |
 +----+--------+--------+--------+------+---------+--------+
@@ -86,7 +86,7 @@ Gdy uruchomisz test, zobaczysz w konsoli tabelę aktualizowaną co kilka sekund:
 **Co oznaczają kolumny:**
 
 | Kolumna | Znaczenie |
-|---|---|
+| --- | --- |
 | `Conc` | Liczba jednoczesnych użytkowników (concurrency) |
 | `Avg` | Średni czas odpowiedzi serwera |
 | `Perc 90` | 90% żądań trwało krócej niż ta wartość |
@@ -116,7 +116,7 @@ Po każdym teście w przeglądarce otworzy się raport z:
 
 Na końcu testu zobaczysz podsumowanie:
 
-```
+```text
 Request label   | # reqs | avg  | min  | max   | err%
 Get Post 1      |   120  | 245  |  80  |  850  | 0.00%
 Create Post     |   118  | 312  | 100  | 1200  | 0.00%
@@ -137,7 +137,7 @@ Taurus tworzy katalog z datą i godziną (np. `2026-05-02_10-30-00.123456/`) zaw
 Test automatycznie się zatrzyma jeśli wystąpi jeden z warunków:
 
 | Warunek | Znaczenie |
-|---|---|
+| --- | --- |
 | Więcej niż **10% błędów** przez 30 sekund | Serwer odpowiada błędami zbyt często |
 | Średni czas odpowiedzi **powyżej 5 sekund** przez 30 sekund | Serwer odpowiada zbyt wolno |
 
@@ -179,7 +179,7 @@ Lub w VS Code: `Ctrl+Shift+P` → `Tasks: Run Task` → **"Taurus: Test środowi
 ## 8. Tryby uruchomienia
 
 | Tryb (`-Mode`) | Opis |
-|---|---|
+| --- | --- |
 | `health` | Kontrola zdrowia — sprawdza instalację Taurusa, nie uruchamia testów |
 | `standard` | Standardowy test API — uruchamia scenariusz z pliku konfiguracyjnego |
 | `jmeter-java8` | Test z silnikiem JMeter + Java 8 — bardziej szczegółowe statystyki |
@@ -197,7 +197,7 @@ Lub w VS Code: `Ctrl+Shift+P` → `Tasks: Run Task` → **"Taurus: Test środowi
 ## 9. Kody błędów
 
 | Kod | Znaczenie | Co zrobić |
-|---|---|---|
+| --- | --- | --- |
 | `0` | ✅ Test zakończony sukcesem | Nic — wszystko OK |
 | `1` | ❌ Błąd ogólny (sieć, konfiguracja) | Sprawdź `bzt.log` w katalogu wynikowym |
 | `2` | ⚠️ Test zatrzymany ręcznie (Ctrl+C) | Normalne — sam/a zatrzymałeś/aś test |
@@ -238,7 +238,7 @@ C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip install
 
 ## Szybki przewodnik — pierwsze kroki
 
-```
+```text
 1. Otwórz VS Code
 2. Ctrl+Shift+P → Tasks: Run Task
 3. Wybierz "Taurus: Kontrola zdrowia" → sprawdź czy działa
@@ -248,4 +248,4 @@ C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip install
 
 ---
 
-*Dokumentacja wygenerowana automatycznie dla środowiska Windows. Wersja Taurus: 1.16.50*
+Dokumentacja wygenerowana automatycznie dla środowiska Windows. Wersja Taurus: 1.16.50

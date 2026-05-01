@@ -67,6 +67,7 @@ C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe test-supp
 ```
 
 **Differences from test-api.yml:**
+
 - Stricter concurrency (5 vs 10)
 - Longer hold-for (5m vs 2m) to simulate sustained load
 - Longer ramp-up (1m vs 30s)
@@ -161,7 +162,7 @@ Use `-Config` to run a different Taurus scenario without editing the script.
 ## VS Code tasks
 
 | Task | Opis |
-|---|---|
+| --- | --- |
 | `Taurus: Health Check` | Sprawdza środowisko |
 | `Taurus: Standard API Run` | Uruchamia test-api.yml |
 | `Taurus: JMeter + Java8` | Wymusza JMeter z Java 8 |
@@ -173,7 +174,7 @@ Use `-Config` to run a different Taurus scenario without editing the script.
 ## VS Code debug profiles (F5)
 
 | Profil | Opis |
-|---|---|
+| --- | --- |
 | `Taurus: test-api.yml` | Uruchamia bzt test-api.yml |
 | `Taurus: test-advanced.yml` | Uruchamia bzt test-advanced.yml |
 | `Debug: Taurus krok 1` | pip install pip/setuptools/wheel/Cython |
