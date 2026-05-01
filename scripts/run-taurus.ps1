@@ -17,7 +17,7 @@ $configPath = Join-Path $repoRoot $Config
 
 function Assert-Exists([string]$Path, [string]$Label) {
     if (-not (Test-Path $Path)) {
-        throw "Nie znaleziono $Label: $Path"
+        throw "Nie znaleziono ${Label}: $Path"
     }
 }
 
