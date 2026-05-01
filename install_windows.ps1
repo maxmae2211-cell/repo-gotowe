@@ -79,10 +79,12 @@ foreach ($pkg in $packages) {
 
 # ── 6. Konfiguracja .env ─────────────────────────────────────
 Write-Host "[5/5] Konfiguracja..." -ForegroundColor Yellow
-if (-not (Test-Path "$projectDir\.env")) {
-    if (Test-Path "$projectDir\.env.example") {
-        Copy-Item "$projectDir\.env.example" "$projectDir\.env"
-        Write-Host "     Utworzono .env z szablonu — uzupelnij klucze API!" -ForegroundColor Yellow
+$envPath = Join-Path $projectDir ".env"
+$envExample = Join-Path $projectDir ".env.example"
+if (-not (Test-Path $envPath)) {
+    if (Test-Path $envExample) {
+        Copy-Item $envExample $envPath
+        Write-Host "     Utworzono .env z szablonu - uzupelnij klucze API!" -ForegroundColor Yellow
     }
 }
 
