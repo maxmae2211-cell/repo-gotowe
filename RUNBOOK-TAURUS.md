@@ -1,48 +1,104 @@
-# Taurus Runbook (verified on 2026-04-18)
+# Taurus Runbook (verified on 2026-05-01)
 
 This file captures the currently verified way to run this workspace on Windows.
+Reference: <https://gettaurus.org/install/Installation/> (Windows section)
 
 ## Verified environment
 
-- Python venv: `.venv`
-- Taurus: `1.16.49`
-- Setuptools in venv: `79.0.1`
-- PyYAML in venv: `6.0.3`
+- Python: `C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe` (global install)
+- bzt: `1.16.50` (global, installed via pip)
+- setuptools: `79.0.1` (pinned — bzt incompatible with setuptools 82.x+)
+- PyYAML: `6.0.x`
 - Manual JMeter available locally: `tools/apache-jmeter-5.6.3`
 - Local Java 8 for compatibility runs: `tools/jdk8u482-b08`
+
+## Windows prerequisites (one-time setup)
+
+Required per official docs: Python 3.7+, Java, Microsoft Visual C++ (Desktop Development with C++)
+
+```powershell
+# Step 1 — upgrade pip/setuptools/wheel/Cython (wg gettaurus.org docs)
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip install --upgrade pip setuptools wheel Cython
+
+# Step 2 — install bzt
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip install bzt
+
+# Step 3 — pin setuptools (compatibility fix)
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip install setuptools==79.0.1
+```
+
+Or use VS Code F5 profiles: "Debug: Taurus krok 1/2/3"
+Or use VS Code task: "Windows: Zainstaluj wymagania systemowe (Java + VC++)"
 
 ## Fast health check
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 
-c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/python.exe -V
-c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/python.exe -m pip show bzt setuptools pyyaml
-c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/python.exe -m pip check
-c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/bzt.exe -h
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -V
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip show bzt setuptools pyyaml
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe -m pip check
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe -h
 ```
 
 ## Standard API run
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
-c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/bzt.exe test-api.yml
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe test-api.yml
 ```
 
 Expected: run finishes with exit code `0`, failures `0.00%`.
 
-## Forced JMeter + Java 8 run
+## Pass/Fail criteria (wg gettaurus.org/docs/PassFail/)
 
-Use this when you want explicit JMeter executor with local Java 8.
+`test-api.yml` zawiera kryteria passfail:
+
+- `fail>10% for 30s, stop as failed` — stop jeśli >10% requestów failuje przez 30s
+- `avg-rt>5s for 30s, stop as failed` — stop jeśli średni czas odpowiedzi >5s przez 30s
+
+Exit codes (wg docs):
+
+- `0` — brak błędów
+- `1` — błąd generyczny (sieć, Taurus internal)
+- `2` — ręczne zatrzymanie (Ctrl+C)
+- `3` — automatyczne zatrzymanie (passfail criteria)
+
+## CLI overrides (-o switch)
+
+```powershell
+# Zmiana executora na JMeter (wg gettaurus.org/docs/CommandLine/)
+bzt test-api.yml -o execution.0.executor=jmeter
+
+# Cichy tryb (tylko błędy i ostrzeżenia)
+bzt -q test-api.yml
+
+# Tryb verbose (wszystkie logi)
+bzt -v test-api.yml
+
+# Zmiana pliku logu
+bzt -l my-run.log test-api.yml
+```
+
+## Forced JMeter + Java 8 run
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 $env:JAVA_HOME = "c:/Users/maxma/Documents/GitHub/repo-gotowe/tools/jdk8u482-b08"
 $env:Path = "$env:JAVA_HOME/bin;" + $env:Path
-c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/bzt.exe test-api.yml -o execution.0.executor=jmeter
+C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe test-api.yml -o execution.0.executor=jmeter
 ```
 
 Note: use `execution.0.executor=jmeter` (indexed path), not `execution.executor=jmeter`.
+
+## Artifacts directory (wg gettaurus.org/docs/ArtifactsDir/)
+
+Po każdym uruchomieniu Taurus tworzy katalog z timestampem, np. `2026-05-01_12-00-00.000000/`.
+Zawiera:
+
+- `bzt.log` — szczegółowy log, najlepsze źródło do troubleshootingu
+- `merged.yml` / `merged.json` — konfiguracja po scaleniu wszystkich plików
+- `effective.yml` / `effective.json` — konfiguracja po zastosowaniu defaults i shorthand rules
 
 ## Git hygiene used in this repo
 
@@ -56,6 +112,7 @@ Note: use `execution.0.executor=jmeter` (indexed path), not `execution.executor=
 - If dependency issues appear, verify `pip check` first.
 - If Taurus starts failing around YAML loading, re-check Taurus/PyYAML compatibility.
 - For `test-advanced.yml`, sporadic TLS handshake/network errors from public endpoints may appear at low rate; treat as external instability and evaluate threshold, not as local environment breakage.
+- setuptools must stay at `79.0.1` — setuptools 82.x+ breaks bzt.
 
 ## One-command runner
 
@@ -74,32 +131,32 @@ Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
 
 Use `-Config` to run a different Taurus scenario without editing the script.
 
-## VS Code tasks (advanced config)
-
-Use these tasks when you want to run `test-advanced.yml` from VS Code:
-
-- `Taurus: Health Advanced Config`
-- `Taurus: Standard Advanced Config`
-- `Taurus: JMeter + Java8 Advanced Config`
-- `Taurus: Full Pipeline Advanced Config`
-
 ```powershell
-Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
-./scripts/run-taurus.ps1 -Mode health -Config test-advanced.yml
 ./scripts/run-taurus.ps1 -Mode standard -Config test-advanced.yml
-./scripts/run-taurus.ps1 -Mode jmeter-java8 -Config test-advanced.yml
-./scripts/run-taurus.ps1 -Mode pipeline -Config test-advanced.yml
 ```
 
-## Java kernel timeout fix (Runme/JShell)
+## VS Code tasks
 
-If Java kernel initialization fails with JShell/JDI timeout, run the helper script below and then reload the VS Code window.
+| Task | Opis |
+|---|---|
+| `Taurus: Health Check` | Sprawdza środowisko |
+| `Taurus: Standard API Run` | Uruchamia test-api.yml |
+| `Taurus: JMeter + Java8` | Wymusza JMeter z Java 8 |
+| `Taurus: Full Pipeline` | Health + Standard + JMeter |
+| `Taurus: Health Advanced Config` | Health z test-advanced.yml |
+| `Taurus: Standard Advanced Config` | Standard z test-advanced.yml |
+| `Windows: Zainstaluj wymagania systemowe` | Java + VC++ przez winget |
 
-```powershell
-Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
-./scripts/fix-java-kernel.ps1 -PurgeRunmeJdkCache
-# Then run: Developer: Reload Window
-```
+## VS Code debug profiles (F5)
+
+| Profil | Opis |
+|---|---|
+| `Taurus: test-api.yml` | Uruchamia bzt test-api.yml |
+| `Taurus: test-advanced.yml` | Uruchamia bzt test-advanced.yml |
+| `Debug: Taurus krok 1` | pip install pip/setuptools/wheel/Cython |
+| `Debug: Taurus krok 2` | pip install bzt |
+| `Debug: Taurus krok 3` | pip install setuptools==79.0.1 |
+| `Debug: Install from requirements.txt` | pip install -r requirements.txt |
 
 ## Terminal fallback when output buffer is unstable
 

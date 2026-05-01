@@ -4,7 +4,7 @@ scenarios:
     requests:
       - url: https://jsonplaceholder.typicode.com/posts/1
         label: Get Post 1
-        
+
       - url: https://jsonplaceholder.typicode.com/posts
         method: POST
         label: Create Post
@@ -20,9 +20,15 @@ execution:
     scenario: api_test
     throughput: 50
 
-modules:
-  request:
-    concurrency: 10
-
 reporting:
   - module: console
+  - module: final-stats
+    summary: true
+    percentiles: true
+    summary-labels: true
+    failed-labels: true
+    test-duration: true
+  - module: passfail
+    criteria:
+      - fail>10% for 30s, stop as failed
+      - avg-rt>5s for 30s, stop as failed

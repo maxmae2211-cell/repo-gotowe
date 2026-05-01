@@ -9,9 +9,10 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
-$python = Join-Path $repoRoot '.venv/Scripts/python.exe'
-$bzt = Join-Path $repoRoot '.venv/Scripts/bzt.exe'
-$java8 = Join-Path $repoRoot 'tools/jdk8u482-b08'
+# Taurus installed globally in Python310 (see gettaurus.org/install/Installation/ - Windows)
+$python = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe"
+$bzt    = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe"
+$java8  = Join-Path $repoRoot 'tools/jdk8u482-b08'
 $configPath = Join-Path $repoRoot $Config
 
 function Assert-Exists([string]$Path, [string]$Label) {
