@@ -112,12 +112,12 @@ if __name__ == "__main__":
     with open(args.output, "w", encoding="utf-8") as f:
         f.write(report)
 
-    print(f"✅ Raport HTML wygenerowany: {args.output}")
-    print(f"✅ Artefakty zawierają:")
+    print(f"[OK] Raport HTML wygenerowany: {args.output}")
+    print(f"[OK] Artefakty zawieraja:")
     print(f"   - Katalogi testów Taurus: {len(taurus_dirs)} zarejestrowanych")
     print("   - Eksporty CSV w katalogu 'exports/'")
     print("   - Kompresja artefaktów: taurus-report-<data>.zip (jeśli wygenerowano)")
-    print("\n📊 Podsumowanie sesji testowej:")
+    print("\n[INFO] Podsumowanie sesji testowej:")
     print("   - Taurus (JMeter): 2 scenariusze (API + Advanced) = ~3.3k żądań")
     print("   - Locust: 100 żądań, czas testu 1m, 0 błędów")
     print("   - Selenium: Próba (brak dostępu do sieci dla webdriver-manager)")
