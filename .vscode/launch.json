@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Taurus: test-api.yml",
+            "name": "Taurus: Uruchom test-api.yml",
             "type": "debugpy",
             "request": "launch",
             "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
@@ -20,7 +20,7 @@
             "cwd": "${workspaceFolder}"
         },
         {
-            "name": "Taurus: test-advanced.yml",
+            "name": "Taurus: Uruchom test-advanced.yml",
             "type": "debugpy",
             "request": "launch",
             "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
@@ -35,7 +35,7 @@
             "cwd": "${workspaceFolder}"
         },
         {
-            "name": "Taurus: test-locust.yml",
+            "name": "Taurus: Uruchom test-locust.yml",
             "type": "debugpy",
             "request": "launch",
             "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
@@ -50,7 +50,7 @@
             "cwd": "${workspaceFolder}"
         },
         {
-            "name": "Taurus: test-selenium.yml",
+            "name": "Taurus: Uruchom test-selenium.yml",
             "type": "debugpy",
             "request": "launch",
             "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
@@ -178,7 +178,7 @@
             "cwd": "${workspaceFolder}"
         },
         {
-            "name": "Debug: Install from requirements.txt",
+            "name": "Debug: Zainstaluj z requirements.txt",
             "type": "debugpy",
             "request": "launch",
             "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",

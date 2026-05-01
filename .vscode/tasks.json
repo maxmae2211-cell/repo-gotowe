@@ -20,7 +20,7 @@
             }
         },
         {
-            "label": "Taurus: Health Check",
+            "label": "Taurus: Kontrola zdrowia",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -36,7 +36,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Standard API Run",
+            "label": "Taurus: Standardowy test API",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -68,7 +68,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Full Pipeline",
+            "label": "Taurus: Pelny potok (Health + Standard + JMeter)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -84,7 +84,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Standard Advanced Config",
+            "label": "Taurus: Standardowy test (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -102,7 +102,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Health Advanced Config",
+            "label": "Taurus: Kontrola zdrowia (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -120,7 +120,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: JMeter + Java8 Advanced Config",
+            "label": "Taurus: Test JMeter + Java8 (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -138,7 +138,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Full Pipeline Advanced Config",
+            "label": "Taurus: Pelny potok (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -156,7 +156,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Support/Production API Run",
+            "label": "Taurus: Test srodowiska Support/Produkcja",
             "type": "shell",
             "command": "powershell",
             "args": [
