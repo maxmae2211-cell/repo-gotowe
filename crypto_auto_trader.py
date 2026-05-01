@@ -109,6 +109,21 @@ def sma(values: List[float], length: int) -> float:
     return sum(values[-length:]) / length
 
 
+def rsi(values: List[float], period: int = 14) -> float:
+    """Oblicza RSI (Relative Strength Index) dla ostatnich `period` zmian."""
+    if len(values) < period + 1:
+        raise ValueError(f"Za malo swiec dla RSI{period}")
+    deltas = [values[i] - values[i - 1] for i in range(1, len(values))]
+    gains = [d if d > 0 else 0.0 for d in deltas[-period:]]
+    losses = [-d if d < 0 else 0.0 for d in deltas[-period:]]
+    avg_gain = sum(gains) / period
+    avg_loss = sum(losses) / period
+    if avg_loss == 0:
+        return 100.0
+    rs = avg_gain / avg_loss
+    return 100.0 - (100.0 / (1.0 + rs))
+
+
 def build_exchange(cfg: 'TraderConfig', live: bool) -> Any:
     exchange_cls = getattr(ccxt, cfg.exchange)
     params: dict[str, Any] = {"enableRateLimit": True}
@@ -143,9 +158,15 @@ def decide_signal(closes: list[float], cfg: TraderConfig) -> str:
     crossed_up = fast_prev <= slow_prev and fast_now > slow_now
     crossed_down = fast_prev >= slow_prev and fast_now < slow_now
 
-    if crossed_up:
+    # Filtr RSI: unikaj kupowania przy wykupieniu i sprzedawania przy wyprzedaniu
+    try:
+        rsi_value = rsi(closes, period=14)
+    except ValueError:
+        rsi_value = 50.0  # brak danych — neutralny
+
+    if crossed_up and rsi_value < 70:
         return "buy"
-    if crossed_down:
+    if crossed_down and rsi_value > 30:
         return "sell"
     return "hold"
 
@@ -191,8 +212,13 @@ def run_cycle(
     signal = decide_signal(closes, cfg)
     risk_signal = maybe_risk_exit(last_price, state, cfg)
 
+    try:
+        rsi_val = rsi(closes, period=14)
+    except ValueError:
+        rsi_val = float("nan")
+
     print(
-        f"cena={last_price:.4f} sygnal={signal} ryzyko={risk_signal} "
+        f"cena={last_price:.4f} rsi={rsi_val:.1f} sygnal={signal} ryzyko={risk_signal} "
         f"pozycja_otwarta={state['position_open']}"
     )
 
