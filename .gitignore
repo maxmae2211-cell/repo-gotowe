@@ -54,7 +54,7 @@
 .yarn-integrity
 2026-04-27_20-52-39.488499/trace-1.jtl
 20??-??-??_??-??-??.*
-__azurite_db*__.json__pycache__/
+__azurite_db*__.json
 __blobstorage__
 __pycache__/
 __queuestorage__
