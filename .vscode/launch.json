@@ -133,6 +133,7 @@
             "name": "Taurus: test-api.yml",
             "type": "debugpy",
             "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
             "module": "bzt",
             "args": [
                 "test-api.yml",
@@ -145,6 +146,7 @@
             "name": "Taurus: test-advanced.yml",
             "type": "debugpy",
             "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
             "module": "bzt",
             "args": [
                 "test-advanced.yml",
@@ -157,6 +159,7 @@
             "name": "Taurus: test-locust.yml",
             "type": "debugpy",
             "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
             "module": "bzt",
             "args": [
                 "test-locust.yml",
@@ -169,6 +172,7 @@
             "name": "Taurus: test-selenium.yml",
             "type": "debugpy",
             "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
             "module": "bzt",
             "args": [
                 "test-selenium.yml",
