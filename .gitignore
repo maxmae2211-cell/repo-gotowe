@@ -84,3 +84,4 @@ yarn-error.log*
 # Pliki runtime tradera
 trader_state.json
 trader_trades.csv
+trader_trades.db

@@ -15,11 +15,18 @@ import argparse
 import csv
 import json
 import os
+import sqlite3
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 import ccxt
 
@@ -37,6 +44,10 @@ class TraderConfig:
     poll_seconds: int
     state_file: str
     trade_log_file: str
+    db_file: str = "trader_trades.db"
+    macd_fast: int = 12
+    macd_slow: int = 26
+    macd_signal: int = 9
 
 
 def parse_args() -> argparse.Namespace:
@@ -124,6 +135,70 @@ def rsi(values: List[float], period: int = 14) -> float:
     return 100.0 - (100.0 / (1.0 + rs))
 
 
+def ema(values: List[float], period: int) -> List[float]:
+    """Oblicza EMA (Exponential Moving Average) dla całej serii."""
+    if len(values) < period:
+        raise ValueError(f"Za malo danych dla EMA{period}")
+    k = 2.0 / (period + 1)
+    result = [sum(values[:period]) / period]
+    for v in values[period:]:
+        result.append(v * k + result[-1] * (1 - k))
+    return result
+
+
+def macd(values: List[float], fast: int = 12, slow: int = 26, signal: int = 9):
+    """Zwraca (macd_line, signal_line, histogram) dla ostatniego punktu."""
+    if len(values) < slow + signal:
+        raise ValueError(f"Za malo danych dla MACD({fast},{slow},{signal})")
+    ema_fast = ema(values, fast)
+    ema_slow = ema(values, slow)
+    # Wyrównaj długości
+    diff = len(ema_fast) - len(ema_slow)
+    ema_fast = ema_fast[diff:]
+    macd_line = [f - s for f, s in zip(ema_fast, ema_slow)]
+    if len(macd_line) < signal:
+        raise ValueError("Za malo danych dla linii sygnalu MACD")
+    signal_line = ema(macd_line, signal)
+    histogram = macd_line[-1] - signal_line[-1]
+    return macd_line[-1], signal_line[-1], histogram
+
+
+def init_db(path: Path) -> None:
+    """Inicjalizuje bazę SQLite z tabelą transakcji."""
+    conn = sqlite3.connect(path)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS trades (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp_utc TEXT NOT NULL,
+            symbol TEXT NOT NULL,
+            mode TEXT NOT NULL,
+            action TEXT NOT NULL,
+            reason TEXT NOT NULL,
+            price REAL NOT NULL,
+            amount REAL NOT NULL,
+            quote_value REAL NOT NULL
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def append_trade_db(path: Path, event: dict[str, Any]) -> None:
+    """Zapisuje transakcję do bazy SQLite."""
+    conn = sqlite3.connect(path)
+    conn.execute("""
+        INSERT INTO trades
+            (timestamp_utc, symbol, mode, action, reason, price, amount, quote_value)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        event["timestamp_utc"], event["symbol"], event["mode"], event["action"],
+        event["reason"], float(event["price"]), float(event["amount"]),
+        float(event["quote_value"]),
+    ))
+    conn.commit()
+    conn.close()
+
+
 def build_exchange(cfg: 'TraderConfig', live: bool) -> Any:
     exchange_cls = getattr(ccxt, cfg.exchange)
     params: dict[str, Any] = {"enableRateLimit": True}
@@ -144,7 +219,6 @@ def build_exchange(cfg: 'TraderConfig', live: bool) -> Any:
 
 
 def decide_signal(closes: list[float], cfg: TraderConfig) -> str:
-    # Optymalizacja: oblicz SMA tylko raz na oknie
     fast_sma_values = [sum(closes[i-cfg.fast_sma:i]) /
                        cfg.fast_sma for i in range(cfg.fast_sma, len(closes)+1)]
     slow_sma_values = [sum(closes[i-cfg.slow_sma:i]) /
@@ -158,15 +232,24 @@ def decide_signal(closes: list[float], cfg: TraderConfig) -> str:
     crossed_up = fast_prev <= slow_prev and fast_now > slow_now
     crossed_down = fast_prev >= slow_prev and fast_now < slow_now
 
-    # Filtr RSI: unikaj kupowania przy wykupieniu i sprzedawania przy wyprzedaniu
     try:
         rsi_value = rsi(closes, period=14)
     except ValueError:
-        rsi_value = 50.0  # brak danych — neutralny
+        rsi_value = 50.0
 
-    if crossed_up and rsi_value < 70:
+    try:
+        macd_line, signal_line, _ = macd(
+            closes, fast=cfg.macd_fast, slow=cfg.macd_slow, signal=cfg.macd_signal
+        )
+        macd_bullish = macd_line > signal_line
+        macd_bearish = macd_line < signal_line
+    except ValueError:
+        macd_bullish = True
+        macd_bearish = True
+
+    if crossed_up and rsi_value < 70 and macd_bullish:
         return "buy"
-    if crossed_down and rsi_value > 30:
+    if crossed_down and rsi_value > 30 and macd_bearish:
         return "sell"
     return "hold"
 
@@ -217,9 +300,16 @@ def run_cycle(
     except ValueError:
         rsi_val = float("nan")
 
+    try:
+        macd_val, macd_sig, macd_hist = macd(
+            closes, fast=cfg.macd_fast, slow=cfg.macd_slow, signal=cfg.macd_signal
+        )
+    except ValueError:
+        macd_val = macd_sig = macd_hist = float("nan")
+
     print(
-        f"cena={last_price:.4f} rsi={rsi_val:.1f} sygnal={signal} ryzyko={risk_signal} "
-        f"pozycja_otwarta={state['position_open']}"
+        f"cena={last_price:.4f} rsi={rsi_val:.1f} macd={macd_val:.2f}/{macd_sig:.2f} "
+        f"sygnal={signal} ryzyko={risk_signal} pozycja_otwarta={state['position_open']}"
     )
 
     if not state["position_open"] and signal == "buy":
@@ -231,19 +321,18 @@ def run_cycle(
         print(
             f"KUPNO ilosc={amount:.8f} po_cenie={last_price:.4f} tryb={'live' if live else 'paper'}"
         )
-        append_trade_log(
-            Path(cfg.trade_log_file),
-            {
-                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                "symbol": cfg.symbol,
-                "mode": "live" if live else "paper",
-                "action": "buy",
-                "reason": "sma_cross_up",
-                "price": f"{last_price:.8f}",
-                "amount": f"{amount:.8f}",
-                "quote_value": f"{cfg.quote_allocation:.8f}",
-            },
-        )
+        trade_event = {
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            "symbol": cfg.symbol,
+            "mode": "live" if live else "paper",
+            "action": "buy",
+            "reason": "sma_cross_up",
+            "price": f"{last_price:.8f}",
+            "amount": f"{amount:.8f}",
+            "quote_value": f"{cfg.quote_allocation:.8f}",
+        }
+        append_trade_log(Path(cfg.trade_log_file), trade_event)
+        append_trade_db(Path(cfg.db_file), trade_event)
 
     elif state["position_open"] and (
         signal == "sell" or risk_signal in {"stop_loss", "take_profit"}
@@ -254,19 +343,18 @@ def run_cycle(
             f"{risk_signal if risk_signal != 'none' else signal} tryb={'live' if live else 'paper'}"
         )
         reason = risk_signal if risk_signal != "none" else signal
-        append_trade_log(
-            Path(cfg.trade_log_file),
-            {
-                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                "symbol": cfg.symbol,
-                "mode": "live" if live else "paper",
-                "action": "sell",
-                "reason": reason,
-                "price": f"{last_price:.8f}",
-                "amount": f"{float(state['amount']):.8f}",
-                "quote_value": f"{float(state['amount']) * last_price:.8f}",
-            },
-        )
+        trade_event = {
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            "symbol": cfg.symbol,
+            "mode": "live" if live else "paper",
+            "action": "sell",
+            "reason": reason,
+            "price": f"{last_price:.8f}",
+            "amount": f"{float(state['amount']):.8f}",
+            "quote_value": f"{float(state['amount']) * last_price:.8f}",
+        }
+        append_trade_log(Path(cfg.trade_log_file), trade_event)
+        append_trade_db(Path(cfg.db_file), trade_event)
         state["position_open"] = False
         state["entry_price"] = 0.0
         state["amount"] = 0.0
@@ -284,6 +372,7 @@ def main() -> int:
 
     print(
         f"Start tradera tryb={'LIVE' if args.live else 'PAPER'} symbol={cfg.symbol}")
+    init_db(Path(cfg.db_file))
     exchange = build_exchange(cfg, args.live)
 
     while True:

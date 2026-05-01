@@ -9,6 +9,10 @@ from unittest.mock import MagicMock, patch
 from crypto_auto_trader import (
     TraderConfig,
     decide_signal,
+    ema,
+    macd,
+    init_db,
+    append_trade_db,
     load_config,
     load_state,
     maybe_risk_exit,
@@ -201,6 +205,77 @@ class TestLoadConfig(unittest.TestCase):
         self.assertEqual(cfg.symbol, "ETH/USDT")
         self.assertEqual(cfg.fast_sma, 7)
         path.unlink()
+
+
+class TestEma(unittest.TestCase):
+    def test_ema_length(self):
+        values = [float(i) for i in range(1, 31)]
+        result = ema(values, 10)
+        self.assertEqual(len(result), 21)  # 30 - 10 + 1
+
+    def test_ema_too_few(self):
+        with self.assertRaises(ValueError):
+            ema([1.0, 2.0], 5)
+
+    def test_ema_constant_series(self):
+        values = [5.0] * 20
+        result = ema(values, 5)
+        for v in result:
+            self.assertAlmostEqual(v, 5.0, places=5)
+
+
+class TestMacd(unittest.TestCase):
+    def _prices(self, n=60):
+        import math
+        return [100.0 + math.sin(i * 0.2) * 10 for i in range(n)]
+
+    def test_macd_returns_tuple(self):
+        prices = self._prices(60)
+        result = macd(prices, fast=12, slow=26, signal=9)
+        self.assertEqual(len(result), 3)
+
+    def test_macd_too_few(self):
+        with self.assertRaises(ValueError):
+            macd([1.0] * 10, fast=12, slow=26, signal=9)
+
+    def test_macd_values_are_floats(self):
+        prices = self._prices(60)
+        ml, sl, hist = macd(prices)
+        self.assertIsInstance(ml, float)
+        self.assertIsInstance(sl, float)
+        self.assertIsInstance(hist, float)
+
+
+class TestSqliteDb(unittest.TestCase):
+    def test_init_and_insert(self):
+        with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
+            db_path = Path(f.name)
+        init_db(db_path)
+        event = {
+            "timestamp_utc": "2026-05-01T10:00:00+00:00",
+            "symbol": "BTC/USDT",
+            "mode": "paper",
+            "action": "buy",
+            "reason": "sma_cross_up",
+            "price": "80000.0",
+            "amount": "0.001",
+            "quote_value": "80.0",
+        }
+        append_trade_db(db_path, event)
+        import sqlite3
+        conn = sqlite3.connect(db_path)
+        rows = conn.execute("SELECT * FROM trades").fetchall()
+        conn.close()
+        db_path.unlink()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0][4], "buy")  # action column
+
+    def test_init_idempotent(self):
+        with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
+            db_path = Path(f.name)
+        init_db(db_path)
+        init_db(db_path)  # nie powinno rzucić wyjątku
+        db_path.unlink()
 
 
 if __name__ == "__main__":
