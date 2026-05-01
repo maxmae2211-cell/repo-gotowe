@@ -44,36 +44,5 @@ class TestNotifyWebhook(unittest.TestCase):
                 notify_webhook.notify_telegram("env test")
         mock_post.assert_called_once()
 
-    def test_notify_trader_signal_buy(self):
-        with patch("notify_webhook.notify_telegram") as mock_tel:
-            notify_webhook.notify_trader_signal(
-                "buy", "BTC/USDT", 80000.0, 45.0)
-        mock_tel.assert_called_once()
-        msg = mock_tel.call_args[0][0]
-        self.assertIn("BUY", msg)
-        self.assertIn("BTC/USDT", msg)
-        self.assertIn("80000.00", msg)
-
-    def test_notify_trader_signal_sell(self):
-        with patch("notify_webhook.notify_telegram") as mock_tel:
-            notify_webhook.notify_trader_signal(
-                "sell", "ETH/USDT", 3000.0, 75.0)
-        mock_tel.assert_called_once()
-        msg = mock_tel.call_args[0][0]
-        self.assertIn("SELL", msg)
-
-    def test_notify_trader_signal_hold_skipped(self):
-        with patch("notify_webhook.notify_telegram") as mock_tel:
-            notify_webhook.notify_trader_signal(
-                "hold", "BTC/USDT", 80000.0, 50.0)
-        mock_tel.assert_not_called()
-
-    def test_notify_trader_signal_none_skipped(self):
-        with patch("notify_webhook.notify_telegram") as mock_tel:
-            notify_webhook.notify_trader_signal(
-                "none", "BTC/USDT", 80000.0, 50.0)
-        mock_tel.assert_not_called()
-
-
 if __name__ == "__main__":
     unittest.main()

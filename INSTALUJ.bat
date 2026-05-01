@@ -1,15 +1,15 @@
 @echo off
-title Instalator Crypto Auto Trader
+title Instalator repo-gotowe
 echo.
 echo ====================================================
-echo   Crypto Auto Trader - Instalator Windows
+echo   repo-gotowe - Instalator Windows
 echo ====================================================
 echo.
 
 :: Uruchom lokalny skrypt PowerShell (jeśli istnieje), lub pobierz z GitHub
 set "LOCAL_PS1=%~dp0install_windows.ps1"
 set "RAW_URL=https://raw.githubusercontent.com/maxmae2211-cell/repo-gotowe/main/install_windows.ps1"
-set "TARGET_PS1=%TEMP%\install_trader_latest.ps1"
+set "TARGET_PS1=%TEMP%\install_repo_latest.ps1"
 
 if exist "%LOCAL_PS1%" (
     powershell -NoProfile -ExecutionPolicy Bypass -File "%LOCAL_PS1%"

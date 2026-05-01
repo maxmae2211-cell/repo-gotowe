@@ -33,21 +33,6 @@ def notify_telegram(message: str, token: str = "", chat_id: str = "") -> int:
     print(f"Status powiadomienia Telegram: {response.status_code}")
     return response.status_code
 
-
-def notify_trader_signal(signal: str, symbol: str, price: float, rsi: float) -> None:
-    """Wysyła sygnał tradera przez Telegram jeśli to BUY lub SELL."""
-    if signal not in ("buy", "sell"):
-        return
-    emoji = "🟢" if signal == "buy" else "🔴"
-    msg = (
-        f"{emoji} *{signal.upper()}* {symbol}\n"
-        f"Cena: `{price:.2f}`\n"
-        f"RSI: `{rsi:.1f}`"
-    )
-    notify_telegram(msg)
-
-
 # Przykład użycia:
 # notify_webhook('taurus-locust-report.html', 'https://your-webhook-url')
 # notify_telegram('Test wiadomości', token='...', chat_id='...')
-# notify_trader_signal('buy', 'BTC/USDT', 78000.0, 55.3)

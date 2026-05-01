@@ -1,5 +1,5 @@
 # =============================================================
-#  Instalator projektu Crypto Auto Trader na Windows
+#  Instalator projektu repo-gotowe na Windows
 #  Uruchomienie: prawy klik -> "Uruchom jako Administrator"
 #  lub: powershell -ExecutionPolicy Bypass -File install_windows.ps1
 # =============================================================
@@ -9,7 +9,7 @@ $projectDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Write-Host ""
 Write-Host "====================================================" -ForegroundColor Cyan
-Write-Host "  Crypto Auto Trader - Instalator Windows" -ForegroundColor Cyan
+Write-Host "  repo-gotowe - Instalator Windows" -ForegroundColor Cyan
 Write-Host "====================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -79,10 +79,7 @@ python -m pip install --upgrade pip --quiet
 
 $packages = @(
     "bzt>=1.16.0",
-    "ccxt>=4.0.0",
     "python-dotenv>=1.0.0",
-    "fastapi>=0.110.0",
-    "uvicorn>=0.29.0",
     "requests>=2.32.0",
     "pyyaml>=6.0",
     "pytest",
@@ -119,19 +116,14 @@ $javaCheck = java -version 2>&1 | Select-Object -First 1
 $ErrorActionPreference = $prevEAP2
 if ($javaCheck) { Write-Host "  Java:    $javaCheck" -ForegroundColor Green } else { Write-Host "  Java:    BLAD (Taurus/JMeter nie bedzie dzialac)" -ForegroundColor Yellow }
 try { $v = python -c "import bzt; print(bzt.VERSION)" 2>&1; Write-Host "  Taurus:  $v" -ForegroundColor Green } catch { Write-Host "  Taurus:  BLAD" -ForegroundColor Red; $ok = $false }
-try { $v = python -c "import ccxt; print(ccxt.__version__)" 2>&1; Write-Host "  ccxt:    $v" -ForegroundColor Green } catch { Write-Host "  ccxt:    BLAD" -ForegroundColor Red; $ok = $false }
-try { $v = python -c "import fastapi; print(fastapi.__version__)" 2>&1; Write-Host "  FastAPI: $v" -ForegroundColor Green } catch { Write-Host "  FastAPI: BLAD" -ForegroundColor Red; $ok = $false }
 
 Write-Host ""
 if ($ok) {
     Write-Host "  Instalacja zakonczona pomyslnie!" -ForegroundColor Green
     Write-Host ""
     Write-Host "  Jak uruchomic:" -ForegroundColor Cyan
-    Write-Host "    Trader (paper):  python crypto_auto_trader.py --once" -ForegroundColor White
-    Write-Host "    REST API:        python -m uvicorn trader_api:app --port 8080" -ForegroundColor White
     Write-Host "    Taurus testy:    bzt test-api.yml" -ForegroundColor White
     Write-Host "    Pytest:          python -m pytest" -ForegroundColor White
-    Write-Host "    Multi-symbol:    python crypto_auto_trader.py --symbols BTC/USDT ETH/USDT" -ForegroundColor White
 } else {
     Write-Host "  Niektore komponenty nie zostaly zainstalowane!" -ForegroundColor Red
 }
