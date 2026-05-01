@@ -16,10 +16,24 @@ Write-Host ""
 # ── 1. Sprawdź winget ─────────────────────────────────────────
 function Test-Command($cmd) { return [bool](Get-Command $cmd -ErrorAction SilentlyContinue) }
 
+# Jeśli winget nie jest w PATH, spróbuj znaleźć go przez AppxPackage
 if (-not (Test-Command "winget")) {
-    Write-Host "[BLAD] winget nie jest dostepny." -ForegroundColor Red
-    Write-Host "Zaktualizuj Windows 10/11 lub zainstaluj App Installer ze sklepu Microsoft." -ForegroundColor Yellow
-    exit 1
+    $appInstaller = Get-AppxPackage -Name Microsoft.DesktopAppInstaller -ErrorAction SilentlyContinue
+    if ($appInstaller) {
+        $wingetExe = Join-Path $appInstaller.InstallLocation "winget.exe"
+        if (Test-Path $wingetExe) {
+            Set-Alias -Name winget -Value $wingetExe -Scope Global
+            Write-Host "[INFO] winget znaleziony w: $wingetExe" -ForegroundColor Gray
+        } else {
+            Write-Host "[BLAD] winget nie jest dostepny." -ForegroundColor Red
+            Write-Host "Zaktualizuj Windows 10/11 lub zainstaluj App Installer ze sklepu Microsoft." -ForegroundColor Yellow
+            exit 1
+        }
+    } else {
+        Write-Host "[BLAD] winget nie jest dostepny." -ForegroundColor Red
+        Write-Host "Zaktualizuj Windows 10/11 lub zainstaluj App Installer ze sklepu Microsoft." -ForegroundColor Yellow
+        exit 1
+    }
 }
 
 # ── 2. Python 3.11 ───────────────────────────────────────────
@@ -40,7 +54,10 @@ if (-not (Test-Command "java")) {
     winget install --id Microsoft.OpenJDK.21 --silent --accept-package-agreements --accept-source-agreements
     $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH","User")
 } else {
+    $prevEAP = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
     $javaVer = java -version 2>&1 | Select-Object -First 1
+    $ErrorActionPreference = $prevEAP
     Write-Host "     OK: $javaVer" -ForegroundColor Green
 }
 
