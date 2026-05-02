@@ -37,10 +37,28 @@ pwsh .github/hooks/install-hooks.ps1
 
 ```json
 {
-  "blocked_file_patterns": ["*.env", ".bzt-rc", "*.key", ...],
+  "blocked_file_patterns": ["*.env", ".bzt-rc", "*.key", "*.pem", "*.token", ...],
   "protected_branches": ["main", "master"],
-  "warn_only": false
+  "warn_only": false,
+  "log_blocked": true,
+  "block_force_push": true,
+  "max_file_size_kb": 500,
+  "blocked_commit_message_patterns": ["^WIP", "fixup!", "DO NOT MERGE"],
+  "require_conventional_commits": false,
+  "conventional_commit_scopes": []
 }
 ```
+
+| Pole | Typ | Opis |
+|---|---|---|
+| `blocked_file_patterns` | `string[]` | Wzorce plików blokowanych w staged (glob) |
+| `protected_branches` | `string[]` | Gałęzie chronione przed bezpośrednim commitem i force-push |
+| `warn_only` | `bool` | `true` = tylko ostrzega, nie blokuje (exit 0) |
+| `log_blocked` | `bool` | `true` = zapisuje zdarzenia do `.git/guard-git.log` |
+| `block_force_push` | `bool` | `true` = blokuje force-push do chronionych gałęzi |
+| `max_file_size_kb` | `int` | Maksymalny rozmiar staged pliku w KB (0 = bez limitu) |
+| `blocked_commit_message_patterns` | `string[]` | Wyrażenia regularne blokujące wiadomości commitu (np. `^WIP`, `fixup!`) |
+| `require_conventional_commits` | `bool` | `true` = wymaga formatu `type(scope): opis` (Conventional Commits) |
+| `conventional_commit_scopes` | `string[]` | Opcjonalna lista dozwolonych zakresów (`scope`); pusta = wszystkie dozwolone |
 
 Ustaw `"warn_only": true` aby hook tylko ostrzegał zamiast blokować.

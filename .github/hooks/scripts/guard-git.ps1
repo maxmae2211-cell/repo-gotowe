@@ -25,6 +25,9 @@ if (-not (Test-Path $configPath)) {
 $config = Get-Content $configPath -Raw | ConvertFrom-Json
 $warnOnly   = [bool]$config.warn_only
 $logBlocked = [bool]$config.log_blocked
+$maxFileSizeKb = if ($null -ne $config.max_file_size_kb) { [int]$config.max_file_size_kb } else { 0 }
+$requireConventional = if ($null -ne $config.require_conventional_commits) { [bool]$config.require_conventional_commits } else { $false }
+$blockedMsgPatterns  = if ($config.blocked_commit_message_patterns) { $config.blocked_commit_message_patterns } else { @() }
 
 function Write-Blocked([string]$Message) {
     Write-Host "guard-git [ZABLOKOWANO]: $Message" -ForegroundColor Red
@@ -49,10 +52,23 @@ function Write-Warn([string]$Message) {
 if ($HookType -eq "pre-commit") {
     $stagedFiles = git diff --cached --name-only 2>$null
     foreach ($file in $stagedFiles) {
+        # Sprawdź wzorce wrażliwych plików
         foreach ($pattern in $config.blocked_file_patterns) {
             if ($file -like $pattern) {
                 Write-Blocked "próba dodania wrażliwego pliku: $file (wzorzec: $pattern)"
                 Write-Host "   Usuń plik z indeksu: git reset HEAD $file" -ForegroundColor Cyan
+            }
+        }
+
+        # Sprawdź rozmiar pliku
+        if ($maxFileSizeKb -gt 0) {
+            $fullPath = Join-Path $repoRoot $file
+            if (Test-Path $fullPath) {
+                $sizeKb = [math]::Round((Get-Item $fullPath).Length / 1KB, 1)
+                if ($sizeKb -gt $maxFileSizeKb) {
+                    Write-Blocked "plik '$file' jest za duży: ${sizeKb} KB (limit: ${maxFileSizeKb} KB)"
+                    Write-Host "   Rozważ użycie Git LFS dla dużych plików binarnych." -ForegroundColor Cyan
+                }
             }
         }
     }
@@ -60,6 +76,29 @@ if ($HookType -eq "pre-commit") {
     $currentBranch = git rev-parse --abbrev-ref HEAD 2>$null
     if ($currentBranch -in $config.protected_branches) {
         Write-Warn "commit bezpośrednio do chronionej gałęzi '$currentBranch'"
+    }
+
+    # Sprawdź treść wiadomości commitu
+    $commitMsgFile = Join-Path $repoRoot ".git" "COMMIT_EDITMSG"
+    if (Test-Path $commitMsgFile) {
+        $commitMsg = (Get-Content $commitMsgFile -Raw).Trim()
+
+        # Zablokowane wzorce wiadomości
+        foreach ($pattern in $blockedMsgPatterns) {
+            if ($commitMsg -match $pattern) {
+                Write-Blocked "wiadomość commitu pasuje do zablokowanego wzorca '$pattern': $commitMsg"
+                Write-Host "   Zmień wiadomość commitu przed wypchnięciem." -ForegroundColor Cyan
+            }
+        }
+
+        # Wymagany format Conventional Commits
+        if ($requireConventional) {
+            $conventionalPattern = '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([^)]+\))?: .+'
+            if ($commitMsg -notmatch $conventionalPattern) {
+                Write-Blocked "wiadomość commitu nie jest zgodna z Conventional Commits: '$commitMsg'"
+                Write-Host "   Wymagany format: type(scope): opis  (np. feat: dodaj nową funkcję)" -ForegroundColor Cyan
+            }
+        }
     }
 }
 
