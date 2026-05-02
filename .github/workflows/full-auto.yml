@@ -45,7 +45,7 @@ jobs:
           path: taurus-locust-report.html
       - name: Send e-mail notification
         continue-on-error: true
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v17
         with:
           server_address: smtp.gmail.com
           server_port: 465
@@ -90,7 +90,7 @@ jobs:
           path: taurus-locust-report.html
       - name: Send e-mail notification
         continue-on-error: true
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v17
         with:
           server_address: smtp.gmail.com
           server_port: 465
