@@ -10,6 +10,14 @@
     "github.copilot",
     "github.copilot-chat",
     "robocorp.robocorp-code",
-    "robocorp.robotframework-lsp"
+    "robocorp.robotframework-lsp",
+    "eamodio.gitlens",
+    "ms-vscode.test-adapter-converter",
+    "ms-azure-devops.azure-pipelines",
+    "donjayamanne.githistory",
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    "ms-vscode.powershell",
+    "tamasfe.even-better-toml"
   ]
 }
