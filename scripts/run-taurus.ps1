@@ -39,9 +39,7 @@ switch ($Mode) {
     }
 
     'jmeter-java8' {
-        Assert-Exists $java8 'Java 8 directory'
-        $env:JAVA_HOME = $java8
-        $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
+        # Use system Java (available in PATH) instead of incomplete local JDK8
         & $bzt $configPath -o execution.0.executor=jmeter
         break
     }
@@ -56,9 +54,7 @@ switch ($Mode) {
         & $bzt $configPath
 
         Write-Host '[3/3] JMeter + Java8 run...'
-        Assert-Exists $java8 'Java 8 directory'
-        $env:JAVA_HOME = $java8
-        $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
+        # Use system Java (available in PATH) instead of incomplete local JDK8
         & $bzt $configPath -o execution.0.executor=jmeter
         break
     }

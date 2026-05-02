@@ -1,6 +1,15 @@
-# Taurus Runbook (verified on 2026-04-18)
+# Taurus Runbook (verified on 2026-05-02)
 
 This file captures the currently verified way to run this workspace on Windows.
+
+## Latest verified pipeline results (2026-05-02)
+
+- Health check: ✅ PASS
+- Standard API run: ✅ PASS (6413 samples, 0.00% failures, duration 3:22) → Artifacts: `2026-05-02_22-06-46.903037`
+- JMeter + Java8 run: ✅ PASS (6648 samples, 0.00% failures, duration 2:56) → Artifacts: `2026-05-02_22-29-26.456735`
+- Full pipeline: ✅ Ready to run (all stages verified individually)
+
+**Note**: Local JDK8 (`tools/jdk8u482-b08`) is incomplete (missing `jre/lib/amd64/jvm.cfg`). Current setup uses system Java 8 (1.8.0_491) from PATH. Scripts updated in `run-taurus.ps1` to avoid JAVA_HOME override.
 
 ## Verified environment
 
@@ -33,16 +42,14 @@ Expected: run finishes with exit code `0`, failures `0.00%`.
 
 ## Forced JMeter + Java 8 run
 
-Use this when you want explicit JMeter executor with local Java 8.
+Use this when you want explicit JMeter executor. Uses system Java 8 from PATH (verified: 1.8.0_491).
 
 ```powershell
 Set-Location "c:/Users/maxma/Documents/GitHub/repo-gotowe"
-$env:JAVA_HOME = "c:/Users/maxma/Documents/GitHub/repo-gotowe/tools/jdk8u482-b08"
-$env:Path = "$env:JAVA_HOME/bin;" + $env:Path
 c:/Users/maxma/Documents/GitHub/repo-gotowe/.venv/Scripts/bzt.exe test-api.yml -o execution.0.executor=jmeter
 ```
 
-Note: use `execution.0.executor=jmeter` (indexed path), not `execution.executor=jmeter`.
+**Note**: The local JDK8 at `tools/jdk8u482-b08` is incomplete (missing `jre/lib/amd64/jvm.cfg`) and cannot be used. Script now relies on system Java 8 instead. Use `execution.0.executor=jmeter` (indexed path), not `execution.executor=jmeter`.
 
 ## Git hygiene used in this repo
 
