@@ -175,12 +175,18 @@ Use `-Config` to run a different Taurus scenario without editing the script.
 
 | Profil | Opis |
 | --- | --- |
-| `Taurus: test-api.yml` | Uruchamia bzt test-api.yml |
-| `Taurus: test-advanced.yml` | Uruchamia bzt test-advanced.yml |
-| `Debug: Taurus krok 1` | pip install pip/setuptools/wheel/Cython |
-| `Debug: Taurus krok 2` | pip install bzt |
-| `Debug: Taurus krok 3` | pip install setuptools==79.0.1 |
-| `Debug: Install from requirements.txt` | pip install -r requirements.txt |
+| `Taurus: Uruchom test-api.yml` | Uruchamia bzt test-api.yml |
+| `Taurus: Uruchom test-advanced.yml` | Uruchamia bzt test-advanced.yml |
+| `Taurus: Uruchom test-locust.yml` | Uruchamia bzt test-locust.yml |
+| `Taurus: Uruchom test-selenium.yml` | Uruchamia bzt test-selenium.yml |
+| `Debug: Taurus krok 1 - pip/setuptools/wheel/Cython (wg docs)` | pip install pip/setuptools/wheel/Cython |
+| `Debug: Taurus krok 2 - install bzt (wg docs)` | pip install bzt |
+| `Debug: Taurus krok 3 - pin setuptools==79.0.1 (fix kompatybilności)` | pip install setuptools==79.0.1 |
+| `Debug: Zainstaluj z requirements.txt` | pip install -r requirements.txt |
+| `Debug: diagnose-taurus` | Uruchamia diagnose-taurus.py |
+| `Debug: run_pipeline` | Uruchamia run_pipeline.py |
+| `Debug: test-locust (bezpośrednio)` | Locust headless, 1 user, 10s, localhost |
+| `Debug: testy jednostkowe (pytest)` | pytest -v --no-header |
 
 ## Terminal fallback when output buffer is unstable
 

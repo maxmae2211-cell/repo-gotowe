@@ -32,5 +32,3 @@ reporting:
     criteria:
       - fail>10% for 30s, stop as failed
       - avg-rt>5s for 30s, stop as failed
-  - module: blazemeter
-    token: TWOJ_TOKEN
