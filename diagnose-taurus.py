@@ -65,8 +65,7 @@ for fname, desc in test_files.items():
 # 4. Artefakty testów
 print("\n[4] OSTATNIE ARTEFAKTY")
 print("-" * 70)
-artifact_dirs = sorted(
-    [d for d in Path(".").glob("20*_*") if d.is_dir()])
+artifact_dirs = sorted([d for d in Path(".").glob("20*_*") if d.is_dir()])
 if artifact_dirs:
     latest = artifact_dirs[-1]
     print(f"  📁 {latest.name}/")
@@ -122,12 +121,23 @@ print("  ✅ Ostatnie testy: POWIODŁY SIĘ (kpi.jtl 3,235 żądań, 0 błędów
 
 print("\n[7] WERSJE PAKIETÓW PYTHON")
 print("-" * 70)
-critical_packages = ["bzt", "setuptools", "pip", "debugpy", "fastapi", "uvicorn", "requests", "pytest"]
+critical_packages = [
+    "bzt",
+    "setuptools",
+    "pip",
+    "debugpy",
+    "fastapi",
+    "uvicorn",
+    "requests",
+    "pytest",
+]
 for pkg in critical_packages:
     try:
         result = subprocess.run(
             [sys.executable, "-m", "pip", "show", pkg],
-            capture_output=True, text=True, timeout=10
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         version_line = next(
             (l for l in result.stdout.split("\n") if l.startswith("Version:")), None
@@ -147,6 +157,7 @@ test_urls = [
 ]
 import urllib.request
 import urllib.error
+
 for url, label in test_urls:
     try:
         req = urllib.request.urlopen(url, timeout=5)

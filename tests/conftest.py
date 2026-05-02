@@ -1,6 +1,7 @@
 """
 Pytest fixtures dla testów projektu repo-gotowe.
 """
+
 import sys
 from pathlib import Path
 
