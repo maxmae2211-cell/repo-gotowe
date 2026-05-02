@@ -12,3 +12,6 @@ fastapi>=0.110.0
 uvicorn>=0.29.0
 debugpy>=1.8.0
 agent-dev-cli
+locust>=2.24.0
+robotframework>=7.0.0
+robotframework-requests>=0.9.7

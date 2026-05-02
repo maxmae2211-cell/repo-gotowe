@@ -1,0 +1,25 @@
+config:
+  target: https://jsonplaceholder.typicode.com
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: warmup
+    - duration: 60
+      arrivalRate: 20
+      name: load
+    - duration: 30
+      arrivalRate: 5
+      name: cooldown
+  defaults:
+    headers:
+      Accept: application/json
+
+scenarios:
+  - name: api-mix
+    flow:
+      - get:
+          url: /posts
+      - get:
+          url: /users
+      - get:
+          url: /posts/1

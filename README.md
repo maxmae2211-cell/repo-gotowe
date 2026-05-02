@@ -69,11 +69,31 @@ bzt test-advanced.yml
 pip install selenium --user
 
 # Pobierz ChromeDriver z https://chromedriver.chromium.org/
-<!-- TEST: zmiana do sprawdzenia kontroli źródła -->
 # i umieść w katalogu projektu lub dodaj do PATH
 
 # Uruchom test
 bzt test-selenium.yml
+```
+
+## Alternatywne narzędzia (poza Taurus)
+
+Repo zawiera też konfiguracje do uruchamiania testów bezpośrednio przez inne narzędzia:
+
+- `artillery.yml` + `npm run load:artillery`
+- `examples/k6_example.js` + `npm run load:k6`
+- `locustfile.py` + `npm run load:locust`
+
+Przykłady uruchomień:
+
+```powershell
+# Artillery
+npm run load:artillery
+
+# k6
+npm run load:k6
+
+# Locust (UI na http://localhost:8089)
+npm run load:locust
 ```
 
 ## Uruchamianie w kontenerze deweloperskim (VS Code Dev Containers)

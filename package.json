@@ -4,7 +4,10 @@
   "description": "",
   "scripts": {
     "start": "func start",
-    "test": "pytest --maxfail=1 --disable-warnings -q"
+    "test": "pytest --maxfail=1 --disable-warnings -q",
+    "load:artillery": "npx artillery run artillery.yml",
+    "load:k6": "k6 run examples/k6_example.js",
+    "load:locust": "locust -f locustfile.py --host=https://jsonplaceholder.typicode.com"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0"
