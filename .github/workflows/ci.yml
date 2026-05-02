@@ -43,7 +43,7 @@ jobs:
 
       - name: Upload flake8 report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: flake8-report
           path: flake8_report.txt
@@ -75,7 +75,7 @@ jobs:
         run: python3 generate_report.py --output taurus-locust-report.html
 
       - name: Upload report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: taurus-report
           path: taurus-locust-report.html
