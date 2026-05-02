@@ -9,10 +9,11 @@ Katalog zawiera szablony hooków Git oraz skrypt ochrony przed niebezpiecznymi k
 | `guard-git.json` | Konfiguracja — lista blokowanych komend i wzorców plików |
 | `scripts/guard-git.ps1` | PowerShell hook (pre-commit) — blokuje staged wrażliwe pliki |
 | `post-commit` | Hook post-commit (sh, cross-platform) — podsumowanie commitu i ostrzeżenie o wrażliwych plikach |
-| `install-hooks.ps1` | Instalator hooków (Windows / PowerShell) |
-| `install-hooks.sh` | Instalator hooków (Linux / macOS) |
+| `install-hooks.ps1` | Instalator hooków (wszystkie platformy — wymaga `pwsh`) |
 
 ## Instalacja
+
+Jeden skrypt `install-hooks.ps1` działa na wszystkich platformach — wymaga [PowerShell Core (pwsh)](https://github.com/PowerShell/PowerShell).
 
 ### Windows (PowerShell)
 
@@ -20,10 +21,10 @@ Katalog zawiera szablony hooków Git oraz skrypt ochrony przed niebezpiecznymi k
 powershell -ExecutionPolicy Bypass -File .github\hooks\install-hooks.ps1
 ```
 
-### Linux / macOS
+### Linux / macOS (pwsh)
 
 ```bash
-bash .github/hooks/install-hooks.sh
+pwsh .github/hooks/install-hooks.ps1
 ```
 
 ## Działanie po instalacji
