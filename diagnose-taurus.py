@@ -4,6 +4,7 @@ Diagnostyka Taurus (bzt) - sprawdzenie konfiguracji i stanu
 """
 
 import os
+import sys
 import json
 import yaml
 import subprocess
@@ -119,7 +120,43 @@ print("  ✅ Java 21 (Temurin) zainstalowana")
 print("  ✅ JMeter 5.5 (bundled z Taurus)")
 print("  ✅ Ostatnie testy: POWIODŁY SIĘ (kpi.jtl 3,235 żądań, 0 błędów)")
 
-print("\n[7] DOSTĘPNE KOMENDY")
+print("\n[7] WERSJE PAKIETÓW PYTHON")
+print("-" * 70)
+critical_packages = ["bzt", "setuptools", "pip", "debugpy", "fastapi", "uvicorn", "requests", "pytest"]
+for pkg in critical_packages:
+    try:
+        result = subprocess.run(
+            [sys.executable, "-m", "pip", "show", pkg],
+            capture_output=True, text=True, timeout=10
+        )
+        version_line = next(
+            (l for l in result.stdout.split("\n") if l.startswith("Version:")), None
+        )
+        if version_line:
+            print(f"  ✅ {pkg}: {version_line.split(':', 1)[1].strip()}")
+        else:
+            print(f"  ❌ {pkg}: nie zainstalowany")
+    except Exception:
+        print(f"  ❌ {pkg}: błąd sprawdzania")
+
+print("\n[8] ŁĄCZNOŚĆ SIECIOWA")
+print("-" * 70)
+test_urls = [
+    ("https://jsonplaceholder.typicode.com/posts/1", "JSONPlaceholder API"),
+    ("https://a.blazemeter.com", "BlazeMeter"),
+]
+import urllib.request
+import urllib.error
+for url, label in test_urls:
+    try:
+        req = urllib.request.urlopen(url, timeout=5)
+        print(f"  ✅ {label}: {req.status} OK")
+    except urllib.error.HTTPError as e:
+        print(f"  ✅ {label}: {e.code} (osiągalny)")
+    except Exception as e:
+        print(f"  ❌ {label}: {e}")
+
+print("\n[9] DOSTĘPNE KOMENDY")
 print("-" * 70)
 print("  Uruchomienie testu:")
 print("    bzt test-api.yml -v")

@@ -58,6 +58,49 @@ if ($vsCheck) {
     }
 }
 
+# --- Weryfikacja po instalacji ---
+Write-Step "Weryfikacja instalacji"
+
+# Sprawdz Java
+try {
+    $javaVer = java -version 2>&1 | Select-String "version" | Select-Object -First 1
+    if ($javaVer) {
+        Write-OK "Java: $javaVer"
+    } else {
+        Write-FAIL "Java nie jest dostepna w PATH. Uruchom ponownie terminal."
+    }
+} catch {
+    Write-FAIL "Java nie jest dostepna w PATH. Uruchom ponownie terminal."
+}
+
+# Sprawdz Python
+try {
+    $pyVer = python --version 2>&1
+    Write-OK "Python: $pyVer"
+} catch {
+    Write-FAIL "Python nie jest dostepny w PATH."
+}
+
+# Sprawdz bzt
+try {
+    $bztVer = python -m bzt --version 2>&1 | Select-Object -First 1
+    if ($bztVer) {
+        Write-OK "bzt (Taurus): $bztVer"
+    } else {
+        Write-SKIP "bzt (Taurus) nie zainstalowany - uruchom krok 2 z VS Code."
+    }
+} catch {
+    Write-SKIP "bzt (Taurus) nie zainstalowany - uruchom krok 2 z VS Code."
+}
+
+# Sprawdz cl.exe (Visual C++)
+$clPath = Get-Command cl -ErrorAction SilentlyContinue
+if ($clPath) {
+    Write-OK "Visual C++ cl.exe: $($clPath.Source)"
+} else {
+    Write-SKIP "cl.exe niedostepny w biezacym PATH (normalne poza Developer Command Prompt)."
+}
+
 # --- Podsumowanie ---
 Write-Step "Podsumowanie"
 Write-Host ""
