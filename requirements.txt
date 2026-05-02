@@ -4,3 +4,4 @@ selenium>=4.0
 requests>=2.32.0
 pyyaml>=6.0
 pytest
+isort>=8.0.1
