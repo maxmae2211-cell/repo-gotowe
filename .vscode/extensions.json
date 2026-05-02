@@ -18,6 +18,9 @@
     "usernamehw.errorlens",
     "streetsidesoftware.code-spell-checker",
     "ms-vscode.powershell",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "sonarsource.sonarlint-vscode",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
   ]
 }
