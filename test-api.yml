@@ -21,7 +21,6 @@ execution:
     throughput: 50
 
 reporting:
-  - module: console
   - module: final-stats
     summary: true
     percentiles: true

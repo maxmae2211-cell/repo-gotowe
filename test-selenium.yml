@@ -12,6 +12,3 @@ execution:
 modules:
   selenium:
     chromedriver: chromedriver
-    
-reporting:
-  - module: console
