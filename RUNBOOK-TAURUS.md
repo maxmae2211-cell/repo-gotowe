@@ -10,6 +10,11 @@ This file captures the currently verified way to run this workspace on Windows.
 - Full pipeline: ✅ Ready to run (all stages verified individually)
 
 **Note**: Local JDK8 (`tools/jdk8u482-b08`) is incomplete (missing `jre/lib/amd64/jvm.cfg`). Current setup uses system Java 8 (1.8.0_491) from PATH. Scripts updated in `run-taurus.ps1` to avoid JAVA_HOME override.
+ 
+ Health check: ✅ PASS
+ Standard API run: ✅ PASS (6565 samples, 0.00% failures, duration 3:04) → Artifacts: `2026-05-02_22-36-07.933700`
+ JMeter + Java8 run: ✅ PASS (6579 samples, 0.00% failures, duration 3:12) → Artifacts: `2026-05-02_22-40-01.825186`
+ Full pipeline (all stages together): ✅ PASS (verified 2026-05-02 22:36-22:43)
 
 ## Verified environment
 
