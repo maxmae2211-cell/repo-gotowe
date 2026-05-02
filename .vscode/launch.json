@@ -215,6 +215,30 @@
             "request": "launch",
             "preLaunchTask": "docker-run: debug",
             "platform": "node"
+        },
+        {
+            "name": "Agent Inspector: Debug HTTP Server",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5679
+            },
+            "preLaunchTask": "Agent Inspector: Open Inspector",
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Agent Inspector: Terminate All Tasks"
+        },
+        {
+            "name": "Agent Inspector: Debug CLI",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5679
+            },
+            "preLaunchTask": "Agent Inspector: Run CLI",
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Agent Inspector: Terminate All Tasks"
         }
     ]
 }

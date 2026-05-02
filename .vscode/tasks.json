@@ -303,6 +303,122 @@
             "node": {
                 "enableDebugging": true
             }
+        },
+        {
+            "label": "VS Code: Restart i powrot do projektu",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/restart-vscode.ps1"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Agent Inspector: Validate prerequisites",
+            "type": "aitk",
+            "command": "debug-check-prerequisites",
+            "args": {
+                "portOccupancy": [
+                    5679,
+                    8088
+                ]
+            }
+        },
+        {
+            "label": "Agent Inspector: Run HTTP Server",
+            "type": "shell",
+            "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} --verbose --port 8088 -- --server",
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": [
+                "Agent Inspector: Validate prerequisites"
+            ],
+            "problemMatcher": {
+                "pattern": [
+                    {
+                        "regexp": "^.*$",
+                        "file": 0,
+                        "location": 1,
+                        "message": 2
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Application startup complete|running on|Started server process"
+                }
+            }
+        },
+        {
+            "label": "Agent Inspector: Open Inspector",
+            "type": "shell",
+            "command": "echo '${input:openAgentInspector}'",
+            "presentation": {
+                "reveal": "never"
+            },
+            "dependsOn": [
+                "Agent Inspector: Run HTTP Server"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Agent Inspector: Run CLI",
+            "type": "shell",
+            "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} -- --cli",
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": {
+                "pattern": [
+                    {
+                        "regexp": "^.*$",
+                        "file": 0,
+                        "location": 1,
+                        "message": 2
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Application startup complete|running on|Started server process"
+                }
+            }
+        },
+        {
+            "label": "Agent Inspector: Terminate All Tasks",
+            "type": "shell",
+            "command": "echo ${input:terminateAgentTasks}",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "agentEntrypoint",
+            "type": "promptString",
+            "description": "Relative path to the Python agent entrypoint, for example src/agent.py",
+            "default": "src/agent.py"
+        },
+        {
+            "id": "openAgentInspector",
+            "type": "command",
+            "command": "ai-mlstudio.openTestTool",
+            "args": {
+                "triggeredFrom": "tasks",
+                "port": 8088
+            }
+        },
+        {
+            "id": "terminateAgentTasks",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "terminateAll"
         }
     ]
 }

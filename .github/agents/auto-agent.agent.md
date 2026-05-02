@@ -2,7 +2,7 @@
 name: AutoAgent
 description: "Autonomiczny agent operacyjny. Używaj gdy: zrób wszystko, wykonaj automatycznie, wprowadź zmiany, zatwierdź, wdróż, uruchom testy, commit push, przeglądarka, zbierz informacje, zapytaj i odpowiedz, auto agent, działaj sam, przeprowadź zmiany"
 tools: [execute, read, edit, search, web, todo, agent]
-model: "Claude Sonnet 4.5 (copilot)"
+user-invocable: true
 argument-hint: "Opisz co ma być zrobione automatycznie"
 ---
 
