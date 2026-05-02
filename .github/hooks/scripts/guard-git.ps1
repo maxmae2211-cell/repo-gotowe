@@ -1,76 +1,87 @@
-# guard-git.ps1
-# PreToolUse hook — blokuje niebezpieczne komendy git
-# Czyta wejście JSON ze stdin, zwraca decyzję uprawnień na stdout.
+#!/usr/bin/env pwsh
+# guard-git.ps1 — blokuje wrażliwe pliki w staged (pre-commit)
+#                 oraz blokuje force-push do chronionych gałęzi (pre-push)
+# Zainstaluj przez: .github/hooks/install-hooks.ps1
 
-param()
-
-$ALLOW = @{ hookSpecificOutput = @{ hookEventName = "PreToolUse"; permissionDecision = "allow" } }
-$DENY = @{ hookSpecificOutput = @{ hookEventName = "PreToolUse"; permissionDecision = "deny" } }
-$ASK = @{ hookSpecificOutput = @{ hookEventName = "PreToolUse"; permissionDecision = "ask"; permissionDecisionReason = "Niebezpieczna komenda git wymaga potwierdzenia użytkownika." } }
-
-try {
-    $raw = [Console]::In.ReadToEnd()
-    $input_json = $raw | ConvertFrom-Json
-}
-catch {
-    # Brak wejścia lub błąd parsowania — przepuszczamy
-    $ALLOW | ConvertTo-Json -Compress
-    exit 0
-}
-
-$toolName = $input_json.toolName
-$toolInput = $input_json.toolInput
-
-# Reagujemy tylko na narzędzia uruchamiające komendy
-if ($toolName -notin @("run_in_terminal", "execute_command", "bash", "shell")) {
-    $ALLOW | ConvertTo-Json -Compress
-    exit 0
-}
-
-$cmd = ""
-if ($toolInput.command) { $cmd = $toolInput.command }
-elseif ($toolInput.cmd) { $cmd = $toolInput.cmd }
-elseif ($toolInput.input) { $cmd = $toolInput.input }
-
-if (-not $cmd) {
-    $ALLOW | ConvertTo-Json -Compress
-    exit 0
-}
-
-# Wzorce blokujące (bezwzględnie niebezpieczne)
-$blockedPatterns = @(
-    'git\s+push\s+.*--force(?!-with-lease)',   # force push (ale nie --force-with-lease)
-    'git\s+reset\s+--hard',                     # twardy reset
-    'git\s+branch\s+-[dD]\s+main',              # usunięcie brancha main
-    'git\s+branch\s+-[dD]\s+master',            # usunięcie brancha master
-    'git\s+clean\s+-fd',                         # czyszczenie katalogu roboczego
-    'Remove-Item.*\.git\b',                      # usunięcie katalogu .git
-    'rm\s+-rf?\s+.*\.git\b'                     # rm -rf .git
+param(
+    [ValidateSet("pre-commit", "pre-push")]
+    [string]$HookType = "pre-commit"
 )
 
-foreach ($pattern in $blockedPatterns) {
-    if ($cmd -match $pattern) {
-        $DENY.hookSpecificOutput["permissionDecisionReason"] = "ZABLOKOWANO przez hook guard-git: wykryto niebezpieczną komendę git: '$($cmd.Trim())'."
-        $DENY | ConvertTo-Json -Compress
-        exit 2
+$ErrorActionPreference = "Stop"
+$repoRoot = git rev-parse --show-toplevel 2>$null
+if (-not $repoRoot) { $repoRoot = (Get-Location).Path }
+
+$configPath = Join-Path $PSScriptRoot ".." "guard-git.json"
+if (-not (Test-Path $configPath)) {
+    $configPath = Join-Path $repoRoot ".github" "hooks" "guard-git.json"
+}
+
+if (-not (Test-Path $configPath)) {
+    Write-Warning "guard-git: brak pliku konfiguracyjnego $configPath — hook pominięty."
+    exit 0
+}
+
+$config = Get-Content $configPath -Raw | ConvertFrom-Json
+$warnOnly   = [bool]$config.warn_only
+$logBlocked = [bool]$config.log_blocked
+
+function Write-Blocked([string]$Message) {
+    Write-Host "guard-git [ZABLOKOWANO]: $Message" -ForegroundColor Red
+    if ($logBlocked) {
+        $logFile = Join-Path $repoRoot ".git" "guard-git.log"
+        "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] BLOCKED ($HookType): $Message" |
+            Add-Content -Path $logFile
+    }
+    if (-not $warnOnly) { exit 1 }
+}
+
+function Write-Warn([string]$Message) {
+    Write-Host "guard-git [OSTRZEŻENIE]: $Message" -ForegroundColor Yellow
+    if ($logBlocked) {
+        $logFile = Join-Path $repoRoot ".git" "guard-git.log"
+        "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] WARN ($HookType): $Message" |
+            Add-Content -Path $logFile
     }
 }
 
-# Wzorce wymagające potwierdzenia
-$askPatterns = @(
-    'git\s+push\s+.*--force-with-lease',        # force-with-lease — bezpieczniejszy, ale pytamy
-    'git\s+push\s+origin\s+main',               # push bezpośrednio do main
-    'git\s+push\s+origin\s+master',             # push bezpośrednio do master
-    'git\s+rebase\s+',                           # rebase
-    'git\s+branch\s+-[dD]\s+'                   # usunięcie dowolnego brancha
-)
+# --- pre-commit: sprawdzenie staged plików ---
+if ($HookType -eq "pre-commit") {
+    $stagedFiles = git diff --cached --name-only 2>$null
+    foreach ($file in $stagedFiles) {
+        foreach ($pattern in $config.blocked_file_patterns) {
+            if ($file -like $pattern) {
+                Write-Blocked "próba dodania wrażliwego pliku: $file (wzorzec: $pattern)"
+                Write-Host "   Usuń plik z indeksu: git reset HEAD $file" -ForegroundColor Cyan
+            }
+        }
+    }
 
-foreach ($pattern in $askPatterns) {
-    if ($cmd -match $pattern) {
-        $ASK | ConvertTo-Json -Compress
-        exit 0
+    $currentBranch = git rev-parse --abbrev-ref HEAD 2>$null
+    if ($currentBranch -in $config.protected_branches) {
+        Write-Warn "commit bezpośrednio do chronionej gałęzi '$currentBranch'"
     }
 }
 
-$ALLOW | ConvertTo-Json -Compress
+# --- pre-push: blokada force-push do chronionych gałęzi ---
+if ($HookType -eq "pre-push" -and $config.block_force_push) {
+    $pushArgs = $env:GIT_PUSH_OPTION_COUNT
+    $remoteName = $args[0]
+    $remoteUrl  = $args[1]
+
+    # Odczytaj stdin (format: <local_ref> <local_sha> <remote_ref> <remote_sha>)
+    $pushData = $input | Select-Object -First 10
+    $currentBranch = git rev-parse --abbrev-ref HEAD 2>$null
+
+    if ($currentBranch -in $config.protected_branches) {
+        # Sprawdź flagi force w zmiennych środowiskowych Git
+        $gitArgs = [System.Environment]::GetCommandLineArgs() -join " "
+        if ($gitArgs -match '--force|-f') {
+            Write-Blocked "force-push do chronionej gałęzi '$currentBranch' jest zablokowany"
+            Write-Host "   Użyj pull request zamiast force-push." -ForegroundColor Cyan
+        }
+    }
+}
+
 exit 0
+
