@@ -38,7 +38,7 @@ jobs:
                     --output taurus-locust-report.html
 
             - name: Upload HTML report artifact
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: taurus-locust-report
                   path: taurus-locust-report.html
