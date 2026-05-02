@@ -18,13 +18,7 @@ echo ""
 cat > "$HOOKS_DIR/post-commit" << 'EOF'
 #!/bin/sh
 # auto-generated post-commit hook
-if command -v pwsh >/dev/null 2>&1; then
-    pwsh -NoProfile -ExecutionPolicy Bypass -File "$(git rev-parse --show-toplevel)/.github/hooks/post-commit.ps1"
-elif command -v powershell >/dev/null 2>&1; then
-    powershell -NoProfile -ExecutionPolicy Bypass -File "$(git rev-parse --show-toplevel)/.github/hooks/post-commit.ps1"
-else
-    "$(git rev-parse --show-toplevel)/.github/hooks/post-commit"
-fi
+exec "$(git rev-parse --show-toplevel)/.github/hooks/post-commit"
 EOF
 chmod +x "$HOOKS_DIR/post-commit"
 echo "  ✅ post-commit"

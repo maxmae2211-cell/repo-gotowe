@@ -8,8 +8,7 @@ Katalog zawiera szablony hooków Git oraz skrypt ochrony przed niebezpiecznymi k
 |---|---|
 | `guard-git.json` | Konfiguracja — lista blokowanych komend i wzorców plików |
 | `scripts/guard-git.ps1` | PowerShell hook (pre-commit) — blokuje staged wrażliwe pliki |
-| `post-commit` | Szablon post-commit (bash/sh) — podsumowanie commitu |
-| `post-commit.ps1` | Szablon post-commit (PowerShell) — podsumowanie commitu |
+| `post-commit` | Hook post-commit (sh, cross-platform) — podsumowanie commitu i ostrzeżenie o wrażliwych plikach |
 | `install-hooks.ps1` | Instalator hooków (Windows / PowerShell) |
 | `install-hooks.sh` | Instalator hooków (Linux / macOS) |
 
