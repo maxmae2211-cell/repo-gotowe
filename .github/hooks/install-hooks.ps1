@@ -14,17 +14,11 @@ Write-Host "  Źródło  : $sourceDir" -ForegroundColor Gray
 Write-Host "  Cel     : $hooksDir" -ForegroundColor Gray
 Write-Host ""
 
-# post-commit (PowerShell wrapper)
+# post-commit wrapper
 $postCommitWrapper = @'
 #!/bin/sh
 # auto-generated post-commit hook
-if command -v pwsh >/dev/null 2>&1; then
-    pwsh -NoProfile -ExecutionPolicy Bypass -File "$(git rev-parse --show-toplevel)/.github/hooks/post-commit.ps1"
-elif command -v powershell >/dev/null 2>&1; then
-    powershell -NoProfile -ExecutionPolicy Bypass -File "$(git rev-parse --show-toplevel)/.github/hooks/post-commit.ps1"
-else
-    "$(git rev-parse --show-toplevel)/.github/hooks/post-commit"
-fi
+exec "$(git rev-parse --show-toplevel)/.github/hooks/post-commit"
 '@
 
 # pre-commit (guard-git wrapper)
