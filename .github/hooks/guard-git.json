@@ -1,0 +1,19 @@
+{
+  "protected_branches": [
+    "main",
+    "master"
+  ],
+  "blocked_file_patterns": [
+    ".bzt-rc",
+    "*.env",
+    "*.pem",
+    "*.key",
+    "id_rsa",
+    "id_ed25519",
+    "credentials.json",
+    "secrets.*"
+  ],
+  "warn_only": false,
+  "log_blocked": true,
+  "block_force_push": true
+}

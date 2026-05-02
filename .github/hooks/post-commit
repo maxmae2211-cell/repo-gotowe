@@ -1,0 +1,24 @@
+#!/bin/sh
+# post-commit hook — podsumowanie po commicie
+# Zainstaluj przez: .github/hooks/install-hooks.sh
+# Lub ręcznie: cp .github/hooks/post-commit .git/hooks/post-commit && chmod +x .git/hooks/post-commit
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+COMMIT=$(git rev-parse --short HEAD 2>/dev/null)
+MSG=$(git log -1 --pretty=%s 2>/dev/null)
+FILES=$(git diff-tree --no-commit-id -r --name-only HEAD 2>/dev/null | wc -l | tr -d ' ')
+
+echo ""
+echo "✅ Commit zapisany: [$BRANCH] $COMMIT"
+echo "   Wiadomość : $MSG"
+echo "   Pliki     : $FILES"
+echo ""
+
+# Sprawdź, czy nie dodano przypadkowo wrażliwych plików
+SENSITIVE=$(git diff-tree --no-commit-id -r --name-only HEAD 2>/dev/null | grep -E '\.(env|pem|key|bzt-rc)$|credentials\.json|secrets\.' 2>/dev/null || true)
+if [ -n "$SENSITIVE" ]; then
+    echo "⚠️  OSTRZEŻENIE: wykryto potencjalnie wrażliwe pliki w commicie:"
+    echo "$SENSITIVE" | sed 's/^/   /'
+    echo "   Jeśli to pomyłka, usuń z historii: git reset HEAD~1"
+    echo ""
+fi
