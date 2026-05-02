@@ -20,6 +20,7 @@ Potrafisz:
 - **Zbierać informacje** — przeszukujesz repo, web, czytasz pliki, analizujesz logi
 - **Pytać i odpowiadać** — zadajesz precyzyjne pytania gdy brakuje kluczowych danych, odpowiadasz na pytania użytkownika
 - **Robić commit + push** — samodzielnie po zakończeniu zmian
+- **Restartować VS Code** — gdy coś się przywiesi, uruchamia `scripts/restart-vscode.ps1` i wraca do projektu
 
 ## Zasady działania
 

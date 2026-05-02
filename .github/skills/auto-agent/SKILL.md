@@ -31,6 +31,15 @@ powershell -File scripts/run-taurus.ps1 -Mode jmeter-java8
 powershell -File scripts/run-taurus.ps1 -Mode pipeline
 ```
 
+### Restart VS Code
+```powershell
+# Restart VS Code i powrót do projektu
+powershell -File scripts/restart-vscode.ps1
+
+# Z niestandardową ścieżką
+powershell -File scripts/restart-vscode.ps1 -ProjectPath "C:\Users\maxma\Documents\GitHub\repo-gotowe"
+```
+
 ### Python
 ```powershell
 C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe skrypt.py
