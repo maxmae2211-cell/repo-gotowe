@@ -1,7 +1,17 @@
 #!/usr/bin/env pwsh
 # install-hooks.ps1 — instaluje Git hooks z .github/hooks/ do .git/hooks/
-# Uruchom z katalogu głównego repozytorium:
+# Działa na wszystkich platformach (Windows, Linux, macOS) przez PowerShell Core (pwsh).
+#
+# Użycie (wszystkie platformy):
+#   pwsh -File .github/hooks/install-hooks.ps1
+#
+# Windows (Windows PowerShell):
 #   powershell -ExecutionPolicy Bypass -File .github\hooks\install-hooks.ps1
+#
+# Linux / macOS (wymaga zainstalowanego pwsh / PowerShell Core):
+#   pwsh .github/hooks/install-hooks.ps1
+#
+# Ten plik zastępuje install-hooks.sh — nie potrzebujesz już osobnego skryptu bash.
 
 $ErrorActionPreference = "Stop"
 
