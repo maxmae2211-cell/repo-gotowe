@@ -44,6 +44,7 @@ jobs:
           name: TaurusReport
           path: taurus-locust-report.html
       - name: Send e-mail notification
+        continue-on-error: true
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -88,6 +89,7 @@ jobs:
           name: TaurusReport
           path: taurus-locust-report.html
       - name: Send e-mail notification
+        continue-on-error: true
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com

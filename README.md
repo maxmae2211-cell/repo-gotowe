@@ -29,7 +29,7 @@ Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, anal
 
 - Zespół repo-gotowe
 
-# Taurus Test Project
+## Taurus Test Project
 
 Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyzacji testów wydajności i funkcjonalnych.
 
