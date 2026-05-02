@@ -1,0 +1,13 @@
+{
+    "hooks": {
+        "PreToolUse": [
+            {
+                "type": "command",
+                "windows": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/scripts/guard-git.ps1",
+                "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"allow\"}}'",
+                "timeout": 10,
+                "description": "Blokuje niebezpieczne komendy git: force push, reset --hard, usunięcie main/master, rm .git. Wymaga potwierdzenia dla: push do main, rebase, --force-with-lease."
+            }
+        ]
+    }
+}
