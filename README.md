@@ -4,9 +4,11 @@
 [![Taurus Tests](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml/badge.svg)](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml)
 
 ## Opis
+
 Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, analizę wyników, powiadomienia i integrację z CI/CD.
 
 ## Szybki start
+
 1. Zainstaluj zależności: `pip install -r requirements.txt`
 2. Uruchom testy: `pytest`
 3. Wygeneruj raport: `python generate_report.py --output taurus-locust-report.html`
@@ -14,15 +16,19 @@ Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, anal
 5. Wyślij powiadomienie: `python notify_webhook.py`
 
 ## Automatyzacja
+
 - Workflow GitHub Actions: `.github/workflows/generate-report.yml`
 - Automatyczne powiadomienia: `notify_webhook.py`
 - Analiza wyników: `plot_response_times.py`
 
 ## Testy
+
 - `test_generate_report.py` — testuje generowanie raportu HTML
 
 ## Autorzy
+
 - Zespół repo-gotowe
+
 # Taurus Test Project
 
 Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyzacji testów wydajności i funkcjonalnych.
@@ -122,11 +128,13 @@ Projekt integruje się z VS Code AI Toolkit Agent Inspector przez `src/agent.py`
 **Wymagania:** `pip install debugpy agent-dev-cli fastapi uvicorn`
 
 **Uruchomienie lokalnie:**
+
 ```powershell
 python -m debugpy --listen 127.0.0.1:5679 -m agentdev run src/agent.py --verbose --port 8088 -- --server
 ```
 
 **Dostępne endpointy HTTP:**
+
 - `GET /health` — status serwera
 - `GET /results` — ostatnie wyniki testu
 - `POST /run` — uruchom test (`{"config": "api", "mode": "standard"}`)

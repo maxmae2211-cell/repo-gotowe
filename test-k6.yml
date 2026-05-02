@@ -1,0 +1,19 @@
+---
+# Test k6 — nowoczesny silnik testów obciążeniowych w JavaScript
+# Wymaga: k6 zainstalowany (https://k6.io/docs/getting-started/installation/)
+# Uruchomienie: bzt test-k6.yml
+# Przez wrapper: scripts/run-taurus.ps1 -Mode standard -Config test-k6.yml
+
+execution:
+  - executor: k6
+    concurrency: 10
+    hold-for: 1m
+    iterations: 100
+    scenario:
+      script: examples/k6_example.js
+
+reporting:
+  - module: console
+  - module: final-stats
+    summary: true
+    percentiles: true

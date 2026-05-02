@@ -13,7 +13,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 function Write-Step { param([string]$Msg) Write-Host "`n=== $Msg ===" -ForegroundColor Cyan }
-function Write-OK   { param([string]$Msg) Write-Host "[OK] $Msg" -ForegroundColor Green }
+function Write-OK { param([string]$Msg) Write-Host "[OK] $Msg" -ForegroundColor Green }
 function Write-SKIP { param([string]$Msg) Write-Host "[SKIP] $Msg" -ForegroundColor Yellow }
 function Write-FAIL { param([string]$Msg) Write-Host "[FAIL] $Msg" -ForegroundColor Red }
 
@@ -30,13 +30,15 @@ Write-Step "Java (OpenJDK 21 LTS) - wymagana przez Taurus/JMeter"
 $javaCheck = java -version 2>&1 | Select-String "version"
 if ($javaCheck) {
     Write-SKIP "Java juz zainstalowana: $javaCheck"
-} else {
+}
+else {
     Write-Host "Instalowanie Microsoft OpenJDK 21..."
     winget install --id Microsoft.OpenJDK.21 --accept-source-agreements --accept-package-agreements
     if ($LASTEXITCODE -eq 0) {
         Write-OK "Java zainstalowana pomyslnie."
         Write-Host "UWAGA: Uruchom ponownie terminal/VS Code, aby Java byla widoczna w PATH." -ForegroundColor Yellow
-    } else {
+    }
+    else {
         Write-FAIL "Instalacja Java nie powiodla sie (kod: $LASTEXITCODE)."
     }
 }
@@ -46,13 +48,15 @@ Write-Step "Microsoft Visual C++ Build Tools - wymagane do kompilacji modulow Py
 $vsCheck = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\VisualStudio\*\VC\Runtimes\*" -ErrorAction SilentlyContinue
 if ($vsCheck) {
     Write-SKIP "Visual C++ Runtime juz zainstalowany."
-} else {
+}
+else {
     Write-Host "Instalowanie Microsoft Visual C++ Build Tools 2022..."
     winget install --id Microsoft.VisualStudio.2022.BuildTools --accept-source-agreements --accept-package-agreements `
         --override "--quiet --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
     if ($LASTEXITCODE -eq 0) {
         Write-OK "Visual C++ Build Tools zainstalowane pomyslnie."
-    } else {
+    }
+    else {
         Write-FAIL "Instalacja Visual C++ Build Tools nie powiodla sie (kod: $LASTEXITCODE)."
         Write-Host "Zainstaluj recznie: https://visualstudio.microsoft.com/visual-cpp-build-tools/" -ForegroundColor Yellow
     }
@@ -66,10 +70,12 @@ try {
     $javaVer = java -version 2>&1 | Select-String "version" | Select-Object -First 1
     if ($javaVer) {
         Write-OK "Java: $javaVer"
-    } else {
+    }
+    else {
         Write-FAIL "Java nie jest dostepna w PATH. Uruchom ponownie terminal."
     }
-} catch {
+}
+catch {
     Write-FAIL "Java nie jest dostepna w PATH. Uruchom ponownie terminal."
 }
 
@@ -77,7 +83,8 @@ try {
 try {
     $pyVer = python --version 2>&1
     Write-OK "Python: $pyVer"
-} catch {
+}
+catch {
     Write-FAIL "Python nie jest dostepny w PATH."
 }
 
@@ -86,10 +93,12 @@ try {
     $bztVer = python -m bzt --version 2>&1 | Select-Object -First 1
     if ($bztVer) {
         Write-OK "bzt (Taurus): $bztVer"
-    } else {
+    }
+    else {
         Write-SKIP "bzt (Taurus) nie zainstalowany - uruchom krok 2 z VS Code."
     }
-} catch {
+}
+catch {
     Write-SKIP "bzt (Taurus) nie zainstalowany - uruchom krok 2 z VS Code."
 }
 
@@ -97,7 +106,8 @@ try {
 $clPath = Get-Command cl -ErrorAction SilentlyContinue
 if ($clPath) {
     Write-OK "Visual C++ cl.exe: $($clPath.Source)"
-} else {
+}
+else {
     Write-SKIP "cl.exe niedostepny w biezacym PATH (normalne poza Developer Command Prompt)."
 }
 

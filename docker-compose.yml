@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: ["python", "src/agent.py", "--server"]
+    command: [ "python", "src/agent.py", "--server" ]
     restart: unless-stopped
 
   tests:
@@ -28,6 +28,6 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: ["python", "-m", "pytest", "tests/", "-v"]
+    command: [ "python", "-m", "pytest", "tests/", "-v" ]
     profiles:
       - test
