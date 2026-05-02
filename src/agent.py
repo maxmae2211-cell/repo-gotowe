@@ -9,6 +9,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 
 # --- Taurus helpers ---
@@ -23,7 +24,7 @@ TAURUS_CONFIGS = {
 WORKSPACE = Path(__file__).parent.parent
 
 
-def run_taurus(config: str = "api", mode: str = "standard") -> dict:
+def run_taurus(config: str = "api", mode: str = "standard") -> dict[str, Any]:
     """Uruchamia test Taurus przez run-taurus.ps1."""
     cfg_file = TAURUS_CONFIGS.get(config, config)
     script = WORKSPACE / "scripts" / "run-taurus.ps1"
@@ -46,7 +47,7 @@ def run_taurus(config: str = "api", mode: str = "standard") -> dict:
         return {"error": str(exc)}
 
 
-def get_last_results() -> dict:
+def get_last_results() -> dict[str, Any]:
     """Zwraca skrócone dane z ostatniego artefaktu kpi.jtl."""
     dirs = sorted(WORKSPACE.glob("20*_*"))
     if not dirs:
@@ -65,7 +66,7 @@ def get_last_results() -> dict:
 
 # --- CLI mode ---
 
-def run_cli() -> None:
+def run_cli() -> None:  # noqa: C901
     print("Agent Taurus — tryb CLI. Wpisz komendę lub 'help'. Ctrl+C aby wyjść.")
     commands = {
         "help": "Wyświetl dostępne komendy",
@@ -107,7 +108,7 @@ def run_cli() -> None:
 
 # --- HTTP server mode ---
 
-def run_server(port: int = 8088) -> None:
+def run_server(port: int = 8088) -> None:  # pragma: no cover
     try:
         from fastapi import FastAPI, HTTPException
         from pydantic import BaseModel
@@ -140,7 +141,7 @@ def run_server(port: int = 8088) -> None:
 
 # --- Entrypoint ---
 
-def main() -> None:
+def main() -> None:  # pragma: no cover
     parser = argparse.ArgumentParser(description="Taurus Agent entrypoint")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--server", action="store_true", help="Uruchom serwer HTTP")

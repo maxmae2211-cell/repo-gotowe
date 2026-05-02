@@ -1,5 +1,8 @@
 # Dokumentacja projektu repo-gotowe
 
+[![CI](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/ci.yml/badge.svg)](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/ci.yml)
+[![Taurus Tests](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml/badge.svg)](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml)
+
 ## Opis
 Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, analizę wyników, powiadomienia i integrację z CI/CD.
 
@@ -112,8 +115,44 @@ Po uruchomieniu testów, Taurus automatycznie generuje raporty. Aby je przegląd
 - **ramp-up** - Czas rozwijania obciążenia
 - **throughput** - Liczba requestów na sekundę
 
+## Agent Inspector (AI Toolkit)
+
+Projekt integruje się z VS Code AI Toolkit Agent Inspector przez `src/agent.py`.
+
+**Wymagania:** `pip install debugpy agent-dev-cli fastapi uvicorn`
+
+**Uruchomienie lokalnie:**
+```powershell
+python -m debugpy --listen 127.0.0.1:5679 -m agentdev run src/agent.py --verbose --port 8088 -- --server
+```
+
+**Dostępne endpointy HTTP:**
+- `GET /health` — status serwera
+- `GET /results` — ostatnie wyniki testu
+- `POST /run` — uruchom test (`{"config": "api", "mode": "standard"}`)
+
+**VS Code:** Użyj konfiguracji `Agent Inspector: Debug HTTP Server` w `launch.json`.
+
+## Docker (lokalny dev)
+
+```powershell
+# Uruchom serwer agenta
+docker compose up agent
+
+# Uruchom testy
+docker compose run tests
+```
+
+## Azure Functions
+
+Plik `host.json` konfiguruje środowisko uruchomieniowe Azure Functions v2 z Application Insights sampling
+i rozszerzeniem bundle `Microsoft.Azure.Functions.ExtensionBundle v4.*`.
+Konfiguracja lokalna: `local.settings.json` (nie commituj do repo — jest w `.gitignore`).
+
 ## Przydatne linki
 
 - [Dokumentacja Taurus](https://gettaurus.org/docs/)
 - [Schemat YAML](https://gettaurus.org/docs/YAMLStructure/)
 - [JSONPlaceholder](https://jsonplaceholder.typicode.com/) - Testowy API
+- [BlazeMeter Dashboard](https://a.blazemeter.com/app/#/accounts/2190559/workspaces/2269510/dashboard)
+- [AI Toolkit for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)
