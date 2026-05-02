@@ -43,7 +43,10 @@ execution:
 modules:
   console:
     disable: false
+  blazemeter:
+    test: Taurus Advanced Test
 
 # Raportowanie
 reporting:
   - module: final-stats
+  - module: blazemeter

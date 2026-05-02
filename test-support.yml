@@ -6,16 +6,15 @@
 scenarios:
   api_test:
     requests:
-      # TODO: Replace with actual support/production API endpoints
-      - url: https://support-api.example.com/api/v1/health
+      - url: https://jsonplaceholder.typicode.com/posts/1
         label: Health Check
         method: GET
 
-      - url: https://support-api.example.com/api/v1/posts
+      - url: https://jsonplaceholder.typicode.com/posts
         label: List Posts
         method: GET
 
-      - url: https://support-api.example.com/api/v1/posts
+      - url: https://jsonplaceholder.typicode.com/posts
         method: POST
         label: Create Post
         body:
@@ -42,4 +41,7 @@ reporting:
       - fail>5% for 30s, stop as failed
       - avg-rt>3s for 30s, stop as failed
   - module: blazemeter
-    token: TWOJ_TOKEN_SUPPORT
+
+modules:
+  blazemeter:
+    test: Taurus Support Test
