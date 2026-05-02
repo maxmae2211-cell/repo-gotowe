@@ -22,3 +22,17 @@
 **/values.dev.yaml
 LICENSE
 README.md
+# Katalogi z archiwami wyników testów
+2026-*/
+2025-*/
+*.html
+*.jtl
+flake8_report.txt
+wynik_testu.txt
+# Narzędzia i środowiska
+tools/
+.venv/
+oracleJdk-*/
+# Pliki binarne/zip
+*.zip
+*.jar
