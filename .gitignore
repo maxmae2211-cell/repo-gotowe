@@ -47,3 +47,4 @@ openjdk-21/
 
 # Local tool distributions
 tools/
+config.json

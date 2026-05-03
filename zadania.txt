@@ -1,0 +1,7 @@
+# zadania.txt — lista zadań dla Pracownika AI
+# Każda linia = jedno zadanie. Linie zaczynające się od # są ignorowane.
+# Uruchom: python pracownik.py
+
+Napisz krótkie powitanie dla użytkownika który zaczyna pracę z AI.
+Podaj 3 pomysły na automatyzację codziennych zadań biurowych.
+Napisz prosty skrypt Python który liczy ile plików .py jest w danym folderze.

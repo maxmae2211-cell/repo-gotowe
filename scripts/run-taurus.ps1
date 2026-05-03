@@ -123,7 +123,8 @@ try {
                     & $python (Join-Path $repoRoot 'generate_report.py')
                     if ($LASTEXITCODE -eq 0) {
                         Write-Host '[OK] Raport HTML wygenerowany pomyslnie.'
-                    } else {
+                    }
+                    else {
                         Write-Host "[OSTRZEZENIE] Generowanie raportu HTML zakonczone z kodem: $LASTEXITCODE"
                     }
                     Open-LatestReport

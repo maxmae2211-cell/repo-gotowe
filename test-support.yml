@@ -10,7 +10,7 @@ scenarios:
         label: Health Check - Users
         assert:
           - contains:
-              - '"id"'
+              - "\"id\""
 
       - url: https://jsonplaceholder.typicode.com/posts
         label: Health Check - Posts
@@ -21,7 +21,7 @@ scenarios:
         label: Fetch User Profile
         assert:
           - contains:
-              - '"username"'
+              - "\"username\""
 
       - url: https://jsonplaceholder.typicode.com/posts/1
         label: Fetch Post Detail
