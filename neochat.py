@@ -25,6 +25,8 @@ except ImportError:
 BASE_DIR = Path(__file__).parent
 CONFIG_FILE = BASE_DIR / "config.json"
 ENV_FILE = BASE_DIR / ".env"
+# Fallback: Desktop/moj-ai — wspólna konfiguracja z "moje AI 1"
+_DESKTOP_AI_CONFIG = Path.home() / "Desktop" / "moj-ai" / "config.json"
 
 # ── Konfiguracja domyślna ────────────────────────────────────────────────────
 DEFAULT_CONFIG = {
@@ -56,10 +58,39 @@ def load_env_file() -> None:
 # ── Zarządzanie konfiguracją ─────────────────────────────────────────────────
 def load_config() -> dict:
     load_env_file()
+
+    # 1. Lokalny config.json (repo-gotowe)
     if CONFIG_FILE.exists():
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
-        # uzupełnij brakujące klucze wartościami domyślnymi
+        for k, v in DEFAULT_CONFIG.items():
+            if k not in data:
+                data[k] = v
+        # Jeśli lokalny ma klucz API — użyj go
+        if data.get("api_key"):
+            return data
+
+    # 2. Fallback: Desktop/moj-ai/config.json (moje AI 1)
+    if _DESKTOP_AI_CONFIG.exists():
+        with open(_DESKTOP_AI_CONFIG, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for k, v in DEFAULT_CONFIG.items():
+            if k not in data:
+                data[k] = v
+        if data.get("api_key"):
+            return data
+
+    # 3. Zmienna środowiskowa OPENAI_API_KEY
+    env_key = os.environ.get("OPENAI_API_KEY", "")
+    if env_key:
+        cfg = dict(DEFAULT_CONFIG)
+        cfg["api_key"] = env_key
+        return cfg
+
+    # 4. Zwróć pusty config (api_key = "")
+    if CONFIG_FILE.exists():
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
         for k, v in DEFAULT_CONFIG.items():
             if k not in data:
                 data[k] = v
@@ -67,10 +98,15 @@ def load_config() -> dict:
     return dict(DEFAULT_CONFIG)
 
 
-def save_config(cfg: dict) -> None:
-    CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+def save_config(cfg: dict) -> Path:
+    """Zapisuje config. Lokalny config.json ma priorytet; fallback do Desktop/moj-ai."""
+    target = CONFIG_FILE
+    if not CONFIG_FILE.exists() and _DESKTOP_AI_CONFIG.exists():
+        target = _DESKTOP_AI_CONFIG
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with open(target, "w", encoding="utf-8") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
+    return target
 
 
 def run_setup() -> None:
@@ -90,8 +126,8 @@ def run_setup() -> None:
     if system_prompt:
         cfg["system_prompt"] = system_prompt
 
-    save_config(cfg)
-    print(f"\n[OK] Konfiguracja zapisana do: {CONFIG_FILE}")
+    saved = save_config(cfg)
+    print(f"\n[OK] Konfiguracja zapisana do: {saved}")
 
 
 
@@ -189,22 +225,22 @@ def main():
     if args.set_key:
         cfg = load_config()
         cfg["api_key"] = args.set_key.strip()
-        save_config(cfg)
-        print(f"[OK] Klucz API zapisany do: {CONFIG_FILE}")
+        saved = save_config(cfg)
+        print(f"[OK] Klucz API zapisany do: {saved}")
         return
 
     if args.set_model:
         cfg = load_config()
         cfg["model"] = args.set_model.strip()
-        save_config(cfg)
-        print(f"[OK] Model ustawiony na: {cfg['model']}")
+        saved = save_config(cfg)
+        print(f"[OK] Model ustawiony na: {cfg['model']} (plik: {saved})")
         return
 
     if args.set_prompt:
         cfg = load_config()
         cfg["system_prompt"] = args.set_prompt.strip()
-        save_config(cfg)
-        print(f"[OK] System prompt zaktualizowany.")
+        saved = save_config(cfg)
+        print(f"[OK] System prompt zaktualizowany (plik: {saved}).")
         return
 
     if args.show_config:
