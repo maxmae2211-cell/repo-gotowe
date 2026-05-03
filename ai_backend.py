@@ -10,22 +10,26 @@ from pathlib import Path
 
 def _req_post(url, headers, payload, timeout=30):
     import requests
+
     r = requests.post(url, headers=headers, json=payload, timeout=timeout)
     r.raise_for_status()
     return r.json()
 
 
-def wyslij_openai_compat(base_url: str, api_key: str, model: str,
-                          messages: list, max_tokens: int, temperature: float) -> str:
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}"
-    }
+def wyslij_openai_compat(
+    base_url: str,
+    api_key: str,
+    model: str,
+    messages: list,
+    max_tokens: int,
+    temperature: float,
+) -> str:
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
     payload = {
         "model": model,
         "messages": messages,
         "max_tokens": max_tokens,
-        "temperature": temperature
+        "temperature": temperature,
     }
     data = _req_post(f"{base_url}/chat/completions", headers, payload)
     return data["choices"][0]["message"]["content"].strip()
@@ -35,10 +39,10 @@ def wyslij_pollinations(messages: list, **kwargs) -> str:
     import requests
     import urllib.parse
     import time
+
     # Weź ostatnią wiadomość użytkownika
     pytanie = next(
-        (m["content"] for m in reversed(messages) if m["role"] == "user"),
-        "Cześć"
+        (m["content"] for m in reversed(messages) if m["role"] == "user"), "Cześć"
     )
     encoded = urllib.parse.quote(pytanie)
     url = f"https://text.pollinations.ai/{encoded}"
@@ -81,23 +85,36 @@ def _wykryj_backend() -> dict:
     # 2. Env vars
     for key_env, base_url, model, provider in [
         ("OPENAI_API_KEY", "https://api.openai.com/v1", "gpt-4o-mini", "openai"),
-        ("GROQ_API_KEY", "https://api.groq.com/openai/v1", "llama-3.1-8b-instant", "groq"),
+        (
+            "GROQ_API_KEY",
+            "https://api.groq.com/openai/v1",
+            "llama-3.1-8b-instant",
+            "groq",
+        ),
     ]:
         k = os.environ.get(key_env, "")
         if k:
-            _BACKEND_CACHE = {"provider": provider, "base_url": base_url,
-                               "model": model, "key": k}
+            _BACKEND_CACHE = {
+                "provider": provider,
+                "base_url": base_url,
+                "model": model,
+                "key": k,
+            }
             return _BACKEND_CACHE
 
     # 3. Ollama lokalnie
     try:
         import requests
+
         r = requests.get("http://localhost:11434/api/tags", timeout=2)
         modele = r.json().get("models", [])
         if modele:
-            _BACKEND_CACHE = {"provider": "ollama",
-                               "base_url": "http://localhost:11434/v1",
-                               "model": modele[0]["name"], "key": "ollama"}
+            _BACKEND_CACHE = {
+                "provider": "ollama",
+                "base_url": "http://localhost:11434/v1",
+                "model": modele[0]["name"],
+                "key": "ollama",
+            }
             return _BACKEND_CACHE
     except Exception:
         pass
@@ -105,17 +122,25 @@ def _wykryj_backend() -> dict:
     # 4. LM Studio
     try:
         import requests
+
         requests.get("http://localhost:1234/v1/models", timeout=2).raise_for_status()
-        _BACKEND_CACHE = {"provider": "lm-studio",
-                           "base_url": "http://localhost:1234/v1",
-                           "model": "local-model", "key": "lm-studio"}
+        _BACKEND_CACHE = {
+            "provider": "lm-studio",
+            "base_url": "http://localhost:1234/v1",
+            "model": "local-model",
+            "key": "lm-studio",
+        }
         return _BACKEND_CACHE
     except Exception:
         pass
 
     # 5. Pollinations (zawsze dostępne)
-    _BACKEND_CACHE = {"provider": "pollinations",
-                       "base_url": "pollinations", "model": "", "key": ""}
+    _BACKEND_CACHE = {
+        "provider": "pollinations",
+        "base_url": "pollinations",
+        "model": "",
+        "key": "",
+    }
     return _BACKEND_CACHE
 
 
@@ -130,9 +155,10 @@ def wyslij_do_ai_multi(messages: list, cfg: dict) -> str:
     return wyslij_openai_compat(
         base_url=backend["base_url"],
         api_key=backend["key"],
-        model=cfg.get("model", backend["model"]) if provider not in ("ollama", "lm-studio")
-              else backend["model"],
+        model=cfg.get("model", backend["model"])
+        if provider not in ("ollama", "lm-studio")
+        else backend["model"],
         messages=messages,
         max_tokens=cfg.get("max_tokens", 1000),
-        temperature=cfg.get("temperature", 0.7)
+        temperature=cfg.get("temperature", 0.7),
     )
