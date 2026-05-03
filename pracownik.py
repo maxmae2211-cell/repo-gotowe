@@ -20,21 +20,33 @@ from datetime import datetime
 from pathlib import Path
 
 try:
-    from neochat import load_config, wyslij_do_ai
+    from neochat import load_config
 except ImportError:
-    print("[BŁĄD] Brak pliku neochat.py — pracownik.py wymaga neochat.py w tym samym folderze.")
+    print(
+        "[BŁĄD] Brak pliku neochat.py — pracownik.py wymaga neochat.py w tym samym folderze."
+    )
     sys.exit(1)
+
+try:
+    from ai_backend import wyslij_do_ai_multi
+except ImportError:
+    wyslij_do_ai_multi = None
 
 try:
     from moderacja import sprawdz_wejscie, sprawdz_wyjscie
 except ImportError:
-    def sprawdz_wejscie(tekst): return None
-    def sprawdz_wyjscie(tekst): return tekst
+
+    def sprawdz_wejscie(tekst):
+        return None
+
+    def sprawdz_wyjscie(tekst):
+        return tekst
+
 
 # ── Ścieżki ──────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent
 ZADANIA_FILE = BASE_DIR / "zadania.txt"
-RAPORT_FILE  = BASE_DIR / "raport-pracownik.txt"
+RAPORT_FILE = BASE_DIR / "raport-pracownik.txt"
 
 # ── System prompt pracownika ─────────────────────────────────────────────────
 SYSTEM_PROMPT_PRACOWNIK = (
@@ -43,6 +55,7 @@ SYSTEM_PROMPT_PRACOWNIK = (
     "Jeśli zadanie wymaga kodu — piszesz kod. Jeśli wymaga tekstu — piszesz tekst. "
     "Zawsze kończysz zadanie w jednej odpowiedzi."
 )
+
 
 # ── Wykonanie pojedynczego zadania ────────────────────────────────────────────
 def wykonaj_zadanie(zadanie: str, cfg: dict) -> str:
@@ -54,8 +67,16 @@ def wykonaj_zadanie(zadanie: str, cfg: dict) -> str:
     # Nadpisujemy system prompt na wersję pracownika
     cfg_pracownik = {**cfg, "system_prompt": SYSTEM_PROMPT_PRACOWNIK}
 
-    messages = [{"role": "user", "content": zadanie}]
-    wynik = wyslij_do_ai(messages, cfg_pracownik)
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT_PRACOWNIK},
+        {"role": "user", "content": zadanie},
+    ]
+    if wyslij_do_ai_multi:
+        wynik = wyslij_do_ai_multi(messages, cfg_pracownik)
+    else:
+        from neochat import wyslij_do_ai
+
+        wynik = wyslij_do_ai(messages, cfg_pracownik)
 
     if wynik is None:
         return "[BŁĄD] Brak odpowiedzi od AI."
@@ -98,7 +119,9 @@ def uruchom(zadania: list[str], cfg: dict, sciezka_raportu: Path) -> None:
     print(f"\nPRACOWNIK AI — {len(zadania)} zadanie(a) do wykonania\n{'=' * 50}")
 
     for i, zadanie in enumerate(zadania, 1):
-        print(f"\n[{i}/{len(zadania)}] ZADANIE: {zadanie[:80]}{'...' if len(zadanie) > 80 else ''}")
+        print(
+            f"\n[{i}/{len(zadania)}] ZADANIE: {zadanie[:80]}{'...' if len(zadanie) > 80 else ''}"
+        )
         print("Pracuję...", end="", flush=True)
         wynik = wykonaj_zadanie(zadanie, cfg)
         print(f"\r[✓] Gotowe!   ")
@@ -122,20 +145,25 @@ def main() -> None:
         description="Pracownik AI — autonomiczny agent wykonujący zadania"
     )
     parser.add_argument(
-        "zadanie", nargs="?", default=None,
-        help="Jedno zadanie z linii poleceń (opcjonalne)"
+        "zadanie",
+        nargs="?",
+        default=None,
+        help="Jedno zadanie z linii poleceń (opcjonalne)",
     )
     parser.add_argument(
-        "--zadania", metavar="PLIK", default=str(ZADANIA_FILE),
-        help=f"Plik z zadaniami (domyślnie: {ZADANIA_FILE.name})"
+        "--zadania",
+        metavar="PLIK",
+        default=str(ZADANIA_FILE),
+        help=f"Plik z zadaniami (domyślnie: {ZADANIA_FILE.name})",
     )
     parser.add_argument(
-        "--raport", metavar="PLIK", default=str(RAPORT_FILE),
-        help=f"Plik raportu (domyślnie: {RAPORT_FILE.name})"
+        "--raport",
+        metavar="PLIK",
+        default=str(RAPORT_FILE),
+        help=f"Plik raportu (domyślnie: {RAPORT_FILE.name})",
     )
     parser.add_argument(
-        "--pokaz-raport", action="store_true",
-        help="Wyświetl ostatni raport"
+        "--pokaz-raport", action="store_true", help="Wyświetl ostatni raport"
     )
 
     args = parser.parse_args()
@@ -147,11 +175,6 @@ def main() -> None:
         return
 
     cfg = load_config()
-    if not cfg.get("api_key"):
-        print("[BŁĄD] Brak klucza API. Ustaw go przez:")
-        print("  python neochat.py --set-key sk-...")
-        sys.exit(1)
-
     if args.zadanie:
         # Jedno zadanie z CLI
         zadania = [args.zadanie]
