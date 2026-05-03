@@ -29,7 +29,8 @@ from pathlib import Path
 from datetime import datetime
 
 BASE_DIR = Path(__file__).parent
-CONFIG_FILE = BASE_DIR / "config.json"
+ROOT_DIR = Path(__file__).resolve().parent.parent
+CONFIG_FILE = ROOT_DIR / "config.json"
 LOG_FILE = BASE_DIR / "pracownik4.log"
 SEPARATOR = "=" * 60
 

@@ -31,6 +31,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 # ── Import AI (opcjonalny — nie blokujemy startu jeśli brak) ─────────────────
 AI_DOSTEPNE = False
@@ -38,6 +39,7 @@ _load_config = None
 _wyslij_do_ai = None
 
 try:
+    sys.path.insert(0, str(ROOT_DIR))
     sys.path.insert(0, str(Path.home() / "Desktop" / "moj-ai"))
     from neochat import load_config as _load_config, wyslij_do_ai as _wyslij_do_ai  # type: ignore
     AI_DOSTEPNE = True
@@ -46,7 +48,7 @@ except ImportError:
 
 
 # ── Stałe ────────────────────────────────────────────────────────────────────
-RUNBOOK_FILE = BASE_DIR / "RUNBOOK-TAURUS.md"
+RUNBOOK_FILE = ROOT_DIR / "RUNBOOK-TAURUS.md"
 PR_BASE_URL = "https://github.com/maxmae2211-cell/repo-gotowe/compare/main"
 
 SYSTEM_PROMPT = (
@@ -112,7 +114,7 @@ def znajdz_ostatni_jtl() -> Path | None:
     """Szuka najnowszego pliku kpi.jtl lub kfk.jtl w katalogach z timestampami."""
     pattern = r"\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}"
     dirs = sorted(
-        [d for d in BASE_DIR.iterdir() if d.is_dir() and re.match(pattern, d.name)],
+        [d for d in ROOT_DIR.iterdir() if d.is_dir() and re.match(pattern, d.name)],
         reverse=True
     )
     for d in dirs:
@@ -275,7 +277,7 @@ def aktualizuj_runbook(nowy_wpis: str) -> bool:
 
 def git_run(cmd: list) -> tuple[int, str, str]:
     """Uruchamia komendę git i zwraca (code, stdout, stderr)."""
-    r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(BASE_DIR))
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(ROOT_DIR))
     return r.returncode, r.stdout.strip(), r.stderr.strip()
 
 

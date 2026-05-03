@@ -24,6 +24,9 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT_DIR))
+
 try:
     from neochat import load_config
 except ImportError:

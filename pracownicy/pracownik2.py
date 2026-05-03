@@ -19,6 +19,8 @@ import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT_DIR))
 
 # Import z neochat (w tym samym repo)
 try:
@@ -110,7 +112,7 @@ def znajdz_ostatni_jtl() -> Path | None:
     """Szuka najnowszego pliku kpi.jtl lub kfk.jtl w katalogach z timestampami."""
     pattern = r"\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}"
     dirs = sorted(
-        [d for d in BASE_DIR.iterdir() if d.is_dir() and re.match(pattern, d.name)],
+        [d for d in ROOT_DIR.iterdir() if d.is_dir() and re.match(pattern, d.name)],
         reverse=True
     )
     for d in dirs:
@@ -228,7 +230,7 @@ def generuj_wpis_runbook(cfg: dict, plik_jtl: Path | None = None) -> str:
 
 def aktualizuj_runbook(nowy_wpis: str) -> bool:
     """Zastępuje linię JMeter+Java8 w RUNBOOK-TAURUS.md nowym wpisem (generowanym przez AI)."""
-    runbook = BASE_DIR / "RUNBOOK-TAURUS.md"
+    runbook = ROOT_DIR / "RUNBOOK-TAURUS.md"
     if not runbook.exists():
         print(f"[BŁĄD] Nie znaleziono: {runbook}")
         return False
@@ -268,7 +270,7 @@ def git_commit_push(
 
     def run(cmd):
         r = subprocess.run(
-            cmd, capture_output=True, text=True, cwd=str(BASE_DIR)
+            cmd, capture_output=True, text=True, cwd=str(ROOT_DIR)
         )
         return r.returncode, r.stdout.strip(), r.stderr.strip()
 
