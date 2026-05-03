@@ -34,19 +34,29 @@ def wyslij_openai_compat(base_url: str, api_key: str, model: str,
 def wyslij_pollinations(messages: list, **kwargs) -> str:
     import requests
     import urllib.parse
+    import time
     # Weź ostatnią wiadomość użytkownika
     pytanie = next(
         (m["content"] for m in reversed(messages) if m["role"] == "user"),
         "Cześć"
     )
     encoded = urllib.parse.quote(pytanie)
-    r = requests.get(
-        f"https://text.pollinations.ai/{encoded}",
-        timeout=30,
-        headers={"Accept": "text/plain"}
-    )
-    r.raise_for_status()
-    return r.text.strip()
+    url = f"https://text.pollinations.ai/{encoded}"
+    for attempt in range(3):
+        try:
+            r = requests.get(url, timeout=60, headers={"Accept": "text/plain"})
+            r.raise_for_status()
+            return r.text.strip()
+        except requests.exceptions.Timeout:
+            if attempt < 2:
+                time.sleep(5 * (attempt + 1))
+                continue
+            raise
+        except requests.exceptions.RequestException:
+            if attempt < 2:
+                time.sleep(5 * (attempt + 1))
+                continue
+            raise
 
 
 # ── Auto-wykrycie backendu ─────────────────────────────────────────────────

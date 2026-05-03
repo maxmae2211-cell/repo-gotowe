@@ -123,7 +123,10 @@ def uruchom(zadania: list[str], cfg: dict, sciezka_raportu: Path) -> None:
             f"\n[{i}/{len(zadania)}] ZADANIE: {zadanie[:80]}{'...' if len(zadanie) > 80 else ''}"
         )
         print("Pracuję...", end="", flush=True)
-        wynik = wykonaj_zadanie(zadanie, cfg)
+        try:
+            wynik = wykonaj_zadanie(zadanie, cfg)
+        except Exception as e:
+            wynik = f"[BŁĄD] {e}"
         print(f"\r[✓] Gotowe!   ")
         print(f"WYNIK:\n{wynik}\n{'-' * 40}")
         wyniki.append({"zadanie": zadanie, "wynik": wynik})
