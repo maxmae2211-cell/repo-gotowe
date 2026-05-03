@@ -1,7 +1,8 @@
 param(
     [ValidateSet('health', 'standard', 'jmeter-java8', 'pipeline')]
     [string]$Mode = 'health',
-    [string]$Config = 'test-api.yml'
+    [string]$Config = 'test-api.yml',
+    [switch]$AllowParallel
 )
 
 $ErrorActionPreference = 'Stop'
@@ -13,6 +14,19 @@ $python = Join-Path $repoRoot '.venv/Scripts/python.exe'
 $bzt = Join-Path $repoRoot '.venv/Scripts/bzt.exe'
 $java8 = Join-Path $repoRoot 'tools/jdk8u482-b08'
 $configPath = Join-Path $repoRoot $Config
+
+$runMutex = $null
+if (-not $AllowParallel) {
+    $createdNew = $false
+    $runMutex = New-Object System.Threading.Mutex($true, 'Global\repo-gotowe-taurus-single-run', [ref]$createdNew)
+
+    if (-not $createdNew) {
+        $runMutex.Dispose()
+        throw "Wykryto inne aktywne uruchomienie Taurus. Aby uniknac zawieszenia komputera, uruchamiaj testy pojedynczo w jednym oknie AI."
+    }
+
+    Write-Host '[AI-SAFE] Blokada rownoleglych testow wlaczona (single-run).'
+}
 
 function Assert-Exists([string]$Path, [string]$Label) {
     if (-not (Test-Path $Path)) {
@@ -61,58 +75,73 @@ Assert-Exists $python 'Interpreter Python'
 Assert-Exists $bzt 'Plik wykonywalny Taurusa (bzt)'
 Assert-Exists $configPath 'Plik konfiguracyjny Taurusa'
 
-switch ($Mode) {
-    'health' {
-        & $python -V
-        & $python -m pip show bzt setuptools pyyaml
-        & $python -m pip check
-        & $bzt -h
-        break
-    }
-
-    'standard' {
-        & $bzt $configPath
-        if ($LASTEXITCODE -eq 0) {
-            Open-LatestReport
+try {
+    switch ($Mode) {
+        'health' {
+            & $python -V
+            & $python -m pip show bzt setuptools pyyaml
+            & $python -m pip check
+            & $bzt -h
+            break
         }
-        break
-    }
 
-    'jmeter-java8' {
-        Write-Host '[Uruchamiam] Test JMeter z Java 8...'
-        Use-JavaForJMeter
-        & $bzt $configPath -o execution.0.executor=jmeter
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host '[OK] Test JMeter zakonczony pomyslnie.'
-            Open-LatestReport
+        'standard' {
+            & $bzt $configPath
+            if ($LASTEXITCODE -eq 0) {
+                Open-LatestReport
+            }
+            break
         }
-        break
-    }
 
-    'pipeline' {
-        Write-Host '[1/3] Health check...'
-        & $python -V
-        & $python -m pip show bzt setuptools pyyaml
-        & $python -m pip check
-
-        Write-Host '[2/3] Standard API run...'
-        & $bzt $configPath
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host '[2/3] Test API zakonczony pomyslnie.'
-            Write-Host '[3/3] JMeter + Java8 run...'
+        'jmeter-java8' {
+            Write-Host '[Uruchamiam] Test JMeter z Java 8...'
             Use-JavaForJMeter
             & $bzt $configPath -o execution.0.executor=jmeter
             if ($LASTEXITCODE -eq 0) {
-                Write-Host '[3/3] Test JMeter zakonczony pomyslnie. Caly potok wykonany!'
+                Write-Host '[OK] Test JMeter zakonczony pomyslnie.'
                 Open-LatestReport
             }
-            else {
-                Write-Host "[BLAD] Test JMeter zakonczony z bledem. Kod wyjscia: $LASTEXITCODE"
+            break
+        }
+
+        'pipeline' {
+            Write-Host '[1/3] Health check...'
+            & $python -V
+            & $python -m pip show bzt setuptools pyyaml
+            & $python -m pip check
+
+            Write-Host '[2/3] Standard API run...'
+            & $bzt $configPath
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host '[2/3] Test API zakonczony pomyslnie.'
+                Write-Host '[3/3] JMeter + Java8 run...'
+                Use-JavaForJMeter
+                & $bzt $configPath -o execution.0.executor=jmeter
+                if ($LASTEXITCODE -eq 0) {
+                    Write-Host '[3/3] Test JMeter zakonczony pomyslnie. Caly potok wykonany!'
+                    Write-Host '[4/4] Generuje raport HTML...'
+                    & $python (Join-Path $repoRoot 'generate_report.py')
+                    if ($LASTEXITCODE -eq 0) {
+                        Write-Host '[OK] Raport HTML wygenerowany pomyslnie.'
+                    } else {
+                        Write-Host "[OSTRZEZENIE] Generowanie raportu HTML zakonczone z kodem: $LASTEXITCODE"
+                    }
+                    Open-LatestReport
+                }
+                else {
+                    Write-Host "[BLAD] Test JMeter zakonczony z bledem. Kod wyjscia: $LASTEXITCODE"
+                }
             }
+            else {
+                Write-Host "[BLAD] Test API zakonczony z bledem. Kod wyjscia: $LASTEXITCODE. Przerywam potok."
+            }
+            break
         }
-        else {
-            Write-Host "[BLAD] Test API zakonczony z bledem. Kod wyjscia: $LASTEXITCODE. Przerywam potok."
-        }
-        break
+    }
+}
+finally {
+    if ($runMutex) {
+        $runMutex.ReleaseMutex() | Out-Null
+        $runMutex.Dispose()
     }
 }

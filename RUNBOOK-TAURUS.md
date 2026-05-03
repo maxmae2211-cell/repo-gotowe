@@ -53,12 +53,31 @@ Use `execution.0.executor=jmeter` (indexed path), not `execution.executor=jmeter
 - `jmeter.log` is intentionally not tracked.
 - Generated Taurus artifact folders are ignored via timestamp pattern.
 
+## AI-only policy (zakaz recznego uruchamiania)
+
+**Testy Taurus w tym repozytorium wolno uruchamiac WYLACZNIE przez AI lub automatyzacje.**
+
+- Zabrania sie recznego uruchamiania testow przez czlowieka bez asysty AI.
+- Kazde uruchomienie jest chronione mutexem `Global\repo-gotowe-taurus-single-run` — rownolegly run zostanie odrzucony z bledem.
+- Zamiast `bzt` bezposrednio, zawsze uzyj: `scripts/run-taurus.ps1` (przez AI lub task VS Code).
+- Jezeli chcesz uruchamiac z wielu okien, przekaz parametr `-AllowParallel` (tylko za zgoda AI).
+
+**Dlaczego?** Rownolegly Taurus zatrzymuje komputer (brak limitu CPU/RAM). Mutex gwarantuje porzadek.
+
 ## Troubleshooting notes
 
 - Taurus update-check 5xx warnings are non-blocking.
 - If dependency issues appear, verify `pip check` first.
 - If Taurus starts failing around YAML loading, re-check Taurus/PyYAML compatibility.
 - For `test-advanced.yml`, sporadic TLS handshake/network errors from public endpoints may appear at low rate; treat as external instability and evaluate threshold, not as local environment breakage.
+
+## AI-safe execution (single window)
+
+To avoid workstation freezes when many tests are requested, run Taurus in one AI terminal window and keep single-run lock enabled (default in `run-taurus.ps1`).
+
+- Default behavior: only one Taurus run can be active at a time.
+- If another run is active, the script fails fast with an explanatory message.
+- Override only when really needed: `-AllowParallel`.
 
 ## One-command runner
 
