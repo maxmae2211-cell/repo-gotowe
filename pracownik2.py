@@ -107,16 +107,17 @@ def wczytaj_wyniki_jtl(plik: Path) -> dict:
 
 
 def znajdz_ostatni_jtl() -> Path | None:
-    """Szuka najnowszego pliku kfk.jtl w katalogach z timestampami."""
+    """Szuka najnowszego pliku kpi.jtl lub kfk.jtl w katalogach z timestampami."""
     pattern = r"\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}"
     dirs = sorted(
         [d for d in BASE_DIR.iterdir() if d.is_dir() and re.match(pattern, d.name)],
         reverse=True
     )
     for d in dirs:
-        jtl = d / "kfk.jtl"
-        if jtl.exists():
-            return jtl
+        for nazwa in ("kpi.jtl", "kfk.jtl"):
+            jtl = d / nazwa
+            if jtl.exists():
+                return jtl
     return None
 
 
@@ -198,6 +199,148 @@ def zapisz_do_raportu(tresc: str):
         f.write(tresc + "\n" + "=" * 60 + "\n")
 
 
+def generuj_wpis_runbook(cfg: dict, plik_jtl: Path | None = None) -> str:
+    """Prosi AI o nowy wpis do RUNBOOK na podstawie wyników JTL."""
+    if plik_jtl is None:
+        plik_jtl = znajdz_ostatni_jtl()
+
+    if plik_jtl is None:
+        return ""
+
+    metryki = wczytaj_wyniki_jtl(plik_jtl)
+    if not metryki:
+        return ""
+
+    # Wykryj typ runu z nazwy katalogu artefaktów
+    artifacts_dir = plik_jtl.parent.name
+    kontekst = (
+        f"Artefakty: {artifacts_dir}\n"
+        f"Metryki: {json.dumps(metryki, ensure_ascii=False)}\n"
+        f"Plik JTL: {plik_jtl.name}"
+    )
+    pytanie = (
+        "Napisz JEDEN wpis do sekcji 'Latest verified pipeline results' w RUNBOOK-TAURUS.md. "
+        "Format: `- JMeter + Java8 run: PASS (<liczba> samples, <X>% failures, duration <czas>) -> Artifacts: \\`<dir>\\`` "
+        "Podaj TYLKO tę linię, nic więcej. Jeśli error_rate_pct > 1%, napisz FAIL zamiast PASS."
+    )
+    return zapytaj_ai(pytanie, cfg, kontekst).strip()
+
+
+def aktualizuj_runbook(nowy_wpis: str) -> bool:
+    """Zastępuje linię JMeter+Java8 w RUNBOOK-TAURUS.md nowym wpisem (generowanym przez AI)."""
+    runbook = BASE_DIR / "RUNBOOK-TAURUS.md"
+    if not runbook.exists():
+        print(f"[BŁĄD] Nie znaleziono: {runbook}")
+        return False
+
+    tekst = runbook.read_text(encoding="utf-8")
+
+    # Zastąp istniejącą linię JMeter+Java8 lub dopisz po linii Standard
+    import re as _re
+    nowa_linia = nowy_wpis if nowy_wpis.startswith("- ") else f"- {nowy_wpis}"
+
+    if _re.search(r"^- JMeter \+ Java8 run:.*", tekst, _re.MULTILINE):
+        tekst = _re.sub(
+            r"^- JMeter \+ Java8 run:.*",
+            nowa_linia,
+            tekst,
+            flags=_re.MULTILINE
+        )
+    else:
+        # Dopisz po sekcji Latest verified
+        tekst = tekst.replace(
+            "## Latest verified pipeline results\n",
+            f"## Latest verified pipeline results\n{nowa_linia}\n"
+        )
+
+    runbook.write_text(tekst, encoding="utf-8")
+    print(f"[OK] RUNBOOK zaktualizowany: {nowa_linia}")
+    return True
+
+
+def git_commit_push(
+    pliki: list,
+    wiadomosc: str,
+    branch: str = "qq"
+) -> bool:
+    """Wykonuje git add, commit i push dla podanych plików."""
+    import subprocess
+
+    def run(cmd):
+        r = subprocess.run(
+            cmd, capture_output=True, text=True, cwd=str(BASE_DIR)
+        )
+        return r.returncode, r.stdout.strip(), r.stderr.strip()
+
+    # git add
+    code, out, err = run(["git", "add"] + [str(p) for p in pliki])
+    if code != 0:
+        print(f"[BŁĄD] git add: {err}")
+        return False
+
+    # git commit
+    code, out, err = run(["git", "commit", "-m", wiadomosc])
+    if code != 0:
+        if "nothing to commit" in out + err:
+            print("[INFO] Brak zmian do commitowania.")
+            return True
+        print(f"[BŁĄD] git commit: {err}")
+        return False
+    print(f"[OK] Commit: {out.splitlines()[0] if out else wiadomosc}")
+
+    # git push
+    code, out, err = run(["git", "push", "origin", branch])
+    if code != 0:
+        print(f"[BŁĄD] git push: {err}")
+        return False
+    print(f"[OK] Push → origin/{branch}")
+    return True
+
+
+def tryb_pipeline(cfg: dict, branch: str = "qq") -> None:
+    """Autonomiczny tryb pipeline:
+    1. Znajdź ostatni JTL
+    2. Wygeneruj wpis do RUNBOOK (AI)
+    3. Zaktualizuj RUNBOOK-TAURUS.md
+    4. git commit + push
+    5. Wyświetl URL do PR
+    """
+    from datetime import datetime as _dt
+    print("\n[PIPELINE] Autonomiczny agent Taurus startuje...\n")
+
+    # Krok 1: JTL
+    plik_jtl = znajdz_ostatni_jtl()
+    if plik_jtl is None:
+        print("[BŁĄD] Brak pliku JTL. Uruchom najpierw testy Taurus.")
+        return
+    print(f"[1/4] Znaleziono wyniki: {plik_jtl}")
+
+    # Krok 2: AI generuje wpis RUNBOOK
+    print("[2/4] Generuję wpis RUNBOOK (AI)...")
+    wpis = generuj_wpis_runbook(cfg, plik_jtl)
+    if not wpis:
+        print("[BŁĄD] AI nie wygenerowało wpisu. Sprawdź klucz API.")
+        return
+    print(f"       Wpis: {wpis}")
+
+    # Krok 3: Aktualizacja RUNBOOK
+    print("[3/4] Aktualizuję RUNBOOK-TAURUS.md...")
+    if not aktualizuj_runbook(wpis):
+        return
+
+    # Krok 4: git commit + push
+    print("[4/4] Commituje i pushuje zmiany...")
+    teraz = _dt.now().strftime("%Y-%m-%d")
+    msg = f"pracownik2: aktualizacja RUNBOOK JMeter+Java8 [{teraz}]"
+    ok = git_commit_push(["RUNBOOK-TAURUS.md"], msg, branch)
+
+    if ok:
+        pr_url = f"https://github.com/maxmae2211-cell/repo-gotowe/compare/main...{branch}"
+        print(f"\n[DONE] Pipeline ukończony!")
+        print(f"       PR URL: {pr_url}")
+
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Pracownik2 — Agent AI do zadań Taurus pipeline"
@@ -212,6 +355,10 @@ def main():
                         help="Zapisz wynik do raport-pracownik2.txt")
     parser.add_argument("--pokaz-raport", action="store_true",
                         help="Pokaż zawartość raport-pracownik2.txt")
+    parser.add_argument("--pipeline", action="store_true",
+                        help="Autonomiczny pipeline: JTL → AI → RUNBOOK → git commit+push → PR URL")
+    parser.add_argument("--branch", default="qq",
+                        help="Branch git do pushowania (domyślnie: qq)")
 
     args = parser.parse_args()
 
@@ -233,6 +380,10 @@ def main():
         sys.exit(1)
 
     wynik = None
+
+    if args.pipeline:
+        tryb_pipeline(cfg, branch=args.branch)
+        return
 
     if args.analiza or args.jtl:
         plik = Path(args.jtl) if args.jtl else None

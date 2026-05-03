@@ -5,3 +5,8 @@
 Napisz krótkie powitanie dla użytkownika który zaczyna pracę z AI.
 Podaj 3 pomysły na automatyzację codziennych zadań biurowych.
 Napisz prosty skrypt Python który liczy ile plików .py jest w danym folderze.
+
+# Zadania Taurus pipeline
+Opisz w 3 zdaniach do czego służy framework Taurus (bzt) i kiedy go używać.
+Wyjaśnij różnicę między testami wydajności a testami funkcjonalnymi API.
+Podaj 5 najważniejszych metryk które należy analizować po load testach.

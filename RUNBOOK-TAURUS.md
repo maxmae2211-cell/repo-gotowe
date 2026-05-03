@@ -5,7 +5,7 @@ This file captures the currently verified way to run this workspace on Windows.
 ## Latest verified pipeline results
 
 - Standard API run: PASS (6565 samples, 0.00% failures, duration 3:04) -> Artifacts: `2026-05-02_22-36-07.933700`
-- JMeter + Java8 run: PASS (6579 samples, 0.00% failures, duration 3:12) -> Artifacts: `2026-05-02_22-40-01.825186`
+- JMeter + Java8 run: PASS (6568 samples, 0.02% failures, duration 0:02:27) -> Artifacts: `2026-05-03_10-44-52.455195`
 - Latest JMeter validation: PASS (6685 samples, 0.00% failures, average total time 0.086s) -> Artifacts: `2026-05-03_03-27-51.349996`
 
 ## Verified environment
