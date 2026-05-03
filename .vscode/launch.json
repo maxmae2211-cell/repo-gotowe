@@ -5,6 +5,256 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Taurus: Uruchom test-api.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-api.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-advanced.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-advanced.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-locust.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-locust.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-gatling.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-gatling.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-k6.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-k6.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-robot.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-robot.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-selenium.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-selenium.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-support.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-support.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: generate_report",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/generate_report.py",
+            "args": [
+                "--output",
+                "taurus-locust-report.html"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: testy jednostkowe (pytest)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-v",
+                "--no-header"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: diagnose-taurus",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/diagnose-taurus.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: run_pipeline",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/run_pipeline.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: test-locust (bezpośrednio)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "locust",
+            "args": [
+                "-f",
+                "test-locust.py",
+                "--headless",
+                "--users",
+                "1",
+                "--spawn-rate",
+                "1",
+                "--run-time",
+                "10s",
+                "--host",
+                "http://localhost"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: Taurus krok 1 - pip/setuptools/wheel/Cython (wg docs)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "pip",
+                "--",
+                "install",
+                "--upgrade",
+                "pip",
+                "setuptools",
+                "wheel",
+                "Cython"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: Taurus krok 2 - install bzt (wg docs)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "pip",
+                "--",
+                "install",
+                "bzt"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: Taurus krok 3 - pin setuptools==79.0.1 (fix kompatybilności)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "pip",
+                "--",
+                "install",
+                "setuptools==79.0.1"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug: Zainstaluj z requirements.txt",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "pip",
+                "--",
+                "install",
+                "-r",
+                "requirements.txt"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Uruchom przeglądarkę Chrome względem hosta lokalnego",

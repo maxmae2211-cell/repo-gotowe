@@ -7,12 +7,17 @@ Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyza
 Taurus został już zainstalowany. Aby dodać katalog Scripts do PATH:
 
 ```powershell
-$env:Path += ";C:\Users\maxma\AppData\Roaming\Python\Python311\Scripts"
+$env:Path += ";C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts"
 ```
 
 ## Struktura projektu
 
 - **test-api.yml** - Prosty test API (JSONPlaceholder)
+- **test-support.yml** - Test dla środowiska support/production
+- **test-locust.yml** - Scenariusz Taurus z executorem Locust
+- **test-gatling.yml** - Scenariusz Taurus z executorem Gatling
+- **test-k6.yml** - Scenariusz Taurus z executorem k6
+- **test-robot.yml** - Scenariusz Taurus z executorem Robot Framework
 - **test-selenium.py** - Test Selenium (wyszukiwanie Google)
 - **test-selenium.yml** - Konfiguracja dla testu Selenium
 - **test-advanced.yml** - Zaawansowana konfiguracja z wieloma scenariuszami
@@ -43,6 +48,55 @@ pip install selenium --user
 # Uruchom test
 bzt test-selenium.yml
 ```
+
+### Test 4: Pozostale scenariusze Taurus
+
+```powershell
+bzt test-locust.yml
+bzt test-gatling.yml
+bzt test-k6.yml
+bzt test-robot.yml
+bzt test-support.yml
+```
+
+W VS Code możesz też użyć gotowych tasków z `.vscode/tasks.json` oraz profili debug z `.vscode/launch.json` dla tych scenariuszy.
+
+## Alternatywne narzędzia (poza Taurus)
+
+Repo zawiera też konfiguracje do uruchamiania testów bezpośrednio przez inne narzędzia:
+
+- `artillery.yml` + `npm run load:artillery`
+- `examples/k6_example.js` + `npm run load:k6`
+- `locustfile.py` + `npm run load:locust`
+
+Przykłady uruchomień:
+
+```powershell
+# Artillery
+npm run load:artillery
+
+# k6
+npm run load:k6
+
+# Locust (UI na http://localhost:8089)
+npm run load:locust
+```
+
+## Uruchamianie w kontenerze deweloperskim (VS Code Dev Containers)
+
+Możesz uruchomić środowisko programistyczne w kontenerze:
+
+1. Zainstaluj rozszerzenie **Dev Containers** w VS Code.
+2. Otwórz ten folder w VS Code i wybierz opcję "Reopen in Container".
+3. Kontener automatycznie zainstaluje zależności z `requirements.txt`.
+
+W kontenerze masz dostępne:
+
+- Pythona 3.11
+- Taurus (po instalacji przez pip)
+- Wszystkie narzędzia zdefiniowane w `requirements.txt`
+
+Pliki konfiguracyjne znajdują się w `.devcontainer/`.
 
 ## Dostępne opcje
 

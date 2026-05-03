@@ -138,6 +138,114 @@
             "problemMatcher": []
         },
         {
+            "label": "Taurus: Support/Production Environment",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-support.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Locust Scenario",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-locust.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Selenium Scenario",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-selenium.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Gatling Scenario",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-gatling.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: k6 Scenario",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-k6.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Taurus: Robot Framework Scenario",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/run-taurus.ps1",
+                "-Mode",
+                "standard",
+                "-Config",
+                "test-robot.yml"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
             "label": "Auto: gitignore commit+push",
             "type": "shell",
             "command": "powershell",
