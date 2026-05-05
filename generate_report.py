@@ -11,9 +11,6 @@ import argparse
 import os
 import glob
 from datetime import datetime
-from pathlib import Path
-
-from jtl_metrics import extract_jtl_kpi
 
 
 def generate_html_report(taurus_dirs):
@@ -36,8 +33,10 @@ def generate_html_report(taurus_dirs):
         "    <style>\n"
         "        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }\n"
         "        h1, h2 { color: #333; }\n"
-        "        .summary { background: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n"
-        "        table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n"
+        "        .summary { background: white; padding: 15px; border-radius: 5px; "
+        "margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n"
+        "        table { width: 100%; border-collapse: collapse; background: white; "
+        "margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n"
         "        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }\n"
         "        th { background-color: #4CAF50; color: white; }\n"
         "        tr:hover { background-color: #f5f5f5; }\n"
@@ -113,7 +112,7 @@ if __name__ == "__main__":
         f.write(report)
 
     print(f"[OK] Raport HTML wygenerowany: {args.output}")
-    print(f"[OK] Artefakty zawieraja:")
+    print("[OK] Artefakty zawieraja:")
     print(f"   - Katalogi testów Taurus: {len(taurus_dirs)} zarejestrowanych")
     print("   - Eksporty CSV w katalogu 'exports/'")
     print("   - Kompresja artefaktów: taurus-report-<data>.zip (jeśli wygenerowano)")

@@ -5,7 +5,7 @@ Usuwa katalogi artefaktów Taurus starsze niż 7 dni, pozostawiając 5 najnowszy
 import argparse
 import os
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime
 import shutil
 
 ARTIFACT_PATTERN = "2026-*"

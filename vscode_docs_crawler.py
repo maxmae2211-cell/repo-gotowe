@@ -71,7 +71,7 @@ def fetch_and_summarize(url, out_dir, images_dir, section_links, section_name=No
                         with open(os.path.join(images_dir, img_name), "wb") as out:
                             out.write(r.content)
                         f.write(f"- ![]({os.path.join('images', img_name)})\n")
-                    except Exception as e:
+                    except Exception:
                         f.write(f"- [Błąd pobierania obrazu: {img_url}]\n")
     print(f"Podsumowanie zapisane: {filename}")
 

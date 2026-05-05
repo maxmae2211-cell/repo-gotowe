@@ -5,7 +5,6 @@ Archiwizuje wyniki testów Taurus i regeneruje raport HTML.
 import subprocess
 import sys
 import zipfile
-import os
 from datetime import datetime
 from pathlib import Path
 

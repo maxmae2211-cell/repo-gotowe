@@ -42,14 +42,14 @@ html = """<!DOCTYPE html>
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -58,28 +58,28 @@ html = """<!DOCTYPE html>
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             padding: 40px;
         }
-        
+
         h1 {
             color: #333;
             text-align: center;
             margin-bottom: 10px;
             font-size: 2.5em;
         }
-        
+
         .subtitle {
             text-align: center;
             color: #666;
             margin-bottom: 30px;
             font-size: 0.95em;
         }
-        
+
         .metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
-        
+
         .metric-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -88,35 +88,35 @@ html = """<!DOCTYPE html>
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        
+
         .metric-card h3 {
             font-size: 0.9em;
             opacity: 0.9;
             margin-bottom: 10px;
             font-weight: normal;
         }
-        
+
         .metric-card .value {
             font-size: 2.5em;
             font-weight: bold;
         }
-        
+
         .metric-card.success {
             background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         }
-        
+
         .metric-card.error {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
         }
-        
+
         .metric-card.warning {
             background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
         }
-        
+
         .section {
             margin-bottom: 40px;
         }
-        
+
         .section h2 {
             color: #333;
             border-bottom: 3px solid #667eea;
@@ -124,7 +124,7 @@ html = """<!DOCTYPE html>
             margin-bottom: 20px;
             font-size: 1.8em;
         }
-        
+
         .chart-container {
             position: relative;
             height: 400px;
@@ -133,46 +133,46 @@ html = """<!DOCTYPE html>
             padding: 20px;
             border-radius: 8px;
         }
-        
+
         .endpoint-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-        
+
         .stat-box {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
             border-left: 4px solid #667eea;
         }
-        
+
         .stat-box h3 {
             color: #333;
             margin-bottom: 15px;
         }
-        
+
         .stat-row {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
             border-bottom: 1px solid #ddd;
         }
-        
+
         .stat-row:last-child {
             border-bottom: none;
         }
-        
+
         .stat-label {
             color: #666;
             font-weight: 500;
         }
-        
+
         .stat-value {
             font-weight: bold;
             color: #667eea;
         }
-        
+
         .footer {
             text-align: center;
             color: #999;
@@ -181,7 +181,7 @@ html = """<!DOCTYPE html>
             border-top: 1px solid #ddd;
             font-size: 0.9em;
         }
-        
+
         .badge {
             display: inline-block;
             padding: 4px 12px;
@@ -190,17 +190,17 @@ html = """<!DOCTYPE html>
             font-weight: bold;
             margin-top: 10px;
         }
-        
+
         .badge.pass {
             background: #d4edda;
             color: #155724;
         }
-        
+
         .badge.warning {
             background: #fff3cd;
             color: #856404;
         }
-        
+
         .badge.fail {
             background: #f8d7da;
             color: #721c24;
@@ -211,7 +211,7 @@ html = """<!DOCTYPE html>
     <div class="container">
         <h1>📊 Raport Taurus</h1>
         <p class="subtitle">Testy Obciążeniowe API JSONPlaceholder | 12 Feb 2026</p>
-        
+
         <!-- Key Metrics -->
         <div class="metrics">
             <div class="metric-card">
@@ -231,7 +231,7 @@ html = """<!DOCTYPE html>
                 <div class="value">14</div>
             </div>
         </div>
-        
+
         <!-- Performance Chart -->
         <div class="section">
             <h2>Analiza Czasu Odpowiedzi</h2>
@@ -239,7 +239,7 @@ html = """<!DOCTYPE html>
                 <canvas id="responseTimeChart"></canvas>
             </div>
         </div>
-        
+
         <!-- Endpoint Statistics -->
         <div class="section">
             <h2>Statystyki Per Endpoint</h2>

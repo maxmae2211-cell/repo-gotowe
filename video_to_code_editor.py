@@ -1,8 +1,6 @@
 import subprocess
 import os
 import re
-import requests
-from bs4 import BeautifulSoup
 
 # 1. Pobierz film i napisy z YouTube
 
@@ -43,7 +41,6 @@ def extract_commands_from_text(text):
 def read_and_modify_html(filename, commands):
     with open(filename, 'r', encoding='utf-8') as f:
         html = f.read()
-    soup = BeautifulSoup(html, "html.parser")
     for old, new, _ in commands:
         html = html.replace(old, new)
     with open(filename, 'w', encoding='utf-8') as f:
