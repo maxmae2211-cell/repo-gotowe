@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1746532800000,85,GET /posts,200,OK,Thread Group 1-1,text,true,,1234,256,1,1,https://jsonplaceholder.typicode.com/posts,80,0,15
+1746532800100,92,GET /posts/1,200,OK,Thread Group 1-1,text,true,,567,128,1,1,https://jsonplaceholder.typicode.com/posts/1,87,0,10
+1746532800200,78,GET /users,200,OK,Thread Group 1-2,text,true,,890,256,1,2,https://jsonplaceholder.typicode.com/users,73,0,12
+1746532800300,105,GET /comments,200,OK,Thread Group 1-2,text,true,,2048,256,1,2,https://jsonplaceholder.typicode.com/comments,98,0,18
+1746532800400,67,GET /posts/1,200,OK,Thread Group 1-1,text,true,,567,128,1,2,https://jsonplaceholder.typicode.com/posts/1,63,0,8
+1746532800500,113,GET /posts,200,OK,Thread Group 1-2,text,true,,1234,256,1,2,https://jsonplaceholder.typicode.com/posts,107,0,14
+1746532800600,89,GET /users,200,OK,Thread Group 1-1,text,true,,890,256,1,2,https://jsonplaceholder.typicode.com/users,84,0,11
+1746532800700,97,GET /comments,200,OK,Thread Group 1-2,text,true,,2048,256,1,2,https://jsonplaceholder.typicode.com/comments,91,0,16
+1746532800800,74,GET /posts/1,200,OK,Thread Group 1-1,text,true,,567,128,1,2,https://jsonplaceholder.typicode.com/posts/1,70,0,9
+1746532800900,101,GET /posts,200,OK,Thread Group 1-2,text,true,,1234,256,1,2,https://jsonplaceholder.typicode.com/posts,96,0,13
