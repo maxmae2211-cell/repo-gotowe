@@ -2,7 +2,25 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Taurus: Health Check",
+            "label": "Windows: Zainstaluj wymagania systemowe (Java + VC++)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/install-prerequisites.ps1"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Taurus: Kontrola zdrowia",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -18,7 +36,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Standard API Run",
+            "label": "Taurus: Standardowy test API",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -50,7 +68,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Full Pipeline",
+            "label": "Taurus: Pelny potok (Health + Standard + JMeter)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -66,7 +84,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Standard Advanced Config",
+            "label": "Taurus: Standardowy test (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -84,7 +102,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Health Advanced Config",
+            "label": "Taurus: Kontrola zdrowia (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -102,7 +120,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: JMeter + Java8 Advanced Config",
+            "label": "Taurus: Test JMeter + Java8 (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -120,7 +138,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Taurus: Full Pipeline Advanced Config",
+            "label": "Taurus: Pelny potok (konfiguracja zaawansowana)",
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -138,7 +156,11 @@
             "problemMatcher": []
         },
         {
+<<<<<<< HEAD
             "label": "Taurus: Support/Production Environment",
+=======
+            "label": "Taurus: Test srodowiska Support/Produkcja",
+>>>>>>> main
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -156,6 +178,7 @@
             "problemMatcher": []
         },
         {
+<<<<<<< HEAD
             "label": "Taurus: Locust Scenario",
             "type": "shell",
             "command": "powershell",
@@ -246,6 +269,8 @@
             "problemMatcher": []
         },
         {
+=======
+>>>>>>> main
             "label": "Auto: gitignore commit+push",
             "type": "shell",
             "command": "powershell",
@@ -322,6 +347,175 @@
                 "${workspaceFolder}/scripts/git-branch.ps1"
             ],
             "problemMatcher": []
+        },
+        {
+            "type": "func",
+            "label": "func: host start",
+            "command": "host start",
+            "problemMatcher": "$func-node-watch",
+            "isBackground": true,
+            "dependsOn": "npm install (functions)"
+        },
+        {
+            "type": "shell",
+            "label": "npm install (functions)",
+            "command": "npm install"
+        },
+        {
+            "type": "shell",
+            "label": "npm prune (functions)",
+            "command": "npm prune --production",
+            "problemMatcher": []
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "node",
+            "dockerBuild": {
+                "dockerfile": "${workspaceFolder}/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: release",
+            "dependsOn": [
+                "docker-build"
+            ],
+            "platform": "node"
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build"
+            ],
+            "dockerRun": {
+                "env": {
+                    "DEBUG": "*",
+                    "NODE_ENV": "development"
+                }
+            },
+            "node": {
+                "enableDebugging": true
+            }
+        },
+        {
+            "label": "VS Code: Restart i powrot do projektu",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/scripts/restart-vscode.ps1"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Agent Inspector: Validate prerequisites",
+            "type": "aitk",
+            "command": "debug-check-prerequisites",
+            "args": {
+                "portOccupancy": [
+                    5679,
+                    8088
+                ]
+            }
+        },
+        {
+            "label": "Agent Inspector: Run HTTP Server",
+            "type": "shell",
+            "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} --verbose --port 8088 -- --server",
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": [
+                "Agent Inspector: Validate prerequisites"
+            ],
+            "problemMatcher": {
+                "pattern": [
+                    {
+                        "regexp": "^.*$",
+                        "file": 0,
+                        "location": 1,
+                        "message": 2
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Application startup complete|running on|Started server process"
+                }
+            }
+        },
+        {
+            "label": "Agent Inspector: Open Inspector",
+            "type": "shell",
+            "command": "echo '${input:openAgentInspector}'",
+            "presentation": {
+                "reveal": "never"
+            },
+            "dependsOn": [
+                "Agent Inspector: Run HTTP Server"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Agent Inspector: Run CLI",
+            "type": "shell",
+            "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} -- --cli",
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": {
+                "pattern": [
+                    {
+                        "regexp": "^.*$",
+                        "file": 0,
+                        "location": 1,
+                        "message": 2
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Application startup complete|running on|Started server process"
+                }
+            }
+        },
+        {
+            "label": "Agent Inspector: Terminate All Tasks",
+            "type": "shell",
+            "command": "echo ${input:terminateAgentTasks}",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "agentEntrypoint",
+            "type": "promptString",
+            "description": "Relative path to the Python agent entrypoint, for example src/agent.py",
+            "default": "src/agent.py"
+        },
+        {
+            "id": "openAgentInspector",
+            "type": "command",
+            "command": "ai-mlstudio.openTestTool",
+            "args": {
+                "triggeredFrom": "tasks",
+                "port": 8088
+            }
+        },
+        {
+            "id": "terminateAgentTasks",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "terminateAll"
         }
     ]
 }

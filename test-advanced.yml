@@ -7,10 +7,10 @@ scenarios:
     requests:
       - url: https://jsonplaceholder.typicode.com/users
         label: Get Users
-        
+
       - url: https://jsonplaceholder.typicode.com/posts
         label: Get Posts
-        
+
       - url: https://jsonplaceholder.typicode.com/comments
         label: Get Comments
 
@@ -19,7 +19,7 @@ scenarios:
     requests:
       - url: https://jsonplaceholder.typicode.com/users/1
         label: Fetch User
-        
+
       - url: https://jsonplaceholder.typicode.com/users/2
         label: Fetch User 2
 
@@ -43,8 +43,10 @@ execution:
 modules:
   console:
     disable: false
+  blazemeter:
+    test: Taurus Advanced Test
 
 # Raportowanie
 reporting:
-  - module: console
   - module: final-stats
+  - module: blazemeter

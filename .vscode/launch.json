@@ -50,6 +50,7 @@
             "cwd": "${workspaceFolder}"
         },
         {
+<<<<<<< HEAD
             "name": "Taurus: Uruchom test-gatling.yml",
             "type": "debugpy",
             "request": "launch",
@@ -95,6 +96,8 @@
             "cwd": "${workspaceFolder}"
         },
         {
+=======
+>>>>>>> main
             "name": "Taurus: Uruchom test-selenium.yml",
             "type": "debugpy",
             "request": "launch",
@@ -110,6 +113,7 @@
             "cwd": "${workspaceFolder}"
         },
         {
+<<<<<<< HEAD
             "name": "Taurus: Uruchom test-support.yml",
             "type": "debugpy",
             "request": "launch",
@@ -125,6 +129,8 @@
             "cwd": "${workspaceFolder}"
         },
         {
+=======
+>>>>>>> main
             "name": "Debug: generate_report",
             "type": "debugpy",
             "request": "launch",
@@ -260,6 +266,45 @@
             "name": "Uruchom przeglądarkę Chrome względem hosta lokalnego",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Attach to Node Functions",
+            "type": "node",
+            "request": "attach",
+            "restart": true,
+            "port": 9229,
+            "preLaunchTask": "func: host start"
+        },
+        {
+            "name": "Containers: Node.js Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "platform": "node"
+        },
+        {
+            "name": "Agent Inspector: Debug HTTP Server",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5679
+            },
+            "preLaunchTask": "Agent Inspector: Open Inspector",
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Agent Inspector: Terminate All Tasks"
+        },
+        {
+            "name": "Agent Inspector: Debug CLI",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5679
+            },
+            "preLaunchTask": "Agent Inspector: Run CLI",
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Agent Inspector: Terminate All Tasks"
         }
     ]
 }

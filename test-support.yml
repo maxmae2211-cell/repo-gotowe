@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 # Konfiguracja testu środowiska Support / Produkcja
 # Używa publicznego API jako bezpiecznego placeholdera
 # Docelowo: zmień URLs na właściwe endpointy środowiska produkcyjnego
@@ -54,3 +55,51 @@ reporting:
     criteria:
       - fail>5%: stop as failed
       - avg-rt>3s: stop as failed
+=======
+# Taurus configuration for Support/Production environment testing
+# Use: & $bzt test-support.yml
+# Or from VS Code: Ctrl+Shift+P > Tasks: Run Task > "Taurus: Standard API Run Advanced Config" + modify to use this file
+
+scenarios:
+  api_test:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/posts/1
+        label: Health Check
+        method: GET
+
+      - url: https://jsonplaceholder.typicode.com/posts
+        label: List Posts
+        method: GET
+
+      - url: https://jsonplaceholder.typicode.com/posts
+        method: POST
+        label: Create Post
+        body:
+          title: Support Test Post
+          body: This is a support environment test post
+          userId: 1
+
+execution:
+  - concurrency: 5
+    hold-for: 5m
+    ramp-up: 1m
+    scenario: api_test
+    throughput: 30
+
+reporting:
+  - module: final-stats
+    summary: true
+    percentiles: true
+    summary-labels: true
+    failed-labels: true
+    test-duration: true
+  - module: passfail
+    criteria:
+      - fail>5% for 30s, stop as failed
+      - avg-rt>3s for 30s, stop as failed
+  - module: blazemeter
+
+modules:
+  blazemeter:
+    test: Taurus Support Test
+>>>>>>> main

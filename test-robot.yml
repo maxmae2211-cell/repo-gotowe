@@ -1,0 +1,18 @@
+---
+# Test Robot Framework przez Taurus
+# Wymaga: pip install robotframework
+# Uruchomienie: bzt test-robot.yml
+# Przez wrapper: scripts/run-taurus.ps1 -Mode standard -Config test-robot.yml
+
+execution:
+  - executor: robot
+    concurrency: 1
+    hold-for: 1m
+    iterations: 5
+    scenario:
+      script: examples/robot_example.robot
+
+reporting:
+  - module: console
+  - module: final-stats
+    summary: true

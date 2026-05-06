@@ -1,0 +1,35 @@
+# Przykładowy workflow GitHub Actions do automatycznego generowania i publikowania raportu HTML
+
+name: Generate and Publish HTML Report
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate HTML report
+        run: |
+          python generate_report.py --output taurus-locust-report.html
+
+      - name: Upload HTML report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taurus-locust-report
+          path: taurus-locust-report.html

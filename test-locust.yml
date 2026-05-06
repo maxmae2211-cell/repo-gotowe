@@ -15,7 +15,4 @@ execution:
 
 modules:
   locust:
-    distributed: false  # true dla testów rozproszonego obciążenia
-    
-reporting:
-  - module: console
+    distributed: false # true dla testów rozproszonego obciążenia

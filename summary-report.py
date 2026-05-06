@@ -2,6 +2,7 @@
 """
 Podsumowanie wszystkich testów wydajności - porównanie starych vs nowych konfiguracji
 """
+
 from datetime import datetime
 
 print("\n" + "=" * 100)
@@ -31,7 +32,7 @@ tests = [
             "p90": 141,
             "p95": 145,
             "p99": 165,
-        }
+        },
     },
     {
         "name": "Advanced Test 🔬",
@@ -54,7 +55,7 @@ tests = [
             "p90": 233,
             "p95": 262,
             "p99": 363,
-        }
+        },
     },
     {
         "name": "Locust Test 🦗",
@@ -77,39 +78,51 @@ tests = [
             "p90": 70,
             "p95": 100,
             "p99": 250,
-        }
-    }
+        },
+    },
 ]
 
 for test in tests:
     print(f"\n{test['name']}")
     print("-" * 100)
-    
-    prev = test['previous']
-    curr = test['current']
-    
-    print(f"\n  📋 Konfiguracja:")
+
+    prev = test["previous"]
+    curr = test["current"]
+
+    print("\n  📋 Konfiguracja:")
     print(f"     Poprzednio:  {prev['config']}")
     print(f"     Teraz:       {curr['config']}")
-    
-    print(f"\n  📊 Wyniki:")
+
+    print("\n  📊 Wyniki:")
     # Nagłówek
     print(f"     {'Metryka':<25} {'Poprzednio':<20} {'Teraz':<20} {'Zmiana':<15}")
     print(f"     {'-'*70}")
-    
+
     # Żądania
-    req_change = f"{curr['requests']/prev['requests']:.1f}×" if prev['requests'] > 0 else "N/A"
-    print(f"     {'Żądań':<25} {prev['requests']:<20,} {curr['requests']:<20,} {req_change:<15}")
-    
+    req_change = (
+        f"{curr['requests']/prev['requests']:.1f}×" if prev["requests"] > 0 else "N/A"
+    )
+    print(
+        f"     {'Żądań':<25} {prev['requests']:<20,} {curr['requests']:<20,} {req_change:<15}"
+    )
+
     # Błędy
-    fail_change = f"{curr['failures']}/{prev['failures']}" if prev['failures'] != curr['failures'] else "bez zmian"
-    print(f"     {'Błędy':<25} {prev['failures']:<20} {curr['failures']:<20} {fail_change:<15}")
-    
+    fail_change = (
+        f"{curr['failures']}/{prev['failures']}"
+        if prev["failures"] != curr["failures"]
+        else "bez zmian"
+    )
+    print(
+        f"     {'Błędy':<25} {prev['failures']:<20} {curr['failures']:<20} {fail_change:<15}"
+    )
+
     # Średni czas
-    time_change = f"{curr['avg']/prev['avg']:.2f}×" if prev['avg'] > 0 else "N/A"
-    status = "✅" if curr['avg'] <= prev['avg'] else "⚠️"
-    print(f"     {'Średni czas (ms)':<25} {prev['avg']:<20.2f} {curr['avg']:<20.2f} {status} {time_change:<13}")
-    
+    time_change = f"{curr['avg']/prev['avg']:.2f}×" if prev["avg"] > 0 else "N/A"
+    status = "✅" if curr["avg"] <= prev["avg"] else "⚠️"
+    print(
+        f"     {'Średni czas (ms)':<25} {prev['avg']:<20.2f} {curr['avg']:<20.2f} {status} {time_change:<13}"
+    )
+
     # Percentyle
     print(f"     {'P50 (ms)':<25} {prev['p50']:<20} {curr['p50']:<20} {'':15}")
     print(f"     {'P90 (ms)':<25} {prev['p90']:<20} {curr['p90']:<20} {'':15}")

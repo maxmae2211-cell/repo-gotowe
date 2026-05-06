@@ -1,0 +1,28 @@
+---
+# Test Gatling — silnik Scala/JVM do testów wydajnościowych
+# Wymaga: Java + Gatling (Taurus pobiera automatycznie)
+# Uruchomienie: bzt test-gatling.yml
+# Przez wrapper: scripts/run-taurus.ps1 -Mode standard -Config test-gatling.yml
+
+execution:
+  - executor: gatling
+    concurrency: 10
+    ramp-up: 30s
+    hold-for: 1m
+    scenario: simple
+
+scenarios:
+  simple:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/posts
+        label: GET posts
+      - url: https://jsonplaceholder.typicode.com/users
+        label: GET users
+      - url: https://jsonplaceholder.typicode.com/posts/1
+        label: GET single post
+
+reporting:
+  - module: console
+  - module: final-stats
+    summary: true
+    percentiles: true

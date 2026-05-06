@@ -1,4 +1,35 @@
-# Taurus Test Project
+# Dokumentacja projektu repo-gotowe
+
+[![CI](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/ci.yml/badge.svg)](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/ci.yml)
+[![Taurus Tests](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml/badge.svg)](https://github.com/maxmae2211-cell/repo-gotowe/actions/workflows/taurus.yml)
+
+## Opis
+
+Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, analizę wyników, powiadomienia i integrację z CI/CD.
+
+## Szybki start
+
+1. Zainstaluj zależności: `pip install -r requirements.txt`
+2. Uruchom testy: `pytest`
+3. Wygeneruj raport: `python generate_report.py --output taurus-locust-report.html`
+4. Wygeneruj wykresy: `python plot_response_times.py <plik_jtl> <katalog_wyjsciowy>`
+5. Wyślij powiadomienie: `python notify_webhook.py`
+
+## Automatyzacja
+
+- Workflow GitHub Actions: `.github/workflows/generate-report.yml`
+- Automatyczne powiadomienia: `notify_webhook.py`
+- Analiza wyników: `plot_response_times.py`
+
+## Testy
+
+- `test_generate_report.py` — testuje generowanie raportu HTML
+
+## Autorzy
+
+- Zespół repo-gotowe
+
+## Taurus Test Project
 
 Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyzacji testów wydajności i funkcjonalnych.
 
@@ -49,6 +80,7 @@ pip install selenium --user
 bzt test-selenium.yml
 ```
 
+<<<<<<< HEAD
 ### Test 4: Pozostale scenariusze Taurus
 
 ```powershell
@@ -61,6 +93,8 @@ bzt test-support.yml
 
 W VS Code możesz też użyć gotowych tasków z `.vscode/tasks.json` oraz profili debug z `.vscode/launch.json` dla tych scenariuszy.
 
+=======
+>>>>>>> main
 ## Alternatywne narzędzia (poza Taurus)
 
 Repo zawiera też konfiguracje do uruchamiania testów bezpośrednio przez inne narzędzia:
@@ -127,8 +161,46 @@ Po uruchomieniu testów, Taurus automatycznie generuje raporty. Aby je przegląd
 - **ramp-up** - Czas rozwijania obciążenia
 - **throughput** - Liczba requestów na sekundę
 
+## Agent Inspector (AI Toolkit)
+
+Projekt integruje się z VS Code AI Toolkit Agent Inspector przez `src/agent.py`.
+
+**Wymagania:** `pip install debugpy agent-dev-cli fastapi uvicorn`
+
+**Uruchomienie lokalnie:**
+
+```powershell
+python -m debugpy --listen 127.0.0.1:5679 -m agentdev run src/agent.py --verbose --port 8088 -- --server
+```
+
+**Dostępne endpointy HTTP:**
+
+- `GET /health` — status serwera
+- `GET /results` — ostatnie wyniki testu
+- `POST /run` — uruchom test (`{"config": "api", "mode": "standard"}`)
+
+**VS Code:** Użyj konfiguracji `Agent Inspector: Debug HTTP Server` w `launch.json`.
+
+## Docker (lokalny dev)
+
+```powershell
+# Uruchom serwer agenta
+docker compose up agent
+
+# Uruchom testy
+docker compose run tests
+```
+
+## Azure Functions
+
+Plik `host.json` konfiguruje środowisko uruchomieniowe Azure Functions v2 z Application Insights sampling
+i rozszerzeniem bundle `Microsoft.Azure.Functions.ExtensionBundle v4.*`.
+Konfiguracja lokalna: `local.settings.json` (nie commituj do repo — jest w `.gitignore`).
+
 ## Przydatne linki
 
 - [Dokumentacja Taurus](https://gettaurus.org/docs/)
 - [Schemat YAML](https://gettaurus.org/docs/YAMLStructure/)
 - [JSONPlaceholder](https://jsonplaceholder.typicode.com/) - Testowy API
+- [BlazeMeter Dashboard](https://a.blazemeter.com/app/#/accounts/2190559/workspaces/2269510/dashboard)
+- [AI Toolkit for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-windows-ai-studio.windows-ai-studio)

@@ -16,7 +16,7 @@ def find_latest_kpi(pattern: str) -> Path | None:
     return None
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(args=None) -> argparse.Namespace:
     default_pattern = f"{datetime.now().year}-*"
     parser = argparse.ArgumentParser(description="Analiza KPI z pliku JTL")
     parser.add_argument(
@@ -44,7 +44,7 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Maksymalny dozwolony średni czas odpowiedzi w ms.",
     )
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def main() -> int:

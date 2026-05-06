@@ -92,8 +92,13 @@ jobs:
     # --- Job 3: Analiza artefaktów + generowanie raportu HTML ---
     validate-pipeline:
         runs-on: ubuntu-latest
+<<<<<<< HEAD
         needs: bzt-api-smoke
 
+=======
+        env:
+            FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+>>>>>>> main
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
