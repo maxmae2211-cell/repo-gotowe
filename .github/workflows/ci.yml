@@ -23,7 +23,7 @@ jobs:
           pip install ccxt pytest
 
       - name: Run unit tests
-        run: pytest --tb=short -q
+        run: pytest tests/ --tb=short -q
 
   lint:
     runs-on: ubuntu-latest
