@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spike Test — Raport</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',sans-serif; background:#0f172a; color:#e2e8f0; padding:24px; }
+  h1 { font-size:2rem; font-weight:700; color:#f8fafc; margin-bottom:4px; }
+  .subtitle { color:#94a3b8; margin-bottom:28px; font-size:.95rem; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
+  .card { background:#1e293b; border-radius:12px; padding:20px; border:1px solid #334155; }
+  .card .label { font-size:.8rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; }
+  .card .value { font-size:2rem; font-weight:700; margin-top:4px; }
+  .card.ok .value { color:#4ade80; }
+  .card.warn .value { color:#fbbf24; }
+  .card.bad .value { color:#f87171; }
+  .card.neutral .value { color:#60a5fa; }
+  .charts { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:28px; }
+  .chart-box { background:#1e293b; border-radius:12px; padding:20px; border:1px solid #334155; }
+  .chart-box h3 { font-size:.9rem; color:#94a3b8; margin-bottom:14px; text-transform:uppercase; letter-spacing:.05em; }
+  .full { grid-column:1/-1; }
+  table { width:100%; border-collapse:collapse; background:#1e293b; border-radius:12px; overflow:hidden; border:1px solid #334155; }
+  th { background:#334155; padding:10px 16px; text-align:left; font-size:.8rem; color:#94a3b8; text-transform:uppercase; }
+  td { padding:10px 16px; border-top:1px solid #334155; font-size:.9rem; }
+  .fail { color:#f87171; font-weight:600; }
+  .pass { color:#4ade80; font-weight:600; }
+</style>
+</head>
+<body>
+<h1>🔥 Spike Test — Raport</h1>
+<p class="subtitle">GET /get @ localhost:8000 | Fazy: 10 VU → 500 VU → 10 VU | 6 maja 2026</p>
+
+<div class="grid">
+  <div class="card neutral">
+    <div class="label">Łączne żądania</div>
+    <div class="value">10,913</div>
+  </div>
+  <div class="card bad">
+    <div class="label">Błędy</div>
+    <div class="value">51.4%</div>
+  </div>
+  <div class="card bad">
+    <div class="label">Avg Response Time</div>
+    <div class="value">5.38s</div>
+  </div>
+  <div class="card bad">
+    <div class="label">P95 Response Time</div>
+    <div class="value">23.39s</div>
+  </div>
+  <div class="card neutral">
+    <div class="label">P50 (mediana)</div>
+    <div class="value">4.70s</div>
+  </div>
+  <div class="card bad">
+    <div class="label">Max Response Time</div>
+    <div class="value">32.5s</div>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="chart-box full">
+    <h3>VU + Avg Response Time w czasie</h3>
+    <canvas id="vuChart"></canvas>
+  </div>
+  <div class="chart-box">
+    <h3>Przepustowość (req/s)</h3>
+    <canvas id="tpsChart"></canvas>
+  </div>
+  <div class="chart-box">
+    <h3>Błędy (%)</h3>
+    <canvas id="errChart"></canvas>
+  </div>
+</div>
+
+<h2 style="margin-bottom:12px;color:#f8fafc">Percentyle Response Time</h2>
+<table style="margin-bottom:28px">
+  <tr><th>Percentyl</th><th>Czas (s)</th><th>Ocena</th></tr>
+  <tr><td>P50</td><td>4.704</td><td class="fail">FAIL</td></tr>
+  <tr><td>P90</td><td>6.467</td><td class="fail">FAIL</td></tr>
+  <tr><td>P95</td><td>23.389</td><td class="fail">FAIL</td></tr>
+  <tr><td>P99</td><td>31.813</td><td class="fail">FAIL</td></tr>
+  <tr><td>P99.9</td><td>32.415</td><td class="fail">FAIL</td></tr>
+  <tr><td>MAX</td><td>32.518</td><td class="fail">FAIL</td></tr>
+</table>
+
+<h2 style="margin-bottom:12px;color:#f8fafc">Wnioski</h2>
+<div class="card" style="margin-bottom:12px">
+  <ul style="padding-left:18px;line-height:2">
+    <li>Serwer <b>działa stabilnie przy 10 VU</b> — avg RT ~1.4s, 0% błędów</li>
+    <li>Przy skoku do <b>500 VU serwer się załamał</b> — wskaźnik błędów wzrósł do ~51%</li>
+    <li>Błędy: <code>Connection refused</code>, <code>failed to respond</code>, <code>Read timed out</code></li>
+    <li>P95 = 23.4s, P99 = 31.8s — dramatyczny wzrost latencji przy spike</li>
+    <li>FastAPI z jednym procesem uvicorn <b>nie skaluje się</b> do 500 concurrent users</li>
+    <li>Rekomendacja: <b>uvicorn z wieloma workerami</b> lub <b>gunicorn + uvicorn workers</b></li>
+  </ul>
+</div>
+
+<script>
+const labels = ['0', '5', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80', '85', '90', '95', '100', '105', '110', '115'];
+const threads = [10, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500];
+const avgrt   = [1.024, 9.197, 6.091, 4.365, 4.02, 5.502, 2.667, 4.587, 6.526, 5.87, 7.177, 4.647, 3.468, 11.816, 3.592, 2.517, 3.774, 7.328, 3.184, 7.404, 4.796, 7.525, 5.253, 4.691];
+const tps     = [19.4, 133.0, 102.4, 72.0, 78.6, 107.6, 122.2, 138.4, 98.6, 61.6, 62.2, 77.2, 125.4, 111.8, 116.0, 117.8, 88.4, 65.8, 116.0, 80.2, 99.0, 81.8, 53.4, 53.8];
+const errors  = [0.0, 54.7, 58.2, 68.6, 62.8, 45.9, 32.2, 38.0, 55.0, 88.0, 74.0, 71.8, 44.3, 60.5, 39.3, 33.8, 46.2, 61.1, 30.0, 37.7, 44.4, 54.8, 91.0, 89.6];
+
+const cfg = (label, data, color, yLabel) => ({
+  type:'line',
+  data:{ labels, datasets:[{ label, data, borderColor:color, backgroundColor:color+'22', fill:true, tension:.3, pointRadius:2 }] },
+  options:{ responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ title:{ display:true, text:yLabel, color:'#94a3b8' }, grid:{ color:'#334155' }, ticks:{ color:'#94a3b8' } }, x:{ title:{ display:true, text:'Czas (s)', color:'#94a3b8' }, grid:{ color:'#334155' }, ticks:{ color:'#94a3b8', maxTicksLimit:12 } } } }
+});
+
+new Chart(document.getElementById('vuChart'), {
+  type:'line',
+  data:{ labels, datasets:[
+    { label:'Virtual Users', data:threads, borderColor:'#60a5fa', backgroundColor:'#60a5fa22', fill:false, tension:.3, pointRadius:2, yAxisID:'y' },
+    { label:'Avg RT (s)', data:avgrt, borderColor:'#f87171', backgroundColor:'#f8717122', fill:false, tension:.3, pointRadius:2, yAxisID:'y1' }
+  ]},
+  options:{ responsive:true, interaction:{ mode:'index', intersect:false }, scales:{
+    y:{ type:'linear', position:'left', title:{ display:true, text:'VU', color:'#94a3b8' }, grid:{ color:'#334155' }, ticks:{ color:'#94a3b8' } },
+    y1:{ type:'linear', position:'right', title:{ display:true, text:'Avg RT (s)', color:'#94a3b8' }, grid:{ drawOnChartArea:false }, ticks:{ color:'#94a3b8' } },
+    x:{ grid:{ color:'#334155' }, ticks:{ color:'#94a3b8', maxTicksLimit:12 } }
+  } }
+});
+new Chart(document.getElementById('tpsChart'), cfg('req/s', tps, '#4ade80', 'Żądania/s'));
+new Chart(document.getElementById('errChart'), cfg('Błędy %', errors, '#f87171', 'Błędy (%)'));
+</script>
+</body>
+</html>

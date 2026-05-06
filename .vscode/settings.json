@@ -25,5 +25,8 @@
     },
     "search.exclude": {
         "**/.venv": true
-    }
+    },
+    "marquee.widgets.npm-stats.packageNames": [
+        "1"
+    ]
 }

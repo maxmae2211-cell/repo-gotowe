@@ -1,0 +1,1 @@
+docker-compose run --rm taurus bzt /bzt-configs/test-api-load.yaml

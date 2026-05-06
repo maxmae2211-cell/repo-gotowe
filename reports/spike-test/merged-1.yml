@@ -1,0 +1,27 @@
+---
+execution:
+- concurrency: 10
+  hold-for: 1m
+  scenario: spike_test
+- concurrency: 500
+  hold-for: 2m
+  scenario: spike_test
+- concurrency: 10
+  hold-for: 1m
+  scenario: spike_test
+modules:
+  blazemeter:
+    address: https://a.blazemeter.com
+    data-address: https://data.blazemeter.com
+    project: repo-gotowe
+    token: '********'
+  selenium:
+    enabled: false
+reporting:
+- module: final-stats
+scenarios:
+  spike_test:
+    requests:
+    - label: Get All Posts
+      url: http://localhost:8000/get
+

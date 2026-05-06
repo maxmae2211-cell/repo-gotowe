@@ -1,0 +1,8 @@
+﻿modules:
+  selenium:
+    enabled: false
+  blazemeter:
+    token: 8bd2e88f169565a696f13b9f:5ad8dc4195fb488a24b1797b83f7179f3f0fe6aa9f1e314cb9479b2daf3a2026a2446165
+    address: https://a.blazemeter.com
+    data-address: https://data.blazemeter.com
+    project: repo-gotowe
