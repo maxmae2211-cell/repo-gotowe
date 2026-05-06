@@ -7,12 +7,11 @@ import importlib.util
 import pytest
 import sys
 import os
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..')))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 spec = importlib.util.spec_from_file_location(
-    "analyze_kpi",
-    str(Path(__file__).parent.parent / "analyze-kpi.py")
+    "analyze_kpi", str(Path(__file__).parent.parent / "analyze-kpi.py")
 )
 analyze_kpi = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(analyze_kpi)
