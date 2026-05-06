@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1704067200000,45,GET /posts,200,OK,ThreadGroup 1-1,text,true,,1024,100,1,1,https://jsonplaceholder.typicode.com/posts,44,0,12
+1704067200100,38,GET /posts,200,OK,ThreadGroup 1-2,text,true,,1024,100,1,2,https://jsonplaceholder.typicode.com/posts,37,0,10
+1704067200200,52,GET /posts/1,200,OK,ThreadGroup 1-1,text,true,,512,100,1,1,https://jsonplaceholder.typicode.com/posts/1,51,0,11
+1704067200300,41,GET /posts/1,200,OK,ThreadGroup 1-2,text,true,,512,100,1,2,https://jsonplaceholder.typicode.com/posts/1,40,0,9
+1704067200400,67,POST /posts,201,Created,ThreadGroup 1-1,text,true,,256,150,1,1,https://jsonplaceholder.typicode.com/posts,66,0,15
+1704067200500,55,POST /posts,201,Created,ThreadGroup 1-2,text,true,,256,150,1,2,https://jsonplaceholder.typicode.com/posts,54,0,13
+1704067200600,48,GET /users,200,OK,ThreadGroup 1-1,text,true,,2048,100,1,1,https://jsonplaceholder.typicode.com/users,47,0,11
+1704067200700,43,GET /users,200,OK,ThreadGroup 1-2,text,true,,2048,100,1,2,https://jsonplaceholder.typicode.com/users,42,0,10
+1704067200800,61,GET /todos,200,OK,ThreadGroup 1-1,text,true,,4096,100,1,1,https://jsonplaceholder.typicode.com/todos,60,0,14
+1704067200900,50,GET /todos,200,OK,ThreadGroup 1-2,text,true,,4096,100,1,2,https://jsonplaceholder.typicode.com/todos,49,0,12
