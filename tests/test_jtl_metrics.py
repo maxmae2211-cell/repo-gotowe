@@ -8,6 +8,12 @@ from jtl_metrics import extract_jtl_kpi, read_jtl_rows
 
 FIXTURE_JTL = Path(__file__).parent / "fixtures" / "sample.jtl"
 
+_JTL_HEADER = (
+    "timeStamp,elapsed,label,responseCode,responseMessage,threadName,"
+    "dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,"
+    "URL,Latency,IdleTime,Connect\n"
+)
+
 
 # ---------------------------------------------------------------------------
 # read_jtl_rows
@@ -43,9 +49,7 @@ def test_read_jtl_rows_elapsed_is_int():
 
 def test_read_jtl_rows_empty_file(tmp_path):
     empty = tmp_path / "empty.jtl"
-    empty.write_text("timeStamp,elapsed,label,responseCode,responseMessage,"
-                     "threadName,dataType,success,failureMessage,bytes,"
-                     "sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect\n")
+    empty.write_text(_JTL_HEADER)
     rows = read_jtl_rows(empty)
     assert rows == []
 
@@ -88,11 +92,9 @@ def test_extract_jtl_kpi_nonexistent_file():
 def test_extract_jtl_kpi_with_failures(tmp_path):
     jtl = tmp_path / "failures.jtl"
     jtl.write_text(
-        "timeStamp,elapsed,label,responseCode,responseMessage,threadName,"
-        "dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,"
-        "URL,Latency,IdleTime,Connect\n"
-        "1000000,100,Test,200,OK,t1,text,true,,100,50,1,1,http://x,90,0,10\n"
-        "1000100,150,Test,500,Error,t1,text,false,Error,100,50,1,1,http://x,140,0,10\n"
+        _JTL_HEADER
+        + "1000000,100,Test,200,OK,t1,text,true,,100,50,1,1,http://x,90,0,10\n"
+        + "1000100,150,Test,500,Error,t1,text,false,Error,100,50,1,1,http://x,140,0,10\n"
     )
     kpi = extract_jtl_kpi(jtl)
     assert kpi["count"] == 2
@@ -102,11 +104,7 @@ def test_extract_jtl_kpi_with_failures(tmp_path):
 
 def test_extract_jtl_kpi_empty_file(tmp_path):
     jtl = tmp_path / "empty.jtl"
-    jtl.write_text(
-        "timeStamp,elapsed,label,responseCode,responseMessage,threadName,"
-        "dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,"
-        "URL,Latency,IdleTime,Connect\n"
-    )
+    jtl.write_text(_JTL_HEADER)
     kpi = extract_jtl_kpi(jtl)
     assert kpi["count"] == 0
     assert kpi["failures"] == 0
