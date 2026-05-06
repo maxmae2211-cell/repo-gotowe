@@ -4,7 +4,7 @@
 # Zainstaluj przez: .github/hooks/install-hooks.ps1
 
 param(
-    [ValidateSet("pre-commit", "pre-push")]
+    [ValidateSet("pre-commit", "pre-push", "pre-receive")]
     [string]$HookType = "pre-commit"
 )
 
@@ -97,6 +97,66 @@ if ($HookType -eq "pre-commit") {
             if ($commitMsg -notmatch $conventionalPattern) {
                 Write-Blocked "wiadomość commitu nie jest zgodna z Conventional Commits: '$commitMsg'"
                 Write-Host "   Wymagany format: type(scope): opis  (np. feat: dodaj nową funkcję)" -ForegroundColor Cyan
+            }
+        }
+    }
+}
+
+# --- pre-receive: server-side blokada force-push i wzorców commitów ---
+if ($HookType -eq "pre-receive") {
+    # pre-receive czyta ze stdin: <old-sha> <new-sha> <ref>
+    $refLines = @($input)
+    foreach ($line in $refLines) {
+        $parts = $line -split '\s+'
+        if ($parts.Count -lt 3) { continue }
+        $oldSha = $parts[0]
+        $newSha = $parts[1]
+        $ref    = $parts[2]
+
+        # Wyodrębnij nazwę gałęzi z pełnej referencji (refs/heads/main -> main)
+        $branchName = $ref -replace '^refs/heads/', ''
+
+        # Blokuj force-push (old SHA != 0000... i new SHA nie jest potomkiem old SHA)
+        $zeroSha = "0000000000000000000000000000000000000000"
+        if ($config.block_force_push -and $oldSha -ne $zeroSha -and $newSha -ne $zeroSha) {
+            if ($branchName -in $config.protected_branches) {
+                # Sprawdź czy new jest potomkiem old (force-push = new NIE jest potomkiem old)
+                $mergeBase = git merge-base $oldSha $newSha 2>$null
+                if ($mergeBase -eq $oldSha) {
+                    # old jest przodkiem new — normalny push, OK
+                } else {
+                    # old NIE jest przodkiem new — force-push
+                    Write-Blocked "server: force-push do chronionej gałęzi '$branchName' jest zablokowany (SHA: $oldSha -> $newSha)"
+                    Write-Host "   Użyj pull request zamiast force-push." -ForegroundColor Cyan
+                }
+            }
+        }
+
+        # Sprawdź wiadomości commitów w nowo pushowanych commitach
+        if ($oldSha -eq $zeroSha) {
+            # Nowa gałąź — sprawdź ostatnie 50 commitów
+            $newCommits = git log --format="%H %s" $newSha 2>$null | Select-Object -First 50
+        } else {
+            # Istniejąca gałąź — sprawdź tylko nowe commity
+            $newCommits = git log --format="%H %s" "${oldSha}..${newSha}" 2>$null
+        }
+
+        foreach ($commitLine in $newCommits) {
+            $sha = ($commitLine -split ' ')[0]
+            $msg = $commitLine.Substring([Math]::Min($sha.Length + 1, $commitLine.Length))
+
+            foreach ($pattern in $blockedMsgPatterns) {
+                if ($msg -match $pattern) {
+                    Write-Blocked "server: commit $($sha.Substring(0,8)) ma zablokowaną wiadomość '$pattern': $msg"
+                }
+            }
+
+            if ($requireConventional) {
+                $ccPattern = '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([^)]+\))?: .+'
+                if ($msg -notmatch $ccPattern) {
+                    Write-Blocked "server: commit $($sha.Substring(0,8)) nie spełnia Conventional Commits: '$msg'"
+                    Write-Host "   Wymagany format: type(scope): opis  (np. feat: nowa funkcja)" -ForegroundColor Cyan
+                }
             }
         }
     }

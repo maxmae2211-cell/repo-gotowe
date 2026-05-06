@@ -1,0 +1,81 @@
+name: Validate Git Hooks
+
+on:
+  push:
+    paths:
+      - '.github/hooks/**'
+  pull_request:
+    paths:
+      - '.github/hooks/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-hooks:
+    name: Sprawdź i zainstaluj Git hooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pobierz repozytorium
+        uses: actions/checkout@v4
+
+      - name: Zainstaluj PowerShell Core
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q powershell
+
+      - name: Sprawdź składnię guard-git.json
+        run: |
+          pwsh -NoProfile -Command "
+            \$cfg = Get-Content '.github/hooks/guard-git.json' -Raw | ConvertFrom-Json
+            Write-Host 'Konfiguracja OK'
+            Write-Host \"  protected_branches: \$(\$cfg.protected_branches -join ', ')\"
+            Write-Host \"  blocked_file_patterns: \$(\$cfg.blocked_file_patterns.Count) wzorców\"
+            Write-Host \"  max_file_size_kb: \$(\$cfg.max_file_size_kb)\"
+          "
+
+      - name: Uruchom instalator hooków
+        run: |
+          pwsh -NoProfile -ExecutionPolicy Bypass -File .github/hooks/install-hooks.ps1
+
+      - name: Zweryfikuj zainstalowane hooki
+        run: |
+          for hook in pre-commit pre-push post-commit; do
+            if [ -f ".git/hooks/$hook" ]; then
+              echo "✅ $hook zainstalowany"
+              if [ -x ".git/hooks/$hook" ]; then
+                echo "   ✅ $hook ma prawa wykonania"
+              else
+                echo "   ❌ $hook NIE ma praw wykonania" && exit 1
+              fi
+            else
+              echo "❌ Brak pliku: .git/hooks/$hook" && exit 1
+            fi
+          done
+
+      - name: Sprawdź treść hooków
+        run: |
+          echo "--- pre-commit ---"
+          head -5 .git/hooks/pre-commit
+          echo "--- pre-push ---"
+          head -5 .git/hooks/pre-push
+          echo "--- post-commit ---"
+          head -5 .git/hooks/post-commit
+
+      - name: Uruchom testy Pester
+        run: |
+          pwsh -NoProfile -Command "
+            # Zainstaluj Pester jeśli nie ma
+            if (-not (Get-Module -ListAvailable -Name Pester)) {
+              Install-Module -Name Pester -Force -SkipPublisherCheck -Scope CurrentUser
+            }
+            Import-Module Pester -MinimumVersion 5.0
+            \$result = Invoke-Pester '.github/hooks/tests/guard-git.Tests.ps1' -Output Detailed -PassThru
+            if (\$result.FailedCount -gt 0) {
+              Write-Error \"Testy Pester: \$(\$result.FailedCount) nieudanych z \$(\$result.TotalCount)\"
+              exit 1
+            }
+            Write-Host \"Wszystkie \$(\$result.PassedCount) testów przeszło pomyślnie.\" -ForegroundColor Green
+          "
