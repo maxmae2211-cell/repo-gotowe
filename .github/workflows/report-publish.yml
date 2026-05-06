@@ -20,7 +20,10 @@ jobs:
           pip install -r requirements.txt
       - name: Run pipeline
         run: |
-          python run_pipeline.py
+          python run_pipeline.py \
+            --jtl tests/fixtures/sample.jtl \
+            --max-failures 0 \
+            --max-avg-ms 200
       - name: Upload HTML report artifact
         uses: actions/upload-artifact@v4
         with:

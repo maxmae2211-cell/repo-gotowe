@@ -27,7 +27,7 @@ jobs:
             - name: Run Taurus pipeline
               run: |
                   .venv\Scripts\activate
-                  python run_pipeline.py
+                  python run_pipeline.py --jtl tests/fixtures/sample.jtl --max-failures 0 --max-avg-ms 200
 
             - name: Upload Taurus report
               if: always()

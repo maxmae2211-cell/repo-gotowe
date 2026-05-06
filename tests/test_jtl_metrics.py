@@ -19,6 +19,7 @@ _JTL_HEADER = (
 # read_jtl_rows
 # ---------------------------------------------------------------------------
 
+
 def test_read_jtl_rows_returns_list():
     rows = read_jtl_rows(FIXTURE_JTL)
     assert isinstance(rows, list)
@@ -58,6 +59,7 @@ def test_read_jtl_rows_empty_file(tmp_path):
 # extract_jtl_kpi
 # ---------------------------------------------------------------------------
 
+
 def test_extract_jtl_kpi_returns_dict():
     kpi = extract_jtl_kpi(FIXTURE_JTL)
     assert isinstance(kpi, dict)
@@ -81,7 +83,14 @@ def test_extract_jtl_kpi_avg_time_under_threshold():
 
 def test_extract_jtl_kpi_times_ordered():
     kpi = extract_jtl_kpi(FIXTURE_JTL)
-    assert kpi["min_time"] <= kpi["p50"] <= kpi["p90"] <= kpi["p95"] <= kpi["p99"] <= kpi["max_time"]
+    assert (
+        kpi["min_time"]
+        <= kpi["p50"]
+        <= kpi["p90"]
+        <= kpi["p95"]
+        <= kpi["p99"]
+        <= kpi["max_time"]
+    )
 
 
 def test_extract_jtl_kpi_nonexistent_file():
