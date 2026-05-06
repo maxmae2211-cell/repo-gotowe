@@ -7,6 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  PIPELINE_ARGS: "--jtl tests/fixtures/sample.jtl --max-failures 0 --max-avg-ms 200 --output taurus-locust-report.html"
+
 jobs:
   test-windows:
     runs-on: windows-latest
@@ -24,7 +27,7 @@ jobs:
       - name: Run Taurus pipeline
         run: |
           .venv\Scripts\activate
-          python run_pipeline.py --jtl tests/fixtures/sample.jtl --max-failures 0 --max-avg-ms 200 --output taurus-locust-report.html
+          python run_pipeline.py ${{ env.PIPELINE_ARGS }}
       - name: Run tests (pytest)
         run: |
           .venv\Scripts\activate
@@ -75,7 +78,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Taurus pipeline
-        run: python run_pipeline.py --jtl tests/fixtures/sample.jtl --max-failures 0 --max-avg-ms 200 --output taurus-locust-report.html
+        run: python run_pipeline.py ${{ env.PIPELINE_ARGS }}
       - name: Run tests (pytest)
         run: pytest tests/ -v
       - name: Run documentation crawler
