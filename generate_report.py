@@ -29,10 +29,10 @@ def generate_html_report(taurus_dirs):
 
     html = (
         "<!DOCTYPE html>\n"
-        "<html lang=\"pl\">\n"
+        '<html lang="pl">\n'
         "<head>\n"
-        "    <meta charset=\"UTF-8\">\n"
-        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+        '    <meta charset="UTF-8">\n'
+        '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
         "    <style>\n"
         "        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }\n"
         "        h1, h2 { color: #333; }\n"
@@ -49,7 +49,7 @@ def generate_html_report(taurus_dirs):
         "<body>\n"
         "    <h1>📊 Raport Testów - Taurus & Locust</h1>\n"
         f"    <p>Wygenerowany: <strong>{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</strong></p>\n"
-        "    <div class=\"summary\">\n"
+        '    <div class="summary">\n'
         "        <h2>📈 Podsumowanie</h2>\n"
         "        <p>Sesja testowa zawiera wyniki z trzech narzędzi do testowania wydajności:</p>\n"
         "        <ul>\n"
@@ -84,16 +84,12 @@ def generate_html_report(taurus_dirs):
 
 def parse_args() -> argparse.Namespace:
     default_pattern = f"{datetime.now().year}-*"
-    parser = argparse.ArgumentParser(
-        description="Generowanie zbiorczego raportu HTML")
+    parser = argparse.ArgumentParser(description="Generowanie zbiorczego raportu HTML")
     parser.add_argument(
         "--artifacts-pattern",
         default=default_pattern,
         help=(
-            (
-                "Wzorzec katalogów artefaktów Taurus "
-                f"(domyślnie: {default_pattern})."
-            )
+            ("Wzorzec katalogów artefaktów Taurus " f"(domyślnie: {default_pattern}).")
         ),
     )
     parser.add_argument(

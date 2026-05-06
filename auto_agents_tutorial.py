@@ -33,11 +33,17 @@ if __name__ == '__main__':
 resource_links = []
 for link in soup.find_all("a", href=True):
     href = link["href"]
-    if any(href.lower().endswith(ext) for ext in [".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip"]):
+    if any(
+        href.lower().endswith(ext)
+        for ext in [".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip"]
+    ):
         resource_links.append(href)
         try:
-            r = requests.get(href if href.startswith("http")
-                             else f"https://code.visualstudio.com{href}")
+            r = requests.get(
+                href
+                if href.startswith("http")
+                else f"https://code.visualstudio.com{href}"
+            )
             filename = os.path.basename(href)
             with open(filename, "wb") as out:
                 out.write(r.content)
@@ -60,10 +66,11 @@ if os.path.exists(readme_path):
         with open(readme_path, "a", encoding="utf-8") as f:
             f.write(summary)
     else:
-        print(
-            f"Sekcja '{summary_header}' już istnieje w README.md - pomijam duplikat.")
+        print(f"Sekcja '{summary_header}' już istnieje w README.md - pomijam duplikat.")
 else:
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(summary)
 
-print("Automatyzacja zakończona. Wygenerowano: AGENT_TUTORIAL_SUMMARY.md, agent_template.py, AGENT_LINKED_RESOURCES.txt, zaktualizowano README.md.")
+print(
+    "Automatyzacja zakończona. Wygenerowano: AGENT_TUTORIAL_SUMMARY.md, agent_template.py, AGENT_LINKED_RESOURCES.txt, zaktualizowano README.md."
+)
