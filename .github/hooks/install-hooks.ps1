@@ -53,6 +53,17 @@ elif command -v powershell >/dev/null 2>&1; then
 fi
 '@
 
+# pre-receive wrapper (server-side, do ręcznego skopiowania na serwer)
+$preReceiveWrapper = @'
+#!/bin/sh
+# auto-generated pre-receive hook (guard-git, server-side)
+if command -v pwsh >/dev/null 2>&1; then
+    pwsh -NoProfile -ExecutionPolicy Bypass -File "$(git rev-parse --show-toplevel)/.github/hooks/scripts/guard-git.ps1" -HookType pre-receive
+elif command -v powershell >/dev/null 2>&1; then
+    powershell -NoProfile -ExecutionPolicy Bypass -File "$(git rev-parse --show-toplevel)/.github/hooks/scripts/guard-git.ps1" -HookType pre-receive
+fi
+'@
+
 function Install-Hook {
     param([string]$Name, [string]$Content)
     $dest = Join-Path $hooksDir $Name
@@ -67,6 +78,12 @@ function Install-Hook {
 Install-Hook "post-commit" $postCommitWrapper
 Install-Hook "pre-commit"  $preCommitWrapper
 Install-Hook "pre-push"    $prePushWrapper
+
+# pre-receive jest hookiem server-side — zapisz do katalogu hooks jako plik informacyjny
+# (nie instalujemy go automatycznie do .git/hooks, bo działa tylko na serwerze)
+$preReceiveDest = Join-Path $hooksDir "pre-receive.server-sample"
+Set-Content -Path $preReceiveDest -Value $preReceiveWrapper -Encoding utf8 -NoNewline
+Write-Host "  ℹ️  pre-receive.server-sample (wzorzec dla serwera — skopiuj ręcznie do hooks/ na serwerze)" -ForegroundColor DarkYellow
 
 Write-Host ""
 Write-Host "Gotowe! Hooks zainstalowane w: $hooksDir" -ForegroundColor Green
