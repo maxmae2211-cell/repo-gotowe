@@ -6,8 +6,7 @@ provisioning: local
 aggregator: consolidator
 
 execution:
-  - executor: jmeter
-    concurrency: 25
+  - concurrency: 25
     hold-for: 3m
     ramp-up: 1m
     scenario: crud_test

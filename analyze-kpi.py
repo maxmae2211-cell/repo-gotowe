@@ -1,13 +1,26 @@
 #!/usr/bin/env python
 import csv
+import glob
+import sys
 from pathlib import Path
 from statistics import median, quantiles
 
-jtl_file = Path("2026-02-12_03-45-44.209512/kpi.jtl")
+def find_latest_jtl():
+    """Znajdź najnowszy plik kpi.jtl w katalogach artefaktów Taurus."""
+    artifact_dirs = sorted(glob.glob("????-??-??_??-??-??*"), reverse=True)
+    for d in artifact_dirs:
+        candidate = Path(d) / "kpi.jtl"
+        if candidate.exists():
+            return candidate
+    return None
 
-if not jtl_file.exists():
-    print("❌ kpi.jtl not found")
-    exit(1)
+jtl_file = find_latest_jtl()
+
+if not jtl_file:
+    print("❌ kpi.jtl not found - run a Taurus test first (bzt test-api.yml)")
+    sys.exit(1)
+
+print(f"📂 Analizowanie: {jtl_file}")
 
 elapsed_times = []
 count = 0

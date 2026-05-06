@@ -1,6 +1,6 @@
 Write-Host "=== RUN API + TESTS ==="
 
-$root = "C:\Users\maxma\Desktop\1"
+$root = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # Start API in new window
 Start-Process powershell -ArgumentList "-NoExit", "-Command `"& '$root\run-api.ps1'`""

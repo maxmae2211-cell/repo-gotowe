@@ -14,8 +14,16 @@ function Invoke-FullSuite {
 
     $PythonPath = Join-Path $ProjectRoot ".venv/Scripts/python.exe"
     if (-not (Test-Path $PythonPath)) {
-        Write-Error-Custom "ERROR: Python venv not found at $PythonPath"
-        exit 1
+        $PythonPath = Join-Path $ProjectRoot ".venv-taurus/Scripts/python.exe"
+    }
+    if (-not (Test-Path $PythonPath)) {
+        # Fallback do systemowego Pythona
+        $PythonPath = (Get-Command python -ErrorAction SilentlyContinue)?.Source
+        if (-not $PythonPath) {
+            Write-Error-Custom "ERROR: Python not found (szukano .venv, .venv-taurus, PATH)"
+            exit 1
+        }
+        Write-Info "Używam systemowego Pythona: $PythonPath"
     }
 
     Write-Info "========================================"

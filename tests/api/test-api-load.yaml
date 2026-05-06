@@ -1,11 +1,11 @@
 scenarios:
   api_test:
     requests:
-      - url: http://api:8080/get
+      - url: http://localhost:8000/get
         method: GET
         label: Get Post 1
 
-      - url: http://api:8080/post
+      - url: http://localhost:8000/post
         method: POST
         label: Create Post
         headers:

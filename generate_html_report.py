@@ -3,12 +3,30 @@
 Generowanie HTML Raportu z Taurus
 """
 import csv
+import glob
+import sys
 import statistics
 from collections import defaultdict
+from datetime import datetime
+
+def find_latest_jtl():
+    """Znajdź najnowszy plik kpi.jtl w katalogach artefaktów Taurus."""
+    artifact_dirs = sorted(glob.glob("????-??-??_??-??-??*"), reverse=True)
+    for d in artifact_dirs:
+        candidate = f"{d}/kpi.jtl"
+        if glob.os.path.exists(candidate):
+            return candidate, d
+    return None, None
 
 # Dane
-test_path = "2026-02-12_03-45-44.209512/kpi.jtl"
+jtl_path, artifact_dir = find_latest_jtl()
+if not jtl_path:
+    print("❌ Nie znaleziono pliku kpi.jtl. Uruchom najpierw: bzt test-api.yml")
+    sys.exit(1)
+
+test_path = jtl_path
 output = "taurus-analysis-report.html"
+print(f"📂 Analizowanie: {test_path}")
 
 results = defaultdict(list)
 response_times = defaultdict(list)

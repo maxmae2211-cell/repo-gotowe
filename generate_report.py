@@ -13,8 +13,8 @@ import glob
 from datetime import datetime
 from pathlib import Path
 
-# Define artifact directories
-taurus_dirs = sorted([d for d in glob.glob("2026-02-12_*")])
+# Define artifact directories - szukaj wszystkich katalogów artefaktów Taurus
+taurus_dirs = sorted([d for d in glob.glob("????-??-??_??-??-??*") if os.path.isdir(d)])
 exports_dir = Path("exports")
 
 def extract_jtl_kpi(jtl_path):
@@ -324,11 +324,12 @@ if __name__ == "__main__":
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report)
     
+    today = datetime.now().strftime("%Y-%m-%d")
     print(f"✅ Raport HTML wygenerowany: {report_path}")
     print(f"✅ Artefakty zawierają:")
-    print(f"   - Katalogi testów Taurus: {len([d for d in glob.glob('2026-02-12_*')])} zarejestrowanych")
+    print(f"   - Katalogi testów Taurus: {len([d for d in glob.glob('????-??-??_??-??-??*') if os.path.isdir(d)])} zarejestrowanych")
     print(f"   - Eksporty CSV w katalogu 'exports/'")
-    print(f"   - Kompresja artefaktów: taurus-report-2026-02-12.zip")
+    print(f"   - Kompresja artefaktów: taurus-report-{today}.zip")
     print(f"\n📊 Podsumowanie sesji testowej:")
     print(f"   - Taurus (JMeter): 2 scenariusze (API + Advanced) = ~3.3k żądań")
     print(f"   - Locust: 100 żądań, czas testu 1m, 0 błędów")

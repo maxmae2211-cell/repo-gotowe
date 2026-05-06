@@ -4,12 +4,31 @@ Analiza wyników Taurus Obciążeniowych
 """
 import csv
 import json
+import glob
+import sys
 from collections import defaultdict
 from datetime import datetime
 import statistics
 
-# Ścieżka do ostatniego testu
-test_path = "2026-02-12_03-50-11.386922/kpi.jtl"
+# Dynamiczne wyszukiwanie najnowszego katalogu artefaktów Taurus
+def find_latest_jtl():
+    """Znajdź najnowszy plik kpi.jtl w katalogach artefaktów Taurus."""
+    # Szukaj katalogów w formacie datetime (np. 2026-02-12_03-50-11.386922)
+    artifact_dirs = sorted(glob.glob("????-??-??_??-??-??*"), reverse=True)
+    for d in artifact_dirs:
+        candidate = f"{d}/kpi.jtl"
+        if glob.os.path.exists(candidate):
+            return candidate
+    return None
+
+jtl_path = find_latest_jtl()
+if not jtl_path:
+    print("❌ Nie znaleziono pliku kpi.jtl w żadnym katalogu artefaktów Taurus.")
+    print("   Uruchom najpierw test: bzt test-api.yml")
+    sys.exit(1)
+
+test_path = jtl_path
+print(f"📂 Analizowanie: {test_path}")
 
 # Struktury do zbierania danych
 results = defaultdict(list)

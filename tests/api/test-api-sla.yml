@@ -14,5 +14,4 @@ execution:
     scenario: api_sla_test
 
 reporting:
-  - module: jmeter
   - module: final-stats

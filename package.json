@@ -1,19 +1,25 @@
 {
-  "name": "1",
+  "name": "repo-gotowe",
   "version": "1.0.0",
-  "description": "",
+  "description": "Infrastruktura testów wydajnościowych - Taurus, k6, Locust, Selenium",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bzt test-api.yml",
+    "test:advanced": "bzt test-advanced.yml",
+    "test:locust": "bzt test-locust.yml",
+    "test:all": "bzt test-api.yml test-advanced.yml",
+    "report": "python generate_report.py",
+    "report:html": "python generate_html_report.py",
+    "analyze": "python analyze-kpi.py"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<twoje_repo>.git"
+    "url": "https://github.com/maxmae2211-cell/repo-gotowe.git"
   },
-  "keywords": [],
+  "keywords": ["performance-testing", "taurus", "bzt", "k6", "locust", "selenium"],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
