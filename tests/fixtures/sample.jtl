@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1700000001000,120,GET /posts,200,OK,Thread-1,text,true,,1024,256,1,1,https://jsonplaceholder.typicode.com/posts,115,0,10
+1700000002000,85,GET /posts,200,OK,Thread-1,text,true,,1024,256,1,1,https://jsonplaceholder.typicode.com/posts,80,0,5
+1700000003000,200,GET /users,200,OK,Thread-2,text,true,,512,128,1,2,https://jsonplaceholder.typicode.com/users,195,0,8
+1700000004000,95,GET /posts,200,OK,Thread-1,text,true,,1024,256,1,1,https://jsonplaceholder.typicode.com/posts,90,0,5
+1700000005000,300,GET /users,500,Internal Server Error,Thread-2,text,false,Connection refused,256,128,1,2,https://jsonplaceholder.typicode.com/users,295,0,12
+1700000006000,110,GET /posts,200,OK,Thread-1,text,true,,1024,256,1,1,https://jsonplaceholder.typicode.com/posts,105,0,5
+1700000007000,75,GET /posts,200,OK,Thread-2,text,true,,1024,256,1,2,https://jsonplaceholder.typicode.com/posts,70,0,5
+1700000008000,150,GET /users,200,OK,Thread-1,text,true,,512,128,1,1,https://jsonplaceholder.typicode.com/users,145,0,8
+1700000009000,180,GET /posts,200,OK,Thread-2,text,true,,1024,256,1,2,https://jsonplaceholder.typicode.com/posts,175,0,6
+1700000010000,90,GET /users,200,OK,Thread-1,text,true,,512,128,1,1,https://jsonplaceholder.typicode.com/users,85,0,7
