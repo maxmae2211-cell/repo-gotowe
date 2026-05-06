@@ -1,0 +1,35 @@
+{
+  "protected_branches": [
+    "main",
+    "master"
+  ],
+  "blocked_file_patterns": [
+    ".bzt-rc",
+    "*.env",
+    "*.pem",
+    "*.key",
+    "id_rsa",
+    "id_ed25519",
+    "credentials.json",
+    "secrets.*",
+    "*.pfx",
+    "*.p12",
+    "*.cer",
+    "*.token"
+  ],
+  "warn_only": false,
+  "log_blocked": true,
+  "block_force_push": true,
+  "max_file_size_kb": 500,
+  "blocked_commit_message_patterns": [
+    "^WIP",
+    "^wip",
+    "fixup!",
+    "squash!",
+    "^TEMP",
+    "^temp",
+    "DO NOT MERGE"
+  ],
+  "require_conventional_commits": false,
+  "conventional_commit_scopes": []
+}
