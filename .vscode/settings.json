@@ -25,5 +25,8 @@
     },
     "search.exclude": {
         "**/.venv": true
-    }
+    },
+    "cSpell.words": [
+        "import"
+    ]
 }
