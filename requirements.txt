@@ -4,6 +4,10 @@ selenium>=4.0
 requests>=2.32.0
 pyyaml>=6.0
 pytest
+<<<<<<< HEAD
+isort>=8.0.1
+openai>=1.0.0
+=======
 yt-dlp
 beautifulsoup4
 python-dotenv>=1.0.0
@@ -15,3 +19,4 @@ agent-dev-cli
 locust>=2.24.0
 robotframework>=7.0.0
 robotframework-requests>=0.9.7
+>>>>>>> main

@@ -50,6 +50,54 @@
             "cwd": "${workspaceFolder}"
         },
         {
+<<<<<<< HEAD
+            "name": "Taurus: Uruchom test-gatling.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-gatling.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-k6.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-k6.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Taurus: Uruchom test-robot.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-robot.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+=======
+>>>>>>> main
             "name": "Taurus: Uruchom test-selenium.yml",
             "type": "debugpy",
             "request": "launch",
@@ -65,6 +113,24 @@
             "cwd": "${workspaceFolder}"
         },
         {
+<<<<<<< HEAD
+            "name": "Taurus: Uruchom test-support.yml",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "program": "${workspaceFolder}/scripts/run_and_wait.py",
+            "args": [
+                "--module",
+                "bzt",
+                "--",
+                "test-support.yml"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+=======
+>>>>>>> main
             "name": "Debug: generate_report",
             "type": "debugpy",
             "request": "launch",

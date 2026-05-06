@@ -1,0 +1,137 @@
+RAPORT PRACOWNIKA — 2026-05-03 15:07:43
+============================================================
+
+ZADANIE 1: Napisz krótkie powitanie dla użytkownika który zaczyna pracę z AI.
+----------------------------------------
+Cześć! Witaj w świecie sztucznej inteligencji – gotów na nowe odkrycia? Zaczynamy od małych kroków: poeksperymentuj, pytaj, baw się i pozwól, by AI otworzyło przed Tobą nowe perspektywy. Powodzenia!
+
+ZADANIE 2: Podaj 3 pomysły na automatyzację codziennych zadań biurowych.
+----------------------------------------
+1. **Inteligentny filtr i sortowanie maili** – skonfiguruj reguły w kliencie pocztowym (np. Outlook, Gmail) albo skorzystaj z narzędzia typu Zapier albo Microsoft Power Automate, aby automatycznie przenosić wiadomości na podstawie nadawcy, słów kluczowych czy ważności do dedykowanych folderów, a także wyciągać z nich najważniejsze informacje (terminy, liczbę punktów do wykonania) i dodawać je bezpośrednio do kalendarza czy listy zadań.
+
+2. **Generowanie raportów z szablonów** – użyj skryptów Google Apps Script (dla Google Workspace) lub Office Scripts (dla Microsoft 365), które pobierają dane z tabel, arkuszy kalkulacyjnych czy systemów CRM i wypełniają gotowe szablony raportów w PDF. Możesz ustawić wyzwalacz „co dzień/kiedy pojawi się nowa data” – raport będzie automatycznie wytwarzany i wysyłany na wskazany adres e‑mail.
+
+3. **Asystent zapytań w chatcie** – wdroż prostą aplikację (np. Slack bot, Teams bot lub chatbot na stronie) z integracją do bazy danych/CRM. Użytkownicy mogą wpisać pytanie typu „Jakie mamy spotkania dziś?” lub „Jaka jest aktualna wartość zamówienia #4723?” i otrzymać natychmiastową odpowiedź. Dzięki temu wyszukiwanie informacji ręcznie w dokumentach albo w kilku systemach się wyeliminuje.
+
+ZADANIE 3: Napisz prosty skrypt Python który liczy ile plików .py jest w danym folderze.
+----------------------------------------
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Prosty skrypt liczący pliki .py w podanym katalogu.
+Używa tylko wbudowanych modułów (os, pathlib).
+"""
+
+import sys
+from pathlib import Path
+
+def count_py_files(folder: Path) -> int:
+    """Zwraca liczbę plików z rozszerzeniem .py w folderze."""
+    if not folder.is_dir():
+        raise ValueError(f"Nie istnieje katalog: {folder}")
+
+    # wskaż ścieżkę do katalogu i policz wszystkie pliki .py
+    return sum(1 for p in folder.iterdir() if p.is_file() and p.suffix == ".py")
+
+def main() -> None:
+    if len(sys.argv) != 2:
+        print("Użycie: python count_py.py ścieżka/do/katalogu")
+        sys.exit(1)
+
+    folder = Path(sys.argv[1]).expanduser().resolve()
+    try:
+        ilość = count_py_files(folder)
+    except ValueError as e:
+        print(e)
+        sys.exit(1)
+
+    print(f"W katalogu {folder} znajduje się {ilość} plików .py")
+
+if __name__ == "__main__":
+    main()
+```
+
+### Jak uruchomić?
+1. Skopiuj powyższy kod do pliku np. `count_py.py`.
+2. Nadaj mu uprawnienia wykonywalne (Linux/macOS):
+
+```bash
+chmod +x count_py.py
+```
+
+3. Wywołaj z terminala, podając katalog, który chcesz sprawdzić:
+
+```bash
+./count_py.py /ścieżka/wybranykatalog
+```
+
+Wynik: `W katalogu /ścieżka/wybranykatalog znajduje się X plików .py`
+
+Jeśli preferujesz konsystencję z pewnym DFS (przeglądanie podkatalogów), wystarczy zmodyfikować `iterdir()` na `rglob("*.py")` i wtedy będą liczone pliki w podfolderach również.
+
+ZADANIE 4: Opisz w 3 zdaniach do czego służy framework Taurus (bzt) i kiedy go używać.
+----------------------------------------
+Taurus to framework oparty na JMeter, Gatling, Selenium i innych narzędziach, który pozwala definiować scenariusze testowe w prostym formacie YAML, automatyzując zarówno uruchamianie testów, jak i generowanie raportów.  
+Jest szczególnie przydatny, gdy potrzebujemy szybko łączyć różne narzędzia do testów wydajnościowych, obciążeniowych lub funkcjonalnych w jednym, spójnym środowisku, zwłaszcza w kontekście CI/CD.  
+Rekomenduje się go używać, gdy chcemy uprościć konfigurację, zapewnić powtarzalność testów i łatwo integrować wyniki z bazami danych lub zaawansowanymi dashboardami.
+
+ZADANIE 5: Wyjaśnij różnicę między testami wydajności a testami funkcjonalnymi API.
+----------------------------------------
+**Testy funkcjonalne API**  
+- **Cel** – sprawdzić, czy każdy punkt końcowy API zachowuje się zgodnie z wymaganiami specyfikacji.  
+- **Co testuje?**  
+  - Poprawność zwracanych danych (typ, format, zawartość).  
+  - Właściwość nagłówków, statusów HTTP (200, 404, 500 itd.).  
+  - Autoryzację, uprawnienia, walidację wejściowa.  
+  - Prawidłowe wdrażanie logiki biznesowej (np. obliczenia, przepływ operacji).  
+- **Metodologia** – testy automatyczne lub ręczne wykonujące pojedyncze lub grupy żądań, porównujące wynik z oczekiwanym rezultatem.  
+- **Typowe narzędzia** – Postman, SoapUI, REST-assured, Karate, Swagger/OpenAPI.
+
+---
+
+**Testy wydajności API**  
+- **Cel** – ocenić, jak API zachowuje się pod obciążeniem, w jakich granicach działa stabilnie i w jaki sposób zużywa zasoby.  
+- **Co testuje?**  
+  - Czas odpowiedzi (latencja) pod obciążeniem.  
+  - Przepustowość (liczba żądań/s) – ile żądań obsługuje system w jednostce czasu.  
+  - Obciążenie CPU, pamięć, I/O w serwerze.  
+  - Skalowalność – zachowanie w miarę rosnącej liczby równoczesnych użytkowników.  
+  - Odporność – jak API reaguje przy wymuszonych warunkach, np. przy braku zasobów czy przy błędach systemowych.  
+- **Metodologia** – wytwarzanie sztucznego ruchu (load, stress, endurance), pomiary czasu odpowiedzi, analiza wykresów, raportowanie progu błędów i spadków wydajności.  
+- **Typowe narzędzia** – Apache JMeter, k6, Gatling, Locust, Artillery, New Relic, Grafana, Prometheus.
+
+---
+
+### Kluczowe różnice
+
+| Aspekt | Testy funkcjonalne | Testy wydajności |
+|--------|--------------------|------------------|
+| **Cel** | Poprawność i spełnienie specyfikacji. | Prędkość, skalowalność, stabilność. |
+| **Składniki testu** | Jedno żądanie / sekwencja żądań | Kilka tysięcy/ milionów żądań (równocześnie lub w czasie). |
+| **Metryki** | Status kodów, poprawność danych, walidacja | Czas odpowiedzi, throughput, error‑rate, zasoby systemowe |
+| **Środowisko** | Zwykle pik systemowy / sandbox | Test na środowisku produkcyjnym lub w konfiguracji produkcyjnej |
+| **Wynik** | „OK/FAIL” czy „PASS/FAIL” | Dane liczbowo opisujące wydajność (np. 95 % żądań < 200 ms) |
+
+---
+
+**Podsumowanie:**  
+- Testy funkcjonalne potwierdzają, że API *działa* tak, jak powinno.  
+- Testy wydajności mierzą, jak *dobrze* API działa, gdy pod danymi zalicza się wiele żądań i jakie granice są wyznaczone przez wolumen ruchu i dostępne zasoby.  
+
+Choć oba typy testów są kluczowe, ich priorytety i narzędzia są zupełnie inne – funkcjonalne skupiają się na jakości wymagań, a wydajności na jakości usług pod obciążeniem.
+
+ZADANIE 6: Podaj 5 najważniejszych metryk które należy analizować po load testach.
+----------------------------------------
+Po przeprowadzeniu testów obciążeniowych warto przyjrzeć się kilku kluczowym metrykom, które dają najwięcej informacji o wydajności systemu i potencjalnych wąskich gardełach. Oto pięć najważniejszych:
+
+| Metryka | Co mierzy | Dlaczego warto ją obserwować |
+|---------|-----------|-----------------------------|
+| **Średni czas odpowiedzi (Response Time)** | Średni czas potrzebny do uzyskania odpowiedzi od serwera na żądanie | Pokazuje, czy usługa spełnia wymagane SLA i czy użytkownicy nie doświadczają wrażeń opóźnień. |
+| **Pikowe obciążenie (Peak Load)** | Najwyższa liczba jednoczesnych użytkowników/połączeń, które system utrzymał bez degradacji jakości | Określa granicę, przy której system zaczyna napotykać problemy, i pomaga przy planowaniu skalowalności. |
+| **Wskaźnik błędów (Error Rate)** | Procent żądań, które zakończyły się błędem (4xx, 5xx) | Pozwala wychwycić okresy, gdy system nie radzi sobie z obciążeniem, i zidentyfikować typy błędów. |
+| **Średnie zapotrzebowanie na zasoby (Resource Utilization)** | Użycie CPU, pamięci, IO, a w niektórych przypadkach network I/O | Pokazuje, czy problem leży w konkretnym zasobie, który wymaga skalowania lub optymalizacji. |
+| **Czas spójnego działania (Throughput)** | Liczba żądań przetworzonych na sekundę (RPS) | Wskazuje, ile pracy serwer jest w stanie obsłużyć pod danym obciążeniem, co jest istotne przy prognozowaniu wymagań skalowych. |
+
+Analiza tych metryk razem z kontekstem testów umożliwia szybkie zidentyfikowanie bottlenecków i podjęcie kroków do usprawnienia wydajności aplikacji.

@@ -1,4 +1,61 @@
 ---
+<<<<<<< HEAD
+# Konfiguracja testu środowiska Support / Produkcja
+# Używa publicznego API jako bezpiecznego placeholdera
+# Docelowo: zmień URLs na właściwe endpointy środowiska produkcyjnego
+
+scenarios:
+  support_health_check:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/users
+        label: Health Check - Users
+        assert:
+          - contains:
+              - "\"id\""
+
+      - url: https://jsonplaceholder.typicode.com/posts
+        label: Health Check - Posts
+
+  support_critical_paths:
+    requests:
+      - url: https://jsonplaceholder.typicode.com/users/1
+        label: Fetch User Profile
+        assert:
+          - contains:
+              - "\"username\""
+
+      - url: https://jsonplaceholder.typicode.com/posts/1
+        label: Fetch Post Detail
+
+      - url: https://jsonplaceholder.typicode.com/todos/1
+        label: Fetch Todo Item
+
+execution:
+  # Ramp-up — delikatny start (production-safe)
+  - concurrency: 5
+    hold-for: 5m
+    ramp-up: 1m
+    scenario: support_health_check
+    label: Support Health Check
+    throughput: 30
+
+  # Critical path test
+  - concurrency: 5
+    hold-for: 5m
+    ramp-up: 1m
+    scenario: support_critical_paths
+    label: Support Critical Paths
+    throughput: 30
+
+# Próg akceptacji dla środowiska produkcyjnego
+reporting:
+  - module: console
+  - module: final-stats
+  - module: passfail
+    criteria:
+      - fail>5%: stop as failed
+      - avg-rt>3s: stop as failed
+=======
 # Taurus configuration for Support/Production environment testing
 # Use: & $bzt test-support.yml
 # Or from VS Code: Ctrl+Shift+P > Tasks: Run Task > "Taurus: Standard API Run Advanced Config" + modify to use this file
@@ -45,3 +102,4 @@ reporting:
 modules:
   blazemeter:
     test: Taurus Support Test
+>>>>>>> main
