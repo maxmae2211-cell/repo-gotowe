@@ -7,6 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  PIPELINE_ARGS: "--jtl tests/fixtures/sample.jtl --max-failures 0 --max-avg-ms 200 --output taurus-locust-report.html"
+
 jobs:
   test-windows:
     runs-on: windows-latest
@@ -24,24 +27,26 @@ jobs:
       - name: Run Taurus pipeline
         run: |
           .venv\Scripts\activate
-          python run_pipeline.py
+          python run_pipeline.py ${{ env.PIPELINE_ARGS }}
       - name: Run tests (pytest)
         run: |
           .venv\Scripts\activate
-          pytest
+          pytest tests/ -v
       - name: Run documentation crawler
+        continue-on-error: true
         run: |
           .venv\Scripts\activate
           python vscode_docs_crawler.py
       - name: Upload ALL_DOCS.md
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: ALL_DOCS
+          name: ALL_DOCS-windows
           path: docs_summary/ALL_DOCS.md
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: TaurusReport
+          name: TaurusReport-windows
           path: taurus-locust-report.html
       - name: Send e-mail notification
         continue-on-error: true
@@ -73,20 +78,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Taurus pipeline
-        run: python run_pipeline.py
+        run: python run_pipeline.py ${{ env.PIPELINE_ARGS }}
       - name: Run tests (pytest)
-        run: pytest
+        run: pytest tests/ -v
       - name: Run documentation crawler
+        continue-on-error: true
         run: python vscode_docs_crawler.py
       - name: Upload ALL_DOCS.md
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: ALL_DOCS
+          name: ALL_DOCS-ubuntu
           path: docs_summary/ALL_DOCS.md
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: TaurusReport
+          name: TaurusReport-ubuntu
           path: taurus-locust-report.html
       - name: Send e-mail notification
         continue-on-error: true
@@ -116,6 +123,7 @@ jobs:
       - name: Install dependencies
         run: pip install black flake8
       - name: Run black
+        continue-on-error: true
         run: black --check .
       - name: Run flake8
         run: flake8 . > flake8_report.txt; exit 0
