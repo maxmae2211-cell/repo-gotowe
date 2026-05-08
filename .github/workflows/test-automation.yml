@@ -41,6 +41,10 @@ jobs:
         runs-on: windows-latest
         needs: setup
         timeout-minutes: 45
+        strategy:
+            fail-fast: false
+            matrix:
+                worker-index: [ 0, 1 ]
 
         steps:
             - name: Checkout repository
@@ -67,9 +71,9 @@ jobs:
             - name: Run API Test Suite (Core)
               id: api-tests
               run: |
-                  python scripts/run-tests.py --list
+                  python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }} --list
                   python scripts/run-tests.py --health
-                  python scripts/run-tests.py
+                  python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }}
               continue-on-error: false
 
             - name: Collect Taurus Reports

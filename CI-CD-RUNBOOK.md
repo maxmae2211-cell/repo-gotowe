@@ -31,8 +31,10 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 
 ### 2. API Tests Job
 - Uruchamia core test suite: Load, Spike, Soak, SLA, Assertions
+- Dzieli scenariusze na 2 workery GitHub Actions, żeby skrócić czas całego joba
 - Inicjalizuje mock API server na `localhost:8000`
-- Wykonuje: `python scripts/run-tests.py --health && python scripts/run-tests.py`
+- Wykonuje: `python scripts/run-tests.py --worker-count 2 --worker-index <0|1>`
+- Health-check pozostaje wspólny: `python scripts/run-tests.py --health`
 - Timeout: 45 minut (soak test trwa ~13min)
 - Artefakty: `logs/`, `reports/`
 
@@ -48,15 +50,16 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 - Wykonuje: `python scripts/run-tests.py --include-k6`
 
 ### 5. Quality Gate
- - Agreguje wyniki wszystkich test job'ów
- 
- ### 4a. Stress Test Job (Optional)
- - Moderately-weighted resilience test: 50 concurrent threads, 2min ramp-up, 2min hold
- - Validates system performance under prolonged load
- - Success criterion: <5% failure rate acceptable
- - Timeout: 15 minut
- - Wykonuje: `python scripts/run-tests.py --include-stress`
- - Status: ✅ Operational, not yet integrated to main pipeline (can be added via CI workflow update)
+- Agreguje wyniki wszystkich test job'ów
+- Uwzględnia wynik obu workerów joba `test-api`
+
+### 4a. Stress Test Job (Optional)
+- Moderately-weighted resilience test: 50 concurrent threads, 2min ramp-up, 2min hold
+- Validates system performance under prolonged load
+- Success criterion: <5% failure rate acceptable
+- Timeout: 15 minut
+- Wykonuje: `python scripts/run-tests.py --include-stress`
+- Status: ✅ Operational, not yet integrated to main pipeline (can be added via CI workflow update)
 - Blokuje merge jeśli **ANY** test suite się nie powiódł
 - Exit code 1 = fail, 0 = success
 

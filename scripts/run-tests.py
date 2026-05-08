@@ -50,6 +50,17 @@ def run_k6() -> int:
     return result.returncode
 
 
+def shard_scenarios(scenarios: list[str], worker_count: int, worker_index: int) -> list[str]:
+    if worker_count <= 1:
+        return scenarios
+
+    return [
+        scenario
+        for index, scenario in enumerate(scenarios)
+        if index % worker_count == worker_index
+    ]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run Taurus API tests")
     parser.add_argument(
@@ -82,6 +93,18 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print selected scenarios and exit",
     )
+    parser.add_argument(
+        "--worker-count",
+        type=int,
+        default=1,
+        help="Split Taurus scenarios across N workers",
+    )
+    parser.add_argument(
+        "--worker-index",
+        type=int,
+        default=0,
+        help="Zero-based worker index used with --worker-count",
+    )
     return parser.parse_args()
 
 
@@ -91,6 +114,14 @@ def main() -> int:
         return 2
 
     args = parse_args()
+
+    if args.worker_count < 1:
+        print("--worker-count must be >= 1", file=sys.stderr)
+        return 2
+
+    if args.worker_index < 0 or args.worker_index >= args.worker_count:
+        print("--worker-index must be between 0 and worker-count - 1", file=sys.stderr)
+        return 2
 
     if args.health:
         cmd = [
@@ -114,12 +145,22 @@ def main() -> int:
     if args.include_stress:
         scenarios.append(OPTIONAL_SCENARIOS["--include-stress"])
 
+    scenarios = shard_scenarios(scenarios, args.worker_count, args.worker_index)
+
     if args.list:
-        print("Selected Taurus scenarios:")
+        print(
+            f"Selected Taurus scenarios for worker {args.worker_index + 1}/{args.worker_count}:"
+        )
         for scenario in scenarios:
             print(f"- {scenario}")
         if args.include_k6:
             print("- tests/api/test-api-k6.js")
+        return 0
+
+    if not scenarios and not args.include_k6:
+        print(
+            f"No Taurus scenarios assigned to worker {args.worker_index + 1}/{args.worker_count}."
+        )
         return 0
 
     for scenario in scenarios:
