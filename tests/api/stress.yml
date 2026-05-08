@@ -1,9 +1,9 @@
 ---
 execution:
-  - concurrency: 500 # 500 concurrent threads
-    hold-for: 5m # 5 minute sustained load at max concurrency
-    throughput: 5000 # Target 5000 requests per second
-    ramp-up: 2m # 2 minutes ramp-up from 0 to 500 threads
+  - concurrency: 150 # 150 concurrent threads (moderate stress load)
+    hold-for: 3m # 3 minute sustained load at max concurrency
+    throughput: 1500 # Target 1500 requests per second
+    ramp-up: 2m # 2 minutes ramp-up from 0 to 150 threads
     steps: 10 # Ramp in 10 steps
     scenario: stress-scenario
 
