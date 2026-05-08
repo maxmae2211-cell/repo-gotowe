@@ -12,7 +12,7 @@ Set-Location $repoRoot
 
 # Resolve python and bzt from PATH (CI-compatible) or local install fallback
 $localPython = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe"
-$localBzt    = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe"
+$localBzt = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe"
 
 $python = if (Test-Path $localPython) { $localPython } else { "python" }
 $bztCmd = if (Test-Path $localBzt) { $localBzt } else { $null }
@@ -22,9 +22,11 @@ function Invoke-Bzt {
     param([string[]]$ExtraArgs)
     if ($bztCmd) {
         & $bztCmd @ExtraArgs
-    } elseif (Get-Command bzt -ErrorAction SilentlyContinue) {
+    }
+    elseif (Get-Command bzt -ErrorAction SilentlyContinue) {
         & bzt @ExtraArgs
-    } else {
+    }
+    else {
         & $python -m bzt @ExtraArgs
     }
     return $LASTEXITCODE
