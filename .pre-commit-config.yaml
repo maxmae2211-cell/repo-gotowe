@@ -1,0 +1,109 @@
+repos:
+  # YAML validation
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args:
+          [
+            --config-data,
+            "{rules: {line-length: {max: 120}, indentation: {spaces: 2}}}",
+          ]
+        files: |
+          (?x)^(
+            tests/api/.*\.yml|
+            \.github/workflows/.*\.yml|
+            .*\.yaml
+          )$
+
+  # JSON validation
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-json
+        files: |
+          (?x)^(
+            .*\.json|
+            package\.json
+          )$
+
+  # Python formatting & linting
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+        language_version: python3.10
+        files: |
+          (?x)^(
+            scripts/.*\.py|
+            tests/.*\.py
+          )$
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [ "--profile", "black" ]
+        language_version: python3.10
+        files: |
+          (?x)^(
+            scripts/.*\.py|
+            tests/.*\.py
+          )$
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: [ --max-line-length=120, --extend-ignore=E203 ]
+        files: |
+          (?x)^(
+            scripts/.*\.py|
+            tests/.*\.py
+          )$
+        additional_dependencies: [ "flake8-docstrings" ]
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.37.0
+    hooks:
+      - id: markdownlint
+        args: [ --disable, MD013, --disable, MD024 ]
+        files: |
+          (?x)^(
+            .*\.md|
+            RUNBOOK\.md|
+            README\.md
+          )$
+
+  # Trailing whitespace
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: [ "--maxkb=500" ]
+
+  # Secrets detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: [ "--baseline", ".secrets.baseline" ]
+        exclude: package.lock.json
+        files: |
+          (?x)^(
+            \.github|
+            scripts|
+            tests
+          )
+
+ci:
+  autofix_commit_msg: "chore: auto-format via pre-commit hooks"
+  autofix_prs: true
+  autoupdate_commit_msg: "chore: update pre-commit hooks"
+  autoupdate_schedule: weekly
+  skip: [ detect-secrets ]
+  stages: [ commit, push ]
