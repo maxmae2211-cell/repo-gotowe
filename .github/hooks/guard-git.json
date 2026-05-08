@@ -1,0 +1,25 @@
+{
+  "name": "guard-git",
+  "version": "1.0.0",
+  "description": "Blokuje niebezpieczne komendy git (force push, reset hard, clean -fdx itp.)",
+  "blocked_patterns": [
+    "git push --force",
+    "git push -f",
+    "git reset --hard",
+    "git clean -fdx",
+    "git clean -fd",
+    "git checkout -- .",
+    "git branch -D",
+    "git tag -d",
+    "git stash drop"
+  ],
+  "warning_patterns": [
+    "git rebase",
+    "git cherry-pick",
+    "git push --force-with-lease"
+  ],
+  "hooks": {
+    "pre-commit": true,
+    "pre-push": true
+  }
+}
