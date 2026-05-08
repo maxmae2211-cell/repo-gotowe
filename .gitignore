@@ -50,10 +50,15 @@
 .nyc_output
 .serverless/
 .venv/
+.venv-taurus/
+.venv-wsl/
+.tools/
+reports/
 .vuepress/dist
 .yarn-integrity
 2026-04-27_20-52-39.488499/trace-1.jtl
 20??-??-??_??-??-??.*
+20??-??-??_??-??-??.*/
 __azurite_db*__.json
 __blobstorage__
 __pycache__/
