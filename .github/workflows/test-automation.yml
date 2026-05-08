@@ -63,16 +63,15 @@ jobs:
 
             - name: Start Mock API Server
               run: |
-                  # Check if port 8000 is already in use
-                  $portInUse = Get-NetTCPConnection -LocalPort 8000 -ErrorAction SilentlyContinue
-                  if ($portInUse) {
-                      Write-Output "⚠️ Port 8000 is already in use (likely from another worker)"
+                  $process = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru -ErrorAction SilentlyContinue
+                  Start-Sleep -Seconds 3
+                  if ($process -and !$process.HasExited) {
+                      Write-Output "✅ Mock API Server started on localhost:8000 (PID: $($process.Id))"
                   } else {
-                      Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow
-                      Start-Sleep -Seconds 3
-                      Write-Output "✅ Mock API Server started on localhost:8000"
+                      Write-Output "⚠️ Mock API Server may already be running or failed to start"
                   }
               shell: powershell
+              continue-on-error: true
 
             - name: Run API Test Suite (Core)
               id: api-tests
