@@ -189,3 +189,21 @@
 - [ ] Ujednolicić payload `Create Post` między scenariuszami
 - [ ] Dodać test regresji asercji dla `http-code`
 - [ ] Rozszerzyć testy o scenariusze failure resilience
+
+---
+
+## Re-Run 9 maja 2026 (runner end-to-end)
+Uruchomiono komendę:
+- `python scripts/run-tests.py --include-jmeter --include-k6`
+
+Wynik:
+- Wszystkie scenariusze zakończone powodzeniem (`All selected scenarios completed successfully.`)
+- Brak błędów HTTP i brak failure rate > 0% w całej paczce
+
+Skrócone metryki z re-run:
+- Load (`test-api-load.yml`): 4716 próbek, 0.00% failures, avg 0.126s, artefakty `2026-05-09_00-04-30.181381`
+- Spike (`spike.yml`): 521 próbek, 0.00% failures, avg 3.503s, artefakty `2026-05-09_00-06-32.271372`
+- Assertions (`assertions.yml`): 1788 próbek, 0.00% failures, avg 0.054s, artefakty `2026-05-09_00-08-47.262046`
+- SLA (`test-api-sla.yml`): 12611 próbek, 0.00% failures, avg 0.047s, artefakty `2026-05-09_00-10-02.422571`
+- JMeter CRUD (`test-api-jmeter.yml`): 20241 próbek, 0.00% failures, avg 0.259s, artefakty `2026-05-09_00-13-00.795127`
+- k6 (`test-api-k6.js`): 1789/1789 checks OK, 0.00% `http_req_failed`, avg `http_req_duration` 10.78ms
