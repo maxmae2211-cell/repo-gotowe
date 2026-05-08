@@ -90,6 +90,27 @@ def delete_post(post_id: int):
 
 
 if __name__ == '__main__':
+    import sys
+    import os
     import uvicorn
-    print("Mock API server running on http://localhost:8000", flush=True)
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    
+    # Accept --port from CLI or MOCK_API_PORT env var, default to 8000
+    port = 8000
+    if '--port' in sys.argv:
+        port_idx = sys.argv.index('--port')
+        if port_idx + 1 < len(sys.argv):
+            try:
+                port = int(sys.argv[port_idx + 1])
+            except (ValueError, IndexError):
+                pass
+    
+    # Also check environment variable
+    env_port = os.environ.get('MOCK_API_PORT')
+    if env_port:
+        try:
+            port = int(env_port)
+        except ValueError:
+            pass
+    
+    print(f"Mock API server running on http://localhost:{port}", flush=True)
+    uvicorn.run(app, host="0.0.0.0", port=port)

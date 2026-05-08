@@ -45,6 +45,9 @@ jobs:
             fail-fast: false
             matrix:
                 worker-index: [ 0, 1 ]
+        env:
+            # Worker 0 → port 8000, Worker 1 → port 8001
+            MOCK_API_PORT: ${{ 8000 + matrix.worker-index }}
 
         steps:
             - name: Checkout repository
@@ -63,9 +66,10 @@ jobs:
 
             - name: Start Mock API Server
               run: |
-                  Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow
+                  $port = $env:MOCK_API_PORT
+                  Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py --port $port" -NoNewWindow
                   Start-Sleep -Seconds 3
-                  Write-Output "✅ Mock API Server started on localhost:8000"
+                  Write-Output "✅ Mock API Server started on localhost:$port"
               shell: powershell
 
             - name: Run API Test Suite (Core)
@@ -75,6 +79,8 @@ jobs:
                   python scripts/run-tests.py --health
                   python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }}
               continue-on-error: false
+              env:
+                  MOCK_API_PORT: ${{ 8000 + matrix.worker-index }}
 
             - name: Collect Taurus Reports
               if: always()
