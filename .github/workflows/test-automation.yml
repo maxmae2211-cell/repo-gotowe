@@ -45,9 +45,6 @@ jobs:
             fail-fast: false
             matrix:
                 worker-index: [ 0, 1 ]
-        env:
-            # Worker 0 → port 8000, Worker 1 → port 8001
-            MOCK_API_PORT: ${{ 8000 + matrix.worker-index }}
 
         steps:
             - name: Checkout repository
@@ -64,9 +61,17 @@ jobs:
                   python -m pip install --upgrade pip setuptools wheel
                   pip install -r requirements.txt
 
+            - name: Calculate Mock API Port
+              id: port-calc
+              shell: powershell
+              run: |
+                  $port = 8000 + ${{ matrix.worker-index }}
+                  Write-Output "port=$port" >> $env:GITHUB_OUTPUT
+                  Write-Output "Mock API port for worker ${{ matrix.worker-index }}: $port"
+
             - name: Start Mock API Server
               run: |
-                  $port = $env:MOCK_API_PORT
+                  $port = ${{ steps.port-calc.outputs.port }}
                   Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py --port $port" -NoNewWindow
                   Start-Sleep -Seconds 3
                   Write-Output "✅ Mock API Server started on localhost:$port"
@@ -80,7 +85,7 @@ jobs:
                   python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }}
               continue-on-error: false
               env:
-                  MOCK_API_PORT: ${{ 8000 + matrix.worker-index }}
+                  MOCK_API_PORT: ${{ steps.port-calc.outputs.port }}
 
             - name: Collect Taurus Reports
               if: always()
