@@ -21,6 +21,7 @@ DEFAULT_SCENARIOS = [
 OPTIONAL_SCENARIOS = {
     "--include-jmeter": "tests/api/test-api-jmeter.yml",
     "--include-soak": "tests/api/soak.yml",
+    "--include-stress": "tests/api/stress.yml",
 }
 
 
@@ -67,6 +68,11 @@ def parse_args() -> argparse.Namespace:
         help="Include tests/api/soak.yml",
     )
     parser.add_argument(
+        "--include-stress",
+        action="store_true",
+        help="Include tests/api/stress.yml (extreme load test)",
+    )
+    parser.add_argument(
         "--include-k6",
         action="store_true",
         help="Include tests/api/test-api-k6.js",
@@ -105,6 +111,8 @@ def main() -> int:
         scenarios.append(OPTIONAL_SCENARIOS["--include-jmeter"])
     if args.include_soak:
         scenarios.append(OPTIONAL_SCENARIOS["--include-soak"])
+    if args.include_stress:
+        scenarios.append(OPTIONAL_SCENARIOS["--include-stress"])
 
     if args.list:
         print("Selected Taurus scenarios:")

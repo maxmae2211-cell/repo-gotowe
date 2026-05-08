@@ -1,0 +1,61 @@
+---
+execution:
+  - concurrency: 500 # 500 concurrent threads
+    hold-for: 5m # 5 minute sustained load at max concurrency
+    throughput: 5000 # Target 5000 requests per second
+    ramp-up: 2m # 2 minutes ramp-up from 0 to 500 threads
+    steps: 10 # Ramp in 10 steps
+    scenario: stress-scenario
+
+scenarios:
+  stress-scenario:
+    think-time: 100ms # 100ms think time between requests
+    requests:
+      - url: http://localhost:8000/posts
+        label: "GET All Posts"
+        method: GET
+        assert:
+          - contains:
+              - 200
+
+      - url: http://localhost:8000/posts
+        label: "POST Create Post (Stress)"
+        method: POST
+        headers:
+          Content-Type: application/json
+        body:
+          title: "Stress Test Post"
+          body: "This is a stress test payload to measure system stability under extreme
+            concurrent load"
+          userId: 1
+        assert:
+          - contains:
+              - 201
+              - 200 # May return 200 if mock API simplifies response
+
+      - url: http://localhost:8000/posts/1
+        label: "GET Single Post"
+        method: GET
+        assert:
+          - contains:
+              - 200
+              - 404
+
+modules:
+  jmeter:
+    # Use adaptive throttling to prevent overwhelming the system
+    use-dns-cache-mgr: true
+
+reporting:
+  - module: final-stats
+    summary: true
+    percentiles: true
+    failed-perc-threshold: 0
+    dump-csv: stress-results.csv
+
+# Performance assertions under stress
+assertions:
+  - label: "Response Time < 10s"
+    mean: 10000 # milliseconds
+  - label: "No more than 5% errors"
+    percent: 5
