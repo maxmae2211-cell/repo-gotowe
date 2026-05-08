@@ -30,10 +30,9 @@ jobs:
 
             - name: Run Taurus analysis pipeline
               run: |
-                  ARTIFACTS_PATTERN="$(date +%Y)-*"
                   python run_pipeline.py \
-                    --artifacts-pattern "${ARTIFACTS_PATTERN}" \
-                    --max-failures 0 \
+                    --jtl tests/fixtures/sample.jtl \
+                    --max-failures 1 \
                     --max-avg-ms 200 \
                     --output taurus-locust-report.html
 

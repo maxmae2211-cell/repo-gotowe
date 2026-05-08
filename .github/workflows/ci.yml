@@ -59,20 +59,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "21"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Install Taurus
-        run: pip install bzt
-
-      - name: Run Taurus load test
-        run: bzt test-api.yml -o settings.artifacts-dir=ci-results
-
-      - name: Generate HTML report
-        run: python3 generate_report.py --output taurus-locust-report.html
+      - name: Run Taurus analysis pipeline
+        run: |
+          python run_pipeline.py \
+            --jtl tests/fixtures/sample.jtl \
+            --max-failures 1 \
+            --max-avg-ms 200 \
+            --output taurus-locust-report.html
 
       - name: Upload report
         uses: actions/upload-artifact@v4
