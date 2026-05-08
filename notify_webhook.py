@@ -5,8 +5,8 @@ import requests
 
 def notify_webhook(report_path: str, webhook_url: str) -> int:
     """Wysyła raport HTML jako plik do webhooka (np. Slack, Teams)."""
-    with open(report_path, 'rb') as f:
-        files = {'file': (os.path.basename(report_path), f, 'text/html')}
+    with open(report_path, "rb") as f:
+        files = {"file": (os.path.basename(report_path), f, "text/html")}
         response = requests.post(webhook_url, files=files)
         print(f"Status powiadomienia webhook: {response.status_code}")
         return response.status_code
@@ -32,6 +32,7 @@ def notify_telegram(message: str, token: str = "", chat_id: str = "") -> int:
     response = requests.post(url, json=payload, timeout=10)
     print(f"Status powiadomienia Telegram: {response.status_code}")
     return response.status_code
+
 
 # Przykład użycia:
 # notify_webhook('taurus-locust-report.html', 'https://your-webhook-url')

@@ -2,6 +2,7 @@
 run_and_archive.py — uruchamiany po każdym commit (post-commit hook).
 Archiwizuje wyniki testów Taurus i regeneruje raport HTML.
 """
+
 import subprocess
 import sys
 import zipfile
@@ -31,10 +32,12 @@ def archive_taurus_results():
 def regenerate_report():
     """Regeneruje raport HTML."""
     result = subprocess.run(
-        [sys.executable, "generate_report.py",
-            "--output", "taurus-locust-report.html"],
-        capture_output=True, text=True, encoding="utf-8", errors="replace",
-        cwd=Path(__file__).parent
+        [sys.executable, "generate_report.py", "--output", "taurus-locust-report.html"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=Path(__file__).parent,
     )
     if result.returncode == 0:
         print("[OK] Raport HTML zaktualizowany")

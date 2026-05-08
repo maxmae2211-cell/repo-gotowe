@@ -10,6 +10,7 @@ jobs:
         runs-on: windows-latest
         env:
             FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+            PYTHONIOENCODING: utf-8
         steps:
             - uses: actions/checkout@v4
 
@@ -27,7 +28,7 @@ jobs:
             - name: Run Taurus pipeline
               run: |
                   .venv\Scripts\activate
-                  python run_pipeline.py
+                  python run_pipeline.py --jtl tests/fixtures/sample.jtl
 
             - name: Upload Taurus report
               if: always()

@@ -10,6 +10,8 @@ on:
 jobs:
   test-windows:
     runs-on: windows-latest
+    env:
+      PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -24,7 +26,7 @@ jobs:
       - name: Run Taurus pipeline
         run: |
           .venv\Scripts\activate
-          python run_pipeline.py
+          python run_pipeline.py --jtl tests/fixtures/sample.jtl
       - name: Run tests (pytest)
         run: |
           .venv\Scripts\activate
@@ -73,7 +75,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Taurus pipeline
-        run: python run_pipeline.py
+        run: python run_pipeline.py --jtl tests/fixtures/sample.jtl
       - name: Run tests (pytest)
         run: pytest
       - name: Run documentation crawler

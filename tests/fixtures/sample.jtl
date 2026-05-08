@@ -1,0 +1,6 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Filename,Latency,Connect,Encoding,SampleCount,ErrorCount,Hostname,IdleTime
+1672531200000,150,GET /users,200,OK,ThreadGroup 1-1,text,true,,1024,200,1,1,https://jsonplaceholder.typicode.com/users,,140,10,,1,0,localhost,0
+1672531200150,120,GET /users,200,OK,ThreadGroup 1-2,text,true,,1024,200,1,2,https://jsonplaceholder.typicode.com/users,,115,8,,1,0,localhost,0
+1672531200270,180,GET /posts,200,OK,ThreadGroup 1-1,text,true,,2048,200,1,2,https://jsonplaceholder.typicode.com/posts,,170,12,,1,0,localhost,0
+1672531200450,95,GET /posts,200,OK,ThreadGroup 1-2,text,true,,2048,200,1,2,https://jsonplaceholder.typicode.com/posts,,90,7,,1,0,localhost,0
+1672531200545,210,GET /todos,200,OK,ThreadGroup 1-1,text,true,,512,150,1,2,https://jsonplaceholder.typicode.com/todos,,200,15,,1,0,localhost,0

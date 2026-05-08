@@ -8,9 +8,10 @@ import subprocess
 def download_page(url, filename):
     response = requests.get(url)
     response.raise_for_status()
-    with open(filename, 'w', encoding=response.encoding or 'utf-8') as f:
+    with open(filename, "w", encoding=response.encoding or "utf-8") as f:
         f.write(response.text)
     print(f"Strona zapisana do: {filename}")
+
 
 # Pobieranie pliku (np. wideo, obraz, pdf)
 
@@ -18,7 +19,7 @@ def download_page(url, filename):
 def download_file(url, filename):
     response = requests.get(url, stream=True)
     response.raise_for_status()
-    with open(filename, 'wb') as f:
+    with open(filename, "wb") as f:
         for chunk in response.iter_content(chunk_size=8192):
             if chunk:
                 f.write(chunk)
@@ -28,7 +29,7 @@ def download_file(url, filename):
 if __name__ == "__main__":
     # Przykład użycia
     # Pobierz stronę
-    download_page('https://www.example.com', 'example.html')
+    download_page("https://www.example.com", "example.html")
     # Pobierz plik wideo (mp4)
     # download_file('https://www.example.com/video.mp4', 'video.mp4')
 
