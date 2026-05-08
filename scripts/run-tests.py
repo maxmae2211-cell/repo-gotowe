@@ -4,8 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
+import tempfile
+import shutil
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +26,39 @@ OPTIONAL_SCENARIOS = {
     "--include-soak": "tests/api/soak.yml",
     "--include-stress": "tests/api/stress.yml",
 }
+
+
+def get_mock_api_port() -> str:
+    """Get mock API port from environment variable, default to 8000."""
+    return os.environ.get("MOCK_API_PORT", "8000")
+
+
+def prepare_config_with_port(config_path: str, port: str) -> str:
+    """
+    Read config file, replace localhost:8000 with localhost:<port>,
+    write to temp file, return temp file path.
+    """
+    config_full_path = REPO_ROOT / config_path
+    
+    if not config_full_path.exists():
+        return config_path  # Return original if file doesn't exist
+    
+    # Read original content
+    content = config_full_path.read_text(encoding='utf-8')
+    
+    # If port is 8000 (default), no need to create temp file
+    if port == "8000":
+        return config_path
+    
+    # Replace localhost:8000 with localhost:<port>
+    modified_content = content.replace("localhost:8000", f"localhost:{port}")
+    
+    # Create temp file in the same directory as original for easier relative paths
+    temp_file = config_full_path.parent / f".temp-{config_full_path.name}"
+    temp_file.write_text(modified_content, encoding='utf-8')
+    
+    # Return path relative to REPO_ROOT for consistency
+    return str(temp_file.relative_to(REPO_ROOT))
 
 
 def run_powershell(config: str) -> int:
@@ -123,6 +159,8 @@ def main() -> int:
         print("--worker-index must be between 0 and worker-count - 1", file=sys.stderr)
         return 2
 
+    port = get_mock_api_port()
+    
     if args.health:
         cmd = [
             "powershell",
@@ -133,7 +171,7 @@ def main() -> int:
             "-Mode",
             "health",
             "-Config",
-            "tests/api/test-api-load.yml",
+            prepare_config_with_port("tests/api/test-api-load.yml", port),
         ]
         return subprocess.run(cmd, cwd=REPO_ROOT).returncode
 
@@ -155,6 +193,8 @@ def main() -> int:
             print(f"- {scenario}")
         if args.include_k6:
             print("- tests/api/test-api-k6.js")
+        if port != "8000":
+            print(f"Using Mock API on port: {port}")
         return 0
 
     if not scenarios and not args.include_k6:
@@ -164,10 +204,26 @@ def main() -> int:
         return 0
 
     for scenario in scenarios:
-        code = run_powershell(scenario)
+        # Prepare config with the correct port
+        config_path = prepare_config_with_port(scenario, port)
+        code = run_powershell(config_path)
         if code != 0:
             print(f"FAILED: {scenario} (exit code {code})", file=sys.stderr)
+            # Clean up temp file if it exists
+            temp_config = REPO_ROOT / config_path
+            if temp_config.exists() and ".temp-" in str(temp_config):
+                try:
+                    temp_config.unlink()
+                except:
+                    pass
             return code
+        # Clean up temp file if it exists
+        temp_config = REPO_ROOT / config_path
+        if temp_config.exists() and ".temp-" in str(temp_config):
+            try:
+                temp_config.unlink()
+            except:
+                pass
 
     if args.include_k6:
         code = run_k6()
