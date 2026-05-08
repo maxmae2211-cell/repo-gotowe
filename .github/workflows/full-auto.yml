@@ -24,7 +24,7 @@ jobs:
       - name: Run Taurus pipeline
         run: |
           .venv\Scripts\activate
-          python run_pipeline.py
+          python run_pipeline.py --jtl tests/fixtures/sample.jtl --max-failures 0 --output taurus-locust-report.html
       - name: Run tests (pytest)
         run: |
           .venv\Scripts\activate
@@ -73,7 +73,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Taurus pipeline
-        run: python run_pipeline.py
+        run: python run_pipeline.py --jtl tests/fixtures/sample.jtl --max-failures 0 --output taurus-locust-report.html
       - name: Run tests (pytest)
         run: pytest
       - name: Run documentation crawler
