@@ -8,6 +8,8 @@ scenarios:
       - url: http://localhost:8000/post
         method: POST
         label: Create Post
+        headers:
+          Content-Type: application/json
         body:
           title: Test Post
           body: This is a test post
