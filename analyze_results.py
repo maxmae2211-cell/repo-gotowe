@@ -112,8 +112,7 @@ def main() -> int:
         print(f"  Max: {max_t}ms")
 
         successful = sum(1 for r in results[label] if r["success"])
-        print(
-            f"  Sukces: {successful}/{count} ({successful / count * 100:.2f}%)")
+        print(f"  Sukces: {successful}/{count} ({successful / count * 100:.2f}%)")
 
     print()
     print("=" * 80)
@@ -150,8 +149,7 @@ def main() -> int:
     if len(errors) == 0:
         print("✓ Błędy: BRAK")
     else:
-        print(
-            f"✗ Błędy: {len(errors)} ({len(errors) / total_requests * 100:.2f}%)")
+        print(f"✗ Błędy: {len(errors)} ({len(errors) / total_requests * 100:.2f}%)")
 
     print()
     print("=" * 80)

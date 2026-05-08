@@ -8,7 +8,9 @@ def parse_args() -> argparse.Namespace:
         description="Run a Python module or script, then keep terminal open until Enter is pressed."
     )
     target = parser.add_mutually_exclusive_group(required=True)
-    target.add_argument("--module", help="Python module to run, for example: bzt or pip")
+    target.add_argument(
+        "--module", help="Python module to run, for example: bzt or pip"
+    )
     target.add_argument("--program", help="Python script path to run")
     parser.add_argument(
         "cmd_args",

@@ -30,7 +30,7 @@ if soup.find_all("img"):
         print(f"  - {img.get('src')}")
 
 print("\nStruktura sekcji:")
-for section in soup.find_all(['section', 'article', 'nav']):
+for section in soup.find_all(["section", "article", "nav"]):
     print(f"  {section.name} | class: {section.get('class')}")
 
 print("\n--- KONIEC INSPEKCJI ---")

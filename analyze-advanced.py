@@ -98,8 +98,7 @@ if elapsed_times:
         count_code = response_codes[code]
         pct = 100 * count_code / count
         status = (
-            "✅" if code.startswith(
-                "2") else "⚠️ " if code.startswith("3") else "❌"
+            "✅" if code.startswith("2") else "⚠️ " if code.startswith("3") else "❌"
         )
         print(f"  {status} {code}: {count_code:,} ({pct:.2f}%)")
 
@@ -115,8 +114,7 @@ print("-" * 80)
 print("Test-Advanced (poprzednio - 10 użytkowników, 2 minuty):")
 print("  Żądań: 3,235 | Średni czas: 54 ms | P50: 48 ms | P90: 85 ms")
 print(f"\nTest-Advanced (teraz - 50 użytkowników, 5 minut):")
-print(
-    f"  Żądań: {count:,} | Średni czas: {avg:.2f} ms | P50: {p50} ms | P90: {p90} ms")
+print(f"  Żądań: {count:,} | Średni czas: {avg:.2f} ms | P50: {p50} ms | P90: {p90} ms")
 print(f"\n📊 Wzrost żądań: {count / 3235:.1f}× | Wzrost czasu: {avg / 54:.2f}×")
 
 print("\n" + "=" * 80)

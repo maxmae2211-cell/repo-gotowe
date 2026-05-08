@@ -4,13 +4,13 @@ Uruchomienie lokalne:
   python -m debugpy --listen 127.0.0.1:5679 -m agentdev run src/agent.py --verbose --port 8088 -- --server
 Albo przez VS Code: "Agent Inspector: Debug HTTP Server" w launch.json
 """
+
 import argparse
 import os
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
-
 
 # --- Taurus helpers ---
 
@@ -31,11 +31,21 @@ def run_taurus(config: str = "api", mode: str = "standard") -> dict[str, Any]:
     if not script.exists():
         return {"error": f"Skrypt {script} nie istnieje."}
     cmd = [
-        "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
-        "-File", str(script), "-Mode", mode, "-Config", cfg_file,
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        str(script),
+        "-Mode",
+        mode,
+        "-Config",
+        cfg_file,
     ]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300, cwd=str(WORKSPACE))
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, timeout=300, cwd=str(WORKSPACE)
+        )
         return {
             "returncode": result.returncode,
             "stdout": result.stdout[-3000:] if result.stdout else "",
@@ -66,6 +76,7 @@ def get_last_results() -> dict[str, Any]:
 
 # --- CLI mode ---
 
+
 def run_cli() -> None:  # noqa: C901
     print("Agent Taurus — tryb CLI. Wpisz komendę lub 'help'. Ctrl+C aby wyjść.")
     commands = {
@@ -95,7 +106,10 @@ def run_cli() -> None:  # noqa: C901
             print(get_last_results())
         elif parts[0] == "status":
             import subprocess as sp
-            bzt = sp.run(["python", "-m", "bzt", "--version"], capture_output=True, text=True)
+
+            bzt = sp.run(
+                ["python", "-m", "bzt", "--version"], capture_output=True, text=True
+            )
             java = sp.run(["java", "-version"], capture_output=True, text=True)
             print(f"bzt: {bzt.stdout or bzt.stderr}".strip())
             print(f"java: {java.stderr or 'niedostępna'}".strip()[:80])
@@ -107,6 +121,7 @@ def run_cli() -> None:  # noqa: C901
 
 
 # --- HTTP server mode ---
+
 
 def run_server(port: int = 8088) -> None:  # pragma: no cover
     try:
@@ -131,22 +146,30 @@ def run_server(port: int = 8088) -> None:  # pragma: no cover
         @app.post("/run")
         def run(req: RunRequest):
             if req.config not in TAURUS_CONFIGS and not req.config.endswith(".yml"):
-                raise HTTPException(status_code=400, detail=f"Nieznana konfiguracja: {req.config}. Dostępne: {list(TAURUS_CONFIGS.keys())}")
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Nieznana konfiguracja: {req.config}. Dostępne: {list(TAURUS_CONFIGS.keys())}",
+                )
             return run_taurus(req.config, req.mode)
 
         uvicorn.run(app, host="127.0.0.1", port=port)
     except ImportError as e:
-        raise SystemExit(f"Brak zależności: {e}. Zainstaluj: pip install fastapi uvicorn pydantic")
+        raise SystemExit(
+            f"Brak zależności: {e}. Zainstaluj: pip install fastapi uvicorn pydantic"
+        )
 
 
 # --- Entrypoint ---
+
 
 def main() -> None:  # pragma: no cover
     parser = argparse.ArgumentParser(description="Taurus Agent entrypoint")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--server", action="store_true", help="Uruchom serwer HTTP")
     group.add_argument("--cli", action="store_true", help="Tryb CLI")
-    parser.add_argument("--port", type=int, default=8088, help="Port serwera HTTP (domyślnie 8088)")
+    parser.add_argument(
+        "--port", type=int, default=8088, help="Port serwera HTTP (domyślnie 8088)"
+    )
     args = parser.parse_args()
 
     if args.server:
@@ -157,4 +180,3 @@ def main() -> None:  # pragma: no cover
 
 if __name__ == "__main__":
     main()
-

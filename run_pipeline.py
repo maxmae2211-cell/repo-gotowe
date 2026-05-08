@@ -66,8 +66,7 @@ def main() -> int:
 
     analyze_kpi_cmd = [python, "analyze-kpi.py"]
     analyze_results_cmd = [python, "analyze_results.py"]
-    generate_report_cmd = [
-        python, "generate_report.py", "--output", args.output]
+    generate_report_cmd = [python, "generate_report.py", "--output", args.output]
 
     if args.jtl:
         analyze_kpi_cmd += ["--jtl", str(args.jtl)]
