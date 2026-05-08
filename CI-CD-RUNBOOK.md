@@ -10,15 +10,16 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 ## Architektura
 
 ```
-Push to main/develop
-    ↓
-Workflow trigger: test-automation.yml
-    ├─ [Setup] Verify Python 3.10, install dependencies
-    ├─ [Test Suite 1] API Tests (Load, Spike, Soak, SLA, Assertions) — 45min timeout
-    ├─ [Test Suite 2] JMeter CRUD Tests — 30min timeout  
-    ├─ [Test Suite 3] K6 Load Tests — 30min timeout
-    ├─ [Quality Gate] Check all suites passed
-    └─ [Summary] Report results
+ Push to main/develop
+     ↓
+ Workflow trigger: test-automation.yml
+     ├─ [Setup] Verify Python 3.10, install dependencies
+     ├─ [Test Suite 1] API Tests (Load, Spike, Soak, SLA, Assertions) — 45min timeout
+     ├─ [Test Suite 2] JMeter CRUD Tests — 30min timeout  
+     ├─ [Test Suite 3] K6 Load Tests — 30min timeout
+     ├─ [Test Suite 4] Stress Tests (Resilience) — Optional, 15min
+     ├─ [Quality Gate] Check all suites passed
+     └─ [Summary] Report results
 ```
 
 ## Komponenty Workflow
@@ -47,7 +48,15 @@ Workflow trigger: test-automation.yml
 - Wykonuje: `python scripts/run-tests.py --include-k6`
 
 ### 5. Quality Gate
-- Agreguje wyniki wszystkich test job'ów
+ - Agreguje wyniki wszystkich test job'ów
+ 
+ ### 4a. Stress Test Job (Optional)
+ - Moderately-weighted resilience test: 50 concurrent threads, 2min ramp-up, 2min hold
+ - Validates system performance under prolonged load
+ - Success criterion: <5% failure rate acceptable
+ - Timeout: 15 minut
+ - Wykonuje: `python scripts/run-tests.py --include-stress`
+ - Status: ✅ Operational, not yet integrated to main pipeline (can be added via CI workflow update)
 - Blokuje merge jeśli **ANY** test suite się nie powiódł
 - Exit code 1 = fail, 0 = success
 
