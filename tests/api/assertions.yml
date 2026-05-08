@@ -7,8 +7,8 @@ scenarios:
         label: Validate GET
         assert:
           - subject: http-code
-            condition: equals
-            value: 200
+            contains:
+              - 200
 
       - url: http://localhost:8000/post
         method: POST
@@ -21,8 +21,8 @@ scenarios:
           userId: 1
         assert:
           - subject: http-code
-            condition: equals
-            value: 200
+            contains:
+              - 200
 
 execution:
   - concurrency: 5
