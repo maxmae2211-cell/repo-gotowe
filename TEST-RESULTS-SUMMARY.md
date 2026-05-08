@@ -6,31 +6,31 @@
 ---
 
 ## 1. Test Load (test-api-load.yml)
-**Czas wykonania**: 1:15 (75 sekund)  
+**Czas wykonania**: 1:18 (78 sekund)  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE
 
 ### Metryki
-- **Liczba próbek**: 4770
-- **Failure rate**: 49.90%
+- **Liczba próbek**: 4400
+- **Failure rate**: 0.00% ✅
   - Get Request: 100% sukces
-  - Create Post: 0% sukces (Unprocessable Entity errors)
-- **Średni czas odpowiedzi**: 0.124s
-- **Latency**: 0.124s
+  - Create Post: 100% sukces
+- **Średni czas odpowiedzi**: 0.136s
+- **Latency**: 0.136s
 - **Connect time**: 0.000s
 
 ### Percentyle czasów odpowiedzi
 | Percentyl | Czas (s) |
 |-----------|----------|
-| p0        | 0.009    |
+| p0        | 0.018    |
 | p50       | 0.098    |
-| p90       | 0.211    |
-| p95       | 0.274    |
-| p99       | 0.591    |
-| p99.9     | 0.971    |
-| p100      | 1.062    |
+| p90       | 0.225    |
+| p95       | 0.340    |
+| p99       | 0.838    |
+| p99.9     | 1.230    |
+| p100      | 1.390    |
 
 ### Artefakty
-- Katalog: `2026-05-08_23-23-23.568991`
+- Katalog: `2026-05-08_23-59-04.142977`
 
 ---
 
@@ -183,10 +183,9 @@
 6. ✅ System stabilny w długim okresie (soak: 63k próbek, 0% błędów)
 7. ✅ Workflow CRUD działa poprawnie pod obciążeniem (JMeter)
 8. ✅ Testy SLA i K6 zakończone bez błędów
-9. ⚠️  W `test-api-load.yml` nadal występuje błąd `Create Post` (422 Unprocessable Entity)
+9. ✅ Problem `Create Post` (422) usunięty przez ustawienie `Content-Type: application/json` w scenariuszu load
 
 ## Rekomendacje
-- [ ] Debugować problemy z Create Post endpoint
 - [ ] Ujednolicić payload `Create Post` między scenariuszami
 - [ ] Dodać test regresji asercji dla `http-code`
 - [ ] Rozszerzyć testy o scenariusze failure resilience
