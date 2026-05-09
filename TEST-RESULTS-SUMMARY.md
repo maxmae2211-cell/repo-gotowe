@@ -1,24 +1,28 @@
 # Podsumowanie wyników testów Taurus - 8 maja 2026
 
 ## Status ogólny
-✅ **Wszystkie testy uruchomione pomyślnie z działającym mock API serverem**
+
+✅ Wszystkie testy uruchomione pomyślnie z działającym mock API serverem.
 
 ---
 
 ## 1. Test Load (test-api-load.yml)
+
 **Czas wykonania**: 1:18 (78 sekund)  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE
 
-### Metryki
+### Metryki testu Load
+
 - **Liczba próbek**: 4400
 - **Failure rate**: 0.00% ✅
-  - Get Request: 100% sukces
-  - Create Post: 100% sukces
+- Get Request: 100% sukces
+- Create Post: 100% sukces
 - **Średni czas odpowiedzi**: 0.136s
 - **Latency**: 0.136s
 - **Connect time**: 0.000s
 
-### Percentyle czasów odpowiedzi
+### Percentyle czasów odpowiedzi dla testu Load
+
 | Percentyl | Czas (s) |
 |-----------|----------|
 | p0        | 0.018    |
@@ -29,23 +33,27 @@
 | p99.9     | 1.230    |
 | p100      | 1.390    |
 
-### Artefakty
+### Artefakty testu Load
+
 - Katalog: `2026-05-08_23-59-04.142977`
 
 ---
 
 ## 2. Test Spike (spike.yml)
+
 **Czas wykonania**: 0:44 (44 sekund)  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE (0% FAILURES)
 
-### Metryki
+### Metryki testu Spike
+
 - **Liczba próbek**: 443
 - **Failure rate**: 0.00% ✅
 - **Średni czas odpowiedzi**: 3.060s
 - **Latency**: 3.060s
 - **Connect time**: 0.046s
 
-### Percentyle czasów odpowiedzi
+### Percentyle czasów odpowiedzi dla testu Spike
+
 | Percentyl | Czas (s) |
 |-----------|----------|
 | p0        | 0.01     |
@@ -56,29 +64,34 @@
 | p99.9     | 8.416    |
 | p100      | 8.416    |
 
-### Obserwacje
-- Test symuluje nagły wzrost obciążenia (1→200→1 wątków)
-- Wszystkie requesty przeszły pomyślnie
-- Wyższe średnie czasy ze względu na peak load
-- System obsługuje spike bez problemów
+### Obserwacje dla testu Spike
 
-### Artefakty
+- Test symuluje nagły wzrost obciążenia (1→200→1 wątków).
+- Wszystkie requesty przeszły pomyślnie.
+- Wyższe średnie czasy ze względu na peak load.
+- System obsługuje spike bez problemów.
+
+### Artefakty testu Spike
+
 - Katalog: `2026-05-08_23-25-21.396966`
 
 ---
 
 ## 3. Test Soak (soak.yml)
+
 **Czas wykonania**: 0:10:24  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE (0% FAILURES)
 
-### Metryki
+### Metryki testu Soak
+
 - **Liczba próbek**: 63367
 - **Failure rate**: 0.00% ✅
 - **Średni czas odpowiedzi**: 0.094s
 - **Latency**: 0.094s
 - **Connect time**: 0.000s
 
-### Percentyle czasów odpowiedzi
+### Percentyle czasów odpowiedzi dla testu Soak
+
 | Percentyl | Czas (s) |
 |-----------|----------|
 | p0        | 0.006    |
@@ -89,76 +102,91 @@
 | p99.9     | 1.004    |
 | p100      | 1.355    |
 
-### Artefakty
+### Artefakty testu Soak
+
 - Katalog: `2026-05-08_23-31-01.235709`
 
 ---
 
 ## 4. Test Assertions (assertions.yml)
+
 **Czas wykonania**: 0:00:35  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE PO POPRAWCE KONFIGURACJI
 
-### Metryki
+### Metryki testu Assertions
+
 - **Liczba próbek**: 1951
 - **Failure rate**: 0.00% ✅
 - **Średni czas odpowiedzi**: 0.050s
 
-### Uwaga
+### Uwaga do testu Assertions
+
 - Wcześniejsza wersja asercji używała niepoprawnego formatu `condition/value`.
 - Naprawiono na składnię Taurusa `contains: [200]` dla `subject: http-code`.
 
-### Artefakty
+### Artefakty testu Assertions
+
 - Katalog: `2026-05-08_23-53-08.677711`
 
 ---
 
 ## 5. Test SLA (test-api-sla.yml)
+
 **Czas wykonania**: 0:02:17  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE (0% FAILURES)
 
-### Metryki
+### Metryki testu SLA
+
 - **Liczba próbek**: 11793
 - **Failure rate**: 0.00% ✅
 - **Średni czas odpowiedzi**: 0.050s
 - **P95**: 0.122s
 - **P99**: 0.329s
 
-### Request labels
+### Request labels dla testu SLA
+
 - `Get All Posts`: 100% sukces, avg 0.051s
 - `Get Post 1`: 100% sukces, avg 0.050s
 
-### Artefakty
+### Artefakty testu SLA
+
 - Katalog: `2026-05-08_23-44-46.073165`
 
 ---
 
 ## 6. Test JMeter CRUD (test-api-jmeter.yml)
+
 **Czas wykonania**: 0:04:17  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE (0% FAILURES)
 
-### Metryki
+### Metryki testu JMeter CRUD
+
 - **Liczba próbek**: 26262
 - **Failure rate**: 0.00% ✅
 - **Średni czas odpowiedzi**: 0.200s
 - **P95**: 0.473s
 - **P99**: 1.083s
 
-### Request labels
+### Request labels dla testu JMeter CRUD
+
 - `Create Post`: 100% sukces, avg 0.200s
 - `Get Created Post`: 100% sukces, avg 0.201s
 - `Update Created Post`: 100% sukces, avg 0.200s
 - `Delete Created Post`: 100% sukces, avg 0.199s
 
-### Artefakty
+### Artefakty testu JMeter CRUD
+
 - Katalog: `2026-05-08_23-47-40.162256`
 
 ---
 
 ## 7. Test K6 (test-api-k6.js)
+
 **Czas wykonania**: 2m20s (+ graceful stop)  
 **Status**: ✅ ZAKOŃCZONY POMYŚLNIE
 
-### Metryki
+### Metryki testu K6
+
 - **Checks**: 1789/1789 (100.00%)
 - **HTTP failures**: 0.00%
 - **Średni czas `http_req_duration`**: 11.22ms
@@ -169,38 +197,45 @@
 ---
 
 ## Pozostałe dostępne testy
+
 - `test-api-load.yml` - test obciążenia mieszanego GET/POST
 - `spike.yml` - test skoku ruchu
 
 ---
 
 ## Wnioski
-1. ✅ Mock API server działa stabilnie na localhost:8000
-2. ✅ Taurus 1.16.50 prawidłowo konfigurowany
-3. ✅ Infrastruktura testowa operacyjna
-4. ✅ System obsługuje normalne obciążenie (load test)
-5. ✅ System obsługuje spike'i bez problemów (spike test)
-6. ✅ System stabilny w długim okresie (soak: 63k próbek, 0% błędów)
-7. ✅ Workflow CRUD działa poprawnie pod obciążeniem (JMeter)
-8. ✅ Testy SLA i K6 zakończone bez błędów
-9. ✅ Problem `Create Post` (422) usunięty przez ustawienie `Content-Type: application/json` w scenariuszu load
+
+1. ✅ Mock API server działa stabilnie na localhost:8000.
+2. ✅ Taurus 1.16.50 jest prawidłowo konfigurowany.
+3. ✅ Infrastruktura testowa jest operacyjna.
+4. ✅ System obsługuje normalne obciążenie (load test).
+5. ✅ System obsługuje spike'i bez problemów (spike test).
+6. ✅ System jest stabilny w długim okresie (soak: 63k próbek, 0% błędów).
+7. ✅ Workflow CRUD działa poprawnie pod obciążeniem (JMeter).
+8. ✅ Testy SLA i K6 zakończone bez błędów.
+9. ✅ Problem `Create Post` (422) usunięto przez ustawienie `Content-Type: application/json` w scenariuszu load.
 
 ## Rekomendacje
-- [ ] Ujednolicić payload `Create Post` między scenariuszami
-- [ ] Dodać test regresji asercji dla `http-code`
-- [ ] Rozszerzyć testy o scenariusze failure resilience
+
+- [ ] Ujednolicić payload `Create Post` między scenariuszami.
+- [ ] Dodać test regresji asercji dla `http-code`.
+- [ ] Rozszerzyć testy o scenariusze failure resilience.
 
 ---
 
 ## Re-Run 9 maja 2026 (runner end-to-end)
+
 Uruchomiono komendę:
+
 - `python scripts/run-tests.py --include-jmeter --include-k6`
 
 Wynik:
-- Wszystkie scenariusze zakończone powodzeniem (`All selected scenarios completed successfully.`)
-- Brak błędów HTTP i brak failure rate > 0% w całej paczce
 
-Skrócone metryki z re-run:
+- Wszystkie scenariusze zakończone powodzeniem (`All selected scenarios completed successfully.`).
+- Brak błędów HTTP i brak failure rate > 0% w całej paczce.
+
+### Skrócone metryki z re-run
+
 - Load (`test-api-load.yml`): 4716 próbek, 0.00% failures, avg 0.126s, artefakty `2026-05-09_00-04-30.181381`
 - Spike (`spike.yml`): 521 próbek, 0.00% failures, avg 3.503s, artefakty `2026-05-09_00-06-32.271372`
 - Assertions (`assertions.yml`): 1788 próbek, 0.00% failures, avg 0.054s, artefakty `2026-05-09_00-08-47.262046`
