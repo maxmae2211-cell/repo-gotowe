@@ -9,6 +9,11 @@ on:
             - main
     workflow_dispatch:
 
+env:
+    JTL_FIXTURE: tests/fixtures/sample.jtl
+    MAX_FAILURES: 0
+    MAX_AVG_MS: 200
+
 jobs:
     validate-pipeline:
         runs-on: ubuntu-latest
@@ -30,11 +35,10 @@ jobs:
 
             - name: Run Taurus analysis pipeline
               run: |
-                  ARTIFACTS_PATTERN="$(date +%Y)-*"
                   python run_pipeline.py \
-                    --artifacts-pattern "${ARTIFACTS_PATTERN}" \
-                    --max-failures 0 \
-                    --max-avg-ms 200 \
+                    --jtl ${{ env.JTL_FIXTURE }} \
+                    --max-failures ${{ env.MAX_FAILURES }} \
+                    --max-avg-ms ${{ env.MAX_AVG_MS }} \
                     --output taurus-locust-report.html
 
             - name: Upload HTML report artifact
