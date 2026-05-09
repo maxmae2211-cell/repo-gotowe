@@ -65,6 +65,11 @@ switch ($Mode) {
         & $python -m pip show bzt setuptools pyyaml
         & $python -m pip check
         Invoke-Bzt @("-h") | Out-Null
+        $exitCode = $LASTEXITCODE
+        if ($exitCode -ne 0) {
+            Write-Host "[BLAD] Kontrola zdrowia nie powiodla sie. Kod wyjscia: $exitCode"
+            exit $exitCode
+        }
         Write-Host '[OK] Kontrola zdrowia zakonczona.'
         break
     }
@@ -107,6 +112,12 @@ switch ($Mode) {
         & $python -V
         & $python -m pip show bzt setuptools pyyaml
         & $python -m pip check
+        Invoke-Bzt @("-h") | Out-Null
+        $healthExitCode = $LASTEXITCODE
+        if ($healthExitCode -ne 0) {
+            Write-Host "[BLAD] Kontrola zdrowia nie powiodla sie. Kod wyjscia: $healthExitCode"
+            exit $healthExitCode
+        }
         Write-Host '[1/3] Kontrola zdrowia zakonczona.'
 
         Write-Host '[2/3] Standardowy test API...'
