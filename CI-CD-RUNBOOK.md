@@ -9,7 +9,7 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 
 ## Architektura
 
-```
+```text
  Push to main/develop
      ↓
  Workflow trigger: test-automation.yml
@@ -25,11 +25,13 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 ## Komponenty Workflow
 
 ### 1. Setup Job
+
 - Veryfikuje Python 3.10 dostępny
 - Instaluje dependencies z `requirements.txt`
 - Cache'uje pip dependencies dla szybkości
 
 ### 2. API Tests Job
+
 - Uruchamia core test suite: Load, Spike, Soak, SLA, Assertions
 - Dzieli scenariusze na 2 workery GitHub Actions, żeby skrócić czas całego joba
 - Inicjalizuje mock API server na `localhost:8000`
@@ -39,21 +41,25 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 - Artefakty: `logs/`, `reports/`
 
 ### 3. JMeter CRUD Job
+
 - Specjalistyczny CRUD workflow test za pośrednictwem JMeter backend'u Taurus
 - Timeout: 30 minut
 - Wykonuje: `python scripts/run-tests.py --include-jmeter`
 
 ### 4. K6 Tests Job
+
 - JavaScript-based load testing framework
 - 20 concurrent VUs, 2:20 ramp profile
 - Timeout: 30 minut
 - Wykonuje: `python scripts/run-tests.py --include-k6`
 
 ### 5. Quality Gate
+
 - Agreguje wyniki wszystkich test job'ów
 - Uwzględnia wynik obu workerów joba `test-api`
 
 ### 4a. Stress Test Job (Optional)
+
 - Moderately-weighted resilience test: 50 concurrent threads, 2min ramp-up, 2min hold
 - Validates system performance under prolonged load
 - Success criterion: <5% failure rate acceptable
@@ -64,6 +70,7 @@ GitHub Actions workflow automatyzuje wykonywanie test suite'u na każde push do 
 - Exit code 1 = fail, 0 = success
 
 ### 6. Summary
+
 - Raportuje status dla wszystkich suites
 - Widoczny w GitHub checks na PR/commit
 
@@ -77,6 +84,7 @@ ARTIFACT_RETENTION_DAYS: 30
 ## Warunki Uruchomienia
 
 Workflow automatycznie triggeruje się na:
+
 - `push` na gałęzie `main` lub `develop`
 - `pull_request` na gałęzie `main` lub `develop`  
 - Ręczne trigger via `workflow_dispatch` (Actions tab w GitHub)
@@ -84,12 +92,14 @@ Workflow automatycznie triggeruje się na:
 ## Logs i Artefakty
 
 ### Dostęp do Rezultatów
+
 1. Przejdź do **Actions** tab w GitHub repo
 2. Kliknij na workflow run
 3. Ekspanduj job (test-api, test-jmeter, test-k6)
 4. Pobierz artefakty z sekcji **Artifacts**
 
 ### Artefakty Dostępne
+
 - **api-test-results**: JTL files, HTML reports z Load, Spike, Soak, SLA, Assertions
 - **jmeter-test-results**: CRUD workflow logs
 - **k6-test-results**: K6 check results i duration metrics
@@ -97,7 +107,8 @@ Workflow automatycznie triggeruje się na:
 ## Status Checks
 
 Na każdy PR pojawią się quality checks:
-```
+
+```text
 ✅ test-automation / setup
 ✅ test-automation / test-api
 ✅ test-automation / test-jmeter
@@ -105,21 +116,26 @@ Na każdy PR pojawią się quality checks:
 ✅ test-automation / quality-gate
 ```
 
-**Jeśli ANY check fali → merge zablokowany do czasu naprawy**
+### Zasada blokady merge'u
+
+Jeśli dowolny krytyczny check failuje, merge pozostaje zablokowany do czasu naprawy.
 
 ## Failover & Troubleshooting
 
 ### Wszystkie testy się nie powiodły
+
 1. Sprawdź mock API server logs w workflow output
 2. Zweryfikuj że `tests/api/*.yml` mają poprawną składnię YAML
 3. Sprawdź że `requirements.txt` zawiera wszystkie zależności
 
 ### Timeout (45min dla API tests)
+
 - Soak test trwa normalnie ~13min
 - Jeśli timeout = sprawdź czy mock server się nie zawiesi
 - Rozwiązanie: Zwiększyć timeout w workflow do 60min
 
 ### Single test suite fails
+
 1. Sprawdzaj detailed logs w GitHub Actions UI
 2. Replikuj lokalnie: `python scripts/run-tests.py [--include-jmeter|--include-k6]`
 3. Fix w feature branch, push → CI/CD waliduje automatycznie
@@ -127,15 +143,18 @@ Na każdy PR pojawią się quality checks:
 ## Integracja z Deployment'em
 
 ### Pre-Deployment Gate
-```
+
+```text
 Deployment workflow (gdy dostępny) powinien zależy od:
 - quality-gate job success
 - Lub require manual approval po passie testów
 ```
 
 ### Polityka Merge'u
+
 Rekomendacja:
-```
+
+```text
 Branch protection rules:
 - Require pull request review: 1 approved review
 - Require status checks to pass: test-automation/*
@@ -170,6 +189,7 @@ python scripts/run-tests.py --include-jmeter --include-k6
 ## Monitoring & Alerting (Przyszłość)
 
 Możliwości rozszerzenia:
+
 - Email notifications na PR fail
 - Slack integration dla deployment team
 - Metrics dashboard (Success Rate, Avg Response Time, p99 latency)
@@ -180,7 +200,7 @@ Możliwości rozszerzenia:
 Z ostatniego full run:
 
 | Test | Samples | Failure Rate | Avg Response | Duration |
-|------|---------|--------------|--------------|----------|
+| ---- | ------- | ------------ | ------------ | -------- |
 | Load | 4,716 | 0.00% | 0.126s | 1m 2s |
 | Spike | 521 | 0.00% | 3.503s | 44s |
 | Soak | 63,367 | 0.00% | 0.094s | 10m 24s |
@@ -194,6 +214,7 @@ Z ostatniego full run:
 ## Checklisty
 
 ### Przed First Push do CI/CD
+
 - [x] `requirements.txt` zawiera všechny zależności
 - [x] `scripts/run-tests.py` używa `--health` flag
 - [x] Mock server autostart w workflow (python scripts/mock-api-server.py)
@@ -201,6 +222,7 @@ Z ostatniego full run:
 - [x] Timeout'y są realistyczne dla każdego test job'u
 
 ### Maintenance (Tygodniowo)
+
 - [ ] Review action logs dla anomalii
 - [ ] Sprawdź artifact storage (30 dni retention)
 - [ ] Waliduj że metryki pozostają w normie (<5% increase w avg response time)
