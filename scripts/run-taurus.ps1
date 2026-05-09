@@ -28,7 +28,6 @@ function Invoke-Bzt {
     else {
         & $python -m bzt @ExtraArgs
     }
-    return $LASTEXITCODE
 }
 
 $java8 = Join-Path $repoRoot 'tools/jdk8u482-b08'
@@ -72,7 +71,8 @@ switch ($Mode) {
 
     'standard' {
         Write-Host '[Uruchamiam] Standardowy test API...'
-        $exitCode = Invoke-Bzt @($configPath)
+        Invoke-Bzt @($configPath)
+        $exitCode = $LASTEXITCODE
         if ($exitCode -eq 0) {
             Write-Host '[OK] Test zakonczony pomyslnie.'
             Open-LatestReport
@@ -89,7 +89,8 @@ switch ($Mode) {
         Assert-Exists $java8 'Katalog Java 8'
         $env:JAVA_HOME = $java8
         $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
-        $exitCode = Invoke-Bzt @($configPath, "-o", "execution.0.executor=jmeter")
+        Invoke-Bzt @($configPath, "-o", "execution.0.executor=jmeter")
+        $exitCode = $LASTEXITCODE
         if ($exitCode -eq 0) {
             Write-Host '[OK] Test JMeter zakonczony pomyslnie.'
             Open-LatestReport
@@ -109,14 +110,16 @@ switch ($Mode) {
         Write-Host '[1/3] Kontrola zdrowia zakonczona.'
 
         Write-Host '[2/3] Standardowy test API...'
-        $exitCode = Invoke-Bzt @($configPath)
+        Invoke-Bzt @($configPath)
+        $exitCode = $LASTEXITCODE
         if ($exitCode -eq 0) {
             Write-Host '[2/3] Test API zakonczony pomyslnie.'
             Write-Host '[3/3] Test JMeter + Java8...'
             Assert-Exists $java8 'Katalog Java 8'
             $env:JAVA_HOME = $java8
             $env:Path = "$($env:JAVA_HOME)/bin;" + $env:Path
-            $exitCode2 = Invoke-Bzt @($configPath, "-o", "execution.0.executor=jmeter")
+            Invoke-Bzt @($configPath, "-o", "execution.0.executor=jmeter")
+            $exitCode2 = $LASTEXITCODE
             if ($exitCode2 -eq 0) {
                 Write-Host '[3/3] Test JMeter zakonczony pomyslnie. Caly potok wykonany!'
                 Open-LatestReport
