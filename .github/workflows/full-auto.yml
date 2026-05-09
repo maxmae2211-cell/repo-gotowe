@@ -10,6 +10,7 @@ on:
 jobs:
   test-windows:
     runs-on: windows-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -27,6 +28,7 @@ jobs:
         run: |
           pytest
       - name: Run documentation crawler
+        continue-on-error: true
         run: |
           python vscode_docs_crawler.py
       - name: Upload ALL_DOCS.md

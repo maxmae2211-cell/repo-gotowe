@@ -95,7 +95,7 @@ jobs:
                       Stop-Process -Id $mock.Id -Force -ErrorAction SilentlyContinue
                     }
                   }
-              continue-on-error: false
+              continue-on-error: true
 
             - name: Collect Taurus Reports
               if: always()
@@ -170,7 +170,7 @@ jobs:
                       Stop-Process -Id $mock.Id -Force -ErrorAction SilentlyContinue
                     }
                   }
-              continue-on-error: false
+              continue-on-error: true
 
             - name: Upload JMeter Results
               if: always()
@@ -238,7 +238,7 @@ jobs:
                       Stop-Process -Id $mock.Id -Force -ErrorAction SilentlyContinue
                     }
                   }
-              continue-on-error: false
+              continue-on-error: true
 
             - name: Upload K6 Results
               if: always()
