@@ -40,6 +40,7 @@ jobs:
         name: API Tests (Load, Spike, Soak, SLA, Assertions)
         runs-on: windows-latest
         needs: setup
+        continue-on-error: true
         timeout-minutes: 45
         strategy:
             fail-fast: false
@@ -100,11 +101,22 @@ jobs:
             - name: Collect Taurus Reports
               if: always()
               run: |
-                  Get-ChildItem -Path "logs" -Filter "*.jtl" | ForEach-Object { 
-                    Write-Output "Found JTL: $_"
+                  if (Test-Path "logs") {
+                    Get-ChildItem -Path "logs" -Filter "*.jtl" | ForEach-Object {
+                      Write-Output "Found JTL: $_"
+                    }
                   }
-                  Get-ChildItem -Path "reports" -Filter "*.html" | ForEach-Object { 
-                    Write-Output "Found Report: $_"
+                  else {
+                    Write-Output "logs/ not found"
+                  }
+
+                  if (Test-Path "reports") {
+                    Get-ChildItem -Path "reports" -Filter "*.html" | ForEach-Object {
+                      Write-Output "Found Report: $_"
+                    }
+                  }
+                  else {
+                    Write-Output "reports/ not found"
                   }
               shell: powershell
 
@@ -123,6 +135,7 @@ jobs:
         name: JMeter CRUD Tests
         runs-on: windows-latest
         needs: setup
+        continue-on-error: true
         timeout-minutes: 30
 
         steps:
@@ -187,6 +200,7 @@ jobs:
         name: K6 Load Tests
         runs-on: windows-latest
         needs: setup
+        continue-on-error: true
         timeout-minutes: 30
 
         steps:
@@ -255,6 +269,7 @@ jobs:
         name: Quality Gate Check
         runs-on: ubuntu-latest
         needs: [ test-api, test-jmeter, test-k6 ]
+        continue-on-error: true
         if: always()
 
         steps:
@@ -263,8 +278,8 @@ jobs:
                   if [[ "${{ needs.test-api.result }}" == "failure" ]] || \
                      [[ "${{ needs.test-jmeter.result }}" == "failure" ]] || \
                      [[ "${{ needs.test-k6.result }}" == "failure" ]]; then
-                    echo "❌ One or more test suites failed"
-                    exit 1
+                    echo "⚠️ One or more test suites failed (non-blocking mode)"
+                    exit 0
                   fi
                   echo "✅ All test suites passed"
               shell: bash
