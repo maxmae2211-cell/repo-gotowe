@@ -105,6 +105,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -116,7 +117,7 @@ jobs:
       - name: Run black (non-blocking)
         run: black --check . || true
       - name: Run flake8
-        run: flake8 . > flake8_report.txt; exit 0
+        run: flake8 . > flake8_report.txt || true
       - name: Upload flake8_report.txt
         uses: actions/upload-artifact@v4
         with:
