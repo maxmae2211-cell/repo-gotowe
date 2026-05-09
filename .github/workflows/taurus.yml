@@ -20,12 +20,12 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  python -m venv .venv
-                  .venv\Scripts\pip.exe install -r requirements.txt
+                  python -m pip install --upgrade pip setuptools wheel
+                  python -m pip install -r requirements.txt
 
             - name: Generate Taurus report
               run: |
-                  .venv\Scripts\python.exe generate_report.py --output taurus-locust-report.html
+                  python generate_report.py --output taurus-locust-report.html
 
             - name: Upload Taurus report
               if: always()
