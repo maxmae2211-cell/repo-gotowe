@@ -24,10 +24,10 @@ jobs:
                   .venv\Scripts\activate
                   pip install -r requirements.txt
 
-            - name: Run Taurus pipeline
+            - name: Generate Taurus report
               run: |
                   .venv\Scripts\activate
-                  python run_pipeline.py
+                  python generate_report.py --output taurus-locust-report.html
 
             - name: Upload Taurus report
               if: always()

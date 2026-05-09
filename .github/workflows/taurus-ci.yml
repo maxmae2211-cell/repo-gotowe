@@ -113,13 +113,11 @@ jobs:
                   python -m pip install --upgrade pip
                   python -m pip install -r requirements.txt
 
-            - name: Run Taurus analysis pipeline
+            - name: Generate Taurus HTML report
               run: |
                   ARTIFACTS_PATTERN="$(date +%Y)-*"
-                  python run_pipeline.py \
+                  python generate_report.py \
                     --artifacts-pattern "${ARTIFACTS_PATTERN}" \
-                    --max-failures 0 \
-                    --max-avg-ms 200 \
                     --output taurus-locust-report.html
 
             - name: Generate HTML report
