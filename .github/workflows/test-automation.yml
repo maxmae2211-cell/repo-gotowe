@@ -110,7 +110,7 @@ jobs:
 
             - name: Upload API Test Results
               if: always()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: api-test-results-worker-${{ matrix.worker-index }}
                   path: |
@@ -174,7 +174,7 @@ jobs:
 
             - name: Upload JMeter Results
               if: always()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: jmeter-test-results
                   path: |
@@ -242,7 +242,7 @@ jobs:
 
             - name: Upload K6 Results
               if: always()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: k6-test-results
                   path: |
