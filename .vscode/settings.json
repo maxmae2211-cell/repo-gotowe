@@ -37,5 +37,19 @@
     "azureFunctions.projectLanguageModel": 4,
     "azureFunctions.preDeployTask": "npm prune (functions)",
     "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "cSpell.words": [
+        "agent",
+        "branch",
+        "Checkpoint",
+        "cloud",
+        "Code",
+        "date",
+        "enter",
+        "from",
+        "ignored",
+        "Lines",
+        "Please",
+        "session"
+    ]
 }
