@@ -28,12 +28,17 @@ jobs:
                   python -m pip install --upgrade pip
                   python -m pip install -r requirements.txt
 
-            - name: Generate Taurus HTML report
+            - name: Validate pipeline with fixture JTL
               run: |
-                  ARTIFACTS_PATTERN="$(date +%Y)-*"
-                  python generate_report.py \
-                    --artifacts-pattern "${ARTIFACTS_PATTERN}" \
+                  python run_pipeline.py \
+                    --jtl tests/fixtures/sample.jtl \
+                    --max-failures 0 \
+                    --max-avg-ms 200 \
                     --output taurus-locust-report.html
+
+            - name: Run pytest
+              run: |
+                  python -m pytest tests/ -v
 
             - name: Upload HTML report artifact
               uses: actions/upload-artifact@v4
