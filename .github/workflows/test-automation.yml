@@ -61,24 +61,40 @@ jobs:
                   python -m pip install --upgrade pip setuptools wheel
                   pip install -r requirements.txt
 
-            - name: Start Mock API Server
-              run: |
-                  $process = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru -ErrorAction SilentlyContinue
-                  Start-Sleep -Seconds 5
-                  if ($process -and !$process.HasExited) {
-                      Write-Output "✅ Mock API Server started on localhost:8000 (PID: $($process.Id))"
-                  } else {
-                      Write-Output "⚠️ Mock API Server may already be running or failed to start"
-                  }
-              shell: powershell
-              continue-on-error: true
-
             - name: Run API Test Suite (Core)
               id: api-tests
+              shell: powershell
               run: |
-                  python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }} --list
-                  python scripts/run-tests.py --health
-                  python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }}
+                  $mock = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru
+                  try {
+                    $ready = $false
+                    for ($i = 0; $i -lt 15; $i++) {
+                      try {
+                        Invoke-WebRequest -Uri "http://localhost:8000/get" -Method GET -TimeoutSec 2 | Out-Null
+                        $ready = $true
+                        break
+                      }
+                      catch {
+                        Start-Sleep -Seconds 2
+                      }
+                    }
+
+                    if (-not $ready) {
+                      throw "Mock API did not become ready on localhost:8000"
+                    }
+
+                    python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }} --list
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                    python scripts/run-tests.py --health
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                    python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }}
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                  }
+                  finally {
+                    if ($mock -and -not $mock.HasExited) {
+                      Stop-Process -Id $mock.Id -Force -ErrorAction SilentlyContinue
+                    }
+                  }
               continue-on-error: false
 
             - name: Collect Taurus Reports
@@ -124,17 +140,36 @@ jobs:
                   python -m pip install --upgrade pip setuptools wheel
                   pip install -r requirements.txt
 
-            - name: Start Mock API Server
-              run: |
-                  Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow
-                  Start-Sleep -Seconds 5
-                  Write-Output "✅ Mock API Server started"
-              shell: powershell
-
             - name: Run JMeter CRUD Test
               id: jmeter-tests
+              shell: powershell
               run: |
-                  python scripts/run-tests.py --include-jmeter
+                  $mock = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru
+                  try {
+                    $ready = $false
+                    for ($i = 0; $i -lt 15; $i++) {
+                      try {
+                        Invoke-WebRequest -Uri "http://localhost:8000/get" -Method GET -TimeoutSec 2 | Out-Null
+                        $ready = $true
+                        break
+                      }
+                      catch {
+                        Start-Sleep -Seconds 2
+                      }
+                    }
+
+                    if (-not $ready) {
+                      throw "Mock API did not become ready on localhost:8000"
+                    }
+
+                    python scripts/run-tests.py --include-jmeter
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                  }
+                  finally {
+                    if ($mock -and -not $mock.HasExited) {
+                      Stop-Process -Id $mock.Id -Force -ErrorAction SilentlyContinue
+                    }
+                  }
               continue-on-error: false
 
             - name: Upload JMeter Results
@@ -173,17 +208,36 @@ jobs:
               run: choco install k6 -y
               shell: powershell
 
-            - name: Start Mock API Server
-              run: |
-                  Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow
-                  Start-Sleep -Seconds 5
-                  Write-Output "✅ Mock API Server started"
-              shell: powershell
-
             - name: Run K6 Test
               id: k6-tests
+              shell: powershell
               run: |
-                  python scripts/run-tests.py --include-k6
+                  $mock = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru
+                  try {
+                    $ready = $false
+                    for ($i = 0; $i -lt 15; $i++) {
+                      try {
+                        Invoke-WebRequest -Uri "http://localhost:8000/get" -Method GET -TimeoutSec 2 | Out-Null
+                        $ready = $true
+                        break
+                      }
+                      catch {
+                        Start-Sleep -Seconds 2
+                      }
+                    }
+
+                    if (-not $ready) {
+                      throw "Mock API did not become ready on localhost:8000"
+                    }
+
+                    python scripts/run-tests.py --include-k6
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                  }
+                  finally {
+                    if ($mock -and -not $mock.HasExited) {
+                      Stop-Process -Id $mock.Id -Force -ErrorAction SilentlyContinue
+                    }
+                  }
               continue-on-error: false
 
             - name: Upload K6 Results
