@@ -35,6 +35,8 @@ Jeśli potrzebujesz szczegółowego logowania, użyj trybu zaawansowanego:
 bzt test-advanced.yml -v
 ```
 
+Tryb zaawansowany oznacza bezpośrednie uruchomienie `bzt`, np. gdy chcesz użyć opcji CLI (`-v`, `-q`, `-o ...`), których skrypt wrapper domyślnie nie wystawia.
+
 ## Krok 4: Test z Locust
 
 Najpierw zainstaluj Locust:
@@ -57,7 +59,7 @@ Następnie uruchom:
 .\scripts\run-taurus.ps1 -Mode standard
 ```
 
-Następnie, jeśli potrzebujesz nadpisania parametru tylko na jedno uruchomienie:
+Alternatywnie, jeśli potrzebujesz nadpisania parametru tylko na jedno uruchomienie:
 
 ```powershell
 bzt -o execution.0.concurrency=20 test-api.yml
@@ -69,7 +71,7 @@ bzt -o execution.0.concurrency=20 test-api.yml
 .\scripts\run-taurus.ps1 -Mode standard
 ```
 
-Następnie, jeśli potrzebujesz nadpisania parametru tylko na jedno uruchomienie:
+Alternatywnie, jeśli potrzebujesz nadpisania parametru tylko na jedno uruchomienie:
 
 ```powershell
 bzt -o execution.0.hold-for=5m test-api.yml
