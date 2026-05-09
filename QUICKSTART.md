@@ -8,10 +8,13 @@ $env:Path += ";C:\Users\maxma\AppData\Roaming\Python\Python311\Scripts"
 
 ## Krok 2: Uruchomienie pierwszego testu
 
+> Dla spójności używaj skryptu `scripts/run-taurus.ps1`.  
+> Bezpośrednie `bzt ...` traktuj jako tryb zaawansowany.
+
 Najprostszy test API:
 
 ```powershell
-bzt test-api.yml
+.\scripts\run-taurus.ps1 -Mode standard
 ```
 
 Czekaj aż test się zakończy. Zobaczysz:
@@ -23,10 +26,14 @@ Czekaj aż test się zakończy. Zobaczysz:
 ## Krok 3: Bardziej zaawansowany test
 
 ```powershell
-bzt test-advanced.yml -v
+.\scripts\run-taurus.ps1 -Mode standard -Config test-advanced.yml
 ```
 
-Flaga `-v` pokazuje więcej szczegółów (verbose).
+Jeśli potrzebujesz szczegółowego logowania, użyj trybu zaawansowanego:
+
+```powershell
+bzt test-advanced.yml -v
+```
 
 ## Krok 4: Test z Locust
 
@@ -39,7 +46,7 @@ pip install locust --user
 Następnie uruchom:
 
 ```powershell
-bzt test-locust.yml
+.\scripts\run-taurus.ps1 -Mode standard -Config test-locust.yml
 ```
 
 ## Poglądowe komendy
@@ -47,10 +54,22 @@ bzt test-locust.yml
 ### Zmień liczbę użytkowników dynamicznie:
 
 ```powershell
+.\scripts\run-taurus.ps1 -Mode standard
+```
+
+Następnie, jeśli potrzebujesz nadpisania parametru tylko na jedno uruchomienie:
+
+```powershell
 bzt -o execution.0.concurrency=20 test-api.yml
 ```
 
 ### Zmień czas trwania testu:
+
+```powershell
+.\scripts\run-taurus.ps1 -Mode standard
+```
+
+Następnie, jeśli potrzebujesz nadpisania parametru tylko na jedno uruchomienie:
 
 ```powershell
 bzt -o execution.0.hold-for=5m test-api.yml
@@ -68,7 +87,7 @@ bzt -v test-api.yml
 bzt -q test-api.yml
 ```
 
-## Gdzie najcz częściej się robi błędy?
+## Gdzie najczęściej pojawiają się błędy?
 
 1. **Zły URL** - upewnij się że API jest dostępne
 2. **Brak certyfikatu SSL** - dodaj `disable: true` do ustawień SSL
