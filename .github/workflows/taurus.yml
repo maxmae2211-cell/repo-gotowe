@@ -21,13 +21,11 @@ jobs:
             - name: Install dependencies
               run: |
                   python -m venv .venv
-                  .venv\Scripts\activate
-                  pip install -r requirements.txt
+                  .venv\Scripts\pip.exe install -r requirements.txt
 
             - name: Generate Taurus report
               run: |
-                  .venv\Scripts\activate
-                  python generate_report.py --output taurus-locust-report.html
+                  .venv\Scripts\python.exe generate_report.py --output taurus-locust-report.html
 
             - name: Upload Taurus report
               if: always()

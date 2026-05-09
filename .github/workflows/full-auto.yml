@@ -19,20 +19,16 @@ jobs:
       - name: Install dependencies
         run: |
           python -m venv .venv
-          .venv\Scripts\activate
-          pip install -r requirements.txt
+          .venv\Scripts\pip.exe install -r requirements.txt
       - name: Generate Taurus report
         run: |
-          .venv\Scripts\activate
-          python generate_report.py --output taurus-locust-report.html
+          .venv\Scripts\python.exe generate_report.py --output taurus-locust-report.html
       - name: Run tests (pytest)
         run: |
-          .venv\Scripts\activate
-          pytest
+          .venv\Scripts\pytest.exe
       - name: Run documentation crawler
         run: |
-          .venv\Scripts\activate
-          python vscode_docs_crawler.py
+          .venv\Scripts\python.exe vscode_docs_crawler.py
       - name: Upload ALL_DOCS.md
         uses: actions/upload-artifact@v4
         with:
