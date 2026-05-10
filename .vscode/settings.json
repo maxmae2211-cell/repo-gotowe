@@ -1,6 +1,7 @@
 {
     "python.defaultInterpreterPath": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
     "python.terminal.activateEnvironment": true,
+    "python.terminal.useEnvFile": true,
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "editor.quickSuggestions": {
@@ -37,5 +38,12 @@
     "azureFunctions.projectLanguageModel": 4,
     "azureFunctions.preDeployTask": "npm prune (functions)",
     "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "python-envs.pythonProjects": [
+        {
+            "path": ".github/workflows",
+            "envManager": "ms-python.python:conda",
+            "packageManager": "ms-python.python:conda"
+        }
+    ]
 }

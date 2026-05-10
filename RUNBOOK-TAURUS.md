@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Taurus Runbook (verified on 2026-05-03)
 
 This file captures the currently verified way to run this workspace on Windows.
@@ -150,7 +149,6 @@ If the integrated terminal opens an alternate buffer and does not show full Taur
 3. Validate run progress from the latest Taurus artifacts directory (`2026-*`) using `bzt.log`, `jmeter.log`, `kpi.jtl`, and `error.jtl`.
 4. Treat `Failed to check for updates, server returned 5xx` as non-blocking.
 5. Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
-=======
 # Taurus Runbook (verified on 2026-05-01)
 
 This file captures the currently verified way to run this workspace on Windows.
@@ -350,4 +348,3 @@ If the integrated terminal opens an alternate buffer and does not show full Taur
 3. Validate run progress from the latest Taurus artifacts directory (`2026-*`) using `bzt.log`, `jmeter.log`, `kpi.jtl`, and `error.jtl`.
 4. Treat `Failed to check for updates, server returned 5xx` as non-blocking.
 5. Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
->>>>>>> main

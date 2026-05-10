@@ -156,11 +156,7 @@
             "problemMatcher": []
         },
         {
-<<<<<<< HEAD
-            "label": "Taurus: Support/Production Environment",
-=======
             "label": "Taurus: Test srodowiska Support/Produkcja",
->>>>>>> main
             "type": "shell",
             "command": "powershell",
             "args": [
@@ -178,7 +174,6 @@
             "problemMatcher": []
         },
         {
-<<<<<<< HEAD
             "label": "Taurus: Locust Scenario",
             "type": "shell",
             "command": "powershell",
@@ -269,8 +264,6 @@
             "problemMatcher": []
         },
         {
-=======
->>>>>>> main
             "label": "Auto: gitignore commit+push",
             "type": "shell",
             "command": "powershell",

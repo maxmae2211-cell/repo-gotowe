@@ -80,7 +80,6 @@ pip install selenium --user
 bzt test-selenium.yml
 ```
 
-<<<<<<< HEAD
 ### Test 4: Pozostale scenariusze Taurus
 
 ```powershell
@@ -93,8 +92,6 @@ bzt test-support.yml
 
 W VS Code możesz też użyć gotowych tasków z `.vscode/tasks.json` oraz profili debug z `.vscode/launch.json` dla tych scenariuszy.
 
-=======
->>>>>>> main
 ## Alternatywne narzędzia (poza Taurus)
 
 Repo zawiera też konfiguracje do uruchamiania testów bezpośrednio przez inne narzędzia:

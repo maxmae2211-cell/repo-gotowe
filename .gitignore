@@ -86,7 +86,6 @@ typings/
 yarn-debug.log*
 yarn-error.log*
 
-<<<<<<< HEAD
 # Java/JDK folders
 jdk-21.0.2+13/
 openjdk-21/
@@ -96,5 +95,3 @@ openjdk-21/
 # Local tool distributions
 tools/
 config.json
-=======
->>>>>>> main

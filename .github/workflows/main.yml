@@ -70,7 +70,7 @@ jobs:
                   python -m pip install bzt
 
             - name: Health check - bzt version
-              run: pip show bzt
+              run: python -c "import bzt; print('bzt', bzt.VERSION)"
 
     taurus-load:
         name: Taurus Load Test

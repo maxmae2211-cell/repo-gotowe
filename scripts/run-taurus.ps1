@@ -10,9 +10,34 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
+# --- Skonfiguruj JAVA_HOME zanim uruchomisz Taurus ---
+function Configure-JavaHome {
+    # Sprobuj Microsoft OpenJDK 21 (domyslna instalacja winget)
+    $openJdkPaths = @(
+        "C:\Program Files\OpenJDK\jdk-21*",
+        "C:\Program Files\Microsoft\jdk-21*",
+        "C:\Program Files\Java\jdk-21*"
+    )
+    
+    foreach ($pattern in $openJdkPaths) {
+        $javaHome = Get-Item $pattern -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($javaHome) {
+            $env:JAVA_HOME = $javaHome.FullName
+            $env:PATH = "$($javaHome.FullName)\bin;" + $env:PATH
+            Write-Host "[JAVA] Skonfigurowano JAVA_HOME: $($javaHome.FullName)" -ForegroundColor Green
+            return $true
+        }
+    }
+    
+    Write-Host "[JAVA] Nie znaleziono OpenJDK 21. Ktobal Taurus bedzie korzystal z systemowego Java (jesli dostepne)." -ForegroundColor Yellow
+    return $false
+}
+
+Configure-JavaHome
+
 # --- Sprawdź i zainstaluj Git hooks przy pierwszym uruchomieniu ---
-function Ensure-GitHooks {
-    $hooksDir = Join-Path $repoRoot ".git" "hooks"
+function Install-GitHooksIfNeeded {
+    $hooksDir = Join-Path (Join-Path $repoRoot ".git") "hooks"
     $preCommitHook = Join-Path $hooksDir "pre-commit"
     if (-not (Test-Path $preCommitHook)) {
         Write-Host "[guard-git] Hooki Git nie są zainstalowane." -ForegroundColor Yellow
@@ -26,15 +51,17 @@ function Ensure-GitHooks {
         }
     }
 }
-Ensure-GitHooks
+Install-GitHooksIfNeeded
 # ---------------------------------------------------------------
 
-# Resolve python and bzt from PATH (CI-compatible) or local install fallback
+# Resolve the project Taurus environment first, then PATH/local fallback.
+$projectPython = Join-Path $repoRoot '.venv-taurus\Scripts\python.exe'
+$projectBzt = Join-Path $repoRoot '.venv-taurus\Scripts\bzt.exe'
 $localPython = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe"
 $localBzt = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe"
 
-$python = if (Test-Path $localPython) { $localPython } else { "python" }
-$bztCmd = if (Test-Path $localBzt) { $localBzt } else { $null }
+$python = if (Test-Path $projectPython) { $projectPython } elseif (Test-Path $localPython) { $localPython } else { "python" }
+$bztCmd = if (Test-Path $projectBzt) { $projectBzt } elseif (Test-Path $localBzt) { $localBzt } else { $null }
 
 # Wrap bzt execution: prefer bzt.exe from PATH, then python -m bzt
 function Invoke-Bzt {
@@ -71,7 +98,6 @@ function Assert-Exists([string]$Path, [string]$Label) {
     }
 }
 
-<<<<<<< HEAD
 function Use-JavaForJMeter {
     $localJavaBin = Join-Path $java8 'bin\java.exe'
     $localJvmCfg = Join-Path $java8 'jre\lib\amd64\jvm.cfg'
@@ -109,22 +135,21 @@ function Open-LatestReport {
     }
 }
 
-Assert-Exists $python 'Interpreter Python'
-Assert-Exists $bzt 'Plik wykonywalny Taurusa (bzt)'
-Assert-Exists $configPath 'Plik konfiguracyjny Taurusa'
-
 try {
+    Assert-Exists $python 'Interpreter Python'
+    Assert-Exists $configPath 'Plik konfiguracyjny Taurusa'
+
     switch ($Mode) {
         'health' {
             & $python -V
             & $python -m pip show bzt setuptools pyyaml
             & $python -m pip check
-            & $bzt -h
+            Invoke-Bzt @('-h')
             break
         }
 
         'standard' {
-            & $bzt $configPath
+            Invoke-Bzt @($configPath)
             if ($LASTEXITCODE -eq 0) {
                 Open-LatestReport
             }
@@ -134,7 +159,7 @@ try {
         'jmeter-java8' {
             Write-Host '[Uruchamiam] Test JMeter z Java 8...'
             Use-JavaForJMeter
-            & $bzt $configPath -o execution.0.executor=jmeter
+            Invoke-Bzt @($configPath, '-o', 'execution.0.executor=jmeter')
             if ($LASTEXITCODE -eq 0) {
                 Write-Host '[OK] Test JMeter zakonczony pomyslnie.'
                 Open-LatestReport
@@ -149,12 +174,12 @@ try {
             & $python -m pip check
 
             Write-Host '[2/3] Standard API run...'
-            & $bzt $configPath
+            Invoke-Bzt @($configPath)
             if ($LASTEXITCODE -eq 0) {
                 Write-Host '[2/3] Test API zakonczony pomyslnie.'
                 Write-Host '[3/3] JMeter + Java8 run...'
                 Use-JavaForJMeter
-                & $bzt $configPath -o execution.0.executor=jmeter
+                Invoke-Bzt @($configPath, '-o', 'execution.0.executor=jmeter')
                 if ($LASTEXITCODE -eq 0) {
                     Write-Host '[3/3] Test JMeter zakonczony pomyslnie. Caly potok wykonany!'
                     Write-Host '[4/4] Generuje raport HTML...'
@@ -182,7 +207,10 @@ finally {
     if ($runMutex) {
         $runMutex.ReleaseMutex() | Out-Null
         $runMutex.Dispose()
-=======
+    }
+}
+
+<# Merged conflict alternative retained for reference.
 function Open-LatestReport {
     # Znajdź najnowszy katalog z wynikami Taurusa (format: YYYY-MM-DD_HH-MM-SS.xxxxxx)
     $reportDirs = Get-ChildItem $repoRoot -Directory -ErrorAction SilentlyContinue | 
@@ -199,6 +227,7 @@ function Open-LatestReport {
         }
     }
 }
+#>
 
 Assert-Exists $configPath 'Plik konfiguracyjny Taurusa'
 
@@ -289,6 +318,5 @@ switch ($Mode) {
             exit $exitCode
         }
         break
->>>>>>> main
     }
 }

@@ -38,14 +38,17 @@ if (-not (Test-Command "winget")) {
 
 # ── 2. Python 3.11 ───────────────────────────────────────────
 Write-Host "[1/5] Sprawdzam Python..." -ForegroundColor Yellow
-if (-not (Test-Command "python")) {
+if (-not (Test-Path "C:\Program Files\Python311\python.exe") -and -not (Test-Path "$env:LOCALAPPDATA\Programs\Python\Python311\python.exe")) {
     Write-Host "     Instaluję Python 3.11..." -ForegroundColor Gray
     winget install --id Python.Python.3.11 --silent --accept-package-agreements --accept-source-agreements
     $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH","User")
-} else {
-    $pyVer = python --version 2>&1
-    Write-Host "     OK: $pyVer" -ForegroundColor Green
 }
+$python311 = @(
+    "C:\Program Files\Python311\python.exe",
+    "$env:LOCALAPPDATA\Programs\Python\Python311\python.exe"
+) | Where-Object { Test-Path $_ } | Select-Object -First 1
+if (-not $python311) { throw "Nie znaleziono Python 3.11 po instalacji." }
+Write-Host "     OK: $(& $python311 --version)" -ForegroundColor Green
 
 # ── 3. Java 21 (wymagany przez JMeter/Taurus) ────────────────
 Write-Host "[2/5] Sprawdzam Java..." -ForegroundColor Yellow
@@ -75,7 +78,13 @@ if (-not (Test-Command "git")) {
 Write-Host "[4/5] Instaluję pakiety Python..." -ForegroundColor Yellow
 Set-Location $projectDir
 
-python -m pip install --upgrade pip --quiet
+$venvDir = Join-Path $projectDir '.venv-taurus'
+if (-not (Test-Path (Join-Path $venvDir 'Scripts\python.exe'))) {
+    Write-Host "     Tworzę środowisko .venv-taurus..." -ForegroundColor Gray
+    & $python311 -m venv $venvDir
+}
+$venvPython = Join-Path $venvDir 'Scripts\python.exe'
+& $venvPython -m pip install --upgrade pip setuptools==79.0.1 wheel --quiet
 
 $packages = @(
     "bzt>=1.16.0",
@@ -88,7 +97,7 @@ $packages = @(
 
 foreach ($pkg in $packages) {
     Write-Host "     pip install $pkg" -ForegroundColor Gray
-    python -m pip install $pkg --quiet
+    & $venvPython -m pip install $pkg --quiet
 }
 
 # ── 6. Konfiguracja .env ─────────────────────────────────────
@@ -110,12 +119,12 @@ Write-Host "====================================================" -ForegroundCol
 
 $ok = $true
 
-try { $v = python --version 2>&1; Write-Host "  Python:  $v" -ForegroundColor Green } catch { Write-Host "  Python:  BLAD" -ForegroundColor Red; $ok = $false }
+try { $v = & $venvPython --version 2>&1; Write-Host "  Python:  $v" -ForegroundColor Green } catch { Write-Host "  Python:  BLAD" -ForegroundColor Red; $ok = $false }
 $prevEAP2 = $ErrorActionPreference; $ErrorActionPreference = "Continue"
 $javaCheck = java -version 2>&1 | Select-Object -First 1
 $ErrorActionPreference = $prevEAP2
 if ($javaCheck) { Write-Host "  Java:    $javaCheck" -ForegroundColor Green } else { Write-Host "  Java:    BLAD (Taurus/JMeter nie bedzie dzialac)" -ForegroundColor Yellow }
-try { $v = python -c "import bzt; print(bzt.VERSION)" 2>&1; Write-Host "  Taurus:  $v" -ForegroundColor Green } catch { Write-Host "  Taurus:  BLAD" -ForegroundColor Red; $ok = $false }
+try { $v = & $venvPython -c "import bzt; print(bzt.VERSION)" 2>&1; Write-Host "  Taurus:  $v" -ForegroundColor Green } catch { Write-Host "  Taurus:  BLAD" -ForegroundColor Red; $ok = $false }
 
 Write-Host ""
 if ($ok) {
@@ -129,5 +138,4 @@ if ($ok) {
 }
 
 Write-Host ""
-Write-Host "Nacisnij dowolny klawisz aby zamknac..."
-$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+Write-Host "Instalator zakonczyl dzialanie."

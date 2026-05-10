@@ -50,7 +50,6 @@
             "cwd": "${workspaceFolder}"
         },
         {
-<<<<<<< HEAD
             "name": "Taurus: Uruchom test-gatling.yml",
             "type": "debugpy",
             "request": "launch",
@@ -96,8 +95,6 @@
             "cwd": "${workspaceFolder}"
         },
         {
-=======
->>>>>>> main
             "name": "Taurus: Uruchom test-selenium.yml",
             "type": "debugpy",
             "request": "launch",
@@ -113,7 +110,6 @@
             "cwd": "${workspaceFolder}"
         },
         {
-<<<<<<< HEAD
             "name": "Taurus: Uruchom test-support.yml",
             "type": "debugpy",
             "request": "launch",
@@ -129,8 +125,6 @@
             "cwd": "${workspaceFolder}"
         },
         {
-=======
->>>>>>> main
             "name": "Debug: generate_report",
             "type": "debugpy",
             "request": "launch",
