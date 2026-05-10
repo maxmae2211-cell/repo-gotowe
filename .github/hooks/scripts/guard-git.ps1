@@ -151,7 +151,6 @@ if ($HookType -eq "pre-push" -and $config.block_force_push) {
         $parts = $line -split '\s+'
         if ($parts.Count -lt 4) { continue }
 
-        $localRef = $parts[0]
         $localSha = $parts[1]
         $remoteRef = $parts[2]
         $remoteSha = $parts[3]
