@@ -143,11 +143,30 @@ if ($HookType -eq "pre-receive") {
 }
 
 if ($HookType -eq "pre-push" -and $config.block_force_push) {
-    $currentBranch = git rev-parse --abbrev-ref HEAD 2>$null
-    if ($currentBranch -in $config.protected_branches) {
-        $gitArgs = [System.Environment]::GetCommandLineArgs() -join " "
-        if ($gitArgs -match '--force|-f') {
-            Write-Blocked "force-push to protected branch '$currentBranch' is blocked"
+    $zeroSha = "0000000000000000000000000000000000000000"
+    $pushData = @($input)
+
+    foreach ($line in $pushData) {
+        # stdin format: <local_ref> <local_sha> <remote_ref> <remote_sha>
+        $parts = $line -split '\s+'
+        if ($parts.Count -lt 4) { continue }
+
+        $localRef = $parts[0]
+        $localSha = $parts[1]
+        $remoteRef = $parts[2]
+        $remoteSha = $parts[3]
+
+        if ($remoteRef -notmatch '^refs/heads/') { continue }
+        $branchName = $remoteRef -replace '^refs/heads/', ''
+        if ($branchName -notin $config.protected_branches) { continue }
+
+        # New branch creation / deletion are not force-push cases.
+        if ($remoteSha -eq $zeroSha -or $localSha -eq $zeroSha) { continue }
+
+        # Normal push is fast-forward: remote SHA must be ancestor of local SHA.
+        $mergeBase = git merge-base $remoteSha $localSha 2>$null
+        if ($mergeBase -ne $remoteSha) {
+            Write-Blocked "force-push to protected branch '$branchName' is blocked ($remoteSha -> $localSha)"
             Write-Host "   Use a pull request instead of force-push." -ForegroundColor Cyan
         }
     }
