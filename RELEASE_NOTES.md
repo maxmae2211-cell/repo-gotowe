@@ -1,5 +1,31 @@
 # Release Notes
 
+## 2026-05-10 - PR #25 merge and hook/CI stabilization
+
+### Summary
+
+Main now includes PR #25 (guard-git hooks integration) and follow-up hardening fixes for Windows PowerShell and CI reliability.
+
+### What was delivered
+
+- Merged PR #25 into main, including:
+  - guard-git hooks and config
+  - hooks installer
+  - hooks test suite (Pester)
+  - hook validation workflow
+- Fixed Taurus wrapper and hook installer path handling in PowerShell.
+- Removed UTF-8 BOM from generated hook files to preserve executable shebang behavior.
+- Fixed pre-push hook logic to block only true non-fast-forward updates on protected branches.
+
+### Validation
+
+- `main.yml` run #31 on main: success.
+- Passing jobs:
+  - Validate & Lint
+  - Taurus Health Check
+  - Taurus Load Test
+- Local health smoke test passed: `scripts/run-taurus.ps1 -Mode health`.
+
 ## 2026-05-10 - CI and Taurus Stability Update
 
 ### Summary
