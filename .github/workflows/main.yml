@@ -29,7 +29,7 @@ jobs:
 
             - name: Validate YAML configs
               run: |
-                  python -c "
+                  python - << 'EOF'
                   import yaml, glob, sys
                   files = glob.glob('*.yml') + glob.glob('*.yaml') + glob.glob('tests/**/*.yml', recursive=True)
                   errors = []
@@ -37,13 +37,13 @@ jobs:
                       try:
                           yaml.safe_load(open(f))
                       except yaml.YAMLError as e:
-                          errors.append(f'{f}: {e}')
+                          errors.append('{}: {}'.format(f, e))
                   if errors:
                       print('YAML errors:')
                       for e in errors: print(e)
                       sys.exit(1)
-                  print(f'All {len(files)} YAML files valid')
-                  "
+                  print('All {} YAML files valid'.format(len(files)))
+                  EOF
 
     taurus-health:
         name: Taurus Health Check
@@ -68,8 +68,8 @@ jobs:
                   python -m pip install --upgrade pip
                   python -m pip install bzt
 
-            - name: Health check — bzt version
-              run: bzt --version
+            - name: Health check - bzt version
+              run: python -c "import bzt; print('bzt', bzt.VERSION)"
 
     taurus-load:
         name: Taurus Load Test
