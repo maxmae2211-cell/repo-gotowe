@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-05-10 (Post-merge stabilization)
+
+### Added
+
+- Merged guard-git hooks integration from PR #25 into main (hooks, tests, validation workflow).
+
+### Fixed
+
+- Fixed PowerShell path composition in Taurus wrapper and hooks installer (`Join-Path` compatibility).
+- Updated hooks installer to write hook files as UTF-8 without BOM, preventing shebang execution issues.
+- Stabilized guard-git script parsing and runtime behavior on Windows PowerShell.
+- Corrected pre-push force-push detection to use stdin refs and non-fast-forward detection.
+
+### Validation
+
+- Main workflow `main.yml` run #31 completed with success on main.
+- Jobs passed: Validate & Lint, Taurus Health Check, Taurus Load Test.
+- Local smoke test passed: `scripts/run-taurus.ps1 -Mode health`.
+
 ## 2026-05-10
 
 ### Fixed
