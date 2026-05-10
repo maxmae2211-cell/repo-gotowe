@@ -9,6 +9,7 @@ on:
 
 env:
     PYTHON_VERSION: "3.10"
+    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
     validate:
@@ -69,7 +70,7 @@ jobs:
                   python -m pip install bzt
 
             - name: Health check - bzt version
-              run: python -c "import bzt; print('bzt', bzt.VERSION)"
+              run: pip show bzt
 
     taurus-load:
         name: Taurus Load Test
