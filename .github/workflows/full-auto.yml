@@ -2,9 +2,9 @@ name: Full Automation Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -41,22 +41,6 @@ jobs:
         with:
           name: TaurusReport
           path: taurus-locust-report.html
-      - name: Send e-mail notification
-        continue-on-error: true
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Taurus pipeline: ${{ job.status }}"
-          to: ${{ secrets.MAIL_TO }}
-          from: ${{ secrets.MAIL_USERNAME }}
-          body: |
-            Wynik workflow: ${{ job.status }}
-            Repo: ${{ github.repository }}
-            Commit: ${{ github.sha }}
-            Szczegóły: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   test-ubuntu:
     runs-on: ubuntu-latest
@@ -86,22 +70,6 @@ jobs:
         with:
           name: TaurusReport
           path: taurus-locust-report.html
-      - name: Send e-mail notification
-        continue-on-error: true
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Taurus pipeline: ${{ job.status }}"
-          to: ${{ secrets.MAIL_TO }}
-          from: ${{ secrets.MAIL_USERNAME }}
-          body: |
-            Wynik workflow: ${{ job.status }}
-            Repo: ${{ github.repository }}
-            Commit: ${{ github.sha }}
-            Szczegóły: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   lint:
     runs-on: ubuntu-latest

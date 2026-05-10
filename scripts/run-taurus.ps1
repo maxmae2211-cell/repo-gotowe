@@ -9,6 +9,26 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
+# --- Sprawdź i zainstaluj Git hooks przy pierwszym uruchomieniu ---
+function Ensure-GitHooks {
+    $hooksDir = Join-Path (Join-Path $repoRoot ".git") "hooks"
+    $preCommitHook = Join-Path $hooksDir "pre-commit"
+    if (-not (Test-Path $preCommitHook)) {
+        Write-Host "[guard-git] Hooki Git nie są zainstalowane." -ForegroundColor Yellow
+        $installer = Join-Path (Join-Path (Join-Path $repoRoot ".github") "hooks") "install-hooks.ps1"
+        if (Test-Path $installer) {
+            Write-Host "[guard-git] Uruchamiam instalator hooków..." -ForegroundColor Cyan
+            $psExe = if ($PSVersionTable.PSEdition -eq 'Core') { "pwsh" } else { "powershell" }
+            & $psExe -NoProfile -ExecutionPolicy Bypass -File $installer
+        }
+        else {
+            Write-Warning "[guard-git] Brak instalatora hooków: $installer"
+        }
+    }
+}
+Ensure-GitHooks
+# ---------------------------------------------------------------
+
 # Resolve python and bzt from PATH (CI-compatible) or local install fallback
 $localPython = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\python.exe"
 $localBzt = "C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts\bzt.exe"
@@ -29,7 +49,6 @@ function Invoke-Bzt {
         & $python -m bzt @ExtraArgs
     }
 }
-
 $java8 = Join-Path $repoRoot 'tools/jdk8u482-b08'
 $configPath = Join-Path $repoRoot $Config
 
@@ -65,6 +84,11 @@ switch ($Mode) {
         & $python -m pip show bzt setuptools pyyaml
         & $python -m pip check
         Invoke-Bzt @("-h") | Out-Null
+        $exitCode = $LASTEXITCODE
+        if ($exitCode -ne 0) {
+            Write-Host "[BLAD] Kontrola zdrowia nie powiodla sie. Kod wyjscia: $exitCode"
+            exit $exitCode
+        }
         Write-Host '[OK] Kontrola zdrowia zakonczona.'
         break
     }
@@ -107,6 +131,12 @@ switch ($Mode) {
         & $python -V
         & $python -m pip show bzt setuptools pyyaml
         & $python -m pip check
+        Invoke-Bzt @("-h") | Out-Null
+        $healthExitCode = $LASTEXITCODE
+        if ($healthExitCode -ne 0) {
+            Write-Host "[BLAD] Kontrola zdrowia nie powiodla sie. Kod wyjscia: $healthExitCode"
+            exit $healthExitCode
+        }
         Write-Host '[1/3] Kontrola zdrowia zakonczona.'
 
         Write-Host '[2/3] Standardowy test API...'
