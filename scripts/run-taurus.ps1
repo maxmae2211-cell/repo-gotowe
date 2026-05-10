@@ -12,16 +12,17 @@ Set-Location $repoRoot
 
 # --- Sprawdź i zainstaluj Git hooks przy pierwszym uruchomieniu ---
 function Ensure-GitHooks {
-    $hooksDir = Join-Path $repoRoot ".git" "hooks"
+    $hooksDir = Join-Path (Join-Path $repoRoot ".git") "hooks"
     $preCommitHook = Join-Path $hooksDir "pre-commit"
     if (-not (Test-Path $preCommitHook)) {
         Write-Host "[guard-git] Hooki Git nie są zainstalowane." -ForegroundColor Yellow
-        $installer = Join-Path $repoRoot ".github" "hooks" "install-hooks.ps1"
+        $installer = Join-Path (Join-Path (Join-Path $repoRoot ".github") "hooks") "install-hooks.ps1"
         if (Test-Path $installer) {
             Write-Host "[guard-git] Uruchamiam instalator hooków..." -ForegroundColor Cyan
             $psExe = if ($PSVersionTable.PSEdition -eq 'Core') { "pwsh" } else { "powershell" }
             & $psExe -NoProfile -ExecutionPolicy Bypass -File $installer
-        } else {
+        }
+        else {
             Write-Warning "[guard-git] Brak instalatora hooków: $installer"
         }
     }

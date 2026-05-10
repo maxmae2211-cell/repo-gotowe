@@ -15,9 +15,9 @@
 
 $ErrorActionPreference = "Stop"
 
-$repoRoot  = git rev-parse --show-toplevel
-$hooksDir  = Join-Path $repoRoot ".git" "hooks"
-$sourceDir = Join-Path $repoRoot ".github" "hooks"
+$repoRoot = git rev-parse --show-toplevel
+$hooksDir = Join-Path (Join-Path $repoRoot ".git") "hooks"
+$sourceDir = Join-Path (Join-Path $repoRoot ".github") "hooks"
 
 Write-Host "Instalowanie Git hooks..." -ForegroundColor Cyan
 Write-Host "  Źródło  : $sourceDir" -ForegroundColor Gray
@@ -67,7 +67,8 @@ fi
 function Install-Hook {
     param([string]$Name, [string]$Content)
     $dest = Join-Path $hooksDir $Name
-    Set-Content -Path $dest -Value $Content -Encoding utf8 -NoNewline
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($dest, $Content, $utf8NoBom)
     # chmod +x na systemach Unix
     if ($IsLinux -or $IsMacOS) {
         chmod +x $dest
@@ -82,8 +83,9 @@ Install-Hook "pre-push"    $prePushWrapper
 # pre-receive jest hookiem server-side — zapisz do katalogu hooks jako plik informacyjny
 # (nie instalujemy go automatycznie do .git/hooks, bo działa tylko na serwerze)
 $preReceiveDest = Join-Path $hooksDir "pre-receive.server-sample"
-Set-Content -Path $preReceiveDest -Value $preReceiveWrapper -Encoding utf8 -NoNewline
-Write-Host "  ℹ️  pre-receive.server-sample (wzorzec dla serwera — skopiuj ręcznie do hooks/ na serwerze)" -ForegroundColor DarkYellow
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText($preReceiveDest, $preReceiveWrapper, $utf8NoBom)
+Write-Host "[INFO] pre-receive.server-sample (wzorzec dla serwera - skopiuj recznie do hooks/ na serwerze)" -ForegroundColor DarkYellow
 
 Write-Host ""
 Write-Host "Gotowe! Hooks zainstalowane w: $hooksDir" -ForegroundColor Green
