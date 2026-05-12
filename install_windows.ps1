@@ -77,18 +77,36 @@ Set-Location $projectDir
 
 python -m pip install --upgrade pip --quiet
 
-$packages = @(
-    "bzt>=1.16.0",
-    "python-dotenv>=1.0.0",
-    "requests>=2.32.0",
-    "pyyaml>=6.0",
-    "pytest",
-    "httpx"
-)
-
-foreach ($pkg in $packages) {
-    Write-Host "     pip install $pkg" -ForegroundColor Gray
-    python -m pip install $pkg --quiet
+$requirementsFile = Join-Path $projectDir "requirements.txt"
+if (Test-Path $requirementsFile) {
+    Write-Host "     pip install -r requirements.txt" -ForegroundColor Gray
+    python -m pip install -r $requirementsFile --quiet
+} else {
+    # Fallback — pelna lista pakietow
+    $packages = @(
+        "bzt>=1.16.0",
+        "urwid==3.0.3",
+        "selenium>=4.0",
+        "requests>=2.32.0",
+        "pyyaml>=6.0",
+        "pytest",
+        "yt-dlp",
+        "beautifulsoup4",
+        "python-dotenv>=1.0.0",
+        "ccxt>=4.0.0",
+        "fastapi>=0.110.0",
+        "uvicorn>=0.29.0",
+        "debugpy>=1.8.0",
+        "agent-dev-cli",
+        "locust>=2.24.0",
+        "robotframework>=7.0.0",
+        "robotframework-requests>=0.9.7",
+        "httpx"
+    )
+    foreach ($pkg in $packages) {
+        Write-Host "     pip install $pkg" -ForegroundColor Gray
+        python -m pip install $pkg --quiet
+    }
 }
 
 # ── 6. Konfiguracja .env ─────────────────────────────────────
