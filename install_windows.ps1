@@ -147,5 +147,20 @@ if ($ok) {
 }
 
 Write-Host ""
+
+# ── Tworzenie skrótu na pulpicie do uruchamiania testów Taurus ──
+$desktop = [Environment]::GetFolderPath('Desktop')
+$shortcutPath = Join-Path $desktop "Uruchom Taurus Test.lnk"
+$targetScript = Join-Path $projectDir "scripts\\run-taurus.ps1"
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut($shortcutPath)
+$shortcut.TargetPath = "powershell.exe"
+$shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$targetScript`" -Mode standard -Config test-api.yml"
+$shortcut.WorkingDirectory = $projectDir
+$shortcut.WindowStyle = 1
+$shortcut.IconLocation = "$env:SystemRoot\System32\shell32.dll,1"
+$shortcut.Save()
+Write-Host "Skrót 'Uruchom Taurus Test' został utworzony na pulpicie." -ForegroundColor Green
+
 Write-Host "Nacisnij dowolny klawisz aby zamknac..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
