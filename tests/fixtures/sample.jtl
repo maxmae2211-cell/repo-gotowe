@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1746100000000,120,GET /posts,200,OK,Thread Group 1-1,text,true,,1024,256,1,1,https://jsonplaceholder.typicode.com/posts,115,0,10
+1746100001000,95,GET /posts/1,200,OK,Thread Group 1-1,text,true,,512,128,1,1,https://jsonplaceholder.typicode.com/posts/1,90,0,8
+1746100002000,150,GET /posts/2,200,OK,Thread Group 1-2,text,true,,512,128,1,2,https://jsonplaceholder.typicode.com/posts/2,145,0,9
+1746100003000,80,GET /users,200,OK,Thread Group 1-2,text,true,,2048,256,1,2,https://jsonplaceholder.typicode.com/users,75,0,7
+1746100004000,200,GET /comments,200,OK,Thread Group 1-1,text,true,,4096,512,1,2,https://jsonplaceholder.typicode.com/comments,195,0,12
+1746100005000,110,GET /todos,200,OK,Thread Group 1-1,text,true,,1024,256,1,2,https://jsonplaceholder.typicode.com/todos,105,0,8
+1746100006000,130,POST /posts,201,Created,Thread Group 1-2,text,true,,256,512,1,2,https://jsonplaceholder.typicode.com/posts,125,0,11
+1746100007000,90,GET /posts/3,200,OK,Thread Group 1-1,text,true,,512,128,1,2,https://jsonplaceholder.typicode.com/posts/3,85,0,7
+1746100008000,175,GET /albums,200,OK,Thread Group 1-2,text,true,,2048,256,1,2,https://jsonplaceholder.typicode.com/albums,170,0,10
+1746100009000,105,GET /photos/1,200,OK,Thread Group 1-1,text,true,,1024,256,1,2,https://jsonplaceholder.typicode.com/photos/1,100,0,9
