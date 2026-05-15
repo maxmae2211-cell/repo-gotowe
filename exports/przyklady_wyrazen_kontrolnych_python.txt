@@ -1,0 +1,52 @@
+# Przykłady wyrażeń kontrolnych w Pythonie
+
+## 1. Instrukcja warunkowa if/elif/else
+```python
+x = 10
+if x > 0:
+    print("Liczba dodatnia")
+elif x == 0:
+    print("Zero")
+else:
+    print("Liczba ujemna")
+```
+
+## 2. Pętla for
+```python
+for i in range(5):
+    print(i)
+```
+
+## 3. Pętla while
+```python
+n = 3
+while n > 0:
+    print(n)
+    n -= 1
+```
+
+## 4. Obsługa wyjątków (try/except/finally)
+```python
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Dzielenie przez zero!")
+finally:
+    print("Koniec operacji.")
+```
+
+## 5. Wyrażenie match/case (Python 3.10+)
+```python
+status = 404
+match status:
+    case 200:
+        print("OK")
+    case 404:
+        print("Nie znaleziono")
+    case _:
+        print("Inny kod")
+```
+
+---
+
+> Przykłady można wykorzystać w dowolnym projekcie Python. Jeśli chcesz analogiczne przykłady dla innego języka, daj znać!
