@@ -1,0 +1,11 @@
+# zadania-aktualizacja.txt — kolejka zadań dla Pracownik5 (Specjalista Aktualizacji)
+# Każda linia = jedno zadanie. Linie zaczynające się od # są ignorowane.
+# Uruchom: python pracownik5.py
+# Szkolenie: python pracownik5.py --szkolenie
+
+# === Sprint 1: Audyt i analiza projektu ===
+Przejrzyj typowy plik requirements.txt projektu Python (openai, requests, python-dotenv) i podaj które biblioteki warto zaktualizować i dlaczego. Podaj konkretne komendy pip.
+Wylistuj 5 najważniejszych zmian w bibliotece openai między wersją 0.x a 1.x i opisz co wymaga migracji w kodzie.
+Zaproponuj plan Sprint 1 dla autonomicznego agenta AI: 5 zadań technicznych z priorytetem i szacunkiem czasowym.
+Opisz dobre praktyki zarządzania wersjami bibliotek w projekcie Python (pinning, ranges, lock files) z przykładami.
+Napisz gotowy skrypt Python (15-20 linii) który sprawdza czy zainstalowane biblioteki są aktualne używając pip list --outdated.

@@ -1,424 +1,503 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Windows: Zainstaluj wymagania systemowe (Java + VC++)",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/install-prerequisites.ps1"
-            ],
-            "group": "build",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Taurus: Kontrola zdrowia",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "health"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Standardowy test API",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "standard"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: JMeter + Java8",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "jmeter-java8"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Pelny potok (Health + Standard + JMeter)",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "pipeline"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Standardowy test (konfiguracja zaawansowana)",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "standard",
-                "-Config",
-                "test-advanced.yml"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Kontrola zdrowia (konfiguracja zaawansowana)",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "health",
-                "-Config",
-                "test-advanced.yml"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Test JMeter + Java8 (konfiguracja zaawansowana)",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "jmeter-java8",
-                "-Config",
-                "test-advanced.yml"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Pelny potok (konfiguracja zaawansowana)",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "pipeline",
-                "-Config",
-                "test-advanced.yml"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Taurus: Test srodowiska Support/Produkcja",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/run-taurus.ps1",
-                "-Mode",
-                "standard",
-                "-Config",
-                "test-support.yml"
-            ],
-            "group": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "Auto: gitignore commit+push",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\scripts\\auto-gitignore.ps1",
-                "-Branch",
-                "qq",
-                "-Message",
-                "Update .gitignore"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "PR: open compare qq -> main",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-Command",
-                "Start-Process 'https://github.com/maxmae2211-cell/repo-gotowe/compare/main...qq'"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Auto: gitignore commit+push + open PR",
-            "dependsOn": [
-                "Auto: gitignore commit+push",
-                "PR: open compare qq -> main"
-            ],
-            "dependsOrder": "sequence",
-            "problemMatcher": []
-        },
-        {
-            "label": "git status",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/git-status.ps1"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Auto: commit + push wszystko",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-Command",
-                "git add -A; git commit -m 'Automatyczny commit przez task'; git push origin qq"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "git branch",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/git-branch.ps1"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "type": "func",
-            "label": "func: host start",
-            "command": "host start",
-            "problemMatcher": "$func-node-watch",
-            "isBackground": true,
-            "dependsOn": "npm install (functions)"
-        },
-        {
-            "type": "shell",
-            "label": "npm install (functions)",
-            "command": "npm install"
-        },
-        {
-            "type": "shell",
-            "label": "npm prune (functions)",
-            "command": "npm prune --production",
-            "problemMatcher": []
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build",
-            "platform": "node",
-            "dockerBuild": {
-                "dockerfile": "${workspaceFolder}/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: release",
-            "dependsOn": [
-                "docker-build"
-            ],
-            "platform": "node"
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build"
-            ],
-            "dockerRun": {
-                "env": {
-                    "DEBUG": "*",
-                    "NODE_ENV": "development"
-                }
-            },
-            "node": {
-                "enableDebugging": true
-            }
-        },
-        {
-            "label": "VS Code: Restart i powrot do projektu",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}/scripts/restart-vscode.ps1"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Agent Inspector: Validate prerequisites",
-            "type": "aitk",
-            "command": "debug-check-prerequisites",
-            "args": {
-                "portOccupancy": [
-                    5679,
-                    8088
-                ]
-            }
-        },
-        {
-            "label": "Agent Inspector: Run HTTP Server",
-            "type": "shell",
-            "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} --verbose --port 8088 -- --server",
-            "isBackground": true,
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "dependsOn": [
-                "Agent Inspector: Validate prerequisites"
-            ],
-            "problemMatcher": {
-                "pattern": [
-                    {
-                        "regexp": "^.*$",
-                        "file": 0,
-                        "location": 1,
-                        "message": 2
-                    }
-                ],
-                "background": {
-                    "activeOnStart": true,
-                    "beginsPattern": ".*",
-                    "endsPattern": "Application startup complete|running on|Started server process"
-                }
-            }
-        },
-        {
-            "label": "Agent Inspector: Open Inspector",
-            "type": "shell",
-            "command": "echo '${input:openAgentInspector}'",
-            "presentation": {
-                "reveal": "never"
-            },
-            "dependsOn": [
-                "Agent Inspector: Run HTTP Server"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Agent Inspector: Run CLI",
-            "type": "shell",
-            "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} -- --cli",
-            "isBackground": true,
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": {
-                "pattern": [
-                    {
-                        "regexp": "^.*$",
-                        "file": 0,
-                        "location": 1,
-                        "message": 2
-                    }
-                ],
-                "background": {
-                    "activeOnStart": true,
-                    "beginsPattern": ".*",
-                    "endsPattern": "Application startup complete|running on|Started server process"
-                }
-            }
-        },
-        {
-            "label": "Agent Inspector: Terminate All Tasks",
-            "type": "shell",
-            "command": "echo ${input:terminateAgentTasks}",
-            "problemMatcher": []
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Windows: Zainstaluj wymagania systemowe (Java + VC++)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/install-prerequisites.ps1"
+      ],
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Taurus: Kontrola zdrowia",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "health"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Standardowy test API",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: JMeter + Java8",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "jmeter-java8"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Pelny potok (Health + Standard + JMeter)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "pipeline"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Standardowy test (konfiguracja zaawansowana)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-advanced.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Kontrola zdrowia (konfiguracja zaawansowana)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "health",
+        "-Config",
+        "test-advanced.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Test JMeter + Java8 (konfiguracja zaawansowana)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "jmeter-java8",
+        "-Config",
+        "test-advanced.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Pelny potok (konfiguracja zaawansowana)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "pipeline",
+        "-Config",
+        "test-advanced.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Test srodowiska Support/Produkcja",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-support.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Locust Scenario",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-locust.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Selenium Scenario",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-selenium.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Gatling Scenario",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-gatling.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: k6 Scenario",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-k6.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Taurus: Robot Framework Scenario",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/run-taurus.ps1",
+        "-Mode",
+        "standard",
+        "-Config",
+        "test-robot.yml"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Auto: gitignore commit+push",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\auto-gitignore.ps1",
+        "-Branch",
+        "qq",
+        "-Message",
+        "Update .gitignore"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "PR: open compare qq -> main",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Start-Process 'https://github.com/maxmae2211-cell/repo-gotowe/compare/main...qq'"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Auto: gitignore commit+push + open PR",
+      "dependsOn": [
+        "Auto: gitignore commit+push",
+        "PR: open compare qq -> main"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "git status",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/git-status.ps1"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Auto: commit + push wszystko",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "git add -A; git commit -m 'Automatyczny commit przez task'; git push origin qq"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "git branch",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/git-branch.ps1"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "type": "func",
+      "label": "func: host start",
+      "command": "host start",
+      "problemMatcher": "$func-node-watch",
+      "isBackground": true,
+      "dependsOn": "npm install (functions)"
+    },
+    {
+      "type": "shell",
+      "label": "npm install (functions)",
+      "command": "npm install"
+    },
+    {
+      "type": "shell",
+      "label": "npm prune (functions)",
+      "command": "npm prune --production",
+      "problemMatcher": []
+    },
+    {
+      "type": "docker-build",
+      "label": "docker-build",
+      "platform": "node",
+      "dockerBuild": {
+        "dockerfile": "${workspaceFolder}/Dockerfile",
+        "context": "${workspaceFolder}",
+        "pull": true
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: release",
+      "dependsOn": ["docker-build"],
+      "platform": "node"
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: debug",
+      "dependsOn": ["docker-build"],
+      "dockerRun": {
+        "env": {
+          "DEBUG": "*",
+          "NODE_ENV": "development"
         }
-    ],
-    "inputs": [
-        {
-            "id": "agentEntrypoint",
-            "type": "promptString",
-            "description": "Relative path to the Python agent entrypoint, for example src/agent.py",
-            "default": "src/agent.py"
-        },
-        {
-            "id": "openAgentInspector",
-            "type": "command",
-            "command": "ai-mlstudio.openTestTool",
-            "args": {
-                "triggeredFrom": "tasks",
-                "port": 8088
-            }
-        },
-        {
-            "id": "terminateAgentTasks",
-            "type": "command",
-            "command": "workbench.action.tasks.terminate",
-            "args": "terminateAll"
+      },
+      "node": {
+        "enableDebugging": true
+      }
+    },
+    {
+      "label": "VS Code: Restart i powrot do projektu",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/scripts/restart-vscode.ps1"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent Inspector: Validate prerequisites",
+      "type": "aitk",
+      "command": "debug-check-prerequisites",
+      "args": {
+        "portOccupancy": [5679, 8088]
+      }
+    },
+    {
+      "label": "Agent Inspector: Run HTTP Server",
+      "type": "shell",
+      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} --verbose --port 8088 -- --server",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": ["Agent Inspector: Validate prerequisites"],
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": "^.*$",
+            "file": 0,
+            "location": 1,
+            "message": 2
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Application startup complete|running on|Started server process"
         }
-    ]
+      }
+    },
+    {
+      "label": "Agent Inspector: Open Inspector",
+      "type": "shell",
+      "command": "echo '${input:openAgentInspector}'",
+      "presentation": {
+        "reveal": "never"
+      },
+      "dependsOn": ["Agent Inspector: Run HTTP Server"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent Inspector: Run CLI",
+      "type": "shell",
+      "command": "${command:python.interpreterPath} -m debugpy --listen 127.0.0.1:5679 -m agentdev run ${input:agentEntrypoint} -- --cli",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": "^.*$",
+            "file": 0,
+            "location": 1,
+            "message": 2
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Application startup complete|running on|Started server process"
+        }
+      }
+    },
+    {
+      "label": "Agent Inspector: Terminate All Tasks",
+      "type": "shell",
+      "command": "echo ${input:terminateAgentTasks}",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "agentEntrypoint",
+      "type": "promptString",
+      "description": "Relative path to the Python agent entrypoint, for example src/agent.py",
+      "default": "src/agent.py"
+    },
+    {
+      "id": "openAgentInspector",
+      "type": "command",
+      "command": "ai-mlstudio.openTestTool",
+      "args": {
+        "triggeredFrom": "tasks",
+        "port": 8088
+      }
+    },
+    {
+      "id": "terminateAgentTasks",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
+    }
+  ]
 }
