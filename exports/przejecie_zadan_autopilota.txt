@@ -1,0 +1,19 @@
+# Przejęcie zadań autopilota przez agentów AI (pracownicy)
+
+Od 15.05.2026 wszystkie zadania automatyzacji, raportowania, analizy i aktualizacji w tym repozytorium są wykonywane przez agentów AI (pracownicy):
+
+- **pracownik.py** – ogólne zadania, onboarding, wsparcie użytkownika
+- **pracownik2.py** – analiza testów Taurus, generowanie raportów, rekomendacje
+- **pracownik3.py** – automatyzacja pipeline, integracja z CI/CD
+- **pracownik4.py** – wyszukiwanie, monitoring, alerty
+- **pracownik5.py** – aktualizacje, audyt, szkolenia
+
+Zadania dotychczas obsługiwane przez autopilota (np. generowanie raportów, onboarding, automatyczne taski VS Code, aktualizacje, monitoring) są teraz w pełni realizowane przez powyższych agentów.
+
+## Co to oznacza dla użytkownika?
+- Wszystkie automatyczne działania są wykonywane przez skrypty pracownicy/pracownik*.py
+- Raporty, onboarding, aktualizacje i analizy są generowane automatycznie i dostępne w katalogu exports/
+- Nowe zadania można dodawać do plików zadania.txt, zadania-aktualizacja.txt
+- Wszelkie zmiany i automatyzacje są dokumentowane w raportach agentów
+
+**Status: autopilot wyłączony, kontrolę przejęli agenci AI (pracownicy)**
