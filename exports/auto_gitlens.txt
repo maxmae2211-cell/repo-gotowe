@@ -1,0 +1,22 @@
+# Auto GitLens: dokumentacja i automatyzacja przez agentów AI (pracownicy)
+
+Od 15.05.2026 agenci AI (pracownicy) przejmują również zadania związane z dokumentacją zmian, analizą historii commitów i automatyzacją pracy z rozszerzeniem GitLens w VS Code.
+
+## Co robią pracownicy?
+- Automatycznie generują podsumowania commitów i changelogi na podstawie historii repozytorium (patrz exports/raport_zbiorczy_agentow.txt, exports/changelog.txt)
+- Wspierają analizę autorów, linii i zmian w plikach (integracja z GitLens)
+- Ułatwiają onboarding nowych użytkowników przez automatyczne podpowiedzi GitLens w README i taskach VS Code
+- Przykładowe polecenia i workflow GitLens są dostępne w README oraz exports/gitlens_workflow.txt
+
+## Przykładowy workflow GitLens (do automatycznego użycia przez pracowników)
+
+1. Otwórz plik w VS Code
+2. Najedź kursorem na linię – zobaczysz autora, datę i ostatni commit (GitLens)
+3. Użyj polecenia: `GitLens: Show Commit Search` lub `GitLens: Show File History`
+4. Pracownicy mogą automatycznie wygenerować changelog lub raport z historii pliku:
+   - `git log --oneline -- <plik>`
+   - `git blame <plik>`
+   - `git shortlog -sne`
+5. Raporty i podsumowania są zapisywane w katalogu exports/
+
+**Status: auto GitLens obsługiwany przez agentów AI (pracownicy)**
