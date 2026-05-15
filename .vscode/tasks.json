@@ -42,7 +42,19 @@
         "-ExecutionPolicy",
         "Bypass",
         "-Command",
-        "Write-Host 'Instalacja programów...'; winget install --id=Python.Python.3.10 -e --accept-package-agreements --accept-source-agreements; winget install --id=Git.Git -e --accept-package-agreements --accept-source-agreements; Write-Host 'Instalacja zakończona.'"
+        "Write-Host 'Instalacja programów...'; " +
+        "winget install --id=Google.Chrome -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=7zip.7zip -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Notepad++.Notepad++ -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Docker.DockerDesktop -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Nodejs.Nodejs -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Python.Python.3.10 -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Git.Git -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Microsoft.VisualStudioCode -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Microsoft.AzureCLI -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Microsoft.AzureStorageExplorer -e --accept-package-agreements --accept-source-agreements; " +
+        "winget install --id=Microsoft.PowerShell.Preview -e --accept-package-agreements --accept-source-agreements; " +
+        "Write-Host 'Instalacja zakończona.'"
       ],
       "group": "build",
       "presentation": { "reveal": "always" },
