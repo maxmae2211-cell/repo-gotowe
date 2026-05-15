@@ -33,6 +33,21 @@
       "group": "test",
       "presentation": { "reveal": "always" }
     },
+    {
+      "label": "Auto: Instalacja programów po zakończeniu pracy",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Write-Host 'Instalacja programów...'; winget install --id=Python.Python.3.10 -e --accept-package-agreements --accept-source-agreements; winget install --id=Git.Git -e --accept-package-agreements --accept-source-agreements; Write-Host 'Instalacja zakończona.'"
+      ],
+      "group": "build",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
 {
   "version": "2.0.0",
   "tasks": [
