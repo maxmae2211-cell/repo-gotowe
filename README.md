@@ -15,6 +15,43 @@ Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, anal
 4. Wygeneruj wykresy: `python plot_response_times.py <plik_jtl> <katalog_wyjsciowy>`
 5. Wyślij powiadomienie: `python notify_webhook.py`
 
+## Pracownicy AI (autonomiczne agenty)
+
+W katalogu `pracownicy/` znajduje się zespół agentów AI, którzy automatyzują zadania:
+
+- `pracownik.py` — ogólny agent AI, wykonuje zadania z pliku `zadania.txt`
+- `pracownik2.py` — ekspert Taurus, analiza wyników, RUNBOOK-TAURUS.md
+- `pracownik3.py` — pipeline Taurus, fallback bez AI
+- `pracownik4.py` — finder AI, wykrywa dostępne backendy
+- `pracownik5.py` — specjalista ds. aktualizacji, zadania z `zadania-aktualizacja.txt`
+
+Uruchomienie przykładowe:
+
+```bash
+python pracownicy/pracownik.py
+python pracownicy/pracownik2.py
+python pracownicy/pracownik5.py
+```
+
+Każdy agent ma własny plik zadań i raportów. Szczegóły: `pracownicy/REJESTR.md`.
+
+## Generowanie grafów z wyników
+
+Wyniki testów Taurus (kpi.jtl) można wizualizować:
+
+```bash
+python plot_response_times.py <ścieżka_do_kpi.jtl> <katalog_wyjsciowy>
+# Przykład:
+python plot_response_times.py 2026-05-15_20-56-14.377003/kpi.jtl .
+```
+
+Wygenerowane pliki PNG (hist\_\*.png) pojawią się w katalogu wyjściowym.
+
+## GitLens
+
+Repozytorium rekomenduje rozszerzenie **GitLens** do analizy historii zmian, autorów i pracy zespołowej w VS Code.
+Zalecane: zainstaluj GitLens z Marketplace lub przez `.vscode/extensions.json`.
+
 ## Automatyzacja
 
 - Workflow GitHub Actions: `.github/workflows/generate-report.yml`
@@ -81,6 +118,7 @@ bzt test-selenium.yml
 ```
 
 <<<<<<< HEAD
+
 ### Test 4: Pozostale scenariusze Taurus
 
 ```powershell
@@ -94,7 +132,9 @@ bzt test-support.yml
 W VS Code możesz też użyć gotowych tasków z `.vscode/tasks.json` oraz profili debug z `.vscode/launch.json` dla tych scenariuszy.
 
 =======
->>>>>>> main
+
+> > > > > > > main
+
 ## Alternatywne narzędzia (poza Taurus)
 
 Repo zawiera też konfiguracje do uruchamiania testów bezpośrednio przez inne narzędzia:
