@@ -54,7 +54,11 @@
         "winget install --id=Microsoft.AzureCLI -e --accept-package-agreements --accept-source-agreements; " +
         "winget install --id=Microsoft.AzureStorageExplorer -e --accept-package-agreements --accept-source-agreements; " +
         "winget install --id=Microsoft.PowerShell.Preview -e --accept-package-agreements --accept-source-agreements; " +
-        "Write-Host 'Instalacja zakończona.'"
+        "Write-Host 'Instalacja zakończona.'; " +
+        "Get-Date | Out-File -FilePath exports/auto_install_log.txt -Encoding utf8; " +
+        "'--- LOG AUTO-INSTALACJI ---' | Out-File -FilePath exports/auto_install_log.txt -Append -Encoding utf8; " +
+        "winget list | Out-File -FilePath exports/auto_install_log.txt -Append -Encoding utf8; " +
+        "Write-Host 'Log instalacji zapisany w exports/auto_install_log.txt'"
       ],
       "group": "build",
       "presentation": { "reveal": "always" },
