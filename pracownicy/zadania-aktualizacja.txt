@@ -9,3 +9,10 @@ Wylistuj 5 najważniejszych zmian w bibliotece openai między wersją 0.x a 1.x 
 Zaproponuj plan Sprint 1 dla autonomicznego agenta AI: 5 zadań technicznych z priorytetem i szacunkiem czasowym.
 Opisz dobre praktyki zarządzania wersjami bibliotek w projekcie Python (pinning, ranges, lock files) z przykładami.
 Napisz gotowy skrypt Python (15-20 linii) który sprawdza czy zainstalowane biblioteki są aktualne używając pip list --outdated.
+
+# === Przykładowe zadania demo ===
+Wygeneruj przykładowy changelog na podstawie zmian w requirements.txt.
+Podaj polecenie do aktualizacji wszystkich bibliotek w projekcie.
+Zaproponuj automatyczny workflow do monitorowania nowych wersji bibliotek.
+Napisz podsumowanie aktualizacji w formie komunikatu do zespołu.
+Wygeneruj raport porównujący wersje bibliotek przed i po aktualizacji.
