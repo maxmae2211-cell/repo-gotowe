@@ -49,6 +49,42 @@ Wygenerowane pliki PNG (hist\_\*.png) pojawią się w katalogu wyjściowym.
 
 ## GitLens
 
+## Najczęstsze scenariusze użycia agentów
+
+### pracownik.py (ogólny agent AI)
+
+- Automatyczne powitanie nowego użytkownika
+- Generowanie pomysłów na automatyzację biura
+- Pisanie prostych skryptów Python na żądanie
+- Odpowiadanie na pytania, generowanie tekstów, podsumowania
+
+### pracownik2.py (ekspert Taurus)
+
+- Analiza wyników testów Taurus/JMeter (kpi.jtl)
+- Generowanie wpisów do RUNBOOK-TAURUS.md
+- Sugestie do pull requestów (qq → main)
+- Odpowiedzi na pytania o metryki i wydajność
+
+### pracownik3.py (pipeline Taurus)
+
+- Automatyzacja pipeline: analiza, RUNBOOK, commit+push
+- Działa nawet bez klucza AI (fallback)
+- Obsługa różnych branchy i trybów
+
+### pracownik4.py (finder AI)
+
+- Diagnoza dostępnych backendów AI (OpenAI, Groq, Ollama, LMStudio, Pollinations)
+- Wybór najlepszego providera dla innych agentów
+
+### pracownik5.py (specjalista ds. aktualizacji)
+
+- Audyt i aktualizacja requirements.txt
+- Planowanie sprintów, generowanie zadań technicznych
+- Propozycje dobrych praktyk zarządzania zależnościami
+- Generowanie skryptów do sprawdzania aktualności bibliotek
+
+Każdy agent może być uruchamiany z własnym zadaniem z CLI lub z pliku zadań. Szczegóły i przykłady w katalogu `pracownicy/`.
+
 Repozytorium rekomenduje rozszerzenie **GitLens** do analizy historii zmian, autorów i pracy zespołowej w VS Code.
 Zalecane: zainstaluj GitLens z Marketplace lub przez `.vscode/extensions.json`.
 

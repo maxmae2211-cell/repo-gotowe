@@ -1,3 +1,38 @@
+    {
+      "label": "Pracownik: ogólny agent AI",
+      "type": "shell",
+      "command": "python pracownicy/pracownik.py",
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Pracownik2: analiza Taurus",
+      "type": "shell",
+      "command": "python pracownicy/pracownik2.py",
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Pracownik3: pipeline Taurus",
+      "type": "shell",
+      "command": "python pracownicy/pracownik3.py --pipeline",
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Pracownik5: aktualizacja",
+      "type": "shell",
+      "command": "python pracownicy/pracownik5.py",
+      "group": "build",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "Generuj wykresy Taurus",
+      "type": "shell",
+      "command": "python plot_response_times.py 2026-05-15_20-56-14.377003/kpi.jtl .",
+      "group": "test",
+      "presentation": { "reveal": "always" }
+    },
 {
   "version": "2.0.0",
   "tasks": [
