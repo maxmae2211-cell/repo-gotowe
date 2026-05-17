@@ -94,6 +94,12 @@ Zalecane: zainstaluj GitLens z Marketplace lub przez `.vscode/extensions.json`.
 - Automatyczne powiadomienia: `notify_webhook.py`
 - Analiza wyników: `plot_response_times.py`
 
+## Logi i automaty instalacji
+
+- Logi z automatycznej instalacji programów (winget, PowerShell, itp.) zapisywane są w pliku `exports/auto_install_log.txt`.
+- Katalog `winget-cli/` zawiera pliki narzędzia WinGet i jest ignorowany przez Git (`.gitignore`).
+- Katalogi z wynikami testów Taurus (np. `2026-05-.../`) oraz logi są automatycznie ignorowane przez `.gitignore`.
+
 ## Testy
 
 - `test_generate_report.py` — testuje generowanie raportu HTML

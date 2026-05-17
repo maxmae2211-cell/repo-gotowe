@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # Taurus Runbook (verified on 2026-05-03)
 
 This file captures the currently verified way to run this workspace on Windows.
@@ -53,6 +54,8 @@ Use `execution.0.executor=jmeter` (indexed path), not `execution.executor=jmeter
 - `tools/` is ignored in `.gitignore`.
 - `jmeter.log` is intentionally not tracked.
 - Generated Taurus artifact folders are ignored via timestamp pattern.
+- Logi z auto-instalacji programów (winget, PowerShell) znajdują się w `exports/auto_install_log.txt`.
+- Katalog `winget-cli/` oraz katalogi z wynikami testów (np. `2026-05-.../`) są ignorowane przez `.gitignore`.
 
 ## AI-only policy (zakaz recznego uruchamiania)
 
@@ -107,39 +110,39 @@ Use `-Config` to run a different Taurus scenario without editing the script.
 
 ## VS Code tasks
 
-| Task | Opis |
-| --- | --- |
-| `Taurus: Health Check` | Sprawdza środowisko |
-| `Taurus: Standard API Run` | Uruchamia test-api.yml |
-| `Taurus: JMeter + Java8` | Wymusza JMeter z Java 8 |
-| `Taurus: Full Pipeline` | Health + Standard + JMeter |
-| `Taurus: Standard Advanced Config` | Standard z test-advanced.yml |
-| `Taurus: Health Advanced Config` | Health z test-advanced.yml |
-| `Taurus: JMeter + Java8 Advanced Config` | JMeter z test-advanced.yml |
-| `Taurus: Full Pipeline Advanced Config` | Full pipeline z test-advanced.yml |
-| `Taurus: Support/Production Environment` | Standard z test-support.yml |
-| `Taurus: Locust Scenario` | Standard z test-locust.yml |
-| `Taurus: Selenium Scenario` | Standard z test-selenium.yml |
-| `Taurus: Gatling Scenario` | Standard z test-gatling.yml |
-| `Taurus: k6 Scenario` | Standard z test-k6.yml |
-| `Taurus: Robot Framework Scenario` | Standard z test-robot.yml |
+| Task                                     | Opis                              |
+| ---------------------------------------- | --------------------------------- |
+| `Taurus: Health Check`                   | Sprawdza środowisko               |
+| `Taurus: Standard API Run`               | Uruchamia test-api.yml            |
+| `Taurus: JMeter + Java8`                 | Wymusza JMeter z Java 8           |
+| `Taurus: Full Pipeline`                  | Health + Standard + JMeter        |
+| `Taurus: Standard Advanced Config`       | Standard z test-advanced.yml      |
+| `Taurus: Health Advanced Config`         | Health z test-advanced.yml        |
+| `Taurus: JMeter + Java8 Advanced Config` | JMeter z test-advanced.yml        |
+| `Taurus: Full Pipeline Advanced Config`  | Full pipeline z test-advanced.yml |
+| `Taurus: Support/Production Environment` | Standard z test-support.yml       |
+| `Taurus: Locust Scenario`                | Standard z test-locust.yml        |
+| `Taurus: Selenium Scenario`              | Standard z test-selenium.yml      |
+| `Taurus: Gatling Scenario`               | Standard z test-gatling.yml       |
+| `Taurus: k6 Scenario`                    | Standard z test-k6.yml            |
+| `Taurus: Robot Framework Scenario`       | Standard z test-robot.yml         |
 
 ## VS Code debug profiles (F5)
 
-| Profil | Opis |
-| --- | --- |
-| `Taurus: Uruchom test-api.yml` | Uruchamia bzt test-api.yml |
-| `Taurus: Uruchom test-advanced.yml` | Uruchamia bzt test-advanced.yml |
-| `Taurus: Uruchom test-locust.yml` | Uruchamia bzt test-locust.yml |
-| `Taurus: Uruchom test-gatling.yml` | Uruchamia bzt test-gatling.yml |
-| `Taurus: Uruchom test-k6.yml` | Uruchamia bzt test-k6.yml |
-| `Taurus: Uruchom test-robot.yml` | Uruchamia bzt test-robot.yml |
-| `Taurus: Uruchom test-selenium.yml` | Uruchamia bzt test-selenium.yml |
-| `Taurus: Uruchom test-support.yml` | Uruchamia bzt test-support.yml |
-| `Debug: diagnose-taurus` | Uruchamia diagnose-taurus.py |
-| `Debug: run_pipeline` | Uruchamia run_pipeline.py |
+| Profil                              | Opis                                    |
+| ----------------------------------- | --------------------------------------- |
+| `Taurus: Uruchom test-api.yml`      | Uruchamia bzt test-api.yml              |
+| `Taurus: Uruchom test-advanced.yml` | Uruchamia bzt test-advanced.yml         |
+| `Taurus: Uruchom test-locust.yml`   | Uruchamia bzt test-locust.yml           |
+| `Taurus: Uruchom test-gatling.yml`  | Uruchamia bzt test-gatling.yml          |
+| `Taurus: Uruchom test-k6.yml`       | Uruchamia bzt test-k6.yml               |
+| `Taurus: Uruchom test-robot.yml`    | Uruchamia bzt test-robot.yml            |
+| `Taurus: Uruchom test-selenium.yml` | Uruchamia bzt test-selenium.yml         |
+| `Taurus: Uruchom test-support.yml`  | Uruchamia bzt test-support.yml          |
+| `Debug: diagnose-taurus`            | Uruchamia diagnose-taurus.py            |
+| `Debug: run_pipeline`               | Uruchamia run_pipeline.py               |
 | `Debug: test-locust (bezpośrednio)` | Locust headless, 1 user, 10s, localhost |
-| `Debug: testy jednostkowe (pytest)` | pytest -v --no-header |
+| `Debug: testy jednostkowe (pytest)` | pytest -v --no-header                   |
 
 ## Terminal fallback when output buffer is unstable
 
@@ -149,8 +152,8 @@ If the integrated terminal opens an alternate buffer and does not show full Taur
 2. Validate repository state with `git status --short`.
 3. Validate run progress from the latest Taurus artifacts directory (`2026-*`) using `bzt.log`, `jmeter.log`, `kpi.jtl`, and `error.jtl`.
 4. Treat `Failed to check for updates, server returned 5xx` as non-blocking.
-5. Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
-=======
+5. # Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
+
 # Taurus Runbook (verified on 2026-05-01)
 
 This file captures the currently verified way to run this workspace on Windows.
@@ -314,32 +317,32 @@ Use `-Config` to run a different Taurus scenario without editing the script.
 
 ## VS Code tasks
 
-| Task | Opis |
-| --- | --- |
-| `Taurus: Health Check` | Sprawdza środowisko |
-| `Taurus: Standard API Run` | Uruchamia test-api.yml |
-| `Taurus: JMeter + Java8` | Wymusza JMeter z Java 8 |
-| `Taurus: Full Pipeline` | Health + Standard + JMeter |
-| `Taurus: Health Advanced Config` | Health z test-advanced.yml |
-| `Taurus: Standard Advanced Config` | Standard z test-advanced.yml |
-| `Windows: Zainstaluj wymagania systemowe` | Java + VC++ przez winget |
+| Task                                      | Opis                         |
+| ----------------------------------------- | ---------------------------- |
+| `Taurus: Health Check`                    | Sprawdza środowisko          |
+| `Taurus: Standard API Run`                | Uruchamia test-api.yml       |
+| `Taurus: JMeter + Java8`                  | Wymusza JMeter z Java 8      |
+| `Taurus: Full Pipeline`                   | Health + Standard + JMeter   |
+| `Taurus: Health Advanced Config`          | Health z test-advanced.yml   |
+| `Taurus: Standard Advanced Config`        | Standard z test-advanced.yml |
+| `Windows: Zainstaluj wymagania systemowe` | Java + VC++ przez winget     |
 
 ## VS Code debug profiles (F5)
 
-| Profil | Opis |
-| --- | --- |
-| `Taurus: Uruchom test-api.yml` | Uruchamia bzt test-api.yml |
-| `Taurus: Uruchom test-advanced.yml` | Uruchamia bzt test-advanced.yml |
-| `Taurus: Uruchom test-locust.yml` | Uruchamia bzt test-locust.yml |
-| `Taurus: Uruchom test-selenium.yml` | Uruchamia bzt test-selenium.yml |
-| `Debug: Taurus krok 1 - pip/setuptools/wheel/Cython (wg docs)` | pip install pip/setuptools/wheel/Cython |
-| `Debug: Taurus krok 2 - install bzt (wg docs)` | pip install bzt |
-| `Debug: Taurus krok 3 - pin setuptools==79.0.1 (fix kompatybilności)` | pip install setuptools==79.0.1 |
-| `Debug: Zainstaluj z requirements.txt` | pip install -r requirements.txt |
-| `Debug: diagnose-taurus` | Uruchamia diagnose-taurus.py |
-| `Debug: run_pipeline` | Uruchamia run_pipeline.py |
-| `Debug: test-locust (bezpośrednio)` | Locust headless, 1 user, 10s, localhost |
-| `Debug: testy jednostkowe (pytest)` | pytest -v --no-header |
+| Profil                                                                | Opis                                    |
+| --------------------------------------------------------------------- | --------------------------------------- |
+| `Taurus: Uruchom test-api.yml`                                        | Uruchamia bzt test-api.yml              |
+| `Taurus: Uruchom test-advanced.yml`                                   | Uruchamia bzt test-advanced.yml         |
+| `Taurus: Uruchom test-locust.yml`                                     | Uruchamia bzt test-locust.yml           |
+| `Taurus: Uruchom test-selenium.yml`                                   | Uruchamia bzt test-selenium.yml         |
+| `Debug: Taurus krok 1 - pip/setuptools/wheel/Cython (wg docs)`        | pip install pip/setuptools/wheel/Cython |
+| `Debug: Taurus krok 2 - install bzt (wg docs)`                        | pip install bzt                         |
+| `Debug: Taurus krok 3 - pin setuptools==79.0.1 (fix kompatybilności)` | pip install setuptools==79.0.1          |
+| `Debug: Zainstaluj z requirements.txt`                                | pip install -r requirements.txt         |
+| `Debug: diagnose-taurus`                                              | Uruchamia diagnose-taurus.py            |
+| `Debug: run_pipeline`                                                 | Uruchamia run_pipeline.py               |
+| `Debug: test-locust (bezpośrednio)`                                   | Locust headless, 1 user, 10s, localhost |
+| `Debug: testy jednostkowe (pytest)`                                   | pytest -v --no-header                   |
 
 ## Terminal fallback when output buffer is unstable
 
@@ -350,4 +353,4 @@ If the integrated terminal opens an alternate buffer and does not show full Taur
 3. Validate run progress from the latest Taurus artifacts directory (`2026-*`) using `bzt.log`, `jmeter.log`, `kpi.jtl`, and `error.jtl`.
 4. Treat `Failed to check for updates, server returned 5xx` as non-blocking.
 5. Continue the pipeline only after confirming exit code 0 or equivalent artifact completion.
->>>>>>> main
+   > > > > > > > main

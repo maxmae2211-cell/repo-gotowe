@@ -53,6 +53,7 @@
 .venv-taurus/
 .venv-wsl/
 .tools/
+winget-cli/
 reports/
 .vuepress/dist
 .yarn-integrity
