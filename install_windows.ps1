@@ -77,18 +77,36 @@ Set-Location $projectDir
 
 python -m pip install --upgrade pip --quiet
 
-$packages = @(
-    "bzt>=1.16.0",
-    "python-dotenv>=1.0.0",
-    "requests>=2.32.0",
-    "pyyaml>=6.0",
-    "pytest",
-    "httpx"
-)
-
-foreach ($pkg in $packages) {
-    Write-Host "     pip install $pkg" -ForegroundColor Gray
-    python -m pip install $pkg --quiet
+$requirementsFile = Join-Path $projectDir "requirements.txt"
+if (Test-Path $requirementsFile) {
+    Write-Host "     pip install -r requirements.txt" -ForegroundColor Gray
+    python -m pip install -r $requirementsFile --quiet
+} else {
+    # Fallback — pelna lista pakietow
+    $packages = @(
+        "bzt>=1.16.0",
+        "urwid==3.0.3",
+        "selenium>=4.0",
+        "requests>=2.32.0",
+        "pyyaml>=6.0",
+        "pytest",
+        "yt-dlp",
+        "beautifulsoup4",
+        "python-dotenv>=1.0.0",
+        "ccxt>=4.0.0",
+        "fastapi>=0.110.0",
+        "uvicorn>=0.29.0",
+        "debugpy>=1.8.0",
+        "agent-dev-cli",
+        "locust>=2.24.0",
+        "robotframework>=7.0.0",
+        "robotframework-requests>=0.9.7",
+        "httpx"
+    )
+    foreach ($pkg in $packages) {
+        Write-Host "     pip install $pkg" -ForegroundColor Gray
+        python -m pip install $pkg --quiet
+    }
 }
 
 # ── 6. Konfiguracja .env ─────────────────────────────────────
@@ -129,5 +147,20 @@ if ($ok) {
 }
 
 Write-Host ""
+
+# ── Tworzenie skrótu na pulpicie do uruchamiania testów Taurus ──
+$desktop = [Environment]::GetFolderPath('Desktop')
+$shortcutPath = Join-Path $desktop "Uruchom Taurus Test.lnk"
+$targetScript = Join-Path $projectDir "scripts\\run-taurus.ps1"
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut($shortcutPath)
+$shortcut.TargetPath = "powershell.exe"
+$shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$targetScript`" -Mode standard -Config test-api.yml"
+$shortcut.WorkingDirectory = $projectDir
+$shortcut.WindowStyle = 1
+$shortcut.IconLocation = "$env:SystemRoot\System32\shell32.dll,1"
+$shortcut.Save()
+Write-Host "Skrót 'Uruchom Taurus Test' został utworzony na pulpicie." -ForegroundColor Green
+
 Write-Host "Nacisnij dowolny klawisz aby zamknac..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
