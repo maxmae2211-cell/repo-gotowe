@@ -93,3 +93,7 @@ tools/
 config.json
 =======
 >>>>>>> main
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
