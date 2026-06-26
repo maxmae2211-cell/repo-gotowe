@@ -15,11 +15,90 @@ Repozytorium automatyzuje testy wydajnościowe, generowanie raportów HTML, anal
 4. Wygeneruj wykresy: `python plot_response_times.py <plik_jtl> <katalog_wyjsciowy>`
 5. Wyślij powiadomienie: `python notify_webhook.py`
 
+## Pracownicy AI (autonomiczne agenty)
+
+W katalogu `pracownicy/` znajduje się zespół agentów AI, którzy automatyzują zadania:
+
+- `pracownik.py` — ogólny agent AI, wykonuje zadania z pliku `zadania.txt`
+- `pracownik2.py` — ekspert Taurus, analiza wyników, RUNBOOK-TAURUS.md
+- `pracownik3.py` — pipeline Taurus, fallback bez AI
+- `pracownik4.py` — finder AI, wykrywa dostępne backendy
+- `pracownik5.py` — specjalista ds. aktualizacji, zadania z `zadania-aktualizacja.txt`
+
+Uruchomienie przykładowe:
+
+```bash
+python pracownicy/pracownik.py
+python pracownicy/pracownik2.py
+python pracownicy/pracownik5.py
+```
+
+Każdy agent ma własny plik zadań i raportów. Szczegóły: `pracownicy/REJESTR.md`.
+
+## Generowanie grafów z wyników
+
+Wyniki testów Taurus (kpi.jtl) można wizualizować:
+
+```bash
+python plot_response_times.py <ścieżka_do_kpi.jtl> <katalog_wyjsciowy>
+# Przykład:
+python plot_response_times.py 2026-05-15_20-56-14.377003/kpi.jtl .
+```
+
+Wygenerowane pliki PNG (hist\_\*.png) pojawią się w katalogu wyjściowym.
+
+## GitLens
+
+## Najczęstsze scenariusze użycia agentów
+
+### pracownik.py (ogólny agent AI)
+
+- Automatyczne powitanie nowego użytkownika
+- Generowanie pomysłów na automatyzację biura
+- Pisanie prostych skryptów Python na żądanie
+- Odpowiadanie na pytania, generowanie tekstów, podsumowania
+
+### pracownik2.py (ekspert Taurus)
+
+- Analiza wyników testów Taurus/JMeter (kpi.jtl)
+- Generowanie wpisów do RUNBOOK-TAURUS.md
+- Sugestie do pull requestów (qq → main)
+- Odpowiedzi na pytania o metryki i wydajność
+
+### pracownik3.py (pipeline Taurus)
+
+- Automatyzacja pipeline: analiza, RUNBOOK, commit+push
+- Działa nawet bez klucza AI (fallback)
+- Obsługa różnych branchy i trybów
+
+### pracownik4.py (finder AI)
+
+- Diagnoza dostępnych backendów AI (OpenAI, Groq, Ollama, LMStudio, Pollinations)
+- Wybór najlepszego providera dla innych agentów
+
+### pracownik5.py (specjalista ds. aktualizacji)
+
+- Audyt i aktualizacja requirements.txt
+- Planowanie sprintów, generowanie zadań technicznych
+- Propozycje dobrych praktyk zarządzania zależnościami
+- Generowanie skryptów do sprawdzania aktualności bibliotek
+
+Każdy agent może być uruchamiany z własnym zadaniem z CLI lub z pliku zadań. Szczegóły i przykłady w katalogu `pracownicy/`.
+
+Repozytorium rekomenduje rozszerzenie **GitLens** do analizy historii zmian, autorów i pracy zespołowej w VS Code.
+Zalecane: zainstaluj GitLens z Marketplace lub przez `.vscode/extensions.json`.
+
 ## Automatyzacja
 
 - Workflow GitHub Actions: `.github/workflows/generate-report.yml`
 - Automatyczne powiadomienia: `notify_webhook.py`
 - Analiza wyników: `plot_response_times.py`
+
+## Logi i automaty instalacji
+
+- Logi z automatycznej instalacji programów (winget, PowerShell, itp.) zapisywane są w pliku `exports/auto_install_log.txt`.
+- Katalog `winget-cli/` zawiera pliki narzędzia WinGet i jest ignorowany przez Git (`.gitignore`).
+- Katalogi z wynikami testów Taurus (np. `2026-05-.../`) oraz logi są automatycznie ignorowane przez `.gitignore`.
 
 ## Testy
 
@@ -38,12 +117,17 @@ Projekt przykładowy demonstrujący możliwości narzędzia Taurus do automatyza
 Taurus został już zainstalowany. Aby dodać katalog Scripts do PATH:
 
 ```powershell
-$env:Path += ";C:\Users\maxma\AppData\Roaming\Python\Python311\Scripts"
+$env:Path += ";C:\Users\maxma\AppData\Local\Programs\Python\Python310\Scripts"
 ```
 
 ## Struktura projektu
 
 - **test-api.yml** - Prosty test API (JSONPlaceholder)
+- **test-support.yml** - Test dla środowiska support/production
+- **test-locust.yml** - Scenariusz Taurus z executorem Locust
+- **test-gatling.yml** - Scenariusz Taurus z executorem Gatling
+- **test-k6.yml** - Scenariusz Taurus z executorem k6
+- **test-robot.yml** - Scenariusz Taurus z executorem Robot Framework
 - **test-selenium.py** - Test Selenium (wyszukiwanie Google)
 - **test-selenium.yml** - Konfiguracja dla testu Selenium
 - **test-advanced.yml** - Zaawansowana konfiguracja z wieloma scenariuszami
@@ -74,6 +158,24 @@ pip install selenium --user
 # Uruchom test
 bzt test-selenium.yml
 ```
+
+<<<<<<< HEAD
+
+### Test 4: Pozostale scenariusze Taurus
+
+```powershell
+bzt test-locust.yml
+bzt test-gatling.yml
+bzt test-k6.yml
+bzt test-robot.yml
+bzt test-support.yml
+```
+
+W VS Code możesz też użyć gotowych tasków z `.vscode/tasks.json` oraz profili debug z `.vscode/launch.json` dla tych scenariuszy.
+
+=======
+
+> > > > > > > main
 
 ## Alternatywne narzędzia (poza Taurus)
 

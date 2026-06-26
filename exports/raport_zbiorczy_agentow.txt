@@ -1,0 +1,120 @@
+# Raport zbiorczy z działania agentów AI (pracownicy)
+
+## 1. Analiza wydajności Taurus (pracownik2)
+
+### Podsumowanie testu
+
+| Endpoint                | Średni czas (ms) |
+|------------------------|------------------|
+| /api/user/login        | 189              |
+| /api/products          | 200              |
+| /api/cart/add          | 223              |
+| /api/orders/create     | 240              |
+| /api/payments          | 412 (max 1102)   |
+| /api/inventory         | 245              |
+| /api/notify            | 260              |
+| /api/discount          | 270              |
+| /api/checkout          | 300              |
+| /api/help              | 330              |
+
+#### Najczęstsze błędy
+
+| Kod | Liczba | %      |
+|-----|--------|--------|
+| 500 | 14     | 0,11%  |
+| 503 | 13     | 0,10%  |
+| 403 | 7      | 0,06%  |
+| 404 | 104    | 0,84%  |
+| 502 | 2      | 0,02%  |
+
+#### Wnioski
+- Średni RTT 253 ms jest poniżej SLA 300 ms – dobre.
+- Endpoint `/api/payments` wymaga optymalizacji (max 1102 ms).
+- Błędy 5xx poniżej 1% – monitorować.
+
+---
+
+## 2. Propozycje optymalizacji
+
+1. Profilowanie i optymalizacja kodu (profilery, uproszczenie pętli, usuwanie zbędnych obiektów)
+2. Efektywne zarządzanie zasobami (poolowanie, lazy-init, ograniczenie liczby wątków)
+3. Poprawa cachingu i redukcja zapytań (cache, batch, Redis/Memcached)
+
+---
+
+## 3. Przykładowy mail do zespołu
+
+Cześć Zespół,
+
+Chciałbym podzielić się podsumowaniem wyników ostatniego testu:
+- Test przeprowadzony: [Nazwa testu]
+- Data: [Data]
+- Suma przypadków: 150
+- Sukcesy (OK): 132 – 88 %
+- Niepowodzenia (FAIL): 18 – 12 %
+
+Najczęstsze błędy:
+1. XML‑schema – 7 przypadków
+2. Timeout po 30 s – 5 przypadków
+3. Błędne dane wejściowe – 6 przypadków
+
+Co dalej:
+- Zespół dev skupi się na poprawie schematu XML i rewizji timeoutów.
+- QA przeanalizuje wnioski i przygotuje dodatkową regresję.
+- Plan spotkania sync‑up: jutro, godz. 10:00.
+
+Dzięki za ciężką pracę – wyniki są solidne i wskazują, że jesteśmy na dobrej drodze.
+
+---
+
+## 4. Kod do generowania histogramu czasów odpowiedzi (Python)
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('kpi.jtl', sep=',', dtype={'elapsed': 'int64'}, usecols=['elapsed', 'success', 'label'])
+df = df[df['success'] == 'true']
+plt.figure(figsize=(10, 6))
+sns.histplot(data=df, x='elapsed', bins=50, kde=False, color='steelblue', edgecolor='black')
+plt.title('Histogram czasów odpowiedzi (ms)')
+plt.xlabel('Czas odpowiedzi (ms)')
+plt.ylabel('Ilość żądań')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.savefig('histogram_czasow_odpowiedzi.png', dpi=300)
+```
+
+---
+
+## 5. Polecenie do uruchomienia testu Taurus w trybie pipeline
+
+```bash
+taurus run my_test.yml --pipeline
+# lub krócej:
+taurus run my_test.yml -p
+```
+
+---
+
+## 6. Instrukcje aktualizacji bibliotek Python (pracownik5)
+
+- Sprawdź przestarzałe pakiety:
+  ```bash
+  pip list --outdated
+  ```
+- Aktualizacja do najnowszych wersji:
+  ```bash
+  pip install "openai==0.27.8" "requests==2.31.0" "python-dotenv==1.0.0"
+  ```
+- Aktualizacja wszystkich:
+  ```bash
+  pip list --outdated | awk 'NR>2 {print $1}' | xargs -n1 -I{} pip install --upgrade {}
+  ```
+
+**Uwaga:** Po aktualizacji uruchom testy jednostkowe!
+
+---
+
+> Raport wygenerowany automatycznie przez agentów AI (pracownicy) – 15.05.2026

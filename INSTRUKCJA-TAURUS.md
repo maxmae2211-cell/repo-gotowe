@@ -42,13 +42,13 @@ Taurus to uruchomi i powie Ci:
 3. Wpisz `Tasks: Run Task`
 4. Wybierz jedno z zadań Taurusa:
 
-| Nazwa zadania | Co robi |
-| --- | --- |
-| **Taurus: Kontrola zdrowia** | Sprawdza czy Taurus jest prawidłowo zainstalowany |
-| **Taurus: Standardowy test API** | Uruchamia test na demo API |
-| **Taurus: Test środowiska Support/Produkcja** | Uruchamia test na API support/produkcji |
-| **Taurus: Pelny potok** | Kontrola zdrowia + test standardowy + test JMeter |
-| **Taurus: JMeter + Java8** | Test z silnikiem JMeter (zamiast domyślnego) |
+| Nazwa zadania                                 | Co robi                                           |
+| --------------------------------------------- | ------------------------------------------------- |
+| **Taurus: Kontrola zdrowia**                  | Sprawdza czy Taurus jest prawidłowo zainstalowany |
+| **Taurus: Standardowy test API**              | Uruchamia test na demo API                        |
+| **Taurus: Test środowiska Support/Produkcja** | Uruchamia test na API support/produkcji           |
+| **Taurus: Pelny potok**                       | Kontrola zdrowia + test standardowy + test JMeter |
+| **Taurus: JMeter + Java8**                    | Test z silnikiem JMeter (zamiast domyślnego)      |
 
 ### Opcja B — przez terminal PowerShell
 
@@ -85,15 +85,15 @@ Gdy uruchomisz test, zobaczysz w konsoli tabelę aktualizowaną co kilka sekund:
 
 **Co oznaczają kolumny:**
 
-| Kolumna | Znaczenie |
-| --- | --- |
-| `Conc` | Liczba jednoczesnych użytkowników (concurrency) |
-| `Avg` | Średni czas odpowiedzi serwera |
-| `Perc 90` | 90% żądań trwało krócej niż ta wartość |
-| `Perc 95` | 95% żądań trwało krócej niż ta wartość |
-| `OK` | Liczba udanych żądań |
-| `Fail` | Liczba nieudanych żądań |
-| `Err %` | Procent błędów |
+| Kolumna   | Znaczenie                                       |
+| --------- | ----------------------------------------------- |
+| `Conc`    | Liczba jednoczesnych użytkowników (concurrency) |
+| `Avg`     | Średni czas odpowiedzi serwera                  |
+| `Perc 90` | 90% żądań trwało krócej niż ta wartość          |
+| `Perc 95` | 95% żądań trwało krócej niż ta wartość          |
+| `OK`      | Liczba udanych żądań                            |
+| `Fail`    | Liczba nieudanych żądań                         |
+| `Err %`   | Procent błędów                                  |
 
 **Dobry wynik:** `Err %` = 0.00%, `Avg` poniżej 1 sekundy.
 
@@ -129,6 +129,10 @@ Taurus tworzy katalog z datą i godziną (np. `2026-05-02_10-30-00.123456/`) zaw
 - `report.html` — raport HTML z wykresami
 - `bzt.log` — szczegółowy dziennik (do diagnostyki błędów)
 - `kpi.jtl` — surowe dane wynikowe
+- Logi z automatycznej instalacji programów (winget, PowerShell) znajdziesz w pliku `exports/auto_install_log.txt`.
+- Katalog `winget-cli/` oraz katalogi z wynikami testów są ignorowane przez `.gitignore`.
+
+**Uwaga:** Ostrzeżenie `Failed to check for updates, server returned 5xx` podczas uruchamiania Taurus jest niekrytyczne i nie wpływa na wynik testu.
 
 ---
 
@@ -136,10 +140,10 @@ Taurus tworzy katalog z datą i godziną (np. `2026-05-02_10-30-00.123456/`) zaw
 
 Test automatycznie się zatrzyma jeśli wystąpi jeden z warunków:
 
-| Warunek | Znaczenie |
-| --- | --- |
-| Więcej niż **10% błędów** przez 30 sekund | Serwer odpowiada błędami zbyt często |
-| Średni czas odpowiedzi **powyżej 5 sekund** przez 30 sekund | Serwer odpowiada zbyt wolno |
+| Warunek                                                     | Znaczenie                            |
+| ----------------------------------------------------------- | ------------------------------------ |
+| Więcej niż **10% błędów** przez 30 sekund                   | Serwer odpowiada błędami zbyt często |
+| Średni czas odpowiedzi **powyżej 5 sekund** przez 30 sekund | Serwer odpowiada zbyt wolno          |
 
 Kod wyjścia `3` oznacza że test zatrzymał się z powodu niespełnienia kryteriów.
 
@@ -153,7 +157,7 @@ Edytuj plik `test-api.yml`:
 scenarios:
   api_test:
     requests:
-      - url: https://TWOJ-ADRES-API/endpoint   # <-- zmień tutaj
+      - url: https://TWOJ-ADRES-API/endpoint # <-- zmień tutaj
         label: Moj test
         method: GET
 ```
@@ -178,12 +182,12 @@ Lub w VS Code: `Ctrl+Shift+P` → `Tasks: Run Task` → **"Taurus: Test środowi
 
 ## 8. Tryby uruchomienia
 
-| Tryb (`-Mode`) | Opis |
-| --- | --- |
-| `health` | Kontrola zdrowia — sprawdza instalację Taurusa, nie uruchamia testów |
-| `standard` | Standardowy test API — uruchamia scenariusz z pliku konfiguracyjnego |
-| `jmeter-java8` | Test z silnikiem JMeter + Java 8 — bardziej szczegółowe statystyki |
-| `pipeline` | Pełny potok — wykonuje health + standard + jmeter-java8 po kolei |
+| Tryb (`-Mode`) | Opis                                                                 |
+| -------------- | -------------------------------------------------------------------- |
+| `health`       | Kontrola zdrowia — sprawdza instalację Taurusa, nie uruchamia testów |
+| `standard`     | Standardowy test API — uruchamia scenariusz z pliku konfiguracyjnego |
+| `jmeter-java8` | Test z silnikiem JMeter + Java 8 — bardziej szczegółowe statystyki   |
+| `pipeline`     | Pełny potok — wykonuje health + standard + jmeter-java8 po kolei     |
 
 **Parametr `-Config`** pozwala wybrać inny plik konfiguracyjny (domyślnie `test-api.yml`):
 
@@ -196,11 +200,11 @@ Lub w VS Code: `Ctrl+Shift+P` → `Tasks: Run Task` → **"Taurus: Test środowi
 
 ## 9. Kody błędów
 
-| Kod | Znaczenie | Co zrobić |
-| --- | --- | --- |
-| `0` | ✅ Test zakończony sukcesem | Nic — wszystko OK |
-| `1` | ❌ Błąd ogólny (sieć, konfiguracja) | Sprawdź `bzt.log` w katalogu wynikowym |
-| `2` | ⚠️ Test zatrzymany ręcznie (Ctrl+C) | Normalne — sam/a zatrzymałeś/aś test |
+| Kod | Znaczenie                           | Co zrobić                                 |
+| --- | ----------------------------------- | ----------------------------------------- |
+| `0` | ✅ Test zakończony sukcesem         | Nic — wszystko OK                         |
+| `1` | ❌ Błąd ogólny (sieć, konfiguracja) | Sprawdź `bzt.log` w katalogu wynikowym    |
+| `2` | ⚠️ Test zatrzymany ręcznie (Ctrl+C) | Normalne — sam/a zatrzymałeś/aś test      |
 | `3` | ❌ Kryteria pass/fail nie spełnione | Serwer jest zbyt wolny lub generuje błędy |
 
 ---

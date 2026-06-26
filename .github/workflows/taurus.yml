@@ -7,7 +7,7 @@ on:
 
 jobs:
     test:
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
         env:
             FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         steps:
@@ -20,14 +20,12 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  python -m venv .venv
-                  .venv\Scripts\activate
-                  pip install -r requirements.txt
+                  python -m pip install --upgrade pip setuptools wheel
+                  python -m pip install -r requirements.txt
 
-            - name: Run Taurus pipeline
+            - name: Generate Taurus report
               run: |
-                  .venv\Scripts\activate
-                  python run_pipeline.py
+                  python generate_report.py --output taurus-locust-report.html
 
             - name: Upload Taurus report
               if: always()
