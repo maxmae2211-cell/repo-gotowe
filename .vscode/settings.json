@@ -1,41 +1,69 @@
 {
-    "python.defaultInterpreterPath": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
-    "python.terminal.activateEnvironment": true,
-    "python.testing.pytestEnabled": true,
-    "python.testing.unittestEnabled": false,
-    "editor.quickSuggestions": {
-        "other": true,
-        "comments": true,
-        "strings": true
-    },
-    "editor.suggestOnTriggerCharacters": true,
-    "editor.suggest.showWords": true,
-    "editor.parameterHints.enabled": true,
-    "git.enableSmartCommit": true,
-    "git.confirmSync": false,
-    "git.autofetch": true,
-    "git.postCommitCommand": "push",
-    "java.jdt.ls.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.2.13-hotspot",
-    "java.configuration.runtimes": [
-        {
-            "name": "JavaSE-21",
-            "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.2.13-hotspot",
-            "default": true
-        }
-    ],
-    "files.exclude": {
-        "**/.venv": true
-    },
-    "search.exclude": {
-        "**/.venv": true
-    },
-    "azureFunctions.deploySubpath": ".",
-    "azureFunctions.postDeployTask": "npm install (functions)",
-    "azureFunctions.projectLanguage": "JavaScript",
-    "azureFunctions.projectRuntime": "~4",
-    "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.projectLanguageModel": 4,
-    "azureFunctions.preDeployTask": "npm prune (functions)",
-    "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+  "python.defaultInterpreterPath": "C:\\Users\\maxma\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.suggest.showWords": true,
+  "editor.parameterHints.enabled": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.postCommitCommand": "push",
+  "java.jdt.ls.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.2.13-hotspot",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.2.13-hotspot",
+      "default": true
+    }
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/flutter/ephemeral": true,
+    "**/Flutter/ephemeral": true,
+    "**/.symlinks": true,
+    "**/.plugin_symlinks": true,
+    "**/CVS": true,
+    "**/.ruby-lsp": true,
+    "**/.venv*/**": true,
+    "**/.venv": true,
+    ".mule": true
+  },
+  "search.exclude": {
+    "**/.venv": true
+  },
+  "azureFunctions.deploySubpath": ".",
+  "azureFunctions.postDeployTask": "npm install (functions)",
+  "azureFunctions.projectLanguage": "JavaScript",
+  "azureFunctions.projectRuntime": "~4",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.projectLanguageModel": 4,
+  "azureFunctions.preDeployTask": "npm prune (functions)",
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "python.analysis.extraPaths": [
+    "c:\\Users\\maxma\\.vscode\\extensions\\ms-security.ms-sentinel-2.2.0\\python",
+    "c:\\Users\\maxma\\.vscode\\extensions\\ms-security.ms-sentinel-2.3.0\\python"
+  ],
+  "chat.agentSkillsLocations": {
+    ".agents/skills": true,
+    ".github/skills": true,
+    ".claude/skills": true,
+    "~/.agents/skills": true,
+    "~/.copilot/skills": true,
+    "~/.claude/skills": true,
+    "~/.vscode/extensions/synapsevscode.synapse-1.24.0/copilot/skills": true,
+    "~/.vscode/extensions/synapsevscode.synapse-1.25.0/copilot/skills": true
+  }
 }
+  
