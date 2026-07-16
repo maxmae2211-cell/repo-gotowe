@@ -115,9 +115,16 @@ jobs:
 
             - name: Generate Taurus HTML report
               run: |
+<<<<<<< HEAD
+                  python run_pipeline.py \
+                    --jtl tests/fixtures/sample.jtl \
+                    --max-failures 0 \
+                    --max-avg-ms 200 \
+=======
                   ARTIFACTS_PATTERN="$(date +%Y)-*"
                   python generate_report.py \
                     --artifacts-pattern "${ARTIFACTS_PATTERN}" \
+>>>>>>> main
                     --output taurus-locust-report.html
 
             - name: Generate HTML report
