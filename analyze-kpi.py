@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -52,46 +53,58 @@ def main() -> int:
     jtl_file = args.jtl or find_latest_kpi(args.artifacts_pattern)
 
     if not jtl_file:
-        print("❌ Nie znaleziono pliku kpi.jtl")
-        return 1
+        print("❌ Nie znaleziono pliku kpi.jtl", file=sys.stderr)
+        # 2 = missing/no-data
+        return 2
 
-    metrics = extract_jtl_kpi(jtl_file)
-    if not metrics or not metrics["count"]:
-        print(f"❌ Brak danych metryk w pliku: {jtl_file}")
-        return 1
+    try:
+        metrics = extract_jtl_kpi(jtl_file)
+    except Exception as e:
+        print(f"❌ Błąd podczas parsowania pliku JTL: {e}", file=sys.stderr)
+        # 3 = parse error
+        return 3
 
+    if not metrics or not metrics.get("count"):
+        print(f"❌ Brak danych metryk w pliku: {jtl_file}", file=sys.stderr)
+        # 2 = missing/no-data
+        return 2
+
+    # Summary (stdout)
     print("=" * 70)
     print("✅ ANALIZA KPI")
     print("=" * 70)
     print(f"Plik:                 {jtl_file}")
     print(f"Liczba żądań:         {metrics['count']}")
     print(f"Błędy:                {metrics['failures']}")
-    print(f"Sukcesy:              {metrics['successes']}")
+    print(f"Sukcesy:              {metrics.get('successes')}")
     print("\nCzasy odpowiedzi (ms):")
     print(f"  Średni (AVG):       {metrics['avg_time']:.2f} ms")
-    print(f"  Minimum:            {metrics['min_time']} ms")
-    print(f"  Maximum:            {metrics['max_time']} ms")
-    print(f"  P50 (Mediana):      {metrics['p50']} ms")
-    print(f"  P90:                {metrics['p90']} ms")
-    print(f"  P95:                {metrics['p95']} ms")
-    print(f"  P99:                {metrics['p99']} ms")
+    print(f"  Minimum:            {metrics.get('min_time')} ms")
+    print(f"  Maximum:            {metrics.get('max_time')} ms")
+    print(f"  P50 (Mediana):      {metrics.get('p50')} ms")
+    print(f"  P90:                {metrics.get('p90')} ms")
+    print(f"  P95:                {metrics.get('p95')} ms")
+    print(f"  P99:                {metrics.get('p99')} ms")
     print("=" * 70)
 
     gate_failed = False
     if metrics["failures"] > args.max_failures:
         print(
-            f"❌ Bramka jakości: liczba błędów {metrics['failures']} > {args.max_failures}"
+            f"❌ Bramka jakości: liczba błędów {metrics['failures']} > {args.max_failures}",
+            file=sys.stderr,
         )
         gate_failed = True
 
     if args.max_avg_ms is not None and metrics["avg_time"] > args.max_avg_ms:
         print(
-            f"❌ Bramka jakości: średni czas {metrics['avg_time']:.2f} ms > {args.max_avg_ms:.2f} ms"
+            f"❌ Bramka jakości: średni czas {metrics['avg_time']:.2f} ms > {args.max_avg_ms:.2f} ms",
+            file=sys.stderr,
         )
         gate_failed = True
 
     if gate_failed:
-        return 2
+        # 1 = KPI gate failed
+        return 1
 
     print("✅ Bramka jakości: OK")
     return 0
