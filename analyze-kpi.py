@@ -50,6 +50,17 @@ def parse_args(args=None) -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+
+    # If user provided an explicit --jtl, validate it exists and is a file.
+    if getattr(args, "jtl", None):
+        if not args.jtl.exists():
+            print(f"❌ Błąd: podany plik JTL nie istnieje: {args.jtl}", file=sys.stderr)
+            # 2 = missing/no-data (configuration error)
+            return 2
+        if args.jtl.is_dir():
+            print(f"❌ Błąd: podana ścieżka JTL jest katalogiem, oczekiwano pliku: {args.jtl}", file=sys.stderr)
+            return 2
+
     jtl_file = args.jtl or find_latest_kpi(args.artifacts_pattern)
 
     if not jtl_file:
