@@ -33,11 +33,30 @@ jobs:
             --jtl tests/fixtures/sample.jtl \
             --max-failures 1 \
             --max-avg-ms 200 \
-            --output taurus-locust-report.html
+            --output taurus-locust-report.html 2>&1 | tee pipeline-output.txt
+
+      - name: Upload pipeline output
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-output
+          path: pipeline-output.txt
+          if-no-files-found: warn
 
       - name: Upload HTML report artifact
         uses: actions/upload-artifact@v4
         with:
           name: taurus-locust-report
           path: taurus-locust-report.html
+          if-no-files-found: warn
+
+      - name: Analiza KPI (debug)
+        continue-on-error: true
+        run: |
+          python analyze-kpi.py --jtl tests/fixtures/sample.jtl --max-failures 1 --max-avg-ms 200 2>&1 | tee analyze-kpi-output.txt
+
+      - name: Upload KPI output
+        uses: actions/upload-artifact@v4
+        with:
+          name: kpi-output
+          path: analyze-kpi-output.txt
           if-no-files-found: warn
