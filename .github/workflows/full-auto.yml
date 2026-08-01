@@ -32,12 +32,12 @@ jobs:
         run: |
           python vscode_docs_crawler.py
       - name: Upload ALL_DOCS.md
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ALL_DOCS
           path: docs_summary/ALL_DOCS.md
       - name: Upload HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: TaurusReport
           path: taurus-locust-report.html
@@ -61,12 +61,12 @@ jobs:
       - name: Run documentation crawler
         run: python vscode_docs_crawler.py
       - name: Upload ALL_DOCS.md
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ALL_DOCS
           path: docs_summary/ALL_DOCS.md
       - name: Upload HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: TaurusReport
           path: taurus-locust-report.html
@@ -87,7 +87,7 @@ jobs:
       - name: Run flake8
         run: flake8 . > flake8_report.txt || true
       - name: Upload flake8_report.txt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: flake8_report
           path: flake8_report.txt
