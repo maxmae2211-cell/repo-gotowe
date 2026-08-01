@@ -62,6 +62,18 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Ensure synthetic JTL fixture exists
+        run: |
+          mkdir -p tests/fixtures
+          if [ ! -f tests/fixtures/sample.jtl ]; then
+            echo "tests/fixtures/sample.jtl not found in this branch — downloading from main"
+            curl -fsSL https://raw.githubusercontent.com/maxmae2211-cell/repo-gotowe/main/tests/fixtures/sample.jtl -o tests/fixtures/sample.jtl || {
+              echo "Failed to download fixture"; exit 1
+            }
+          else
+            echo "Fixture present in branch"
+          fi
+
       - name: Run Taurus analysis pipeline
         run: |
           python run_pipeline.py \
