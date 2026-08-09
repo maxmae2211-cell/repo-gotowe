@@ -1,4 +1,4 @@
-bzt>=1.16.0
+bzt>=1.16.50
 urwid==3.0.3
 selenium>=4.0
 requests>=2.32.0
