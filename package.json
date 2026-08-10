@@ -10,7 +10,7 @@
     "load:locust": "locust -f locustfile.py --host=https://jsonplaceholder.typicode.com"
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0"
+    "@azure/functions": "^4.16.1"
   },
   "devDependencies": {
     "@cspell/cspell-bundled-dicts": "^10.0.0"
