@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 # guard-git.ps1 — blokuje wrażliwe pliki w staged (pre-commit)
 #                 oraz blokuje force-push do chronionych gałęzi (pre-push)
 # Zainstaluj przez: .github/hooks/install-hooks.ps1
@@ -12,9 +12,9 @@ $ErrorActionPreference = "Stop"
 $repoRoot = git rev-parse --show-toplevel 2>$null
 if (-not $repoRoot) { $repoRoot = (Get-Location).Path }
 
-$configPath = Join-Path $PSScriptRoot ".." "guard-git.json"
+$configPath = Join-Path (Join-Path $PSScriptRoot "..") "guard-git.json"
 if (-not (Test-Path $configPath)) {
-    $configPath = Join-Path $repoRoot ".github" "hooks" "guard-git.json"
+    $configPath = Join-Path (Join-Path (Join-Path $repoRoot ".github") "hooks") "guard-git.json"
 }
 
 if (-not (Test-Path $configPath)) {
@@ -32,7 +32,7 @@ $blockedMsgPatterns  = if ($config.blocked_commit_message_patterns) { $config.bl
 function Write-Blocked([string]$Message) {
     Write-Host "guard-git [ZABLOKOWANO]: $Message" -ForegroundColor Red
     if ($logBlocked) {
-        $logFile = Join-Path $repoRoot ".git" "guard-git.log"
+        $logFile = Join-Path (Join-Path $repoRoot ".git") "guard-git.log"
         "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] BLOCKED ($HookType): $Message" |
             Add-Content -Path $logFile
     }
@@ -42,7 +42,7 @@ function Write-Blocked([string]$Message) {
 function Write-Warn([string]$Message) {
     Write-Host "guard-git [OSTRZEŻENIE]: $Message" -ForegroundColor Yellow
     if ($logBlocked) {
-        $logFile = Join-Path $repoRoot ".git" "guard-git.log"
+        $logFile = Join-Path (Join-Path $repoRoot ".git") "guard-git.log"
         "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] WARN ($HookType): $Message" |
             Add-Content -Path $logFile
     }
@@ -79,7 +79,7 @@ if ($HookType -eq "pre-commit") {
     }
 
     # Sprawdź treść wiadomości commitu
-    $commitMsgFile = Join-Path $repoRoot ".git" "COMMIT_EDITMSG"
+    $commitMsgFile = Join-Path (Join-Path $repoRoot ".git") "COMMIT_EDITMSG"
     if (Test-Path $commitMsgFile) {
         $commitMsg = (Get-Content $commitMsgFile -Raw).Trim()
 
