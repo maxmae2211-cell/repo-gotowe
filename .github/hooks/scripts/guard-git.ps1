@@ -164,19 +164,34 @@ if ($HookType -eq "pre-receive") {
 
 # --- pre-push: blokada force-push do chronionych gałęzi ---
 if ($HookType -eq "pre-push" -and $config.block_force_push) {
-    $pushArgs = $env:GIT_PUSH_OPTION_COUNT
-    $remoteName = $args[0]
-    $remoteUrl  = $args[1]
+    $zeroSha = "0000000000000000000000000000000000000000"
 
-    # Odczytaj stdin (format: <local_ref> <local_sha> <remote_ref> <remote_sha>)
-    $pushData = $input | Select-Object -First 10
-    $currentBranch = git rev-parse --abbrev-ref HEAD 2>$null
+    # Git przekazuje na stdin linie w formacie:
+    # <local_ref> SP <local_sha> SP <remote_ref> SP <remote_sha>
+    # To jedyne wiarygodne źródło informacji o faktycznym force-push —
+    # nie linia poleceń hooka (ta zawiera np. "-File", co fałszywie
+    # dopasowywało się do wzorca "-f" i blokowało KAŻDY push, nawet bez --force).
+    foreach ($line in $input) {
+        if ([string]::IsNullOrWhiteSpace($line)) { continue }
 
-    if ($currentBranch -in $config.protected_branches) {
-        # Sprawdź flagi force w zmiennych środowiskowych Git
-        $gitArgs = [System.Environment]::GetCommandLineArgs() -join " "
-        if ($gitArgs -match '--force|-f') {
-            Write-Blocked "force-push do chronionej gałęzi '$currentBranch' jest zablokowany"
+        $parts = $line -split '\s+'
+        if ($parts.Count -lt 4) { continue }
+
+        $localRef, $localSha, $remoteRef, $remoteSha = $parts[0], $parts[1], $parts[2], $parts[3]
+
+        # Usuwanie zdalnej gałęzi (localSha = zero) nie jest force-push nadpisującym historię.
+        if ($localSha -eq $zeroSha) { continue }
+        # Nowa zdalna gałąź (remoteSha = zero) — nie ma czego nadpisać.
+        if ($remoteSha -eq $zeroSha) { continue }
+
+        $remoteBranchName = $remoteRef -replace '^refs/heads/', ''
+        if ($remoteBranchName -notin $config.protected_branches) { continue }
+
+        git merge-base --is-ancestor $remoteSha $localSha 2>$null
+        $isFastForward = ($LASTEXITCODE -eq 0)
+
+        if (-not $isFastForward) {
+            Write-Blocked "force-push do chronionej gałęzi '$remoteBranchName' jest zablokowany"
             Write-Host "   Użyj pull request zamiast force-push." -ForegroundColor Cyan
         }
     }
