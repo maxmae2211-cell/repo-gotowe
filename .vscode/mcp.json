@@ -18,7 +18,7 @@
   "servers": {
     "codacy": {
       "type": "stdio",
-      "command": "npx",
+      "command": "npx.cmd",
       "args": ["-y", "@codacy/codacy-mcp@latest"],
       "env": {
         "CODACY_ACCOUNT_TOKEN": "${input:codacy_token}"
