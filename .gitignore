@@ -96,3 +96,5 @@ openjdk-21/
 tools/
 config.json
 
+# Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

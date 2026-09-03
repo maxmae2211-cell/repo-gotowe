@@ -1,12 +1,13 @@
-﻿# Taurus Runbook (verified on 2026-05-03)
+﻿# Taurus Runbook (verified on 2026-09-04)
 
 This file captures the currently verified way to run this workspace on Windows.
 
 ## Latest verified pipeline results
 
-- Standard API run: PASS (6570 samples, 0.00% failures, duration 3:03, avg 0.096s) -> Artifacts: `2026-05-03_14-10-38.334392`
-- JMeter + Java8 run: PASS (6685 samples, 0.00% failures, duration 2:43, avg 0.088s) -> Artifacts: `2026-05-03_14-15-00.344238`
-- Pipeline run date: 2026-05-03
+- Standard API run: PASS (6694 samples, 0.00% failures, duration 2:46, avg 0.090s) -> Artifacts: `2026-09-04_00-13-18.165687`
+- JMeter + Java8 run: PASS (6730 samples, 0.00% failures, duration 2:43, avg 0.088s) -> Artifacts: `2026-09-04_00-17-06.932929`
+- Pipeline run date: 2026-09-04
+- Note: the JMeter + Java8 run fell back to the system JDK 21 because the repository-local JDK8 was unavailable; the test itself completed successfully.
 
 ## Verified environment
 
