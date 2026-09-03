@@ -1,0 +1,11 @@
+label,elapsed,responseCode,success,threadName
+GET /api/health,120,200,true,Thread-1
+GET /api/health,110,200,true,Thread-1
+GET /api/health,150,200,true,Thread-2
+GET /api/items,200,200,true,Thread-2
+POST /api/items,95,201,true,Thread-3
+GET /api/items/1,130,200,true,Thread-1
+GET /api/stats,160,200,true,Thread-4
+GET /api/metrics,100,200,true,Thread-1
+GET /api/health,120,200,true,Thread-2
+GET /api/failure,120,500,false,Thread-5

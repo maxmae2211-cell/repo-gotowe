@@ -10,3 +10,10 @@ Napisz prosty skrypt Python który liczy ile plików .py jest w danym folderze.
 Opisz w 3 zdaniach do czego służy framework Taurus (bzt) i kiedy go używać.
 Wyjaśnij różnicę między testami wydajności a testami funkcjonalnymi API.
 Podaj 5 najważniejszych metryk które należy analizować po load testach.
+
+# === Przykładowe zadania demo ===
+Wygeneruj przykładowy raport z testu Taurus na podstawie pliku kpi.jtl.
+Zaproponuj 3 sposoby na poprawę wydajności testowanej aplikacji.
+Napisz podsumowanie wyników testu w formie krótkiego maila do zespołu.
+Wygeneruj wykres histogramu czasów odpowiedzi na podstawie pliku kpi.jtl.
+Podaj polecenie do uruchomienia testu Taurus w trybie pipeline.

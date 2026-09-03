@@ -1,0 +1,23 @@
+# Instrukcja instalacji Windows Package Manager (winget)
+
+Aby umożliwić automatyczną instalację programów przez agentów AI (pracownicy) w tym repozytorium, wymagany jest Windows Package Manager (winget).
+
+## Krok 1: Instalacja przez Microsoft Store (zalecane)
+1. Otwórz aplikację **Microsoft Store**.
+2. Wyszukaj **App Installer** (autor: Microsoft).
+3. Kliknij **Zainstaluj** lub **Aktualizuj**.
+4. Po zakończeniu zamknij i otwórz ponownie PowerShell/terminal.
+5. Sprawdź instalację: wpisz w terminalu `winget --version`.
+
+## Krok 2: Instalacja ręczna (alternatywa)
+1. Wejdź na stronę: https://github.com/microsoft/winget-cli/releases
+2. Pobierz najnowszy plik **.msixbundle** lub **.appxbundle** (np. Microsoft.DesktopAppInstaller_*.msixbundle).
+3. Kliknij dwukrotnie pobrany plik i zainstaluj.
+4. Po instalacji uruchom ponownie terminal i sprawdź: `winget --version`.
+
+## Co dalej?
+Po zainstalowaniu winget możesz uruchomić task "Auto: Instalacja programów po zakończeniu pracy" w VS Code, a agenci AI automatycznie zainstalują wymagane programy.
+
+---
+
+> Jeśli napotkasz problem z instalacją, zgłoś to w README lub do zespołu wsparcia repozytorium.

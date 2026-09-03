@@ -1,0 +1,28 @@
+{
+  // Konfiguracja serwerów MCP dla tego workspace.
+  // Codacy MCP Server: https://github.com/codacy/codacy-mcp-server
+  //
+  // Token NIE jest zapisywany w repo — VS Code poprosi o niego przy
+  // pierwszym uruchomieniu serwera (input typu promptString/password)
+  // i zapamięta go bezpiecznie w Secret Storage.
+  //
+  // Wymagania: Node.js zainstalowany (polecenie `npx` musi działać).
+  "inputs": [
+    {
+      "id": "codacy_token",
+      "type": "promptString",
+      "description": "Codacy Account Token (https://app.codacy.com/account/access-management)",
+      "password": true
+    }
+  ],
+  "servers": {
+    "codacy": {
+      "type": "stdio",
+      "command": "npx.cmd",
+      "args": ["-y", "@codacy/codacy-mcp@latest"],
+      "env": {
+        "CODACY_ACCOUNT_TOKEN": "${input:codacy_token}"
+      }
+    }
+  }
+}

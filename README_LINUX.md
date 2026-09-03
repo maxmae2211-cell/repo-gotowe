@@ -17,5 +17,5 @@
    ```
 4. Testy jednostkowe i walidacja konfiguracji:
    ```bash
-   python3 -m unittest
+   python3 -m pytest tests/ -v
    ```

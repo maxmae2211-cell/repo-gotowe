@@ -1,0 +1,19 @@
+# Przykładowy raport działania agenta AI
+
+## Agent: Pracownik2 (analiza Taurus)
+
+### Zadanie: Wygeneruj przykładowy raport z testu Taurus na podstawie pliku kpi.jtl
+
+---
+
+**Podsumowanie testu Taurus:**
+- Liczba żądań: 1200
+- Średni czas odpowiedzi: 320 ms
+- Maksymalny czas odpowiedzi: 1100 ms
+- Liczba błędów: 0
+- 95 percentyl: 500 ms
+
+**Wnioski:**
+Testowana aplikacja wykazuje stabilność pod obciążeniem 50 użytkowników przez 10 minut. Brak błędów HTTP. Zaleca się dalszą optymalizację dla skrócenia czasu odpowiedzi poniżej 250 ms.
+
+**Wygenerowano przez agenta AI (pracownik2.py)**
