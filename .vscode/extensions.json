@@ -20,6 +20,7 @@
     "ms-vscode.powershell",
     "tamasfe.even-better-toml",
     "sonarsource.sonarlint-vscode",
+    "codacy-app.codacy",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint"
     ,"ms-toolsai.jupyter"
