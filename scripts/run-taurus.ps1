@@ -32,6 +32,17 @@ catch {
 
 # --- Skonfiguruj JAVA_HOME zanim uruchomisz Taurus ---
 function Configure-JavaHome {
+    if ($env:JAVA_HOME) {
+        $configuredJava = Join-Path $env:JAVA_HOME 'bin\java.exe'
+        if (Test-Path -LiteralPath $configuredJava -PathType Leaf) {
+            $env:PATH = "$($env:JAVA_HOME)\bin;$($env:PATH)"
+            Write-Host "[JAVA] Używam istniejące JAVA_HOME: $($env:JAVA_HOME)" -ForegroundColor Green
+            return $true
+        }
+
+        Write-Host "[JAVA] Zmienna JAVA_HOME jest niepoprawna: $($env:JAVA_HOME). Szukam poprawnej instalacji Java..." -ForegroundColor Yellow
+    }
+
     $repoJdk8 = Join-Path $repoRoot 'tools\jdk8u482-b08'
     if ((Test-Path $repoJdk8) -and (Test-Path (Join-Path $repoJdk8 'bin\java.exe'))) {
         $env:JAVA_HOME = $repoJdk8
