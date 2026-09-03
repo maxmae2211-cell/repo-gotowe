@@ -8,8 +8,11 @@ def parse_args() -> argparse.Namespace:
         description="Run a Python module or script, then keep terminal open until Enter is pressed."
     )
     target = parser.add_mutually_exclusive_group(required=True)
-    target.add_argument("--module", help="Python module to run, for example: bzt or pip")
+    target.add_argument(
+        "--module", help="Python module to run, for example: bzt or pip"
+    )
     target.add_argument("--program", help="Python script path to run")
+    target.add_argument("--powershell", help="PowerShell script path to run")
     parser.add_argument(
         "cmd_args",
         nargs=argparse.REMAINDER,
@@ -27,6 +30,16 @@ def main() -> int:
 
     if args.module:
         cmd = [sys.executable, "-m", args.module, *forwarded]
+    elif args.powershell:
+        cmd = [
+            "powershell.exe",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            args.powershell,
+            *forwarded,
+        ]
     else:
         cmd = [sys.executable, args.program, *forwarded]
 
