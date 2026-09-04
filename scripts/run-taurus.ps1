@@ -166,6 +166,7 @@ function Invoke-Bzt {
 }
 
 $java8 = Join-Path $repoRoot 'tools/jdk8u482-b08'
+$systemJava8 = 'C:\Program Files\BellSoft\LibericaJDK-8'
 $configPath = Join-Path $repoRoot $Config
 
 $runMutex = $null
@@ -188,10 +189,13 @@ function Assert-Exists([string]$Path, [string]$Label) {
 }
 
 function Use-JavaForJMeter {
-    $localJavaBin = Join-Path $java8 'bin\java.exe'
+    $java8Candidates = @($java8, $systemJava8)
+    $java8Home = $java8Candidates |
+        Where-Object { Test-Path -LiteralPath (Join-Path $_ 'bin\java.exe') } |
+        Select-Object -First 1
 
-    if (Test-Path -LiteralPath $localJavaBin -PathType Leaf) {
-        $env:JAVA_HOME = $java8
+    if ($java8Home) {
+        $env:JAVA_HOME = $java8Home
         $env:Path = "$($env:JAVA_HOME)\bin;$($env:Path)"
         Write-Host "[JAVA] Używam repo JDK: $env:JAVA_HOME"
         return

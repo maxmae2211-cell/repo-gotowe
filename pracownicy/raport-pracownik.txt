@@ -1,0 +1,46 @@
+RAPORT PRACOWNIKA — 2026-08-22 12:24:34
+============================================================
+
+ZADANIE 1: Napisz krótkie powitanie dla użytkownika który zaczyna pracę z AI.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 2: Podaj 3 pomysły na automatyzację codziennych zadań biurowych.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 3: Napisz prosty skrypt Python który liczy ile plików .py jest w danym folderze.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 4: Opisz w 3 zdaniach do czego służy framework Taurus (bzt) i kiedy go używać.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 5: Wyjaśnij różnicę między testami wydajności a testami funkcjonalnymi API.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 6: Podaj 5 najważniejszych metryk które należy analizować po load testach.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 7: Wygeneruj przykładowy raport z testu Taurus na podstawie pliku kpi.jtl.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 8: Zaproponuj 3 sposoby na poprawę wydajności testowanej aplikacji.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 9: Napisz podsumowanie wyników testu w formie krótkiego maila do zespołu.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 10: Wygeneruj wykres histogramu czasów odpowiedzi na podstawie pliku kpi.jtl.
+----------------------------------------
+[BŁĄD] No module named 'requests'
+
+ZADANIE 11: Podaj polecenie do uruchomienia testu Taurus w trybie pipeline.
+----------------------------------------
+[BŁĄD] No module named 'requests'
