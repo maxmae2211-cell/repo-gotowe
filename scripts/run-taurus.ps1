@@ -1,7 +1,8 @@
 ﻿param(
     [ValidateSet('health', 'standard', 'jmeter-java8', 'pipeline')]
-    [string]$Mode = 'health',
+    [string]$Mode = 'standard',
     [string]$Config = 'test-api.yml',
+    [switch]$Report,
     [switch]$AllowParallel
 )
 
@@ -304,7 +305,9 @@ try {
         }
 
         'standard' {
-            $exitCode = Invoke-Bzt @($configPath)
+            $extraArgs = @($configPath)
+            if ($Report) { $extraArgs += '-report' }
+            $exitCode = Invoke-Bzt $extraArgs
 
             if ($exitCode -eq 0) {
                 Open-LatestReport
@@ -320,7 +323,9 @@ try {
             Write-Host '[Uruchamiam] Test JMeter z Java 8...'
             Use-JavaForJMeter
 
-            $exitCode = Invoke-Bzt @($configPath, '-o', 'execution.0.executor=jmeter')
+            $extraArgs = @($configPath, '-o', 'execution.0.executor=jmeter')
+            if ($Report) { $extraArgs += '-report' }
+            $exitCode = Invoke-Bzt $extraArgs
 
             if ($exitCode -eq 0) {
                 Write-Host '[OK] Test JMeter zakończony pomyślnie.' -ForegroundColor Green
