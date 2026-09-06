@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 # install-hooks.ps1 — instaluje Git hooks z .github/hooks/ do .git/hooks/
 # Działa na wszystkich platformach (Windows, Linux, macOS) przez PowerShell Core (pwsh).
 #
@@ -16,7 +16,8 @@
 $ErrorActionPreference = "Stop"
 
 $repoRoot = git rev-parse --show-toplevel
-$hooksDir = (git -C $repoRoot rev-parse --git-path hooks).Trim()
+$rawHooks = (git -C $repoRoot rev-parse --git-path hooks).Trim()
+$hooksDir = if ([System.IO.Path]::IsPathRooted($rawHooks)) { $rawHooks } else { Join-Path $repoRoot $rawHooks }
 $sourceDir = Join-Path (Join-Path $repoRoot ".github") "hooks"
 
 if (-not (Test-Path -LiteralPath $hooksDir -PathType Container)) {
