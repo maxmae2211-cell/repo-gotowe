@@ -5,9 +5,9 @@ Diagnostyka Taurus (bzt) - sprawdzenie konfiguracji i stanu
 
 import os
 import sys
-import json
-import yaml
 import subprocess
+import urllib.request
+import urllib.error
 from pathlib import Path
 from datetime import datetime
 
@@ -80,7 +80,7 @@ if artifact_dirs:
     # Sprawdź trace
     trace_file = latest / "trace.jtl"
     if trace_file.exists():
-        print(f"     ✅ trace.jtl")
+        print("     ✅ trace.jtl")
 
     # Sprawdź JMeter konfigurację
     jmx_files = list(latest.glob("*.jmx"))
@@ -90,7 +90,7 @@ if artifact_dirs:
     # Sprawdź effective.yml
     eff_file = latest / "effective.yml"
     if eff_file.exists():
-        print(f"     ✅ effective.yml (konfiguracja użyta)")
+        print("     ✅ effective.yml (konfiguracja użyta)")
 else:
     print("  ⚠️  Brak artefaktów z testów")
 
@@ -105,7 +105,7 @@ if exports_dir.exists():
             size = csv_file.stat().st_size
             print(f"  ✅ {csv_file.name} ({size:,} B)")
     print(
-        f"  📦 taurus-report-2026-02-12.zip"
+        "  📦 taurus-report-2026-02-12.zip"
         if Path("taurus-report-2026-02-12.zip").exists()
         else "  ⚠️  ZIP nie znaleziony"
     )
@@ -130,7 +130,7 @@ for pkg in critical_packages:
             capture_output=True, text=True, timeout=10
         )
         version_line = next(
-            (l for l in result.stdout.split("\n") if l.startswith("Version:")), None
+            (line for line in result.stdout.split("\n") if line.startswith("Version:")), None
         )
         if version_line:
             print(f"  ✅ {pkg}: {version_line.split(':', 1)[1].strip()}")
@@ -145,8 +145,6 @@ test_urls = [
     ("https://jsonplaceholder.typicode.com/posts/1", "JSONPlaceholder API"),
     ("https://a.blazemeter.com", "BlazeMeter"),
 ]
-import urllib.request
-import urllib.error
 for url, label in test_urls:
     try:
         req = urllib.request.urlopen(url, timeout=5)

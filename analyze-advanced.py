@@ -114,7 +114,7 @@ print("\n📈 PORÓWNANIE Z POPRZEDNIĄ WERSJĄ:")
 print("-" * 80)
 print("Test-Advanced (poprzednio - 10 użytkowników, 2 minuty):")
 print("  Żądań: 3,235 | Średni czas: 54 ms | P50: 48 ms | P90: 85 ms")
-print(f"\nTest-Advanced (teraz - 50 użytkowników, 5 minut):")
+print("\nTest-Advanced (teraz - 50 użytkowników, 5 minut):")
 print(
     f"  Żądań: {count:,} | Średni czas: {avg:.2f} ms | P50: {p50} ms | P90: {p90} ms")
 print(f"\n📊 Wzrost żądań: {count / 3235:.1f}× | Wzrost czasu: {avg / 54:.2f}×")

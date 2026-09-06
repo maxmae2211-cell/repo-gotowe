@@ -44,5 +44,6 @@ class TestNotifyWebhook(unittest.TestCase):
                 notify_webhook.notify_telegram("env test")
         mock_post.assert_called_once()
 
+
 if __name__ == "__main__":
     unittest.main()
