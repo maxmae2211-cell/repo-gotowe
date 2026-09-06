@@ -86,7 +86,8 @@ Configure-JavaHome
 
 # --- SprawdĹş i zainstaluj Git hooks przy pierwszym uruchomieniu ---
 function Install-GitHooksIfNeeded {
-    $hooksDir = (& git -C $repoRoot rev-parse --git-path hooks).Trim()
+    $rawHooks = (& git -C $repoRoot rev-parse --git-path hooks).Trim()
+    $hooksDir = if ([System.IO.Path]::IsPathRooted($rawHooks)) { $rawHooks } else { Join-Path $repoRoot $rawHooks }
     $preCommitHook = Join-Path $hooksDir "pre-commit"
     if (-not (Test-Path $preCommitHook)) {
         Write-Host "[guard-git] Hooki Git nie sÄ… zainstalowane." -ForegroundColor Yellow
@@ -105,16 +106,39 @@ Install-GitHooksIfNeeded
 # ---------------------------------------------------------------
 
 # Resolve the project Taurus environment first, then PATH fallback.
+$rawCommon = (& git -C $repoRoot rev-parse --git-common-dir).Trim()
+$gitCommonDir = if ([System.IO.Path]::IsPathRooted($rawCommon)) { $rawCommon } else { Join-Path $repoRoot $rawCommon }
+
 $projectVenvCandidates = @(
     (Join-Path $repoRoot '.venv-taurus'),
     (Join-Path (Split-Path $repoRoot -Parent) '.venv-taurus'),
-    (Join-Path (Split-Path ((& git -C $repoRoot rev-parse --git-common-dir).Trim()) -Parent) '.venv-taurus')
+    (Join-Path (Split-Path $gitCommonDir -Parent) '.venv-taurus')
 )
+
+function Get-VenvBinary {
+    param([string]$VenvPath, [string]$BinaryName)
+
+    $candidates = @(
+        (Join-Path $VenvPath "Scripts\$BinaryName.exe"),
+        (Join-Path $VenvPath "Scripts\$BinaryName"),
+        (Join-Path $VenvPath "bin/$BinaryName.exe"),
+        (Join-Path $VenvPath "bin/$BinaryName")
+    )
+
+    foreach ($candidate in $candidates) {
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            return $candidate
+        }
+    }
+
+    return $null
+}
+
 $projectVenv = $projectVenvCandidates |
-    Where-Object { Test-Path -LiteralPath (Join-Path $_ 'Scripts\python.exe') } |
+    Where-Object { (Get-VenvBinary $_ 'python') -ne $null } |
     Select-Object -First 1
-$projectPython = if ($projectVenv) { Join-Path $projectVenv 'Scripts\python.exe' } else { $null }
-$projectBzt = if ($projectVenv) { Join-Path $projectVenv 'Scripts\bzt.exe' } else { $null }
+$projectPython = if ($projectVenv) { Get-VenvBinary $projectVenv 'python' } else { $null }
+$projectBzt = if ($projectVenv) { Get-VenvBinary $projectVenv 'bzt' } else { $null }
 
 $python = $null
 $bztCmd = $null
