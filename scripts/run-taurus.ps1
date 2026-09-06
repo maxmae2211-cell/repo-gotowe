@@ -86,11 +86,11 @@ Configure-JavaHome
 
 # --- SprawdĹş i zainstaluj Git hooks przy pierwszym uruchomieniu ---
 function Install-GitHooksIfNeeded {
-    $hooksDir = Join-Path (Join-Path $repoRoot ".git") "hooks"
+    $hooksDir = (& git -C $repoRoot rev-parse --git-path hooks).Trim()
     $preCommitHook = Join-Path $hooksDir "pre-commit"
     if (-not (Test-Path $preCommitHook)) {
         Write-Host "[guard-git] Hooki Git nie sÄ… zainstalowane." -ForegroundColor Yellow
-        $installer = Join-Path $repoRoot ".github" "hooks" "install-hooks.ps1"
+        $installer = Join-Path $repoRoot '.github\hooks\install-hooks.ps1'
         if (Test-Path $installer) {
             Write-Host "[guard-git] Uruchamiam instalator hookĂłw..." -ForegroundColor Cyan
             $psExe = if ($PSVersionTable.PSEdition -eq 'Core') { "pwsh" } else { "powershell" }
@@ -105,13 +105,21 @@ Install-GitHooksIfNeeded
 # ---------------------------------------------------------------
 
 # Resolve the project Taurus environment first, then PATH fallback.
-$projectPython = Join-Path $repoRoot '.venv-taurus\Scripts\python.exe'
-$projectBzt = Join-Path $repoRoot '.venv-taurus\Scripts\bzt.exe'
+$projectVenvCandidates = @(
+    (Join-Path $repoRoot '.venv-taurus'),
+    (Join-Path (Split-Path $repoRoot -Parent) '.venv-taurus'),
+    (Join-Path (Split-Path ((& git -C $repoRoot rev-parse --git-common-dir).Trim()) -Parent) '.venv-taurus')
+)
+$projectVenv = $projectVenvCandidates |
+    Where-Object { Test-Path -LiteralPath (Join-Path $_ 'Scripts\python.exe') } |
+    Select-Object -First 1
+$projectPython = if ($projectVenv) { Join-Path $projectVenv 'Scripts\python.exe' } else { $null }
+$projectBzt = if ($projectVenv) { Join-Path $projectVenv 'Scripts\bzt.exe' } else { $null }
 
 $python = $null
 $bztCmd = $null
 
-if (Test-Path -LiteralPath $projectPython -PathType Leaf) {
+if ($projectPython -and (Test-Path -LiteralPath $projectPython -PathType Leaf)) {
     $python = $projectPython
 }
 else {
@@ -121,7 +129,7 @@ else {
     }
 }
 
-if (Test-Path -LiteralPath $projectBzt -PathType Leaf) {
+if ($projectBzt -and (Test-Path -LiteralPath $projectBzt -PathType Leaf)) {
     $bztCmd = $projectBzt
 }
 else {
@@ -386,4 +394,3 @@ finally {
 }
 
 exit $scriptExitCode
-
