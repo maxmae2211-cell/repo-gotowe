@@ -52,6 +52,6 @@ reporting:
   - module: final-stats
   - module: passfail
     criteria:
-      - fail>5%: stop as failed
-      - avg-rt>3s: stop as failed
+      - fail>5% for 30s, stop as failed
+      - avg-rt>3s for 30s, stop as failed
 
