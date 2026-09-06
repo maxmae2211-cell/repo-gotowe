@@ -1,0 +1,68 @@
+---
+# Uniwersalny szablon testu obciążeniowego API REST
+# Domyślnie testuje bezpieczne publiczne API httpbin.org
+# Aby zmienić adres docelowy, zmień default-address lub poszczególne url
+
+execution:
+  - concurrency: 5
+    ramp-up: 10s
+    hold-for: 30s
+    scenario: custom-api-scenario
+    throughput: 20
+
+scenarios:
+  custom-api-scenario:
+    default-address: https://httpbin.org
+    headers:
+        Content-Type: application/json
+        Accept: application/json
+        Authorization: Bearer demo-token-123
+    requests:
+        - label: Health Check (GET)
+          url: /get
+          method: GET
+          assert:
+            - contains:
+                - 200
+              subject: http-code
+
+        - label: Create Resource (POST)
+          url: /post
+          method: POST
+          body:
+            name: "Performance Test Item"
+            category: "Benchmark"
+          assert:
+            - contains:
+                - 200
+              subject: http-code
+
+        - label: Update Resource (PUT)
+          url: /put
+          method: PUT
+          body:
+            status: "active"
+            updated: true
+          assert:
+            - contains:
+                - 200
+              subject: http-code
+
+        - label: Delete Resource (DELETE)
+          url: /delete
+          method: DELETE
+          assert:
+            - contains:
+                - 200
+              subject: http-code
+
+reporting:
+  - module: final-stats
+    summary: true
+    percentiles: true
+    summary-labels: true
+    failed-labels: true
+  - module: passfail
+    criteria:
+        - avg-rt>2s for 10s, stop as failed
+        - fail>5% for 10s, stop as failed
