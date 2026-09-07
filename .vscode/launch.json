@@ -1,7 +1,7 @@
 {
-  // UĹĽyj funkcji IntelliSense, aby uzyskaÄ‡ informacje o moĹĽliwych atrybutach.
-  // NajedĹş kursorem, aby wyĹ›wietliÄ‡ opisy istniejÄ…cych atrybutĂłw.
-  // Aby uzyskaÄ‡ wiÄ™cej informacji, odwiedĹş stronÄ™: https://go.microsoft.com/fwlink/?linkid=830387
+  // Użyj funkcji IntelliSense, aby uzyskać informacje o możliwych atrybutach.
+  // Najedź kursorem, aby wyświetlić opisy istniejących atrybutów.
+  // Aby uzyskać więcej informacji, odwiedź stronę: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -119,7 +119,7 @@
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "Debug: test-locust (bezpoĹ›rednio)",
+      "name": "Debug: test-locust (bezpośrednio)",
       "type": "debugpy",
       "request": "launch",
       "module": "locust",
@@ -152,7 +152,6 @@
         "install",
         "--upgrade",
         "pip",
-        "setuptools",
         "wheel",
         "Cython"
       ],
@@ -170,12 +169,12 @@
       "cwd": "${workspaceFolder}"
     },
     {
-      "name": "Debug: Taurus krok 3 - pin setuptools==79.0.1 (fix kompatybilnoĹ›ci)",
+      "name": "Debug: Taurus krok 3 - pin setuptools==80.10.2 (fix kompatybilności)",
       "type": "debugpy",
       "request": "launch",
       "python": "${workspaceFolder}/.venv-taurus/Scripts/python.exe",
       "program": "${workspaceFolder}/scripts/run_and_wait.py",
-      "args": ["--module", "pip", "--", "install", "setuptools==79.0.1"],
+      "args": ["--module", "pip", "--", "install", "setuptools==80.10.2"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}"
     },
@@ -192,7 +191,7 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Uruchom przeglÄ…darkÄ™ Chrome wzglÄ™dem hosta lokalnego",
+      "name": "Uruchom przeglądarkę Chrome względem hosta lokalnego",
       "url": "http://localhost:8080",
       "webRoot": "${workspaceFolder}"
     },
