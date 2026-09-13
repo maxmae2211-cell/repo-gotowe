@@ -64,7 +64,7 @@ if ($HookType -eq "pre-commit") {
         if ($maxFileSizeKb -gt 0) {
             $fullPath = Join-Path $repoRoot $file
             if (Test-Path $fullPath) {
-                $sizeKb = [math]::Round((Get-Item $fullPath).Length / 1KB, 1)
+                $sizeKb = [math]::Round((Get-Item -Force $fullPath).Length / 1KB, 1)
                 if ($sizeKb -gt $maxFileSizeKb) {
                     Write-Blocked "plik '$file' jest za duży: ${sizeKb} KB (limit: ${maxFileSizeKb} KB)"
                     Write-Host "   Rozważ użycie Git LFS dla dużych plików binarnych." -ForegroundColor Cyan

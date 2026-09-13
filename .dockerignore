@@ -32,7 +32,10 @@ wynik_testu.txt
 # Narzędzia i środowiska
 tools/
 .venv/
+.venv-taurus/
+.conda/
 oracleJdk-*/
+winget-cli/
 # Pliki binarne/zip
 *.zip
 *.jar
