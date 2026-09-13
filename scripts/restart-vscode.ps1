@@ -2,7 +2,7 @@
 # Restartuje VS Code i otwiera projekt repo-gotowe
 
 param(
-    [string]$ProjectPath = "C:\Users\maxma\Documents\GitHub\repo-gotowe",
+    [string]$ProjectPath = (Split-Path -Parent $PSScriptRoot),
     [int]$WaitSeconds = 3
 )
 
