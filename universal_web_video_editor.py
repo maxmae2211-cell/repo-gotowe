@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import subprocess
-import os
 
 
 def download_page(url, filename):

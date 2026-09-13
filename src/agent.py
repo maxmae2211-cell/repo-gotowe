@@ -5,9 +5,7 @@ Uruchomienie lokalne:
 Albo przez VS Code: "Agent Inspector: Debug HTTP Server" w launch.json
 """
 import argparse
-import os
 import subprocess
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -131,7 +129,10 @@ def run_server(port: int = 8088) -> None:  # pragma: no cover
         @app.post("/run")
         def run(req: RunRequest):
             if req.config not in TAURUS_CONFIGS and not req.config.endswith(".yml"):
-                raise HTTPException(status_code=400, detail=f"Nieznana konfiguracja: {req.config}. Dostępne: {list(TAURUS_CONFIGS.keys())}")
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Nieznana konfiguracja: {req.config}. Dostępne: {list(TAURUS_CONFIGS.keys())}"
+                )
             return run_taurus(req.config, req.mode)
 
         uvicorn.run(app, host="127.0.0.1", port=port)
@@ -157,4 +158,3 @@ def main() -> None:  # pragma: no cover
 
 if __name__ == "__main__":
     main()
-
