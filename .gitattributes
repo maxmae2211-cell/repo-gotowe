@@ -1,0 +1,35 @@
+* text=auto
+
+# Windows-native scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Cross-platform source and configuration
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.jtl text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.txt text eol=lf
+*.toml text eol=lf
+*.xml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Preserve the legacy file until its line endings are migrated separately.
+RUNBOOK-TAURUS.md -text
+
+# Binary assets
+*.gif binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.pdf binary
+*.png binary
+*.zip binary
