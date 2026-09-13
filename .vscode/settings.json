@@ -29,6 +29,7 @@
       "default": true
     }
   ],
+  "sonarlint.pathToNodeExecutable": "C:\\Program Files\\nodejs\\node.exe",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
