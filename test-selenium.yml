@@ -1,14 +1,12 @@
 ---
 scenarios:
   selenium_test:
-    script: test-selenium.py
+    script: test-selenium-edge.py
 
 execution:
-  - concurrency: 1
+  - executor: selenium
+    runner: pytest
+    concurrency: 1
     hold-for: 5m
     scenario: selenium_test
     iterations: 1
-
-modules:
-  selenium:
-    chromedriver: chromedriver
