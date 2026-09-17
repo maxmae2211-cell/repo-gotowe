@@ -257,6 +257,47 @@ function Use-JavaForJMeter {
     throw "Nie znaleziono Java. Dodaj JDK do PATH albo umieść JDK w tools\jdk8u482-b08."
 }
 
+function Use-JavaForGatling {
+    $javaHome = @(
+        'C:\Program Files\Microsoft\jdk-17*',
+        'C:\Program Files\Eclipse Adoptium\jdk-17*',
+        'C:\Program Files\OpenJDK\jdk-17*',
+        'C:\Program Files\Java\jdk-17*'
+    ) |
+    ForEach-Object { Get-Item $_ -ErrorAction SilentlyContinue } |
+    Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'bin\java.exe') } |
+    Select-Object -First 1
+
+    if (-not $javaHome) {
+        throw 'Gatling 3.9.5 wymaga kompatybilnego JDK 17. Nie znaleziono JDK 17.'
+    }
+
+    $env:JAVA_HOME = $javaHome.FullName
+    $env:PATH = "$($env:JAVA_HOME)\bin;$($env:PATH)"
+    Write-Host "[JAVA] Używam JDK 17 dla Gatling: $env:JAVA_HOME" -ForegroundColor Green
+}
+
+function Repair-GatlingLauncher {
+    $launcher = Get-ChildItem (Join-Path $env:USERPROFILE '.bzt\gatling-taurus\*\bin\gatling.bat') -ErrorAction SilentlyContinue |
+    Sort-Object FullName -Descending |
+    Select-Object -First 1
+
+    if (-not $launcher) {
+        return $false
+    }
+
+    $content = Get-Content -LiteralPath $launcher.FullName -Raw
+    $brokenLine = 'set CLASSPATH="%GATLING_HOME%"\lib\*'
+    if (-not $content.Contains($brokenLine)) {
+        return $false
+    }
+
+    $compatibleLines = "set GATLING_CLASSPATH=`"%GATLING_HOME%`"\lib\*`r`n set CLASSPATH=%GATLING_CLASSPATH%"
+    Set-Content -LiteralPath $launcher.FullName -Value $content.Replace($brokenLine, $compatibleLines) -Encoding ASCII
+    Write-Host "[GATLING] Naprawiono launcher Taurus dla Windows: $($launcher.FullName)" -ForegroundColor Green
+    return $true
+}
+
 function Open-LatestReport {
     $reportDirs = Get-ChildItem $repoRoot -Directory -ErrorAction SilentlyContinue |
     Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.\d+$' } |
@@ -305,9 +346,20 @@ try {
         }
 
         'standard' {
+            $isGatling = $Config -eq 'test-gatling.yml'
+            if ($isGatling) {
+                Use-JavaForGatling
+                Repair-GatlingLauncher | Out-Null
+            }
+
             $extraArgs = @($configPath)
             if ($Report) { $extraArgs += '-report' }
             $exitCode = Invoke-Bzt $extraArgs
+
+            if ($exitCode -ne 0 -and $isGatling -and (Repair-GatlingLauncher)) {
+                Write-Host '[GATLING] Ponawiam test po naprawie launchera...'
+                $exitCode = Invoke-Bzt $extraArgs
+            }
 
             if ($exitCode -eq 0) {
                 Open-LatestReport
