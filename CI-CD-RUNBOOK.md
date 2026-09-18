@@ -166,6 +166,8 @@ Branch protection rules:
 
 Przed push'em, waliduj lokalnie:
 
+Runner automatycznie uruchamia `scripts/mock-api-server.py` na czas testów, jeśli port 8000 nie udostępnia już zgodnego API.
+
 ```powershell
 # Lista dostępnych testów
 python scripts/run-tests.py --list

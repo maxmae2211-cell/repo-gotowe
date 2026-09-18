@@ -6,10 +6,17 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
+import time
+import urllib.request
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUN_TAURUS = REPO_ROOT / "scripts" / "run-taurus.ps1"
+MOCK_API_SERVER = REPO_ROOT / "scripts" / "mock-api-server.py"
+MOCK_API_HEALTH_URL = "http://localhost:8000/get"
+TAURUS_PYTHON = REPO_ROOT / ".venv-taurus" / "Scripts" / "python.exe"
 
 DEFAULT_SCENARIOS = [
     "tests/api/test-api-load.yml",
@@ -39,18 +46,84 @@ def run_powershell(config: str) -> int:
     ]
 
     print(f"\n=== Running: {config} ===", flush=True)
-    result = subprocess.run(cmd, cwd=REPO_ROOT)
+    result = subprocess.run(cmd, cwd=REPO_ROOT, check=False)
     return result.returncode
 
 
 def run_k6() -> int:
     cmd = ["k6", "run", "tests/api/test-api-k6.js"]
     print("\n=== Running: tests/api/test-api-k6.js (k6) ===", flush=True)
-    result = subprocess.run(cmd, cwd=REPO_ROOT)
+    result = subprocess.run(cmd, cwd=REPO_ROOT, check=False)
     return result.returncode
 
 
-def shard_scenarios(scenarios: list[str], worker_count: int, worker_index: int) -> list[str]:
+def mock_api_is_ready() -> bool:
+    try:
+        with urllib.request.urlopen(MOCK_API_HEALTH_URL, timeout=1) as response:
+            return response.status == 200
+    except OSError:
+        return False
+
+
+def find_mock_api_python() -> Path:
+    candidates = [Path(sys.executable), TAURUS_PYTHON]
+    for executable in dict.fromkeys(candidates):
+        if not executable.exists():
+            continue
+        result = subprocess.run(
+            [str(executable), "-c", "import fastapi, uvicorn"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        if result.returncode == 0:
+            return executable
+    raise RuntimeError("Mock API requires FastAPI and Uvicorn")
+
+
+@contextmanager
+def mock_api() -> Iterator[None]:
+    if mock_api_is_ready():
+        print("Using existing mock API on http://localhost:8000", flush=True)
+        yield
+        return
+
+    if not MOCK_API_SERVER.exists():
+        raise RuntimeError(f"Missing mock API server: {MOCK_API_SERVER}")
+
+    python = find_mock_api_python()
+    process = subprocess.Popen(
+        [str(python), str(MOCK_API_SERVER)],
+        cwd=REPO_ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    try:
+        deadline = time.monotonic() + 15
+        while time.monotonic() < deadline:
+            if mock_api_is_ready():
+                print("Started mock API on http://localhost:8000", flush=True)
+                yield
+                return
+            if process.poll() is not None:
+                raise RuntimeError(
+                    f"Mock API exited during startup with code {process.returncode}"
+                )
+            time.sleep(0.25)
+        raise RuntimeError("Mock API did not become ready on localhost:8000")
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait(timeout=5)
+
+
+def shard_scenarios(
+    scenarios: list[str], worker_count: int, worker_index: int
+) -> list[str]:
     if worker_count <= 1:
         return scenarios
 
@@ -108,6 +181,45 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def validate_worker_args(args: argparse.Namespace) -> str | None:
+    if args.worker_count < 1:
+        return "--worker-count must be >= 1"
+    if args.worker_index < 0 or args.worker_index >= args.worker_count:
+        return "--worker-index must be between 0 and worker-count - 1"
+    return None
+
+
+def select_scenarios(args: argparse.Namespace) -> list[str]:
+    scenarios = list(DEFAULT_SCENARIOS)
+    if args.include_jmeter:
+        scenarios.append(OPTIONAL_SCENARIOS["--include-jmeter"])
+    if args.include_soak:
+        scenarios.append(OPTIONAL_SCENARIOS["--include-soak"])
+    if args.include_stress:
+        scenarios.append(OPTIONAL_SCENARIOS["--include-stress"])
+    return shard_scenarios(scenarios, args.worker_count, args.worker_index)
+
+
+def run_selected_scenarios(scenarios: list[str], include_k6: bool) -> int:
+    for scenario in scenarios:
+        code = run_powershell(scenario)
+        if code != 0:
+            print(f"FAILED: {scenario} (exit code {code})", file=sys.stderr)
+            return code
+
+    if include_k6:
+        code = run_k6()
+        if code != 0:
+            print(
+                f"FAILED: tests/api/test-api-k6.js (exit code {code})",
+                file=sys.stderr,
+            )
+            return code
+
+    print("\nAll selected scenarios completed successfully.")
+    return 0
+
+
 def main() -> int:
     if not RUN_TAURUS.exists():
         print(f"Missing script: {RUN_TAURUS}", file=sys.stderr)
@@ -115,12 +227,9 @@ def main() -> int:
 
     args = parse_args()
 
-    if args.worker_count < 1:
-        print("--worker-count must be >= 1", file=sys.stderr)
-        return 2
-
-    if args.worker_index < 0 or args.worker_index >= args.worker_count:
-        print("--worker-index must be between 0 and worker-count - 1", file=sys.stderr)
+    validation_error = validate_worker_args(args)
+    if validation_error:
+        print(validation_error, file=sys.stderr)
         return 2
 
     if args.health:
@@ -135,17 +244,9 @@ def main() -> int:
             "-Config",
             "tests/api/test-api-load.yml",
         ]
-        return subprocess.run(cmd, cwd=REPO_ROOT).returncode
+        return subprocess.run(cmd, cwd=REPO_ROOT, check=False).returncode
 
-    scenarios = list(DEFAULT_SCENARIOS)
-    if args.include_jmeter:
-        scenarios.append(OPTIONAL_SCENARIOS["--include-jmeter"])
-    if args.include_soak:
-        scenarios.append(OPTIONAL_SCENARIOS["--include-soak"])
-    if args.include_stress:
-        scenarios.append(OPTIONAL_SCENARIOS["--include-stress"])
-
-    scenarios = shard_scenarios(scenarios, args.worker_count, args.worker_index)
+    scenarios = select_scenarios(args)
 
     if args.list:
         print(
@@ -163,20 +264,12 @@ def main() -> int:
         )
         return 0
 
-    for scenario in scenarios:
-        code = run_powershell(scenario)
-        if code != 0:
-            print(f"FAILED: {scenario} (exit code {code})", file=sys.stderr)
-            return code
-
-    if args.include_k6:
-        code = run_k6()
-        if code != 0:
-            print(f"FAILED: tests/api/test-api-k6.js (exit code {code})", file=sys.stderr)
-            return code
-
-    print("\nAll selected scenarios completed successfully.")
-    return 0
+    try:
+        with mock_api():
+            return run_selected_scenarios(scenarios, args.include_k6)
+    except RuntimeError as error:
+        print(f"FAILED: {error}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":
