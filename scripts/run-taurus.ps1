@@ -277,6 +277,21 @@ function Use-JavaForGatling {
     Write-Host "[JAVA] Używam JDK 17 dla Gatling: $env:JAVA_HOME" -ForegroundColor Green
 }
 
+function Use-K6 {
+    $k6Command = Get-Command k6.exe -ErrorAction SilentlyContinue
+    if ($k6Command) {
+        return
+    }
+
+    $k6Path = 'C:\Program Files\k6\k6.exe'
+    if (-not (Test-Path -LiteralPath $k6Path -PathType Leaf)) {
+        throw 'Nie znaleziono k6. Zainstaluj pakiet GrafanaLabs.k6 przez winget.'
+    }
+
+    $env:PATH = "$(Split-Path -Parent $k6Path);$($env:PATH)"
+    Write-Host "[K6] Używam: $k6Path" -ForegroundColor Green
+}
+
 function Repair-GatlingLauncher {
     $launcher = Get-ChildItem (Join-Path $env:USERPROFILE '.bzt\gatling-taurus\*\bin\gatling.bat') -ErrorAction SilentlyContinue |
     Sort-Object FullName -Descending |
@@ -350,6 +365,9 @@ try {
             if ($isGatling) {
                 Use-JavaForGatling
                 Repair-GatlingLauncher | Out-Null
+            }
+            elseif ($Config -eq 'test-k6.yml') {
+                Use-K6
             }
 
             $extraArgs = @($configPath)
