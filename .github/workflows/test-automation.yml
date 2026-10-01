@@ -68,19 +68,24 @@ jobs:
                   $mock = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru
                   try {
                     $ready = $false
+                    $lastError = $null
                     for ($i = 0; $i -lt 15; $i++) {
+                      if ($mock.HasExited) {
+                        throw "Mock API exited during startup with code $($mock.ExitCode)"
+                      }
                       try {
-                        Invoke-WebRequest -Uri "http://localhost:8000/get" -Method GET -TimeoutSec 2 | Out-Null
+                        Invoke-WebRequest -Uri "http://127.0.0.1:8000/get" -Method GET -UseBasicParsing -TimeoutSec 2 | Out-Null
                         $ready = $true
                         break
                       }
                       catch {
+                        $lastError = $_.Exception.Message
                         Start-Sleep -Seconds 2
                       }
                     }
 
                     if (-not $ready) {
-                      throw "Mock API did not become ready on localhost:8000"
+                      throw "Mock API did not become ready on 127.0.0.1:8000. Last error: $lastError"
                     }
 
                     python scripts/run-tests.py --worker-count 2 --worker-index ${{ matrix.worker-index }} --list
@@ -157,19 +162,24 @@ jobs:
                   $mock = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru
                   try {
                     $ready = $false
+                    $lastError = $null
                     for ($i = 0; $i -lt 15; $i++) {
+                      if ($mock.HasExited) {
+                        throw "Mock API exited during startup with code $($mock.ExitCode)"
+                      }
                       try {
-                        Invoke-WebRequest -Uri "http://localhost:8000/get" -Method GET -TimeoutSec 2 | Out-Null
+                        Invoke-WebRequest -Uri "http://127.0.0.1:8000/get" -Method GET -UseBasicParsing -TimeoutSec 2 | Out-Null
                         $ready = $true
                         break
                       }
                       catch {
+                        $lastError = $_.Exception.Message
                         Start-Sleep -Seconds 2
                       }
                     }
 
                     if (-not $ready) {
-                      throw "Mock API did not become ready on localhost:8000"
+                      throw "Mock API did not become ready on 127.0.0.1:8000. Last error: $lastError"
                     }
 
                     python scripts/run-tests.py --include-jmeter
@@ -224,19 +234,24 @@ jobs:
                   $mock = Start-Process -FilePath "python" -ArgumentList "scripts/mock-api-server.py" -NoNewWindow -PassThru
                   try {
                     $ready = $false
+                    $lastError = $null
                     for ($i = 0; $i -lt 15; $i++) {
+                      if ($mock.HasExited) {
+                        throw "Mock API exited during startup with code $($mock.ExitCode)"
+                      }
                       try {
-                        Invoke-WebRequest -Uri "http://localhost:8000/get" -Method GET -TimeoutSec 2 | Out-Null
+                        Invoke-WebRequest -Uri "http://127.0.0.1:8000/get" -Method GET -UseBasicParsing -TimeoutSec 2 | Out-Null
                         $ready = $true
                         break
                       }
                       catch {
+                        $lastError = $_.Exception.Message
                         Start-Sleep -Seconds 2
                       }
                     }
 
                     if (-not $ready) {
-                      throw "Mock API did not become ready on localhost:8000"
+                      throw "Mock API did not become ready on 127.0.0.1:8000. Last error: $lastError"
                     }
 
                     python scripts/run-tests.py --include-k6
