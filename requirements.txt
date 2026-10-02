@@ -1,7 +1,7 @@
 bzt>=1.17.1
 urwid==3.0.3
 selenium>=4.0
-requests>=2.32.0
+requests>=2.34.2
 pyyaml>=6.0
 pytest
 isort>=8.0.1
