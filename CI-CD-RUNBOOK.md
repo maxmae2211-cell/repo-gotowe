@@ -152,6 +152,8 @@ Serwer `codacy` jest zdefiniowany w `.vscode/mcp.json` (`command: "npx"`, token 
 6. Narzędzia Codacy nie pojawiają się w Chat → `MCP: Reset Cached Tools`
 7. Serwer zablokowany / odrzucone zaufanie → `MCP: Reset Trust`, potem ponowny start serwera
 8. Na koniec `Developer: Reload Window`
+9. Organizacja (Copilot Business/Enterprise): administrator (Owner/Admin) sprawdza politykę *MCP servers in Copilot* w https://github.com/organizations/{organization-name}/settings/copilot/features — domyślnie jest wyłączona
+10. Jeśli reset i ustawienia nie pomagają — zbierz log z **Show Output** i skontaktuj się z pomocą Codacy: https://support.codacy.com
 
 Szczegóły: `docs/CODACY_MCP_SETUP.md`.
 
