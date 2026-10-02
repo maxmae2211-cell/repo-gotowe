@@ -23,7 +23,6 @@ Użycie:
 import argparse
 import csv
 import json
-import os
 import re
 import subprocess
 import sys
@@ -267,7 +266,7 @@ def aktualizuj_runbook(nowy_wpis: str) -> bool:
         )
 
     RUNBOOK_FILE.write_text(tekst, encoding="utf-8")
-    print(f"[OK]  RUNBOOK zaktualizowany")
+    print("[OK]  RUNBOOK zaktualizowany")
     return True
 
 
@@ -368,10 +367,10 @@ def tryb_pipeline(branch: str = "qq") -> None:
     print("[3/5] Wpis RUNBOOK...")
     wpis = generuj_wpis_ai(plik_jtl, metryki)
     if wpis:
-        print(f"       Źródło: AI ✓")
+        print("       Źródło: AI ✓")
     else:
         wpis = generuj_wpis_fallback(plik_jtl, metryki)
-        print(f"       Źródło: fallback (AI niedostępna)")
+        print("       Źródło: fallback (AI niedostępna)")
     print(f"       Wpis: {wpis}")
 
     # Krok 4: Zaktualizuj RUNBOOK

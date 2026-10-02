@@ -45,8 +45,8 @@ for link in soup.find_all("a", href=True):
             print(f"Błąd pobierania {href}: {e}")
 
 with open("AGENT_LINKED_RESOURCES.txt", "w", encoding="utf-8") as f:
-    for l in resource_links:
-        f.write(l + "\n")
+    for link in resource_links:
+        f.write(link + "\n")
 
 # 4. Aktualizacja README.md
 readme_path = "README.md"
@@ -66,4 +66,7 @@ else:
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write(summary)
 
-print("Automatyzacja zakończona. Wygenerowano: AGENT_TUTORIAL_SUMMARY.md, agent_template.py, AGENT_LINKED_RESOURCES.txt, zaktualizowano README.md.")
+print(
+    "Automatyzacja zakończona. Wygenerowano: AGENT_TUTORIAL_SUMMARY.md, "
+    "agent_template.py, AGENT_LINKED_RESOURCES.txt, zaktualizowano README.md."
+)

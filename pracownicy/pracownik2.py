@@ -154,7 +154,16 @@ def generuj_opis_pr(cfg: dict, branch: str = "qq", target: str = "main") -> str:
     if plik_jtl:
         m = wczytaj_wyniki_jtl(plik_jtl)
         if m:
-            metryki_str = f"\nOstatni run: {m.get('total',0)} próbek, błędy {m.get('error_rate_pct',0)}%, avg RT {m.get('avg_rt_ms',0)}ms"
+            metryki_str = f"\nOstatni run: {
+                m.get(
+                    'total',
+                    0)} próbek, błędy {
+                m.get(
+                    'error_rate_pct',
+                    0)}%, avg RT {
+                m.get(
+                    'avg_rt_ms',
+                    0)}ms"
 
     pytanie = (
         f"Napisz zwięzły opis Pull Request dla brancha `{branch}` → `{target}` "
@@ -222,7 +231,8 @@ def generuj_wpis_runbook(cfg: dict, plik_jtl: Path | None = None) -> str:
     )
     pytanie = (
         "Napisz JEDEN wpis do sekcji 'Latest verified pipeline results' w RUNBOOK-TAURUS.md. "
-        "Format: `- JMeter + Java8 run: PASS (<liczba> samples, <X>% failures, duration <czas>) -> Artifacts: \\`<dir>\\`` "
+        "Format: `- JMeter + Java8 run: PASS (<liczba> samples, <X>% failures, duration <czas>) "
+        "-> Artifacts: \\`<dir>\\`` "
         "Podaj TYLKO tę linię, nic więcej. Jeśli error_rate_pct > 1%, napisz FAIL zamiast PASS."
     )
     return zapytaj_ai(pytanie, cfg, kontekst).strip()
@@ -338,9 +348,8 @@ def tryb_pipeline(cfg: dict, branch: str = "qq") -> None:
 
     if ok:
         pr_url = f"https://github.com/maxmae2211-cell/repo-gotowe/compare/main...{branch}"
-        print(f"\n[DONE] Pipeline ukończony!")
+        print("\n[DONE] Pipeline ukończony!")
         print(f"       PR URL: {pr_url}")
-
 
 
 def main():
@@ -376,9 +385,9 @@ def main():
     if not cfg.get("api_key"):
         print("[BŁĄD] Brak klucza API OpenAI!")
         print("Ustaw go w jednym z miejsc:")
-        print(f"  1. python neochat.py --set-key sk-TWOJ_KLUCZ")
+        print("  1. python neochat.py --set-key sk-TWOJ_KLUCZ")
         print(f"  2. Edytuj: C:\\Users\\{os.getenv('USERNAME')}\\Desktop\\moj-ai\\config.json")
-        print(f"  3. Ustaw zmienną: $env:OPENAI_API_KEY = 'sk-KLUCZ'")
+        print("  3. Ustaw zmienną: $env:OPENAI_API_KEY = 'sk-KLUCZ'")
         sys.exit(1)
 
     wynik = None
