@@ -20,7 +20,7 @@ jobs:
         runs-on: windows-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   fetch-depth: 0
 
@@ -51,7 +51,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Set up Python ${{ env.PYTHON_VERSION }}
               uses: actions/setup-python@v7
@@ -145,7 +145,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Set up Python ${{ env.PYTHON_VERSION }}
               uses: actions/setup-python@v7
@@ -213,7 +213,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Set up Python ${{ env.PYTHON_VERSION }}
               uses: actions/setup-python@v7
