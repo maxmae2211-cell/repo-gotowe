@@ -140,6 +140,27 @@ Jeśli dowolny krytyczny check failuje, merge pozostaje zablokowany do czasu nap
 2. Replikuj lokalnie: `python scripts/run-tests.py [--include-jmeter|--include-k6]`
 3. Fix w feature branch, push → CI/CD waliduje automatycznie
 
+### Codacy MCP niedostępny w Copilot (IDE)
+
+Konfiguracja po stronie repo: `.vscode/mcp.json` (serwer `codacy`, uruchamiany przez `npx -y @codacy/codacy-mcp@latest`).
+Token Codacy **nie** jest w repo — VS Code pyta o niego przy pierwszym starcie serwera i trzyma go w Secret Storage.
+Pełny przewodnik: [docs/CODACY_MCP_SETUP.md](docs/CODACY_MCP_SETUP.md).
+
+1. **Wymagania lokalne:** `node --version` i `npx --version` muszą działać w terminalu, z którego startuje VS Code.
+2. **Reset MCP w rozszerzeniu** (Command Palette, `Ctrl+Shift+P`):
+   - `MCP: List Servers` → `codacy` → **Restart Server** (lub **Start Server**, jeśli zatrzymany),
+   - `MCP: Reset Cached Tools` — wymusza ponowne pobranie listy narzędzi,
+   - `MCP: Reset Trust` — jeśli serwer został wcześniej odrzucony jako niezaufany,
+   - diagnostyka: `MCP: List Servers` → `codacy` → **Show Output** (np. błąd 401 = zły/wygasły token — wygeneruj nowy
+     w https://app.codacy.com/account/access-management i podaj go ponownie dla inputu `codacy_token`),
+   - na koniec `Developer: Reload Window`.
+3. **Ustawienia VS Code:** `chat.mcp.enabled` = `true`; w Copilot Chat tryb **Agent** i narzędzia `codacy` zaznaczone w selektorze narzędzi.
+4. **Ustawienia GitHub Copilot (konto):** https://github.com/settings/copilot/features — opcja **MCP servers in Copilot** musi być włączona.
+5. **Organizacja / Enterprise:** administrator sprawdza politykę **MCP servers in Copilot** w
+   `https://github.com/organizations/{organization-name}/settings/copilot/features` (Copilot Business/Enterprise ma ją domyślnie wyłączoną).
+6. **Weryfikacja:** `MCP: List Servers` pokazuje `codacy` jako *Running*, a w Chat (Agent) dostępne jest narzędzie `codacy_cli_analyze`.
+7. Jeśli powyższe nie pomaga — zbierz log z **Show Output** i skontaktuj się z pomocą Codacy: https://support.codacy.com
+
 ## Integracja z Deployment'em
 
 ### Pre-Deployment Gate
