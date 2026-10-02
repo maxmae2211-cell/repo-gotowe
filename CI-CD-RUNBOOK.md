@@ -140,6 +140,21 @@ Jeśli dowolny krytyczny check failuje, merge pozostaje zablokowany do czasu nap
 2. Replikuj lokalnie: `python scripts/run-tests.py [--include-jmeter|--include-k6]`
 3. Fix w feature branch, push → CI/CD waliduje automatycznie
 
+### Codacy MCP nie działa w Copilot / VS Code
+
+Serwer `codacy` jest zdefiniowany w `.vscode/mcp.json` (`command: "npx"`, token z `${input:codacy_token}` — nigdy nie commituj tokena).
+
+1. Sprawdź, że `node --version` i `npx --version` działają w terminalu — `node`/`npx` muszą być w PATH procesu VS Code (po instalacji Node.js zrestartuj VS Code)
+2. Upewnij się, że Copilot Chat jest w trybie **Agent**, `chat.mcp.enabled` jest włączone, a na koncie/organizacji GitHub aktywne jest *MCP servers in Copilot* (https://github.com/settings/copilot/features — w organizacji może wymagać admina)
+3. Command Palette → `MCP: List Servers` → wybierz `codacy` → **Start Server** / **Restart Server**
+4. Ten sam widok → **Show Output** — sprawdź log startu serwera
+5. `401 Unauthorized` w logu = zły lub wygasły token: wygeneruj nowy na https://app.codacy.com/account/access-management, potem `MCP: List Servers` → `codacy` → restart (jeśli VS Code nie zapyta ponownie o token, zmień zapamiętaną wartość inputu `codacy_token` akcją CodeLens w `.vscode/mcp.json`)
+6. Narzędzia Codacy nie pojawiają się w Chat → `MCP: Reset Cached Tools`
+7. Serwer zablokowany / odrzucone zaufanie → `MCP: Reset Trust`, potem ponowny start serwera
+8. Na koniec `Developer: Reload Window`
+
+Szczegóły: `docs/CODACY_MCP_SETUP.md`.
+
 ## Integracja z Deployment'em
 
 ### Pre-Deployment Gate
