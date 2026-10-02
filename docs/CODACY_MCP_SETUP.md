@@ -1,222 +1,143 @@
-# Konfiguracja Codacy MCP w GitHub Copilot
+# Konfiguracja Codacy MCP w GitHub Copilot (VS Code)
 
-Przewodnik pełny do setupu Codacy MCP (Model Context Protocol) dla konta osobistego i organizacji w Visual Studio Code Insiders.
+Przewodnik konfiguracji Codacy MCP (Model Context Protocol) dla GitHub Copilot Chat w Visual Studio Code. MCP działa w stabilnym VS Code oraz w VS Code Insiders.
+
+Źródłem prawdy jest plik **`.vscode/mcp.json`** w tym repozytorium — definiuje serwer `codacy`, który VS Code uruchamia lokalnie. Na github.com nie ma przycisku „Add MCP Server” dla serwerów VS Code; nie konfiguruj Codacy przez ustawienia GitHub.
 
 ## 📋 Spis treści
 
-- [Wymagania](#wymagania)
-- [Konfiguracja na poziomie osobistym](#konfiguracja-na-poziomie-osobistym)
-- [Konfiguracja na poziomie organizacji](#konfiguracja-na-poziomie-organizacji)
-- [Troubleshooting - VS Code Insiders](#troubleshooting---vs-code-insiders)
-- [Weryfikacja konfiguracji](#weryfikacja-konfiguracji)
+- [Wymagania](#-wymagania)
+- [Konfiguracja w repozytorium](#-konfiguracja-w-repozytorium)
+- [Uruchomienie serwera](#-uruchomienie-serwera)
+- [Ustawienia GitHub / organizacji](#-ustawienia-github--organizacji)
+- [Troubleshooting](#-troubleshooting)
+- [Weryfikacja konfiguracji](#️-weryfikacja-konfiguracji)
 
 ---
 
 ## ✅ Wymagania
 
-- Visual Studio Code Insiders (najnowsza wersja)
-- GitHub Copilot extension zainstalowany i aktualny
-- Konto GitHub
-- Codacy API token (dostępny w ustawieniach Codacy)
-- Dostęp do projektu na Codacy
+- Visual Studio Code (stabilny lub Insiders) w aktualnej wersji
+- Rozszerzenie GitHub Copilot / Copilot Chat
+- Node.js — `node` i `npx` muszą być dostępne w PATH procesu VS Code (`node --version`, `npx --version`)
+- Konto Codacy z dostępem do projektu i Account API Token
 
 ---
 
-## 🔧 Konfiguracja na poziomie osobistym
+## 🔧 Konfiguracja w repozytorium
 
-### Krok 1: Włącz MCP servers w Copilot (konto GitHub)
-
-1. Przejdź do: https://github.com/settings/copilot/features
-2. Upewnij się, że opcja **MCP servers in Copilot** jest **włączona**
-
-### Krok 2: Włącz MCP w VS Code
-
-1. Ustawienie `chat.mcp.enabled` musi mieć wartość `true` (Settings → wyszukaj `mcp`)
-2. Zaktualizuj rozszerzenia **GitHub Copilot** i **GitHub Copilot Chat**
-3. Upewnij się, że `node` i `npx` działają w terminalu (`npx --version`)
-
-### Krok 3: Konfiguracja serwera w repozytorium
-
-Repozytorium zawiera gotową konfigurację w `.vscode/mcp.json`:
+Plik `.vscode/mcp.json`:
 
 ```jsonc
 {
   "inputs": [
-    { "id": "codacy_token", "type": "promptString", "description": "Codacy Account Token", "password": true }
+    {
+      "id": "codacy_token",
+      "type": "promptString",
+      "description": "Codacy Account Token (https://app.codacy.com/account/access-management)",
+      "password": true
+    }
   ],
   "servers": {
     "codacy": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@codacy/codacy-mcp@latest"],
-      "env": { "CODACY_ACCOUNT_TOKEN": "${input:codacy_token}" }
+      "env": {
+        "CODACY_ACCOUNT_TOKEN": "${input:codacy_token}"
+      }
     }
   }
 }
 ```
 
-- Przy pierwszym starcie serwera VS Code poprosi o **Codacy Account Token**
-  (https://app.codacy.com/account/access-management) i zapisze go w Secret Storage.
-- **Nigdy** nie wpisuj tokena bezpośrednio do `.vscode/mcp.json` ani innych plików w repo.
+- `command: "npx"` działa na Windows, macOS i Linux (nie używaj `npx.cmd`).
+- Token **nie** jest zapisywany w repo — VS Code pyta o niego przy pierwszym starcie serwera (`${input:codacy_token}`) i przechowuje go bezpiecznie. Nigdy nie wpisuj tokena bezpośrednio do `mcp.json`.
+
+### Token Codacy
+
+1. Otwórz https://app.codacy.com/account/access-management
+2. Utwórz **Account API Token** i skopiuj go
+3. Wklej go, gdy VS Code poprosi o `codacy_token`
 
 ---
 
-## 🏢 Konfiguracja na poziomie organizacji
+## ▶️ Uruchomienie serwera
 
-### Krok 1: Dostęp do ustawień organizacji
-
-1. Przejdź do: https://github.com/organizations/{organization-name}/settings/copilot/features
-   - Zamień `{organization-name}` na nazwę Twojej organizacji
-2. Musisz mieć uprawnienia **Owner** lub **Admin** organizacji
-
-### Krok 2: Włącz politykę MCP dla organizacji
-
-1. W sekcji polityk Copilot ustaw **MCP servers in Copilot** na **Enabled**
-   (dla Copilot Business/Enterprise jest domyślnie wyłączona)
-2. Zapisz — członkowie organizacji mogą wtedy uruchamiać serwery MCP skonfigurowane w `.vscode/mcp.json`
+1. Otwórz folder repozytorium w VS Code (zaufaj workspace)
+2. Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) → `MCP: List Servers` → `codacy` → **Start Server**
+   - alternatywnie: akcja CodeLens **Start** nad serwerem w `.vscode/mcp.json`
+3. Potwierdź zaufanie do serwera i podaj token, gdy VS Code o to poprosi
+4. Otwórz Copilot Chat w trybie **Agent** i sprawdź w selektorze narzędzi (**Configure Tools**), że narzędzia Codacy są widoczne
 
 ---
 
-## 🐛 Troubleshooting - VS Code Insiders
+## 🏢 Ustawienia GitHub / organizacji
 
-### Problem 1: Codacy MCP się nie łączy
+Serwer jest definiowany w repo, ale Copilot musi mieć zgodę na użycie MCP:
 
-**Przyczyny i rozwiązania:**
+- Ustawienie VS Code `chat.mcp.enabled` musi być włączone
+- Konto osobiste: https://github.com/settings/copilot/features — opcja *MCP servers in Copilot* musi być włączona
+- Organizacja (Copilot Business/Enterprise): https://github.com/organizations/{organization-name}/settings/copilot/features — polityka MCP ustawiana przez Owner/Admin. Jeśli jest wyłączona, poproś administratora o jej włączenie.
 
-1. **MCP servers nie są włączone**
-   - https://github.com/settings/copilot/features → **MCP servers in Copilot** = ON
-   - VS Code: `chat.mcp.enabled` = `true`
-   - Reset w rozszerzeniu: `MCP: List Servers` → `codacy` → **Restart Server**, potem `MCP: Reset Cached Tools`
+---
 
-2. **Brakuje API tokena**
-   - Wygeneruj nowy token na: https://app.codacy.com/account/access-management
-   - Podaj go, gdy VS Code poprosi o input `codacy_token` (start serwera z `.vscode/mcp.json`)
+## 🐛 Troubleshooting
 
-3. **VS Code Insiders nie ma najnowszej wersji**
-   ```bash
-   # Sprawdź wersję
-   code-insiders --version
-   
-   # Zaktualizuj (auto, ale możesz też ręcznie)
-   # Jeśli macOS: Odinstaluj i pobierz najnowszą wersję
-   # Jeśli Windows/Linux: Update powinien być automatyczny
-   ```
+| Objaw | Działanie |
+|-------|-----------|
+| Serwer nie startuje / `npx` not found | Sprawdź `node --version` i `npx --version`; dodaj Node.js do PATH i zrestartuj VS Code |
+| Brak szczegółów błędu | `MCP: List Servers` → `codacy` → **Show Output** |
+| Serwer wisi lub po zmianie `mcp.json` | `MCP: List Servers` → `codacy` → **Restart Server** |
+| `401 Unauthorized` | Token zły lub wygasły — wygeneruj nowy na https://app.codacy.com/account/access-management, zaktualizuj wartość inputu `codacy_token` (CodeLens w `.vscode/mcp.json`) i zrestartuj serwer |
+| Narzędzia Codacy nie widoczne w Chat | `MCP: Reset Cached Tools`, potem restart serwera |
+| Odrzucono zaufanie / serwer zablokowany | `MCP: Reset Trust`, potem **Start Server** i ponowne potwierdzenie |
+| Nadal nie działa | `Developer: Reload Window` |
+| MCP wyłączone w organizacji | Poproś admina o włączenie *MCP servers in Copilot* |
 
-4. **Copilot extension jest przestarzały**
-   - Przejdź do: Extensions in VS Code
-   - Szukaj: `GitHub Copilot`
-   - Kliknij **Update** jeśli jest dostępny
-   - Restart VS Code Insiders
-
-### Problem 2: "MCP Server not found" lub "Connection failed"
-
-**Rozwiązanie:**
-
-1. Sprawdź czy Codacy API endpoint jest dostępny:
-   ```bash
-   curl -H "Authorization: token YOUR_CODACY_TOKEN" https://api.codacy.com/api/v3/status
-   ```
-
-2. Zrestartuj serwer Codacy MCP:
-   - `MCP: List Servers` → `codacy` → **Restart Server**
-   - `MCP: Reset Cached Tools` (i `MCP: Reset Trust`, jeśli serwer był odrzucony)
-   - `Developer: Reload Window`
-   - Sprawdź log: `MCP: List Servers` → `codacy` → **Show Output**
-
-3. Sprawdź firewall/proxy:
-   - Może być blokowana komunikacja z Codacy API
-   - Skontaktuj się z administratorem IT
-
-### Problem 3: Copilot nie sugeruje Codacy analizy
-
-**Przyczyny:**
-
-- Codacy MCP nie jest jeszcze w pełni zintegrowany w Twoim projekcie
-- Brakuje konfiguracji `.codacy.yml` w repozytorium
-- Codacy nie skanuje jeszcze Twojego projektu
-
-**Rozwiązanie:**
-
-1. Upewnij się, że projekt jest dodany w Codacy: https://app.codacy.com
-2. Dodaj `.codacy.yml` w root repozytorium:
-   ```yaml
-   ---
-   exclude_paths:
-     - docs
-     - node_modules
-   ```
-3. Poczekaj na skan (zwykle 5-10 minut)
-4. Restart VS Code Insiders
-
-### Problem 4: Authorization error / 401 Unauthorized
-
-**Przyczyna:** Token API jest nieprawidłowy lub wygasł
-
-**Rozwiązanie:**
-
-1. Wygeneruj nowy token na https://app.codacy.com/account/access-management
-2. Zrestartuj serwer `codacy` (`MCP: List Servers` → **Restart Server**) i podaj nowy token dla inputu `codacy_token`
-3. Sprawdź log: **Show Output** — nie powinno być błędu 401
+Brak analizy w Codacy? Upewnij się, że repozytorium jest dodane na https://app.codacy.com.
 
 ---
 
 ## ✔️ Weryfikacja konfiguracji
 
-### Jak sprawdzić, czy Codacy MCP działa?
-
-1. **W VS Code Insiders:**
-   - Otwórz paleta komend: `Cmd+Shift+P` (macOS) lub `Ctrl+Shift+P` (Windows/Linux)
-   - Wpisz: `MCP: List Servers`
-   - Powinieneś zobaczyć **`codacy`** ze statusem *Running*
-
-2. **Testuj integrację:**
-   - Otwórz Copilot Chat w trybie **Agent**
-   - W selektorze narzędzi powinny być widoczne narzędzia `codacy_*` (np. `codacy_cli_analyze`)
-   - Poproś: „Uruchom analizę Codacy dla zmienionego pliku”
-
-3. **Sprawdź logi:**
-   - Otwórz Output panel: `Cmd+Shift+U` (macOS) lub `Ctrl+Shift+U` (Windows/Linux)
-   - Albo: `MCP: List Servers` → `codacy` → **Show Output**
+1. `MCP: List Servers` — `codacy` ma status **Running**
+2. **Show Output** dla `codacy` — brak błędów startu i `401`
+3. Copilot Chat (Agent) → **Configure Tools** — narzędzia Codacy (np. `codacy_cli_analyze`) są dostępne
+4. Poproś w Chat: „Przeanalizuj plik X przez Codacy” — agent powinien wywołać narzędzie Codacy
 
 ---
 
 ## 📚 Przydatne linki
 
-- 🔗 [MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
+- 🔗 [VS Code — MCP servers](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
 - 🔗 [Codacy MCP Server](https://github.com/codacy/codacy-mcp-server)
+- 🔗 [Codacy Access Management (tokeny)](https://app.codacy.com/account/access-management)
 - 🔗 [Codacy Documentation](https://docs.codacy.com)
-- 🔗 [Codacy Account Tokens](https://app.codacy.com/account/access-management)
-- 🔗 [GitHub Copilot Settings](https://github.com/settings/copilot)
-- 🔗 [VS Code Insiders Download](https://code.visualstudio.com/insiders/)
+- 🔗 [GitHub Copilot Features](https://github.com/settings/copilot/features)
 
 ---
 
 ## ❓ FAQ
 
 **P: Czy Codacy MCP działa w zwykłym VS Code?**
-O: Tak. MCP jest obsługiwane w stabilnym VS Code (z GitHub Copilot Chat) — konfiguracja z `.vscode/mcp.json` działa tak samo jak w Insiders.
+O: Tak. MCP jest dostępne w stabilnym VS Code oraz w VS Code Insiders.
 
-**P: Czy mogę używać Codacy MCP bez konta organizacji?**
-O: Tak! Możesz skonfigurować na poziomie osobistym (Personal Account).
+**P: Czy mogę używać Codacy MCP bez organizacji?**
+O: Tak — wystarczy konto osobiste z włączonym *MCP servers in Copilot*.
 
-**P: Jak wylogować się z Codacy MCP?**
-O: `MCP: List Servers` → `codacy` → **Stop Server** (lub usuń wpis `codacy` z lokalnej kopii `.vscode/mcp.json`).
-
-**P: Czy Codacy MCP jest darmowy?**
-O: Dostęp do MCP zależy od Twojego planu Codacy i GitHub Copilot.
+**P: Jak przestać używać Codacy MCP?**
+O: `MCP: List Servers` → `codacy` → **Stop Server** (lub **Disable**).
 
 ---
 
 ## 📞 Wsparcie
 
-Jeśli problemy się utrzymują:
-
-1. Sprawdź najnowszą wersję VS Code Insiders
-2. Zaktualizuj GitHub Copilot extension
-3. Otwórz issue na GitHub: [repo-gotowe/issues](https://github.com/maxmae2211-cell/repo-gotowe/issues)
-4. Skontaktuj się z supportem Codacy: https://support.codacy.com
+1. Przejdź przez sekcję [Troubleshooting](#-troubleshooting) oraz `CI-CD-RUNBOOK.md`
+2. Otwórz issue: [repo-gotowe/issues](https://github.com/maxmae2211-cell/repo-gotowe/issues)
+3. Support Codacy: https://support.codacy.com
 
 ---
 
-**Ostatnia aktualizacja:** 2026-09-03  
+**Ostatnia aktualizacja:** 2026-10-02
 **Status:** ✅ Aktualna dokumentacja

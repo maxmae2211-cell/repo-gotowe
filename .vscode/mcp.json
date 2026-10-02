@@ -6,7 +6,8 @@
   // pierwszym uruchomieniu serwera (input typu promptString/password)
   // i zapamięta go bezpiecznie w Secret Storage.
   //
-  // Wymagania: Node.js zainstalowany (polecenie `npx` musi działać).
+  // Wymagania: Node.js zainstalowany, `node` i `npx` dostępne w PATH
+  // (komenda `npx` działa na Windows, macOS i Linux).
   "inputs": [
     {
       "id": "codacy_token",

@@ -152,7 +152,7 @@ Pełny przewodnik: [docs/CODACY_MCP_SETUP.md](docs/CODACY_MCP_SETUP.md).
    - `MCP: Reset Cached Tools` — wymusza ponowne pobranie listy narzędzi,
    - `MCP: Reset Trust` — jeśli serwer został wcześniej odrzucony jako niezaufany,
    - diagnostyka: `MCP: List Servers` → `codacy` → **Show Output** (np. błąd 401 = zły/wygasły token — wygeneruj nowy
-     w https://app.codacy.com/account/access-management i podaj go ponownie dla inputu `codacy_token`),
+     w https://app.codacy.com/account/access-management i zaktualizuj input `codacy_token` akcją CodeLens w `.vscode/mcp.json`, jeśli VS Code nie poprosi ponownie o token),
    - na koniec `Developer: Reload Window`.
 3. **Ustawienia VS Code:** `chat.mcp.enabled` = `true`; w Copilot Chat tryb **Agent** i narzędzia `codacy` zaznaczone w selektorze narzędzi.
 4. **Ustawienia GitHub Copilot (konto):** https://github.com/settings/copilot/features — opcja **MCP servers in Copilot** musi być włączona.
