@@ -4,7 +4,6 @@ from analyze_results import (
     parse_args as parse_args_results,
 )
 import importlib.util
-import pytest
 import sys
 import os
 sys.path.insert(0, os.path.abspath(

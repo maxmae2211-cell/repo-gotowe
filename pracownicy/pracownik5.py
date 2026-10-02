@@ -18,8 +18,6 @@ Użycie:
 """
 
 import sys
-import os
-import json
 import argparse
 from datetime import datetime
 from pathlib import Path
@@ -67,11 +65,16 @@ SYSTEM_PROMPT = (
 )
 
 PROGRAM_SZKOLENIOWY = [
-    "Przeanalizuj plik requirements.txt w tym projekcie i podaj, które biblioteki mają nowsze wersje oraz czy są bezpieczne do aktualizacji. Podaj konkretne komendy pip do aktualizacji.",
-    "Zaproponuj plan Sprint 1 dla projektu AI chatbot (moj-ai) z 5 konkretnymi zadaniami techniczymi, z opisem, priorytetem (H/M/L) i szacunkiem w godzinach.",
-    "Przygotuj plan modernizacji ai_backend.py: co warto dodać, co uprościć, jakie nowe funkcje by zwiększyły niezawodność. Podaj 5 konkretnych propozycji z uzasadnieniem.",
-    "Napisz skrypt Python check_updates.py który sprawdza dostępne aktualizacje bibliotek z requirements.txt i wyświetla raport: aktualna wersja vs. najnowsza dostępna.",
-    "Zaproponuj strukturę pliku CHANGELOG.md dla tego projektu i wypełnij go wpisami za ostatnie 3 miesiące (fikcyjne ale realistyczne).",
+    "Przeanalizuj plik requirements.txt w tym projekcie i podaj, które biblioteki mają nowsze "
+    "wersje oraz czy są bezpieczne do aktualizacji. Podaj konkretne komendy pip do aktualizacji.",
+    "Zaproponuj plan Sprint 1 dla projektu AI chatbot (moj-ai) z 5 konkretnymi zadaniami "
+    "techniczymi, z opisem, priorytetem (H/M/L) i szacunkiem w godzinach.",
+    "Przygotuj plan modernizacji ai_backend.py: co warto dodać, co uprościć, jakie nowe funkcje "
+    "by zwiększyły niezawodność. Podaj 5 konkretnych propozycji z uzasadnieniem.",
+    "Napisz skrypt Python check_updates.py który sprawdza dostępne aktualizacje bibliotek z "
+    "requirements.txt i wyświetla raport: aktualna wersja vs. najnowsza dostępna.",
+    "Zaproponuj strukturę pliku CHANGELOG.md dla tego projektu i wypełnij go wpisami za "
+    "ostatnie 3 miesiące (fikcyjne ale realistyczne).",
 ]
 
 
@@ -105,7 +108,7 @@ def wczytaj_zadania(sciezka: Path) -> list[str]:
         print(f"[INFO] Brak pliku zadań: {sciezka}")
         return []
     linie = sciezka.read_text(encoding="utf-8").splitlines()
-    return [l.strip() for l in linie if l.strip() and not l.startswith("#")]
+    return [line.strip() for line in linie if line.strip() and not line.startswith("#")]
 
 
 # ── Zapisz raport ──────────────────────────────────────────────────────────────
@@ -138,7 +141,7 @@ def uruchom(zadania: list[str], cfg: dict, sciezka_raportu: Path) -> None:
             wynik = wykonaj_zadanie(zadanie, cfg)
         except Exception as e:
             wynik = f"[BŁĄD] {e}"
-        print(f"\r[✓] Gotowe!   ")
+        print("\r[✓] Gotowe!   ")
         print(f"{wynik}\n{'-' * 40}")
         wyniki.append({"zadanie": zadanie, "wynik": wynik})
 

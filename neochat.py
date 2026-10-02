@@ -130,7 +130,6 @@ def run_setup() -> None:
     print(f"\n[OK] Konfiguracja zapisana do: {saved}")
 
 
-
 # ── Klient OpenAI ─────────────────────────────────────────────────────────────
 def wyslij_do_ai(messages: list, cfg: dict) -> str:
     """Wysyła wiadomości do OpenAI API i zwraca odpowiedź."""

@@ -2,10 +2,8 @@
 """
 Simple mock API server for performance testing using FastAPI
 """
-import json
 import time
 import uuid as _uuid_mod
-from typing import Optional
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
@@ -85,7 +83,7 @@ def update_post(post_id: int, data: dict):
 def delete_post(post_id: int):
     if post_id not in _posts:
         raise HTTPException(status_code=404, detail="Post not found")
-    deleted = _posts.pop(post_id)
+    _posts.pop(post_id)
     return {'deleted': True, 'id': post_id}
 
 
@@ -93,7 +91,7 @@ if __name__ == '__main__':
     import sys
     import os
     import uvicorn
-    
+
     # Accept --port from CLI or MOCK_API_PORT env var, default to 8000
     port = 8000
     if '--port' in sys.argv:
@@ -103,7 +101,7 @@ if __name__ == '__main__':
                 port = int(sys.argv[port_idx + 1])
             except (ValueError, IndexError):
                 pass
-    
+
     # Also check environment variable
     env_port = os.environ.get('MOCK_API_PORT')
     if env_port:
@@ -111,6 +109,6 @@ if __name__ == '__main__':
             port = int(env_port)
         except ValueError:
             pass
-    
+
     print(f"Mock API server running on http://localhost:{port}", flush=True)
     uvicorn.run(app, host="0.0.0.0", port=port)

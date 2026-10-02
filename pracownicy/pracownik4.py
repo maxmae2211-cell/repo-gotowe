@@ -25,6 +25,7 @@ import sys
 import os
 import json
 import argparse
+import importlib.util
 from pathlib import Path
 from datetime import datetime
 
@@ -42,8 +43,9 @@ def log(msg, symbol="•"):
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         f.write(line + "\n")
 
-def log_ok(msg):   log(msg, "✓")
-def log_err(msg):  log(msg, "✗")
+
+def log_ok(msg): log(msg, "✓")
+def log_err(msg): log(msg, "✗")
 def log_warn(msg): log(msg, "!")
 def log_info(msg): log(msg, "→")
 
@@ -64,12 +66,10 @@ def diagnozuj():
     wyniki["api_key_env"] = os.environ.get("OPENAI_API_KEY", "")
     wyniki["groq_key_env"] = os.environ.get("GROQ_API_KEY", "")
     wyniki["hf_token_env"] = os.environ.get("HF_TOKEN", "")
-    try:
-        import openai; wyniki["openai_zainstalowany"] = True
-    except ImportError: pass
-    try:
-        import requests; wyniki["requests_zainstalowany"] = True
-    except ImportError: pass
+    if importlib.util.find_spec("openai") is not None:
+        wyniki["openai_zainstalowany"] = True
+    if importlib.util.find_spec("requests") is not None:
+        wyniki["requests_zainstalowany"] = True
     return wyniki
 
 
@@ -181,13 +181,15 @@ def szukaj_providera(verbose=True):
         ("Pollinations.ai (bezklucz)", testuj_pollinations),
     ]
     for nazwa, funkcja in testy:
-        if verbose: log_info(f"Testuję: {nazwa}...")
+        if verbose:
+            log_info(f"Testuję: {nazwa}...")
         wynik = funkcja()
         if wynik["ok"]:
             log_ok(f"ZNALEZIONO! Provider: {wynik['provider']} → {wynik['odpowiedz']}")
             return wynik
         else:
-            if verbose: log_err(f"  {wynik['provider']}: {wynik.get('powod', 'brak odpowiedzi')}")
+            if verbose:
+                log_err(f"  {wynik['provider']}: {wynik.get('powod', 'brak odpowiedzi')}")
     if verbose:
         print(f"\n{SEPARATOR}")
         log_warn("Żaden provider nie odpowiedział.")
@@ -203,12 +205,12 @@ def pokaz_raport(provider_info):
     print(SEPARATOR)
     print(f"  Data: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     if provider_info:
-        print(f"\n  STATUS: ✓ AI DZIAŁA")
+        print("\n  STATUS: ✓ AI DZIAŁA")
         print(f"  Provider: {provider_info['provider']}")
         print(f"  Model:    {provider_info.get('model', 'auto')}")
         print(f"  Odpowiedź testowa: {provider_info.get('odpowiedz', '?')}")
     else:
-        print(f"\n  STATUS: ✗ AI NIEDOSTĘPNE")
+        print("\n  STATUS: ✗ AI NIEDOSTĘPNE")
         print("  Zainstaluj Ollama lub ustaw GROQ_API_KEY")
     print(SEPARATOR)
 
@@ -220,7 +222,7 @@ def main():
     parser.add_argument("--status", action="store_true", help="Tylko diagnostyka środowiska")
     args = parser.parse_args()
 
-    print(f"\n{'#'*60}\n  PRACOWNIK4 — Finder AI\n{'#'*60}")
+    print(f"\n{'#' * 60}\n  PRACOWNIK4 — Finder AI\n{'#' * 60}")
     log(f"Uruchomiono: {' '.join(sys.argv[1:]) or '(bez flag)'}")
 
     if args.status:
@@ -232,7 +234,8 @@ def main():
         provider = szukaj_providera(verbose=True)
         if provider:
             if provider["provider"] == "pollinations":
-                import requests, urllib.parse
+                import requests
+                import urllib.parse
                 r = requests.get(f"https://text.pollinations.ai/{urllib.parse.quote(args.test)}", timeout=30)
                 print(f"\nOdpowiedź AI: {r.text.strip()}")
             else:

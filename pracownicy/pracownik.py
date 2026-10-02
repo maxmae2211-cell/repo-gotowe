@@ -13,8 +13,6 @@ Użycie:
 """
 
 import sys
-import os
-import json
 import argparse
 from datetime import datetime
 from pathlib import Path
@@ -96,7 +94,7 @@ def wczytaj_zadania(sciezka: Path) -> list[str]:
         print("[INFO] Utwórz plik zadania.txt — każda linia to jedno zadanie.")
         return []
     linie = sciezka.read_text(encoding="utf-8").splitlines()
-    return [l.strip() for l in linie if l.strip() and not l.startswith("#")]
+    return [line.strip() for line in linie if line.strip() and not line.startswith("#")]
 
 
 # ── Zapisz raport ─────────────────────────────────────────────────────────────
@@ -130,7 +128,7 @@ def uruchom(zadania: list[str], cfg: dict, sciezka_raportu: Path) -> None:
             wynik = wykonaj_zadanie(zadanie, cfg)
         except Exception as e:
             wynik = f"[BŁĄD] {e}"
-        print(f"\r[✓] Gotowe!   ")
+        print("\r[✓] Gotowe!   ")
         print(f"WYNIK:\n{wynik}\n{'-' * 40}")
         wyniki.append({"zadanie": zadanie, "wynik": wynik})
 

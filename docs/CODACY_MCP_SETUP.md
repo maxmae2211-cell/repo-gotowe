@@ -139,5 +139,5 @@ O: `MCP: List Servers` → `codacy` → **Stop Server** (lub **Disable**).
 
 ---
 
-**Ostatnia aktualizacja:** 2026-10-02
+**Ostatnia aktualizacja:** 2026-10-02  
 **Status:** ✅ Aktualna dokumentacja
