@@ -1,0 +1,37 @@
+---
+settings:
+  check-updates: false
+provisioning: local
+execution:
+  - executor: jmeter
+    concurrency: 5
+    throughput: 10
+    ramp-up: 10s
+    hold-for: 30s
+    scenario: local-function
+scenarios:
+  local-function:
+    timeout: 5s
+    requests:
+      - url: http://127.0.0.1:7071/api/httpTrigger1?name=Taurus
+        method: GET
+        label: Local Azure Function
+        assert:
+          - subject: http-code
+            contains:
+              - "200"
+            regexp: false
+          - subject: body
+            contains:
+              - "Hello, Taurus!"
+            regexp: false
+reporting:
+  - module: final-stats
+    summary: true
+    percentiles: true
+    summary-labels: true
+    failed-labels: true
+    test-duration: true
+  - module: passfail
+    criteria:
+      - failures>0, stop as failed
