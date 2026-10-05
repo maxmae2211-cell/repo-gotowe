@@ -15,5 +15,5 @@ uvicorn>=0.54.0
 debugpy>=1.8.0
 agent-dev-cli
 locust>=2.24.0
-robotframework>=7.0.0
+robotframework>=7.5
 robotframework-requests>=0.9.7
