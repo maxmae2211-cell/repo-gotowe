@@ -110,7 +110,7 @@ jobs:
 
             - name: Upload Taurus artifacts
               if: always()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: taurus-artifacts-${{ github.run_number }}
                   path: ci-artifacts/
@@ -118,7 +118,7 @@ jobs:
 
             - name: Upload HTML report
               if: always()
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v7
               with:
                   name: taurus-report-${{ github.run_number }}
                   path: taurus-report.html
